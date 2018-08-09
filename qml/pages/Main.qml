@@ -33,7 +33,11 @@ Page {
                 id: searchField
                 width: parent.width
                 placeholderText: "Search"
-                onTextChanged: YT.search(searchField.text)
+                Keys.onReturnPressed: {
+                    if(searchField.text.length != 0) {
+                        YT.search(searchField.text)
+                    }
+                }
             }
             model: YTPlaylist
             delegate: VideoElement {}

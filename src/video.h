@@ -28,6 +28,7 @@ class YTVideo;
 
 class Video : public QObject {
     Q_OBJECT
+    Q_PROPERTY(const QUrl streamUrl READ getStreamUrl NOTIFY gotStreamUrl)
 
 public:
     Video();
@@ -77,8 +78,8 @@ public:
 
     int getDefinitionCode() const { return definitionCode; }
 
-    void loadStreamUrl();
-    const QUrl &getStreamUrl() { return streamUrl; }
+    Q_INVOKABLE void loadStreamUrl();
+    Q_INVOKABLE const QUrl &getStreamUrl() { qDebug()<<streamUrl; return streamUrl; }
 
     const QString &getId() const { return id; }
     void setId(const QString &value) { id = value; }

@@ -95,7 +95,7 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const {
     case ItemTypeRole:
         return ItemTypeVideo;
     case VideoRole:
-        return QVariant::fromValue(QPointer<Video>(video));
+        return QVariant::fromValue(video);
     case ActiveTrackRole:
         return video == m_activeVideo;
     case Qt::DisplayRole:
@@ -510,4 +510,23 @@ void PlaylistModel::exitAuthorPressed() {
     if (!authorPressed) return;
     authorPressed = false;
     updateHoveredRow();
+}
+
+QHash<int, QByteArray> PlaylistModel::roleNames() const {
+    QHash<int, QByteArray> roles;
+    roles[ItemTypeRole] = "itemType";
+    roles[VideoRole] = "video";
+    roles[ActiveTrackRole] = "activeTrack";
+    roles[DownloadItemRole] = "downloadItem";
+    roles[HoveredItemRole] = "hoveredItem";
+    roles[DownloadButtonHoveredRole] = "downloadButtonHovered";
+    roles[DownloadButtonPressedRole] = "downloadButtonPressed";
+    roles[AuthorHoveredRole] = "authorHovered";
+    roles[AuthorPressedRole] = "authorPressed";
+    roles[AuthorPressedRole] = "authorPressed";
+    roles[Qt::DisplayRole] = "display";
+    roles[Qt::TextAlignmentRole] = "textAlignment";
+    roles[Qt::ForegroundRole] = "foreground";
+    roles[Qt::BackgroundColorRole] = "background";
+    return roles;
 }

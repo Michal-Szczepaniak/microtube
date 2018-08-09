@@ -6,6 +6,7 @@
 #include "yt3.h"
 #include "ytvideo.h"
 #include "yt.h"
+#include "video.h"
 
 int main(int argc, char *argv[])
 {
@@ -31,6 +32,8 @@ int main(int argc, char *argv[])
     QObject::connect(&video, SIGNAL(gotStreamUrl(QUrl)), &yt, SLOT(gotStreamUrl(QUrl)));
 
     yt.registerObjectsInQml(view->rootContext());
+
+    qmlRegisterType<Video>("com.verdanditeam.yt", 1, 0, "YtVideo");
 
     view->setSource(SailfishApp::pathTo("qml/microtube.qml"));
     view->show();

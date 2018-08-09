@@ -107,6 +107,9 @@ signals:
     void needSelectionFor(const QVector<Video*> &videos);
     void haveSuggestions(const QStringList &suggestions);
 
+protected:
+    QHash<int, QByteArray> roleNames() const;
+
 private:
     void handleFirstVideo(Video* video);
     void searchMore(int max);
