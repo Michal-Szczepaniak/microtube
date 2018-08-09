@@ -30,7 +30,8 @@ int main(int argc, char *argv[])
 
     QObject::connect(&video, SIGNAL(gotStreamUrl(QUrl)), &yt, SLOT(gotStreamUrl(QUrl)));
 
-    view->rootContext()->setContextProperty("YT",&yt);
+    yt.registerObjectsInQml(view->rootContext());
+
     view->setSource(SailfishApp::pathTo("qml/microtube.qml"));
     view->show();
 

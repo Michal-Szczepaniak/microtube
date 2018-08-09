@@ -33,18 +33,9 @@ Page {
                 id: searchField
                 width: parent.width
                 placeholderText: "Search"
+                onTextChanged: YT.search(searchField.text)
             }
-            model: ListModel {
-                ListElement {
-                    name: "Apple"
-                }
-                ListElement {
-                    name: "Orange"
-                }
-                ListElement {
-                    name: "Banana"
-                }
-            }
+            model: YTPlaylist
             delegate: VideoElement {}
         }
     }

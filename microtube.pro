@@ -43,7 +43,10 @@ HEADERS += \
     src/jsfunctions.h \
     src/temporary.h \
     src/videodefinition.h \
-    src/yt.h
+    src/yt.h \
+    src/searchmodel.h \
+    src/playlistmodel.h \
+    src/videomimedata.h
 
 SOURCES += src/microtube.cpp \
     src/ytsearch.cpp \
@@ -68,7 +71,10 @@ SOURCES += src/microtube.cpp \
     src/jsfunctions.cpp \
     src/temporary.cpp \
     src/videodefinition.cpp \
-    src/yt.cpp
+    src/yt.cpp \
+    src/searchmodel.cpp  \
+    src/playlistmodel.cpp \
+    src/videomimedata.cpp
 
 DISTFILES += qml/microtube.qml \
     qml/cover/CoverPage.qml \
