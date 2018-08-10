@@ -299,7 +299,7 @@ void PlaylistModel::updateVideoSender() {
 
 void PlaylistModel::emitDataChanged() {
     QModelIndex index = createIndex(rowCount() - 1, 0);
-    emit dataChanged(index, index);
+    emit dataChanged(createIndex(0, 0), index);
 }
 
 // --- item removal
@@ -522,7 +522,6 @@ QHash<int, QByteArray> PlaylistModel::roleNames() const {
     roles[DownloadButtonHoveredRole] = "downloadButtonHovered";
     roles[DownloadButtonPressedRole] = "downloadButtonPressed";
     roles[AuthorHoveredRole] = "authorHovered";
-    roles[AuthorPressedRole] = "authorPressed";
     roles[AuthorPressedRole] = "authorPressed";
     roles[Qt::DisplayRole] = "display";
     roles[Qt::TextAlignmentRole] = "textAlignment";

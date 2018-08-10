@@ -21,7 +21,6 @@ $END_LICENSE */
 #ifndef YTREGIONS_H
 #define YTREGIONS_H
 
-//#include <QtWidgets>
 #include <QString>
 #include <QObject>
 #include <QVector>

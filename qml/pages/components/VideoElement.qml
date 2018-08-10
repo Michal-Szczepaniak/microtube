@@ -9,7 +9,14 @@ ListItem {
         pageStack.push(Qt.resolvedUrl("../VideoPlayer.qml"), { video: video})
     }
 
-    Label {
-        text: display
+    Column {
+        Label {
+            text: display
+        }
+
+        Label {
+            text: video.getViewCount()
+            font.pixelSize: Theme.fontSizeTiny
+        }
     }
 }

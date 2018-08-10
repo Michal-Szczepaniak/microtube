@@ -19,7 +19,7 @@ along with Minitube.  If not, see <http://www.gnu.org/licenses/>.
 $END_LICENSE */
 
 #include "ytregions.h"
-#include <configurationvalue.h>
+#include <QSettings>
 
 YTRegions::YTRegions() : QObject() {}
 
@@ -102,19 +102,13 @@ const YTRegion &YTRegions::worldwideRegion() {
 }
 
 void YTRegions::setRegion(const QString &regionId) {
-    ConfigurationValue value;
-    value.setKey("regionId");
-    value.setValue(regionId);
-//    QSettings settings;
-//    settings.setValue("regionId", regionId);
+    QSettings settings;
+    settings.setValue("regionId", regionId);
 }
 
 QString YTRegions::currentRegionId() {
-    ConfigurationValue value;
-    value.setKey("regionId");
-    return value.value().toString();
-//    QSettings settings;
-//    return settings.value("regionId").toString();
+    QSettings settings;
+    return settings.value("regionId").toString();
 }
 
 const YTRegion &YTRegions::currentRegion() {
