@@ -2,21 +2,41 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 
 CoverBackground {
-    Label {
-        id: label
+    Item {
         anchors.centerIn: parent
-        text: qsTr("My Cover")
-    }
-
-    CoverActionList {
-        id: coverAction
-
-        CoverAction {
-            iconSource: "image://theme/icon-cover-next"
+        width: parent.width
+        height: label.height + playingLabel.height + title.height + Theme.paddingLarge*2
+        Label {
+            id: label
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.topMargin: Theme.paddingLarge
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("µtube")
+            font.pixelSize: Theme.fontSizeExtraLarge
         }
 
-        CoverAction {
-            iconSource: "image://theme/icon-cover-pause"
+        Label {
+            id: playingLabel
+            visible: app.playing !== ""
+            anchors.top: label.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.topMargin: Theme.paddingSmall
+            horizontalAlignment: Text.AlignHCenter
+            text: "Playing:"
+        }
+
+        TextArea{
+            id: title
+            visible: app.playing !== ""
+            anchors.top: playingLabel.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            horizontalAlignment: Text.AlignHCenter
+            readOnly: true
+            text: app.playing
         }
     }
 }

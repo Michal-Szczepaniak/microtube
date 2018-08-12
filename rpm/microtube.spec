@@ -28,7 +28,7 @@ BuildRequires:  qt5-qtsql-devel
 BuildRequires:  desktop-file-utils
 
 %description
-Short description of my Sailfish OS Application
+µtube is alternative youtube client!
 
 
 %prep

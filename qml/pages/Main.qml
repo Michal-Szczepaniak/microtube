@@ -14,7 +14,10 @@ Page {
         PullDownMenu {
             MenuItem {
                 text: qsTr("Subscriptions")
-                onClicked: pageStack.push(Qt.resolvedUrl("Subscriptions.qml"))
+                onClicked: {
+                    YT.updateQuery()
+                    pageStack.push(Qt.resolvedUrl("Subscriptions.qml"))
+                }
             }
         }
 
@@ -29,6 +32,7 @@ Page {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
+            clip: true
             header: SearchField {
                 id: searchField
                 width: parent.width
@@ -39,6 +43,7 @@ Page {
                     }
                 }
             }
+            spacing: Theme.paddingMedium
             model: YTPlaylist
             delegate: VideoElement {}
         }

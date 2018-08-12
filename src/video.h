@@ -29,6 +29,7 @@ class YTVideo;
 class Video : public QObject {
     Q_OBJECT
     Q_PROPERTY(const QUrl streamUrl READ getStreamUrl NOTIFY gotStreamUrl)
+    Q_PROPERTY(const QUrl streamUrl READ getStreamUrl NOTIFY gotStreamUrl)
 
 public:
     Video();
@@ -38,50 +39,50 @@ public:
     enum License { LicenseYouTube = 1, LicenseCC };
     Q_ENUM(License)
 
-    Q_INVOKABLE const QString &getTitle() const { return title; }
+    Q_INVOKABLE QString getTitle() const { return title; }
     void setTitle(const QString &value) { title = value; }
 
-    Q_INVOKABLE const QString &getDescription() const { return description; }
+    Q_INVOKABLE QString getDescription() const { return description; }
     void setDescription(const QString &value) { description = value; }
 
-    Q_INVOKABLE const QString &getChannelTitle() const { return channelTitle; }
+    Q_INVOKABLE QString getChannelTitle() const { return channelTitle; }
     void setChannelTitle(const QString &value) { channelTitle = value; }
 
-    Q_INVOKABLE const QString &getChannelId() const { return channelId; }
+    Q_INVOKABLE QString getChannelId() const { return channelId; }
     void setChannelId(const QString &value) { channelId = value; }
 
-    Q_INVOKABLE const QString &getWebpage();
+    Q_INVOKABLE QString getWebpage();
     void setWebpage(const QString &value);
 
     void loadThumbnail();
-    Q_INVOKABLE const QPixmap &getThumbnail() const { return thumbnail; }
+    Q_INVOKABLE QPixmap getThumbnail() const { return thumbnail; }
 
-    Q_INVOKABLE const QString &getThumbnailUrl() const { return thumbnailUrl; }
+    Q_INVOKABLE QString getThumbnailUrl() const { return thumbnailUrl; }
     void setThumbnailUrl(const QString &value) { thumbnailUrl = value; }
 
-    Q_INVOKABLE const QString &getMediumThumbnailUrl() const { return mediumThumbnailUrl; }
+    Q_INVOKABLE QString getMediumThumbnailUrl() const { return mediumThumbnailUrl; }
     void setMediumThumbnailUrl(const QString &value) { mediumThumbnailUrl = value; }
 
-    Q_INVOKABLE const QString &getLargeThumbnailUrl() const { return largeThumbnailUrl; }
+    Q_INVOKABLE QString getLargeThumbnailUrl() const { return largeThumbnailUrl; }
     void setLargeThumbnailUrl(const QString &value) { largeThumbnailUrl = value; }
 
-    Q_INVOKABLE int getDuration() const { return duration; }
+    int getDuration() const { return duration; }
     void setDuration(int value);
-    const QString &getFormattedDuration() const { return formattedDuration; }
+    Q_INVOKABLE QString getFormattedDuration() const { return formattedDuration; }
 
     Q_INVOKABLE int getViewCount() const { return viewCount; }
     void setViewCount(int value) { viewCount = value; }
 
-    const QDateTime &getPublished() const { return published; }
+    Q_INVOKABLE QDateTime getPublished() const { return published; }
     void setPublished(const QDateTime &value);
-    const QString &getFormattedPublished() const { return formattedPublished; }
+    Q_INVOKABLE QString getFormattedPublished() const { return formattedPublished; }
 
     int getDefinitionCode() const { return definitionCode; }
 
     Q_INVOKABLE void loadStreamUrl();
-    Q_INVOKABLE const QUrl &getStreamUrl() { return streamUrl; }
+    Q_INVOKABLE QUrl getStreamUrl() { return streamUrl; }
 
-    const QString &getId() const { return id; }
+    Q_INVOKABLE QString getId() const { return id; }
     void setId(const QString &value) { id = value; }
 
     License getLicense() const { return license; }

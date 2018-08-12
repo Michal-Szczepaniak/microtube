@@ -6,7 +6,6 @@
 #include "jsfunctions.h"
 #include "temporary.h"
 #include "videodefinition.h"
-#include "configurationvalue.h"
 #include <QJSEngine>
 #include <QJSValue>
 #include <QtNetwork>
@@ -106,8 +105,7 @@ void YTVideo::gotVideoInfo(const QByteArray &bytes) {
 }
 
 void YTVideo::parseFmtUrlMap(const QString &fmtUrlMap, bool fromWebPage) {
-    const QString definitionName = QSettings().value("definition", "1080p").toString();
-    qDebug()<<definitionName;
+    const QString definitionName = QSettings().value("definition", "360p").toString();
     const VideoDefinition &definition = VideoDefinition::forName(definitionName);
 
     qDebug() << "fmtUrlMap" << fmtUrlMap;

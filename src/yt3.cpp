@@ -33,8 +33,6 @@ YT3::YT3() {
 void YT3::initApiKeys() {
     keys.clear();
 
-    keys<<"AIzaSyAak85_NqP7mrWEyeEbMMZYJ0ipQbwWDXQ";
-
     QByteArray customApiKey = qgetenv("GOOGLE_API_KEY");
     if (!customApiKey.isEmpty()) {
         keys << QString::fromUtf8(customApiKey);

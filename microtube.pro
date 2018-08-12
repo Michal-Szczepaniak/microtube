@@ -13,7 +13,6 @@
 TARGET = microtube
 
 include(src/http/http.pri)
-include(src/nemo-qml-plugin-configuration/configuration.pri)
 
 CONFIG += sailfishapp
 
@@ -45,7 +44,9 @@ HEADERS += \
     src/videodefinition.h \
     src/yt.h \
     src/playlistmodel.h \
-    src/videomimedata.h
+    src/videomimedata.h \
+    src/channelmodel.h \
+    src/aggregatevideosource.h
 
 SOURCES += src/microtube.cpp \
     src/ytsearch.cpp \
@@ -72,7 +73,9 @@ SOURCES += src/microtube.cpp \
     src/videodefinition.cpp \
     src/yt.cpp \
     src/playlistmodel.cpp \
-    src/videomimedata.cpp
+    src/videomimedata.cpp \
+    src/channelmodel.cpp \
+    src/aggregatevideosource.cpp
 
 DISTFILES += qml/microtube.qml \
     qml/cover/CoverPage.qml \
@@ -83,6 +86,9 @@ DISTFILES += qml/microtube.qml \
     qml/pages/Subscriptions.qml \
     qml/pages/VideoPlayer.qml \
     qml/pages/components/VideoElement.qml
+
+RESOURCES += \
+    qml/resources/resources.qrc
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 

@@ -8,4 +8,6 @@ ApplicationWindow
     initialPage: Component { Main { } }
     cover: Qt.resolvedUrl("cover/CoverPage.qml")
     allowedOrientations: defaultAllowedOrientations
+
+    property string playing: ""
 }

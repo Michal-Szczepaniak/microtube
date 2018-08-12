@@ -48,9 +48,9 @@ int PlaylistModel::rowCount(const QModelIndex & /*parent*/) const {
     int count = videos.size();
 
     // add the message item
-    if (videos.isEmpty() || !searching) count++;
+//    if (videos.isEmpty() || !searching) count++;
 
-    return count;
+    return count+1;
 }
 
 QVariant PlaylistModel::data(const QModelIndex &index, int role) const {
@@ -65,7 +65,7 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const {
         case Qt::DisplayRole:
             if (!errorMessage.isEmpty()) return errorMessage;
             if (searching) return tr("Searching...");
-            if (canSearchMore) return tr("Show %1 More").arg("").simplified();
+            if (canSearchMore && !videos.isEmpty()) return tr("Show %1 More").arg("").simplified();
             if (videos.isEmpty())
                 return tr("No videos");
             else
@@ -106,6 +106,16 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const {
         return authorHovered;
     case AuthorPressedRole:
         return authorPressed;
+    case AuthorRole:
+        return video->getChannelTitle();
+    case ViewCountRole:
+        return video->getViewCount();
+    case PublishedRole:
+        return video->getFormattedPublished();
+    case ThumbnailRole:
+        return video->getThumbnailUrl();
+    case DescriptionRole:
+        return video->getDescription();
         /*
     case Qt::StatusTipRole:
         return video->description();
@@ -129,7 +139,11 @@ void PlaylistModel::setActiveRow(int row, bool notify) {
         emit dataChanged(createIndex(m_activeRow, 0), createIndex(m_activeRow, columnCount() - 1));
         if (notify) emit activeRowChanged(row);
 
-    } else {
+    } else if (row == videos.count() && videos.count() != 0) {
+        searchMore();
+    }
+
+    else {
         m_activeRow = -1;
         m_activeVideo = 0;
     }
@@ -145,6 +159,15 @@ int PlaylistModel::previousRow() const {
     int prevRow = m_activeRow - 1;
     if (rowExists(prevRow)) return prevRow;
     return -1;
+}
+
+bool PlaylistModel::previousRowExists() const {
+    return previousRow() != -1;
+}
+
+bool PlaylistModel::nextRowExists()  {
+    if(activeRow() == videos.size()-1) searchMore();
+    return nextRow() != -1;
 }
 
 Video *PlaylistModel::videoAt(int row) const {
@@ -228,7 +251,7 @@ void PlaylistModel::searchError(const QString &message) {
 void PlaylistModel::addVideos(const QVector<Video *> &newVideos) {
     if (newVideos.isEmpty()) return;
     videos.reserve(videos.size() + newVideos.size());
-    beginInsertRows(QModelIndex(), videos.size(), videos.size() + newVideos.size() - 2);
+    beginInsertRows(QModelIndex(), videos.size(), videos.size() + newVideos.size() - 1);
     videos.append(newVideos);
     endInsertRows();
     for (Video *video : newVideos) {
@@ -307,7 +330,7 @@ void PlaylistModel::emitDataChanged() {
 bool PlaylistModel::removeRows(int position, int rows, const QModelIndex & /*parent*/) {
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
     for (int row = 0; row < rows; ++row) {
-        Video *video = videos.takeAt(position);
+        videos.takeAt(position);
     }
     endRemoveRows();
     return true;
@@ -523,6 +546,11 @@ QHash<int, QByteArray> PlaylistModel::roleNames() const {
     roles[DownloadButtonPressedRole] = "downloadButtonPressed";
     roles[AuthorHoveredRole] = "authorHovered";
     roles[AuthorPressedRole] = "authorPressed";
+    roles[AuthorRole] = "author";
+    roles[ViewCountRole] = "viewCount";
+    roles[PublishedRole] = "published";
+    roles[ThumbnailRole] = "thumbnail";
+    roles[DescriptionRole] = "description";
     roles[Qt::DisplayRole] = "display";
     roles[Qt::TextAlignmentRole] = "textAlignment";
     roles[Qt::ForegroundRole] = "foreground";

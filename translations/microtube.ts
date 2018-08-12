@@ -4,7 +4,7 @@
 <context>
     <name>CoverPage</name>
     <message>
-        <source>My Cover</source>
+        <source>µtube</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -73,6 +73,36 @@
     <name>Subscriptions</name>
     <message>
         <source>Subscriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VideoPlayer</name>
+    <message>
+        <source>720p</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>480p</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>360p</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subscribe</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>YT</name>
+    <message>
+        <source>All Videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unwatched Videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

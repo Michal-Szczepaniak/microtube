@@ -7,6 +7,8 @@
 #include "ytvideo.h"
 #include "yt.h"
 #include "video.h"
+#include "ytchannel.h"
+#include <QtQuick>
 
 int main(int argc, char *argv[])
 {

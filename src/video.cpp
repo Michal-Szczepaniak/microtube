@@ -55,7 +55,7 @@ Video *Video::clone() {
     return clone;
 }
 
-const QString &Video::getWebpage() {
+QString Video::getWebpage() {
     if (webpage.isEmpty() && !id.isEmpty())
         webpage.append("https://www.youtube.com/watch?v=").append(id);
     return webpage;

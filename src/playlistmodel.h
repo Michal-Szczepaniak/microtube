@@ -37,7 +37,12 @@ enum DataRoles {
     DownloadButtonHoveredRole,
     DownloadButtonPressedRole,
     AuthorHoveredRole,
-    AuthorPressedRole
+    AuthorPressedRole,
+    AuthorRole,
+    ViewCountRole,
+    PublishedRole,
+    ThumbnailRole,
+    DescriptionRole
 };
 
 enum ItemTypes {
@@ -66,17 +71,19 @@ public:
                       Qt::DropAction action, int row, int column,
                       const QModelIndex &parent);
 
-    void setActiveRow(int row , bool notify = true);
+    Q_INVOKABLE void setActiveRow(int row , bool notify = true);
     bool rowExists( int row ) const { return (( row >= 0 ) && ( row < videos.size() ) ); }
-    int activeRow() const { return m_activeRow; } // returns -1 if there is no active row
-    int nextRow() const;
-    int previousRow() const;
+    Q_INVOKABLE int activeRow() const { return m_activeRow; } // returns -1 if there is no active row
+    Q_INVOKABLE int nextRow() const;
+    Q_INVOKABLE int previousRow() const;
+    Q_INVOKABLE bool nextRowExists();
+    Q_INVOKABLE bool previousRowExists() const;
     void removeIndexes(QModelIndexList &indexes);
     int rowForVideo(Video* video);
     QModelIndex indexForVideo(Video* video);
     void move(QModelIndexList &indexes, bool up);
 
-    Video* videoAt( int row ) const;
+    Q_INVOKABLE Video* videoAt( int row ) const;
     Video* activeVideo() const;
     int rowForCloneVideo(const QString &videoId) const;
 
@@ -85,7 +92,7 @@ public:
     void abortSearch();
 
 public slots:
-    void searchMore();
+    Q_INVOKABLE void searchMore();
     void searchNeeded();
     void addVideos(const QVector<Video *> &newVideos);
     void searchFinished(int total);

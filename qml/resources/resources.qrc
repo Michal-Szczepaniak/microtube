@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/channels.png</file>
+        <file>images/unwatched.png</file>
+    </qresource>
+</RCC>

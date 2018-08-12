@@ -1,22 +1,23 @@
 #include "yt.h"
 #include "ytsearch.h"
 #include "ytsinglevideosource.h"
+#include "video.h"
+#include "ytchannel.h"
+#include "database.h"
+#include "aggregatevideosource.h"
 #include <QDebug>
 
 YT::YT(QObject *parent) : QObject(parent)
 {
     playlistModel = new PlaylistModel();
-}
-
-void YT::gotStreamUrl(const QUrl &streamUrl) {
-    qDebug()<<streamUrl;
-    this->setStreamUrl(streamUrl);
-    emit streamUrlChanged(streamUrl);
+    channelModel = new ChannelModel();
+    updateQuery();
 }
 
 void YT::registerObjectsInQml(QQmlContext* context) {
     context->setContextProperty("YT",this);
     context->setContextProperty("YTPlaylist",this->playlistModel);
+    context->setContextProperty("YTChannels",this->channelModel);
 }
 
 void YT::search(QString query) {
@@ -120,4 +121,73 @@ const QString &YT::getCurrentVideoId() {
 
 int YT::getHistoryIndex() {
     return history.lastIndexOf(playlistModel->getVideoSource());
+}
+
+void YT::setDefinition(QString definition) {
+    QSettings().setValue("definition", definition);
+}
+
+void YT::toggleSubscription() {
+    Video *video = playlistModel->activeVideo();
+    if (!video) return;
+    QString userId = video->getChannelId();
+    if (userId.isEmpty()) return;
+    bool subscribed = YTChannel::isSubscribed(userId);
+    if (subscribed) {
+        YTChannel::unsubscribe(userId);
+    } else {
+        YTChannel::subscribe(userId);
+    }
+}
+
+void YT::updateQuery() {
+    QString sql = "select user_id from subscriptions";
+//    if (showUpdated)
+//        sql += " where notify_count>0";
+
+//    switch (sortBy) {
+//    case SortByUpdated:
+//        sql += " order by updated desc";
+//        break;
+//    case SortByAdded:
+//        sql += " order by added desc";
+//        break;
+//    case SortByLastWatched:
+//        sql += " order by watched desc";
+//        break;
+//    case SortByMostWatched:
+//        sql += " order by views desc";
+//        break;
+//    default:
+//        sql += " order by name collate nocase";
+//        break;
+//    }
+
+    sql += " order by added desc";
+
+    channelModel->setQuery(sql, Database::instance().getConnection());
+}
+
+void YT::itemActivated(int index) {
+    ChannelModel::ItemTypes itemType = channelModel->typeForIndex(index);
+    if (itemType == ChannelModel::ItemChannel) {
+        YTChannel *channel = channelModel->channelForIndex(index);
+        SearchParams *params = new SearchParams();
+        params->setChannelId(channel->getChannelId());
+        params->setSortBy(SearchParams::SortByNewest);
+        params->setTransient(true);
+        YTSearch *videoSource = new YTSearch(params);
+        videoSource->setAsyncDetails(true);
+        setVideoSource(videoSource);
+        channel->updateWatched();
+    } else if (itemType == ChannelModel::ItemAggregate) {
+        AggregateVideoSource *videoSource = new AggregateVideoSource();
+        videoSource->setName(tr("All Videos"));
+        setVideoSource(videoSource);
+    } else if (itemType == ChannelModel::ItemUnwatched) {
+        AggregateVideoSource *videoSource = new AggregateVideoSource();
+        videoSource->setName(tr("Unwatched Videos"));
+        videoSource->setUnwatched(true);
+        setVideoSource(videoSource);
+    }
 }

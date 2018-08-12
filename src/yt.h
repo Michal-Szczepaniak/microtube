@@ -5,17 +5,16 @@
 #include <QUrl>
 #include <QQmlContext>
 #include "playlistmodel.h"
+#include "channelmodel.h"
 #include "searchparams.h"
+#include "ytvideo.h"
 
 class YT : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QUrl streamUrl READ getStreamUrl WRITE setStreamUrl NOTIFY streamUrlChanged)
 
 public:
     explicit YT(QObject *parent = nullptr);
-    QUrl getStreamUrl() { return m_streamUrl; }
-    void setStreamUrl(QUrl streamUrl) { m_streamUrl = streamUrl; }
     void registerObjectsInQml(QQmlContext* context);
     void setVideoSource(VideoSource *videoSource, bool addToHistory = true, bool back = false);
     Q_INVOKABLE void search(QString query);
@@ -25,13 +24,10 @@ public:
     PlaylistModel* getPlaylistModel() { return playlistModel; }
     const QString &getCurrentVideoId();
     void updateSubscriptionAction(Video *video, bool subscribed);
-
-signals:
-    void streamUrlChanged(const QUrl &streamUrl);
-
-public slots:
-    void gotStreamUrl(const QUrl &streamUrl);
-
+    Q_INVOKABLE void setDefinition(QString definition);
+    Q_INVOKABLE void toggleSubscription();
+    Q_INVOKABLE void updateQuery();
+    Q_INVOKABLE void itemActivated(int index);
 private:
     SearchParams* getSearchParams();
     void searchAgain();
@@ -41,8 +37,8 @@ private:
     Video *skippedVideo;
     QString currentVideoId;
 
-    QUrl m_streamUrl;
     PlaylistModel* playlistModel;
+    ChannelModel* channelModel;
     QVector<VideoSource*> history;
 };
 
