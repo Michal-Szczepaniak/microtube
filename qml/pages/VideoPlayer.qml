@@ -257,10 +257,6 @@ Page {
 
                         IconButton {
                             id: playButton
-                            width: Theme.itemSizeMedium
-                            height: Theme.itemSizeMedium
-                            icon.width: Theme.itemSizeMedium
-                            icon.height: Theme.itemSizeMedium
                             icon.source: mediaPlayer.playbackState == MediaPlayer.PlayingState ? "image://theme/icon-m-pause" : "image://theme/icon-m-play"
                             anchors.centerIn: parent
                             onClicked: mediaPlayer.playbackState == MediaPlayer.PlayingState ? mediaPlayer.videoPause() : mediaPlayer.videoPlay()
@@ -268,10 +264,6 @@ Page {
 
                         IconButton {
                             id: nextButton
-                            width: Theme.itemSizeMedium
-                            height: Theme.itemSizeMedium
-                            icon.width: Theme.itemSizeMedium
-                            icon.height: Theme.itemSizeMedium
                             icon.source: "image://theme/icon-m-next"
                             anchors.top: playButton.top
                             anchors.left: playButton.right
@@ -281,10 +273,6 @@ Page {
 
                         IconButton {
                             id: prevButton
-                            width: Theme.itemSizeMedium
-                            height: Theme.itemSizeMedium
-                            icon.width: Theme.itemSizeMedium
-                            icon.height: Theme.itemSizeMedium
                             icon.source: "image://theme/icon-m-previous"
                             anchors.top: playButton.top
                             anchors.right: playButton.left
