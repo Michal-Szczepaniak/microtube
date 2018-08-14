@@ -203,7 +203,6 @@ Page {
                             }
                         }
 
-
                         onPositionChanged: proggress.value = mediaPlayer.position
                     }
 
