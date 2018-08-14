@@ -18,6 +18,7 @@ public:
     void registerObjectsInQml(QQmlContext* context);
     void setVideoSource(VideoSource *videoSource, bool addToHistory = true, bool back = false);
     Q_INVOKABLE void search(QString query);
+    Q_INVOKABLE void watchChannel(const QString &channelId);
     void watch(SearchParams *searchParams);
     const QVector<VideoSource*> & getHistory() { return history; }
     int getHistoryIndex();

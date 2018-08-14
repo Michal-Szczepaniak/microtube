@@ -185,7 +185,7 @@ Page {
                         }
 
 
-//                        onPositionChanged: proggress.update(mediaPlayer.position)
+                        onPositionChanged: proggress.value = mediaPlayer.position
                     }
 
                     VideoOutput {
@@ -295,12 +295,6 @@ Page {
                             anchors.rightMargin: -Theme.paddingLarge*4
                             handleVisible: _controlsVisible
 
-                            function update(value) {
-                                dontSeek = true
-                                proggress.value = value
-                                dontSeek = false
-                            }
-
                             Behavior on value {
                                 NumberAnimation {
                                     duration: 10
@@ -321,9 +315,8 @@ Page {
                                 duration: 100
                             }
 
-                            onValueChanged: {
-                                if (!dontSeek)
-                                    mediaPlayer.seek(proggress.value)
+                            onSliderValueChanged: {
+                                down && mediaPlayer.seek(proggress.value)
                             }
                         }
                     }
@@ -358,6 +351,14 @@ Page {
                             truncationMode: TruncationMode.Fade
                             color: Theme.primaryColor
                             bottomPadding: Theme.paddingLarge
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    YT.watchChannel(video.getChannelId())
+                                    pageStack.navigateBack()
+                                }
+                            }
                         }
 
                         Label {

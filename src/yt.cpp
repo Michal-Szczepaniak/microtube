@@ -58,6 +58,25 @@ void YT::watch(SearchParams *searchParams) {
     setVideoSource(ytSearch);
 }
 
+void YT::watchChannel(const QString &channelId) {
+    if (channelId.isEmpty()) {
+        return;
+    }
+
+    QString id = channelId;
+
+    // Fix old settings
+    const QLatin1String uc("UC");
+    if (!id.startsWith(uc)) id = uc + id;
+
+    SearchParams *searchParams = new SearchParams();
+    searchParams->setChannelId(id);
+    searchParams->setSortBy(SearchParams::SortByNewest);
+
+    // go!
+    watch(searchParams);
+}
+
 void YT::setVideoSource(VideoSource *videoSource, bool addToHistory, bool back) {
     Q_UNUSED(back);
     stopped = false;
