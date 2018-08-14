@@ -257,6 +257,7 @@ Page {
 
                         IconButton {
                             id: playButton
+                            enabled: opacity != 0
                             icon.source: mediaPlayer.playbackState == MediaPlayer.PlayingState ? "image://theme/icon-m-pause" : "image://theme/icon-m-play"
                             anchors.centerIn: parent
                             onClicked: mediaPlayer.playbackState == MediaPlayer.PlayingState ? mediaPlayer.videoPause() : mediaPlayer.videoPlay()
@@ -264,6 +265,7 @@ Page {
 
                         IconButton {
                             id: nextButton
+                            enabled: opacity != 0
                             icon.source: "image://theme/icon-m-next"
                             anchors.top: playButton.top
                             anchors.left: playButton.right
@@ -273,6 +275,7 @@ Page {
 
                         IconButton {
                             id: prevButton
+                            enabled: opacity != 0
                             icon.source: "image://theme/icon-m-previous"
                             anchors.top: playButton.top
                             anchors.right: playButton.left
