@@ -404,16 +404,16 @@ Page {
         enabled: mediaPlayer.playbackState !== MediaPlayer.StoppedState
 
         CoverAction {
-            iconSource: "image://theme/icon-cover-next"
+            iconSource: mediaPlayer.playbackState == MediaPlayer.PlayingState ? "image://theme/icon-cover-pause" : "image://theme/icon-cover-play"
             onTriggered: {
-                mediaPlayer.nextVideo()
+                mediaPlayer.playbackState == MediaPlayer.PlayingState ? mediaPlayer.videoPause() : mediaPlayer.videoPlay()
             }
         }
 
         CoverAction {
-            iconSource: mediaPlayer.playbackState == MediaPlayer.PlayingState ? "image://theme/icon-cover-pause" : "image://theme/icon-cover-play"
+            iconSource: "image://theme/icon-cover-next-song"
             onTriggered: {
-                mediaPlayer.playbackState == MediaPlayer.PlayingState ? mediaPlayer.videoPause() : mediaPlayer.videoPlay()
+                mediaPlayer.nextVideo()
             }
         }
     }
