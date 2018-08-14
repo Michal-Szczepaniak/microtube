@@ -19,7 +19,7 @@ Page {
         SilicaGridView {
             id: listView
 
-            readonly property int columnWidth: listView.width/3
+            readonly property int columnWidth: page.orientation === Orientation.Portrait ? listView.width/3 : listView.width/5
 
             anchors.top: header.bottom
             anchors.left: parent.left
