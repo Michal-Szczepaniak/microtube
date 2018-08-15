@@ -57,13 +57,13 @@ Page {
             }
 
             Label {
-                text: "Made by Michał Szczepaniak. Based on minitube."
+                text: qsTr("Made by Michał Szczepaniak. Based on minitube.")
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
             Label {
-                text: "Licensed under GPLv3"
+                text: qsTr("Licensed under GPLv3")
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -75,7 +75,7 @@ Page {
             }
 
             Label {
-                text: "Links"
+                text: qsTr("Links")
                 font.pixelSize: Theme.fontSizeLarge
                 anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -111,7 +111,7 @@ Page {
             }
 
             Label {
-                text: "Thanks to"
+                text: qsTr("Thanks to")
                 font.pixelSize: Theme.fontSizeLarge
                 anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -135,7 +135,7 @@ Page {
             }
 
             Label {
-                text: "Donate"
+                text: qsTr("Donate")
                 font.pixelSize: Theme.fontSizeLarge
                 anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -153,7 +153,7 @@ Page {
             }
 
             Label {
-                text: "All donations go for Verdanditeam devices\n (used for porting SailfishOS)"
+                text: qsTr("All donations go for Verdanditeam devices\n (used for porting SailfishOS)")
                 font.pixelSize: Theme.fontSizeSmall
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter

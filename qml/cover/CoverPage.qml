@@ -44,7 +44,7 @@ CoverBackground {
             anchors.right: parent.right
             anchors.topMargin: Theme.paddingSmall
             horizontalAlignment: Text.AlignHCenter
-            text: "Playing:"
+            text: qsTr("Playing:")
         }
 
         TextArea{
