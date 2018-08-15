@@ -333,9 +333,7 @@ Page {
                                 duration: 100
                             }
 
-                            onSliderValueChanged: {
-                                down && mediaPlayer.seek(proggress.value)
-                            }
+                            onSliderValueChanged: down && mediaPlayer.seek(proggress.value)
                         }
                     }
 

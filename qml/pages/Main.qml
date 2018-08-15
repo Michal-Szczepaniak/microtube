@@ -32,6 +32,13 @@ Page {
 
         PullDownMenu {
             MenuItem {
+                text: qsTr("About")
+                onClicked: {
+                    YT.updateQuery()
+                    pageStack.push(Qt.resolvedUrl("About.qml"))
+                }
+            }
+            MenuItem {
                 text: qsTr("Subscriptions")
                 onClicked: {
                     YT.updateQuery()

@@ -82,6 +82,7 @@ DISTFILES += qml/microtube.qml \
     rpm/microtube.spec \
     translations/*.ts \
     microtube.desktop \
+    qml/pages/About.qml \
     qml/pages/Main.qml \
     qml/pages/Subscriptions.qml \
     qml/pages/VideoPlayer.qml \
