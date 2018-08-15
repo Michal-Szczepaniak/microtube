@@ -185,11 +185,11 @@ Page {
                         }
 
                         onError: {
-                            if ( error === MediaPlayer.ResourceError ) errorMsg = "Error: Problem with allocating resources"
-                            else if ( error === MediaPlayer.ServiceMissing ) errorMsg = "Error: Media service error"
-                            else if ( error === MediaPlayer.FormatError ) errorMsg = "Error: Video or Audio format is not supported"
-                            else if ( error === MediaPlayer.AccessDenied ) errorMsg = "Error: Access denied to the video"
-                            else if ( error === MediaPlayer.NetworkError ) errorMsg = "Error: Network error"
+                            if ( error === MediaPlayer.ResourceError ) errorMsg = qsTr("Error: Problem with allocating resources")
+                            else if ( error === MediaPlayer.ServiceMissing ) errorMsg = qsTr("Error: Media service error")
+                            else if ( error === MediaPlayer.FormatError ) errorMsg = qsTr("Error: Video or Audio format is not supported")
+                            else if ( error === MediaPlayer.AccessDenied ) errorMsg = qsTr("Error: Access denied to the video")
+                            else if ( error === MediaPlayer.NetworkError ) errorMsg = qsTr("Error: Network error")
                             stop()
                         }
 
@@ -378,7 +378,7 @@ Page {
                         }
 
                         Label {
-                            text: viewCount + " views"
+                            text: qsTr("%L1 views", '', viewCount).arg(viewCount)
                             font.pixelSize: Theme.fontSizeMedium
                             truncationMode: TruncationMode.Fade
                             color: Theme.secondaryColor

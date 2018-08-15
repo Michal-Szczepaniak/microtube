@@ -62,7 +62,7 @@ Page {
             header: SearchField {
                 id: searchField
                 width: parent.width
-                placeholderText: "Search"
+                placeholderText: qsTr("Search")
                 Keys.onReturnPressed: {
                     if(searchField.text.length != 0) {
                         YT.search(searchField.text)

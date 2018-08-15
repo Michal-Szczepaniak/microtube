@@ -94,7 +94,7 @@ Page {
                     hasContent: index >= 2
                     width: page.width
                     MenuItem {
-                        text: "Unsubscribe"
+                        text: qsTr("Unsubscribe")
                         onClicked: {
                             YTChannels.unsubscribe(index);
                             YT.updateQuery()
