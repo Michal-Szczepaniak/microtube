@@ -45,18 +45,16 @@ Page {
     function showHideControls() {
         if (_controlsVisible) {
             showAnimation.start()
+            hideControlsAutomatically.restart()
         } else {
             hideAnimation.start()
         }
 
         if ((_controlsVisible && page.orientation === Orientation.Landscape) || page.orientation === Orientation.Portrait) {
             showAnimation3.start()
-        }
-        else {
+        } else {
             hideAnimation3.start()
         }
-
-        hideControlsAutomatically.restart()
     }
 
     onOrientationChanged: {
