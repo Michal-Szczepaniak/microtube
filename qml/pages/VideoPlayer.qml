@@ -34,17 +34,27 @@ Page {
     property string author: ""
     property bool _controlsVisible: true
 
+    Timer {
+        id: hideControlsAutomatically
+        interval: 3000
+        running: false
+        repeat: false
+        onTriggered: _controlsVisible = false
+    }
+
     function showHideControls() {
         if (_controlsVisible) {
             showAnimation.start()
+            hideControlsAutomatically.restart()
         } else {
             hideAnimation.start()
         }
 
-        if ((_controlsVisible && page.orientation === Orientation.Landscape) || page.orientation === Orientation.Portrait)
+        if ((_controlsVisible && page.orientation === Orientation.Landscape) || page.orientation === Orientation.Portrait) {
             showAnimation3.start()
-        else
+        } else {
             hideAnimation3.start()
+        }
     }
 
     onOrientationChanged: {
@@ -63,7 +73,10 @@ Page {
         app.playing = title
     }
 
-    Component.onCompleted: showHideControls()
+    Component.onCompleted: {
+        showHideControls()
+        hideControlsAutomatically.restart()
+    }
 
     showNavigationIndicator: page.orientation === Orientation.Portrait
 
