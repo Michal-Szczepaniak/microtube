@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="es_ES">
+<TS version="2.1" language="es_ES">
 <context>
     <name>About</name>
     <message>
@@ -32,6 +32,18 @@
  (used for porting SailfishOS)</source>
         <translation>Todas las donaciones van a Verdanditeam
  (usado para portar SailfishOS)</translation>
+    </message>
+    <message>
+        <source>jgibbon for german translation and help.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>carmenfdezb for spanish translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DylanVanAssche for help.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

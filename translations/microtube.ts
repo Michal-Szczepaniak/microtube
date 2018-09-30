@@ -32,6 +32,18 @@
  (used for porting SailfishOS)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>jgibbon for german translation and help.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>carmenfdezb for spanish translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DylanVanAssche for help.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>

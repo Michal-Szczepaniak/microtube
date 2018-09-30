@@ -318,12 +318,12 @@ Page {
                             id: proggress
                             minimumValue: 0
                             maximumValue: mediaPlayer.duration
-                            anchors.left: videoOutput.left
-                            anchors.right: videoOutput.right
+                            anchors.left: page.orientation === Orientation.Landscape ? proggress.right : videoOutput.left
+                            anchors.right: page.orientation === Orientation.Landscape ? duration.left : videoOutput.right
                             anchors.bottom: videoOutput.bottom
-                            anchors.bottomMargin: -proggress.height/2
-                            anchors.leftMargin: -Theme.paddingLarge*4
-                            anchors.rightMargin: -Theme.paddingLarge*4
+                            anchors.bottomMargin: page.orientation === Orientation.Landscape ? 0 : -proggress.height/2
+                            anchors.leftMargin: page.orientation === Orientation.Landscape ? Theme.paddingLarge : -Theme.paddingLarge*4
+                            anchors.rightMargin: page.orientation === Orientation.Landscape ? -Theme.paddingLarge*2 : -Theme.paddingLarge*4
                             handleVisible: _controlsVisible
 
                             Behavior on value {
@@ -346,7 +346,7 @@ Page {
                                 duration: 100
                             }
 
-                            onSliderValueChanged: down && mediaPlayer.seek(proggress.value)
+                            onReleased: mediaPlayer.seek(proggress.value)
                         }
                     }
 

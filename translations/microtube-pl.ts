@@ -32,6 +32,18 @@
  (used for porting SailfishOS)</source>
         <translation>Wszystie dotacje są wykorzystywane do kupna urządzeń dla VerdandiTeam (używane do portowania SailfishOS)</translation>
     </message>
+    <message>
+        <source>jgibbon for german translation and help.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>carmenfdezb for spanish translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DylanVanAssche for help.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>
@@ -105,8 +117,8 @@
         <translation>Brak filmów</translation>
     </message>
     <message>
-        <source>Nie ma więcej filmów</source>
-        <translation></translation>
+        <source>No more videos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
