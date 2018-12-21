@@ -21,6 +21,7 @@ import QtQuick 2.6
 import Sailfish.Silica 1.0
 import QtMultimedia 5.6
 import com.verdanditeam.yt 1.0
+import com.verdanditeam.ytchannel 1.0
 import Sailfish.Media 1.0
 import org.nemomobile.mpris 1.0
 import "components"
@@ -32,7 +33,10 @@ Page {
     property string description: ""
     property string viewCount: ""
     property string author: ""
+    property bool subscribed: false
     property bool _controlsVisible: true
+    property bool landscape: ( page.orientation === Orientation.Landscape || page.orientation === Orientation.LandscapeInverted )
+
 
     Timer {
         id: hideControlsAutomatically
@@ -50,7 +54,7 @@ Page {
             hideAnimation.start()
         }
 
-        if ((_controlsVisible && page.orientation === Orientation.Landscape) || page.orientation === Orientation.Portrait) {
+        if ((_controlsVisible && page.landscape) || page.orientation === Orientation.Portrait) {
             showAnimation3.start()
         } else {
             hideAnimation3.start()
@@ -59,7 +63,7 @@ Page {
 
     onOrientationChanged: {
 
-        if ((_controlsVisible && page.orientation === Orientation.Landscape) || page.orientation === Orientation.Portrait)
+        if ((_controlsVisible && page.landscape) || page.orientation === Orientation.Portrait)
             showAnimation3.start()
         else
             hideAnimation3.start()
@@ -95,7 +99,9 @@ Page {
 
     Connections {
         target: video
-        onGotStreamUrl: mediaPlayer.videoPlay()
+        onStreamUrlChanged: {
+            mediaPlayer.videoPlay()
+        }
     }
 
     Connections {
@@ -133,8 +139,16 @@ Page {
                 }
             }
             MenuItem {
-                text: qsTr("Subscribe")
-                onClicked: YT.toggleSubscription()
+                text: qsTr("Copy url")
+                onClicked: Clipboard.text = video.getWebpage()
+            }
+            MenuItem {
+                property bool subscribed: video.isSubscribed(video.getChannelId())
+                text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
+                onClicked: {
+                    YT.toggleSubscription()
+                    subscribed = video.isSubscribed(video.getChannelId())
+                }
             }
         }
 
@@ -187,11 +201,6 @@ Page {
                                 app.playing = ""
                             }
 
-                            if (mediaPlayer.playbackState == MediaPlayer.StoppedState
-                                    && mediaPlayer.position == mediaPlayer.duration) {
-                                nextVideo();
-                            }
-
                             mprisPlayer.playbackState = mediaPlayer.playbackState === MediaPlayer.PlayingState ?
                                         Mpris.Playing : mediaPlayer.playbackState === MediaPlayer.PausedState ?
                                             Mpris.Paused : Mpris.Stopped
@@ -215,8 +224,6 @@ Page {
                                 mediaPlayer.pause();
                             }
                         }
-
-                        onPositionChanged: proggress.value = mediaPlayer.position
                     }
 
                     VideoOutput {
@@ -316,23 +323,16 @@ Page {
 
                         Slider {
                             id: proggress
+                            value: mediaPlayer.position
                             minimumValue: 0
                             maximumValue: mediaPlayer.duration
-                            anchors.left: page.orientation === Orientation.Landscape ? proggress.right : videoOutput.left
-                            anchors.right: page.orientation === Orientation.Landscape ? duration.left : videoOutput.right
+                            anchors.left: page.landscape ? proggress.right : videoOutput.left
+                            anchors.right: page.landscape ? duration.left : videoOutput.right
                             anchors.bottom: videoOutput.bottom
-                            anchors.bottomMargin: page.orientation === Orientation.Landscape ? 0 : -proggress.height/2
-                            anchors.leftMargin: page.orientation === Orientation.Landscape ? Theme.paddingLarge : -Theme.paddingLarge*4
-                            anchors.rightMargin: page.orientation === Orientation.Landscape ? -Theme.paddingLarge*2 : -Theme.paddingLarge*4
+                            anchors.bottomMargin: page.landscape ? 0 : -proggress.height/2
+                            anchors.leftMargin: page.landscape ? Theme.paddingLarge : -Theme.paddingLarge*4
+                            anchors.rightMargin: page.landscape ? -Theme.paddingLarge*2 : -Theme.paddingLarge*4
                             handleVisible: _controlsVisible
-
-                            Behavior on value {
-                                NumberAnimation {
-                                    duration: 10
-                                }
-                            }
-
-                            property var dontSeek: false
 
                             NumberAnimation on opacity {
                                 id: showAnimation3

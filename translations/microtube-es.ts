@@ -138,6 +138,21 @@
     </message>
 </context>
 <context>
+    <name>VideoElement</name>
+    <message>
+        <source>Unsubscribe</source>
+        <translation type="unfinished">Borrar suscripción</translation>
+    </message>
+    <message>
+        <source>Subscribe</source>
+        <translation type="unfinished">Suscribirse</translation>
+    </message>
+    <message>
+        <source>Copy url</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>VideoPlayer</name>
     <message>
         <source>720p</source>
@@ -181,6 +196,14 @@
             <numerusform>%L1 visualización</numerusform>
             <numerusform>%L1 visualizaciones</numerusform>
         </translation>
+    </message>
+    <message>
+        <source>Unsubscribe</source>
+        <translation type="unfinished">Borrar suscripción</translation>
+    </message>
+    <message>
+        <source>Copy url</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -34,7 +34,7 @@ public:
     static YTChannel* forId(const QString &channelId);
     static void subscribe(const QString &channelId);
     static void unsubscribe(const QString &channelId);
-    static bool isSubscribed(const QString &channelId);
+    Q_INVOKABLE static bool isSubscribed(const QString &channelId);
 
     int getId() { return id; }
     void setId(int id) { this->id = id; }

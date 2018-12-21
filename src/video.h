@@ -24,12 +24,12 @@ $END_LICENSE */
 
 #include <QtCore>
 #include <QtGui>
+#include "ytchannel.h"
 
 class YTVideo;
 
 class Video : public QObject {
     Q_OBJECT
-    Q_PROPERTY(const QUrl streamUrl READ getStreamUrl NOTIFY gotStreamUrl)
     Q_PROPERTY(const QUrl streamUrl READ getStreamUrl NOTIFY gotStreamUrl)
 
 public:
@@ -86,6 +86,8 @@ public:
     Q_INVOKABLE QString getId() const { return id; }
     void setId(const QString &value) { id = value; }
 
+    Q_INVOKABLE bool isSubscribed(const QString &value) { return YTChannel::isSubscribed(value); }
+
     License getLicense() const { return license; }
     void setLicense(License value) { license = value; }
 
@@ -93,7 +95,7 @@ signals:
     void gotThumbnail();
     void gotMediumThumbnail(const QByteArray &bytes);
     void gotLargeThumbnail(const QByteArray &bytes);
-    void gotStreamUrl(const QUrl &streamUrl);
+    void gotStreamUrl(const QUrl streamUrl);
     void errorStreamUrl(const QString &message);
 
 private slots:

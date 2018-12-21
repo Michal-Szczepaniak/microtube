@@ -41,6 +41,7 @@ int main(int argc, char *argv[])
     yt.registerObjectsInQml(view->rootContext());
 
     qmlRegisterType<Video>("com.verdanditeam.yt", 1, 0, "YtVideo");
+    qmlRegisterUncreatableType<YTChannel>("com.verdanditeam.ytchannel", 1, 0, "YtChannel", "static methods required");
 
     view->setSource(SailfishApp::pathTo("qml/microtube.qml"));
     view->show();

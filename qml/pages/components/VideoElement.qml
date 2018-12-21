@@ -23,8 +23,9 @@ import com.verdanditeam.yt 1.0
 
 ListItem {
     id: listItem
-    height: Theme.paddingLarge*8
+//    height: Theme.paddingLarge*8
     contentHeight: Theme.paddingLarge*8
+    menu: contextMenuComponent
 
     onClicked: {
         if (video === undefined) return;
@@ -42,7 +43,7 @@ ListItem {
         Column {
             id: left
             width: listItem.width/2.3
-            height: listItem.height
+            height: Theme.paddingLarge*8
             leftPadding: Theme.paddingLarge
             topPadding: Theme.paddingSmall
             bottomPadding: Theme.paddingSmall
@@ -59,7 +60,7 @@ ListItem {
 
         Column {
             width: listItem.width - left.width
-            height: listItem.height
+            height: Theme.paddingLarge*8
             padding: Theme.paddingLarge
 
             Label {
@@ -80,6 +81,25 @@ ListItem {
                     text: (published !== undefined ? published : "") + (viewCount !== undefined ? "  -  " + viewCount + " views" : "")
                     font.pixelSize: Theme.fontSizeExtraSmall
                 }
+            }
+        }
+    }
+
+    Component {
+        id: contextMenuComponent
+        ContextMenu {
+            id: contextMenu
+            MenuItem {
+                property bool subscribed: video.isSubscribed(video.getChannelId())
+                text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
+                onClicked: {
+                    YT.toggleSubscription()
+                    subscribed = video.isSubscribed(video.getChannelId())
+                }
+            }
+            MenuItem {
+                text: qsTr("Copy url")
+                onClicked: Clipboard.text = video.getWebpage()
             }
         }
     }
