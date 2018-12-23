@@ -31,6 +31,7 @@ class YTVideo;
 class Video : public QObject {
     Q_OBJECT
     Q_PROPERTY(const QUrl streamUrl READ getStreamUrl NOTIFY gotStreamUrl)
+    Q_PROPERTY(int viewCount READ getViewCount WRITE setViewCount NOTIFY viewCountChanged)
 
 public:
     Video();
@@ -71,8 +72,8 @@ public:
     void setDuration(int value);
     Q_INVOKABLE QString getFormattedDuration() const { return formattedDuration; }
 
-    Q_INVOKABLE int getViewCount() const { return viewCount; }
-    void setViewCount(int value) { viewCount = value; }
+    int getViewCount() const { return viewCount; }
+    void setViewCount(int value) { viewCount = value; emit this->viewCountChanged(viewCount); }
 
     Q_INVOKABLE QDateTime getPublished() const { return published; }
     void setPublished(const QDateTime &value);
@@ -97,6 +98,7 @@ signals:
     void gotLargeThumbnail(const QByteArray &bytes);
     void gotStreamUrl(const QUrl streamUrl);
     void errorStreamUrl(const QString &message);
+    void viewCountChanged(int viewCount);
 
 private slots:
     void setThumbnail(const QByteArray &bytes);

@@ -46,6 +46,20 @@
     </message>
 </context>
 <context>
+    <name>ChannelAggregator</name>
+    <message>
+        <source>By %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>You have %n new video(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <source>µtube</source>
@@ -105,6 +119,10 @@
         <source>About</source>
         <translation>Über</translation>
     </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PlaylistModel</name>
@@ -126,6 +144,25 @@
     </message>
 </context>
 <context>
+    <name>Settings</name>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restricted mode (safe for kids)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automatic change to next video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for related videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Subscriptions</name>
     <message>
         <source>Subscriptions</source>
@@ -134,6 +171,10 @@
     <message>
         <source>Unsubscribe</source>
         <translation>Abonnement beenden</translation>
+    </message>
+    <message>
+        <source>Mark all as watched</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -202,6 +243,14 @@
     </message>
     <message>
         <source>Copy url</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloaded to</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -26,6 +26,7 @@ $END_LICENSE */
 #include "videomimedata.h"
 #include "videosource.h"
 #include "ytsearch.h"
+#include "ytsinglevideosource.h"
 
 static const int maxItems = 50;
 static const QString recentKeywordsKey = "recentKeywords";
@@ -209,7 +210,8 @@ void PlaylistModel::searchMore(int max) {
 }
 
 void PlaylistModel::searchMore() {
-    searchMore(maxItems);
+    if(videoSource != nullptr)
+        searchMore(maxItems);
 }
 
 void PlaylistModel::searchNeeded() {
@@ -557,4 +559,13 @@ QHash<int, QByteArray> PlaylistModel::roleNames() const {
     roles[Qt::ForegroundRole] = "foreground";
     roles[Qt::BackgroundColorRole] = "background";
     return roles;
+}
+
+void PlaylistModel::findRecommended() {
+    Video *video = this->activeVideo();
+    if (!video) return;
+    YTSingleVideoSource *singleVideoSource = new YTSingleVideoSource();
+    singleVideoSource->setVideo(video->clone());
+    singleVideoSource->setAsyncDetails(true);
+    setVideoSource(singleVideoSource);
 }

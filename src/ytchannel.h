@@ -29,6 +29,7 @@ $END_LICENSE */
 class YTChannel : public QObject {
 
     Q_OBJECT
+    Q_PROPERTY(int notifyCount READ getNotifyCount WRITE setNotifyCount NOTIFY notifyCountChanged)
 
 public:
     static YTChannel* forId(const QString &channelId);

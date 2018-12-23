@@ -21,9 +21,12 @@ import QtQuick 2.6
 import Sailfish.Silica 1.0
 import QtMultimedia 5.6
 import com.verdanditeam.yt 1.0
-import com.verdanditeam.ytchannel 1.0
 import Sailfish.Media 1.0
 import org.nemomobile.mpris 1.0
+import com.jolla.settings.system 1.0
+import org.nemomobile.systemsettings 1.0
+import org.nemomobile.configuration 1.0
+import Nemo.Notifications 1.0
 import "components"
 
 Page {
@@ -36,7 +39,21 @@ Page {
     property bool subscribed: false
     property bool _controlsVisible: true
     property bool landscape: ( page.orientation === Orientation.Landscape || page.orientation === Orientation.LandscapeInverted )
+    property int autoBrightness: -1
+    property int inactiveBrightness: -1
+    property int activeBrightness: -1
 
+    DisplaySettings {
+        id: displaySettings
+    }
+
+    ConfigurationGroup {
+        id: settings
+        path: "/apps/microtube"
+
+        property bool autoPlay: true
+        property bool relatedVideos: true
+    }
 
     Timer {
         id: hideControlsAutomatically
@@ -45,6 +62,29 @@ Page {
         repeat: false
         onTriggered: _controlsVisible = false
     }
+
+    Timer {
+        id: hideVolumeSlider
+        interval: 500
+        running: false
+        repeat: false
+        onTriggered: volumeSlider.visible = false
+    }
+
+    Timer {
+        id: hideBrightnessSlider
+        interval: 500
+        running: false
+        repeat: false
+        onTriggered: brightnessSlider.visible = false
+    }
+
+    Notification {
+         id: downloadNotification
+
+         summary: "Downloaded"
+         previewSummary: summary
+     }
 
     function showHideControls() {
         if (_controlsVisible) {
@@ -62,11 +102,22 @@ Page {
     }
 
     onOrientationChanged: {
+        page.landscape = ( page.orientation === Orientation.Landscape || page.orientation === Orientation.LandscapeInverted )
 
-        if ((_controlsVisible && page.landscape) || page.orientation === Orientation.Portrait)
-            showAnimation3.start()
-        else
-            hideAnimation3.start()
+        if ( Qt.application.state === Qt.ApplicationActive && page.status === PageStatus.Active ) {
+            if ((_controlsVisible && page.landscape) || page.orientation === Orientation.Portrait)
+                showAnimation3.start()
+            else
+                hideAnimation3.start()
+
+            if ( landscape ) {
+                displaySettings.autoBrightnessEnabled = false
+                displaySettings.brightness = activeBrightness
+            } else {
+                displaySettings.autoBrightnessEnabled = autoBrightness
+                displaySettings.brightness = inactiveBrightness
+            }
+        }
     }
 
     on_ControlsVisibleChanged: {
@@ -77,9 +128,26 @@ Page {
         app.playing = title
     }
 
+    Component.onDestruction: {
+        displaySettings.autoBrightnessEnabled = autoBrightness
+        displaySettings.brightness = inactiveBrightness
+    }
+
     Component.onCompleted: {
         showHideControls()
         hideControlsAutomatically.restart()
+        autoBrightness = displaySettings.autoBrightnessEnabled
+        inactiveBrightness = displaySettings.brightness + 0
+        activeBrightness = displaySettings.brightness + 0
+        if ( landscape )
+            displaySettings.autoBrightnessEnabled = false
+
+        if ( settings.relatedVideos ) {
+            YTPlaylist.findRecommended()
+            YTPlaylist.setActiveRow(0, false)
+            video = YTPlaylist.videoAt(0)
+        }
+        video.loadStreamUrl()
     }
 
     showNavigationIndicator: page.orientation === Orientation.Portrait
@@ -87,11 +155,17 @@ Page {
     allowedOrientations: Orientation.All
 
     function changeVideo() {
-        page.video = YTPlaylist.videoAt(YTPlaylist.activeRow())
+        if ( settings.relatedVideos ) {
+            YTPlaylist.findRecommended()
+            YTPlaylist.setActiveRow(0, false)
+            video = YTPlaylist.videoAt(0)
+        } else {
+            video = YTPlaylist.videoAt(YTPlaylist.activeRow())
+        }
         video.loadStreamUrl()
         title = video.getTitle()
         description = video.getDescription()
-        viewCount = video.getViewCount()
+        viewCount = video.viewCount
         author = video.getChannelTitle()
         listView.positionViewAtIndex(YTPlaylist.activeRow(), ListView.Beginning)
         mediaPlayer.errorMsg = ""
@@ -105,13 +179,43 @@ Page {
     }
 
     Connections {
+        target: YT
+        onNotifyDownloaded: {
+            var splitted = name.split("/");
+            downloadNotification.summary = qsTr("Downloaded to") + " ~/" + splitted[3] + "/" + splitted[4]
+            downloadNotification.publish()
+        }
+    }
+
+    Connections {
         target: YTPlaylist
         onActiveRowChanged: {
             changeVideo()
         }
     }
 
+    Connections {
+        target: pacontrol
+        onVolumeChanged: {
+            volumeSlider.value = volume
+        }
+    }
+
+    Connections {
+        target: Qt.application
+        onStateChanged: {
+            if ( state === Qt.ApplicationInactive ) {
+                displaySettings.autoBrightnessEnabled = autoBrightness
+                displaySettings.brightness = inactiveBrightness
+            } else if ( state === Qt.ApplicationActive && landscape ) {
+                displaySettings.autoBrightnessEnabled = false
+                displaySettings.brightness = activeBrightness
+            }
+        }
+    }
+
     SilicaFlickable {
+        id: flickable
         anchors.fill: parent
         flickableDirection: Flickable.VerticalFlick
 
@@ -139,16 +243,12 @@ Page {
                 }
             }
             MenuItem {
-                text: qsTr("Copy url")
-                onClicked: Clipboard.text = video.getWebpage()
+                text: qsTr("Download")
+                onClicked: YT.download(video.streamUrl)
             }
             MenuItem {
-                property bool subscribed: video.isSubscribed(video.getChannelId())
-                text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
-                onClicked: {
-                    YT.toggleSubscription()
-                    subscribed = video.isSubscribed(video.getChannelId())
-                }
+                text: qsTr("Copy url")
+                onClicked: Clipboard.text = video.getWebpage()
             }
         }
 
@@ -184,21 +284,21 @@ Page {
                             if (!YTPlaylist.nextRowExists()) return
                             mediaPlayer.seek(0)
                             YTPlaylist.setActiveRow(YTPlaylist.nextRow())
-                            video.loadStreamUrl()
-                            changeVideo()
+//                            changeVideo()
                         }
 
                         function prevVideo() {
                             if (!YTPlaylist.previousRowExists()) return
                             mediaPlayer.seek(0)
                             YTPlaylist.setActiveRow(YTPlaylist.previousRow())
-                            video.loadStreamUrl()
-                            changeVideo()
+//                            changeVideo()
                         }
 
                         onPlaybackStateChanged: {
                             if (mediaPlayer.playbackState == MediaPlayer.StoppedState) {
                                 app.playing = ""
+                                if ( settings.autoPlay )
+                                    nextVideo()
                             }
 
                             mprisPlayer.playbackState = mediaPlayer.playbackState === MediaPlayer.PlayingState ?
@@ -224,6 +324,8 @@ Page {
                                 mediaPlayer.pause();
                             }
                         }
+
+                        onPositionChanged: proggress.value = position
                     }
 
                     VideoOutput {
@@ -255,10 +357,52 @@ Page {
                             running: mediaPlayer.bufferProgress != 1
                         }
 
+
                         MouseArea {
+                            id: mousearea
                             anchors.fill: videoOutput
-                            onClicked: {
-                                _controlsVisible = !_controlsVisible
+                            property int offset: page.height/20
+                            property int offsetHeight: height - (offset*2)
+                            property int step: offsetHeight / 10
+                            property int brightnessStep: displaySettings.maximumBrightness / 10
+                            property int lambdaVolumeStep: -1
+                            property int lambdaBrightnessStep: -1
+
+                            function calculateStep(mouse) {
+                                return Math.round((offsetHeight - (mouse.y-offset)) / step)
+                            }
+
+                            onReleased: {
+                                if(lambdaVolumeStep === -1 && lambdaBrightnessStep === -1)
+                                    _controlsVisible = !_controlsVisible
+                                lambdaVolumeStep = -1
+                                lambdaBrightnessStep = -1
+                                flickable.flickableDirection = Flickable.VerticalFlick
+                            }
+
+                            onPressed: {
+                                if ( landscape )
+                                    flickable.flickableDirection = Flickable.HorizontalFlick
+                            }
+
+                            onPositionChanged: {
+                                if ( landscape ) {
+                                    var step = calculateStep(mouse)
+                                    if((mouse.y - offset) > 0 && (mouse.y - offset) < offsetHeight && mouse.x < mousearea.width/2 && lambdaVolumeStep !== step) {
+                                        lambdaVolumeStep = step
+                                        pacontrol.setVolume(lambdaVolumeStep)
+                                        volumeSlider.value = lambdaVolumeStep
+                                        volumeSlider.visible = true
+                                        hideVolumeSlider.restart()
+                                    } else if ((mouse.y - offset) > 0 && (mouse.y - offset) < offsetHeight && mouse.x > mousearea.width/2 && lambdaBrightnessStep !== step) {
+                                        lambdaBrightnessStep = step
+                                        displaySettings.brightness = lambdaBrightnessStep * brightnessStep
+                                        activeBrightness = lambdaBrightnessStep * brightnessStep
+                                        brightnessSlider.value = lambdaBrightnessStep
+                                        brightnessSlider.visible = true
+                                        hideBrightnessSlider.restart()
+                                    }
+                                }
                             }
                         }
 
@@ -322,6 +466,38 @@ Page {
                         }
 
                         Slider {
+                            id: volumeSlider
+                            visible: false
+                            x: page.width - height
+                            y: page.height
+                            width: page.height
+                            minimumValue: 0
+                            maximumValue: 10
+                            transform: Rotation { angle: -90}
+                            enabled: false
+
+                            Behavior on opacity {
+                                PropertyAction {}
+                            }
+                        }
+
+                        Slider {
+                            id: brightnessSlider
+                            visible: false
+                            x: 0
+                            y: page.height
+                            width: page.height
+                            transform: Rotation { angle: -90}
+                            enabled: false
+                            maximumValue: 10
+                            minimumValue: 0
+
+                            Behavior on opacity {
+                                PropertyAction {}
+                            }
+                        }
+
+                        Slider {
                             id: proggress
                             value: mediaPlayer.position
                             minimumValue: 0
@@ -355,77 +531,98 @@ Page {
                     }
                 }
             }
-            Row {
-                id: desc
-                Column {
-                    padding: Theme.paddingLarge
-                    TextArea {
-                        text: title
-                        width: page.width - Theme.paddingLarge*2
-                        font.pixelSize: Theme.fontSizeLarge
-                        color: Theme.highlightColor
-                        font.family: Theme.fontFamilyHeading
-                        readOnly: true
-                        textMargin: 0
-                        labelVisible: false
-                        wrapMode: TextEdit.WordWrap
-                    }
-
-                    Row {
-                        width: parent.width
-                        spacing: Theme.paddingLarge
-                        Label {
-                            text: author
-                            font.pixelSize: Theme.fontSizeMedium
-                            truncationMode: TruncationMode.Fade
-                            color: Theme.primaryColor
-                            bottomPadding: Theme.paddingLarge
-
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: {
-                                    YT.watchChannel(video.getChannelId())
-                                    pageStack.navigateBack()
-                                }
-                            }
-                        }
-
-                        Label {
-                            text: qsTr("%L1 views", '', viewCount).arg(viewCount)
-                            font.pixelSize: Theme.fontSizeMedium
-                            truncationMode: TruncationMode.Fade
-                            color: Theme.secondaryColor
-                            bottomPadding: Theme.paddingLarge
-                        }
-                    }
-
-
-                    TextArea {
-                        text: description
-                        width: page.width - Theme.paddingLarge*2
-//                        height: page.height/3
-                        readOnly: true
-                        textMargin: 0
-                        labelVisible: false
-                        wrapMode: TextEdit.WordWrap
-                    }
-                }
-            }
 
             Row {
                 id: playlist
                 width: parent.width
-                height: parent.height - videoPlayer.height - desc.height
+                height: parent.height - videoPlayer.height
                 NumberAnimation { id: anim; target: listView; property: "contentX"; duration: 500 }
-                SilicaListView {
-                    id: listView
+                SilicaFlickable {
                     width: parent.width
-                    height: parent.height
-                    spacing: Theme.paddingMedium
-                    model: YTPlaylist
+                    height: playlist.height
+                    contentHeight: (page.height - videoPlayer.height) + videoTitle.height + authorViews.height + videoDescription.height + progress.height/2
                     clip: true
-                    delegate: VideoElement {
-                        subPage: true
+                    Column {
+                        width: parent.width
+                        padding: Theme.paddingLarge
+                        TextArea {
+                            id: videoTitle
+                            text: title
+                            width: page.width - Theme.paddingLarge*2
+                            font.pixelSize: Theme.fontSizeLarge
+                            color: Theme.highlightColor
+                            font.family: Theme.fontFamilyHeading
+                            readOnly: true
+                            textMargin: 0
+                            labelVisible: false
+                            wrapMode: TextEdit.WordWrap
+                        }
+
+                        Row{
+                            width: parent.width
+                            rightPadding: Theme.paddingLarge
+                            Column {
+                                id: authorViews
+                                width: parent.width/2
+                                spacing: Theme.paddingSmall
+                                Label {
+                                    text: author
+                                    width: parent.width
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    truncationMode: TruncationMode.Fade
+                                    color: Theme.primaryColor
+
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        onClicked: {
+                                            YT.watchChannel(video.getChannelId())
+                                            pageStack.navigateBack()
+                                        }
+                                    }
+                                }
+
+                                Label {
+                                    text: qsTr("%L1 views", '', parseInt(video.viewCount)).arg(parseInt(video.viewCount))
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    truncationMode: TruncationMode.Fade
+                                    color: Theme.secondaryColor
+                                    bottomPadding: Theme.paddingLarge
+                                }
+                            }
+                            Button {
+                                property bool subscribed: video.isSubscribed(video.getChannelId())
+                                text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
+                                onClicked: {
+                                    YT.toggleSubscription()
+                                    subscribed = video.isSubscribed(video.getChannelId())
+                                }
+                            }
+                        }
+
+
+                        TextArea {
+                            id: videoDescription
+                            text: description
+                            width: page.width - Theme.paddingLarge*2
+                            readOnly: true
+                            textMargin: 0
+                            labelVisible: false
+                            wrapMode: TextEdit.WordWrap
+                        }
+
+                        SilicaFastListView {
+                            id: listView
+                            width: parent.width - Theme.paddingLarge
+                            height: page.height - videoPlayer.height
+                            maximumFlickVelocity: 9999
+                            spacing: Theme.paddingMedium
+                            model: YTPlaylist
+                            clip: true
+                            delegate: VideoElement {
+                                id: delegate
+                                subPage: true
+                            }
+                        }
                     }
                 }
             }

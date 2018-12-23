@@ -32,6 +32,7 @@ YT::YT(QObject *parent) : QObject(parent)
 {
     playlistModel = new PlaylistModel();
     channelModel = new ChannelModel();
+    connect(&downloader, SIGNAL (DownloadFinished(const QUrl&, const QString&)), this, SLOT (downloaded(const QUrl&, const QString&)));
     updateQuery();
 }
 
@@ -52,6 +53,11 @@ void YT::search(QString query) {
 
     SearchParams *searchParams = new SearchParams();
     searchParams->setKeywords(q);
+
+    if (getSafeSearch())
+        searchParams->setSafeSearch(SearchParams::Strict);
+    else
+        searchParams->setSafeSearch(SearchParams::None);
 
     // go!
     this->watch(searchParams);
@@ -230,4 +236,23 @@ void YT::itemActivated(int index) {
         videoSource->setUnwatched(true);
         setVideoSource(videoSource);
     }
+}
+
+void YT::setSafeSearch(bool value) {
+    QSettings settings;
+    settings.setValue("safeSearch", value);
+}
+
+bool YT::getSafeSearch() {
+    QSettings settings;
+    return settings.value("safeSearch", false).toBool();
+}
+
+void YT::download(QString url) {
+    downloader.Download(url, "/home/nemo/Downloads/" + playlistModel->activeVideo()->getTitle().replace("/", "") + ".mp4");
+}
+
+void YT::downloaded(QUrl url, QString name) {
+    qDebug()<<"downloaded to "<<name;
+    emit this->notifyDownloaded(url, name);
 }

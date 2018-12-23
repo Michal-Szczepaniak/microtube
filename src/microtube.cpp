@@ -29,6 +29,9 @@ $END_LICENSE */
 #include "yt.h"
 #include "video.h"
 #include "ytchannel.h"
+#include "volume/pulseaudiocontrol.h"
+#include "channelaggregator.h"
+#include "QEasyDownloader/include/QEasyDownloader.hpp"
 #include <QtQuick>
 
 int main(int argc, char *argv[])
@@ -40,8 +43,16 @@ int main(int argc, char *argv[])
 
     yt.registerObjectsInQml(view->rootContext());
 
+    PulseAudioControl pacontrol;
+    pacontrol.setVolume(5);
+
+    view->rootContext()->setContextProperty("pacontrol", &pacontrol);
+
+    view->rootContext()->setContextProperty("ChannelAggregator", ChannelAggregator::instance());
+    ChannelAggregator::instance()->run();
+    ChannelAggregator::instance()->updateUnwatchedCount();
+
     qmlRegisterType<Video>("com.verdanditeam.yt", 1, 0, "YtVideo");
-    qmlRegisterUncreatableType<YTChannel>("com.verdanditeam.ytchannel", 1, 0, "YtChannel", "static methods required");
 
     view->setSource(SailfishApp::pathTo("qml/microtube.qml"));
     view->show();

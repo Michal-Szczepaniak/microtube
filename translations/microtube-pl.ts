@@ -34,15 +34,28 @@
     </message>
     <message>
         <source>jgibbon for german translation and help.</source>
-        <translation type="unfinished"></translation>
+        <translation>jgibbon za Niemieckie tłumaczenie oraz pomoc.</translation>
     </message>
     <message>
         <source>carmenfdezb for spanish translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>carmenfdezb za Hiszpańskie tłumaczenie.</translation>
     </message>
     <message>
         <source>DylanVanAssche for help.</source>
-        <translation type="unfinished"></translation>
+        <translation>DylanVanAssche za pomoc.</translation>
+    </message>
+</context>
+<context>
+    <name>ChannelAggregator</name>
+    <message>
+        <source>By %1</source>
+        <translation>Do %1</translation>
+    </message>
+    <message numerus="yes">
+        <source>You have %n new video(s)</source>
+        <translatio>
+            <numerusform>Masz %n nowy(ch) film(ów)</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -101,6 +114,10 @@
         <source>About</source>
         <translation>O microtube</translation>
     </message>
+    <message>
+        <source>Settings</source>
+        <translation>Ustawienia</translation>
+    </message>
 </context>
 <context>
     <name>PlaylistModel</name>
@@ -118,7 +135,26 @@
     </message>
     <message>
         <source>No more videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie ma więcej filmów</translation>
+    </message>
+</context>
+<context>
+    <name>Settings</name>
+    <message>
+        <source>Settings</source>
+        <translation>Ustawienia</translation>
+    </message>
+    <message>
+        <source>Restricted mode (safe for kids)</source>
+        <translation>Bezpieczne wyszukiwanie (dla dzieci)</translation>
+    </message>
+    <message>
+        <source>Automatic change to next video</source>
+        <translation>Automatyczne przełączenie do następnego filmu</translation>
+    </message>
+    <message>
+        <source>Search for related videos</source>
+        <translation>Wyszukiwanie powiązanych filmów</translation>
     </message>
 </context>
 <context>
@@ -130,6 +166,10 @@
     <message>
         <source>Unsubscribe</source>
         <translation>Odsubskrybuj</translation>
+    </message>
+    <message>
+        <source>Mark all as watched</source>
+        <translation>Oznacz wszystkie jako obejrzane</translation>
     </message>
 </context>
 <context>
@@ -144,7 +184,7 @@
     </message>
     <message>
         <source>Copy url</source>
-        <translation type="unfinished">Kopiuj url</translation>
+        <translation>Kopiuj url</translation>
     </message>
 </context>
 <context>
@@ -198,6 +238,10 @@
     <message>
         <source>Copy url</source>
         <translation>Kopiuj url</translation>
+    </message>
+    <message>
+        <source>Download</source>
+        <translation>Pobierz</translation>
     </message>
 </context>
 <context>

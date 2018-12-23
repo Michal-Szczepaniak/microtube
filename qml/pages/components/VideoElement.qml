@@ -28,9 +28,12 @@ ListItem {
     menu: contextMenuComponent
 
     onClicked: {
-        if (video === undefined) return;
+        if (video === undefined) {
+            YTPlaylist.searchMore()
+            return;
+        }
+        ChannelAggregator.videoWatched(video)
         YTPlaylist.setActiveRow(index)
-        video.loadStreamUrl()
         if (!subPage)
             pageStack.push(Qt.resolvedUrl("../VideoPlayer.qml"),
                            { video: video, title: display, author: author, viewCount: viewCount, description: description })
@@ -44,7 +47,7 @@ ListItem {
             id: left
             width: listItem.width/2.3
             height: Theme.paddingLarge*8
-            leftPadding: Theme.paddingLarge
+            leftPadding: subPage ? 0 : Theme.paddingLarge
             topPadding: Theme.paddingSmall
             bottomPadding: Theme.paddingSmall
 
@@ -54,6 +57,7 @@ ListItem {
                 source: thumbnail !== undefined ? thumbnail : ""
                 asynchronous: true
                 cache: true
+                antialiasing: false
                 fillMode: Image.PreserveAspectFit
             }
         }
@@ -78,7 +82,7 @@ ListItem {
 
             Row {
                 Label {
-                    text: (published !== undefined ? published : "") + (viewCount !== undefined ? "  -  " + viewCount + " views" : "")
+                    text: (published !== undefined ? published : "") + (video !== undefined ? "  -  " + video.viewCount + " views" : "")
                     font.pixelSize: Theme.fontSizeExtraSmall
                 }
             }

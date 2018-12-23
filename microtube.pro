@@ -14,9 +14,15 @@ TARGET = microtube
 
 include(src/http/http.pri)
 
-CONFIG += sailfishapp
+CONFIG += link_pkgconfig sailfishapp
 
-QT += sql
+INCLUDEPATH += src/QEasyDownloader/include
+
+PKGCONFIG += \
+    dbus-1 \
+    dbus-glib-1
+
+QT += sql dbus network
 
 HEADERS += \
     src/ytsearch.h \
@@ -46,7 +52,10 @@ HEADERS += \
     src/playlistmodel.h \
     src/videomimedata.h \
     src/channelmodel.h \
-    src/aggregatevideosource.h
+    src/aggregatevideosource.h \
+    src/channelaggregator.h \
+    src/volume/pulseaudiocontrol.h \
+    src/QEasyDownloader/include/QEasyDownloader.hpp
 
 SOURCES += src/microtube.cpp \
     src/ytsearch.cpp \
@@ -75,7 +84,10 @@ SOURCES += src/microtube.cpp \
     src/playlistmodel.cpp \
     src/videomimedata.cpp \
     src/channelmodel.cpp \
-    src/aggregatevideosource.cpp
+    src/aggregatevideosource.cpp \
+    src/channelaggregator.cpp \
+    src/volume/pulseaudiocontrol.cpp \
+    src/QEasyDownloader/src/QEasyDownloader.cc
 
 DISTFILES += qml/microtube.qml \
     qml/cover/CoverPage.qml \
@@ -85,8 +97,16 @@ DISTFILES += qml/microtube.qml \
     qml/pages/About.qml \
     qml/pages/Main.qml \
     qml/pages/Subscriptions.qml \
+    qml/pages/Settings.qml \
     qml/pages/VideoPlayer.qml \
-    qml/pages/components/VideoElement.qml
+    qml/pages/components/VideoElement.qml \
+    qml/pages/components/SilicaFastListView.qml \
+    qml/pages/components/private/BoundsBehavior.qml \
+    qml/pages/components/private/FastScrollAnimation.js \
+    qml/pages/components/private/FastScrollAnimation.qml \
+    qml/pages/components/private/QuickScroll.qml \
+    qml/pages/components/private/QuickScrollArea.qml \
+    qml/pages/components/private/QuickScrollButton.qml
 
 RESOURCES += \
     qml/resources/resources.qrc
