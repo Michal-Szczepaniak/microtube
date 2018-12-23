@@ -312,7 +312,7 @@ Page {
                             else if ( error === MediaPlayer.FormatError ) errorMsg = qsTr("Error: Video or Audio format is not supported")
                             else if ( error === MediaPlayer.AccessDenied ) errorMsg = qsTr("Error: Access denied to the video")
                             else if ( error === MediaPlayer.NetworkError ) errorMsg = qsTr("Error: Network error")
-                            stop()
+                            nextVideo()
                         }
 
                         onBufferProgressChanged: {
