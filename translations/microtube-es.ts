@@ -35,28 +35,28 @@
     </message>
     <message>
         <source>jgibbon for german translation and help.</source>
-        <translation type="unfinished"></translation>
+        <translation>jgibbon por la traducción al alemán y su ayuda.</translation>
     </message>
     <message>
         <source>carmenfdezb for spanish translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>carmenfdezb por la traducción al español.</translation>
     </message>
     <message>
         <source>DylanVanAssche for help.</source>
-        <translation type="unfinished"></translation>
+        <translation>DylanVanAssche por su ayuda.</translation>
     </message>
 </context>
 <context>
     <name>ChannelAggregator</name>
     <message>
         <source>By %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Por %1</translation>
     </message>
     <message numerus="yes">
         <source>You have %n new video(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Tienes %n vídeo nuevo</numerusform>
+            <numerusform>Tienes %n vídeos nuevos</numerusform>
         </translation>
     </message>
 </context>
@@ -122,7 +122,7 @@
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustes</translation>
     </message>
 </context>
 <context>
@@ -148,19 +148,19 @@
     <name>Settings</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustes</translation>
     </message>
     <message>
         <source>Restricted mode (safe for kids)</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo restringido (seguro para niños)</translation>
     </message>
     <message>
         <source>Automatic change to next video</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambio automático al siguiente vídeo</translation>
     </message>
     <message>
         <source>Search for related videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar vídeos relacionados</translation>
     </message>
 </context>
 <context>
@@ -175,22 +175,22 @@
     </message>
     <message>
         <source>Mark all as watched</source>
-        <translation type="unfinished"></translation>
+        <translation>Marcar todos como vistos</translation>
     </message>
 </context>
 <context>
     <name>VideoElement</name>
     <message>
         <source>Unsubscribe</source>
-        <translation type="unfinished">Borrar suscripción</translation>
+        <translation>Borrar suscripción</translation>
     </message>
     <message>
         <source>Subscribe</source>
-        <translation type="unfinished">Suscribirse</translation>
+        <translation>Suscribirse</translation>
     </message>
     <message>
         <source>Copy url</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar url</translation>
     </message>
 </context>
 <context>
@@ -240,19 +240,19 @@
     </message>
     <message>
         <source>Unsubscribe</source>
-        <translation type="unfinished">Borrar suscripción</translation>
+        <translation>Borrar suscripción</translation>
     </message>
     <message>
         <source>Copy url</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar url</translation>
     </message>
     <message>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Descargar</translation>
     </message>
     <message>
         <source>Downloaded to</source>
-        <translation type="unfinished"></translation>
+        <translation>Descargado en</translation>
     </message>
 </context>
 <context>
