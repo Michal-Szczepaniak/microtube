@@ -128,6 +128,24 @@ Page {
                 linkColor: Theme.highlightColor
             }
 
+            Label {
+                text: qsTr("jgibbon for german translation and help.")
+                font.pixelSize: Theme.fontSizeSmall
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            Label {
+                text: qsTr("carmenfdezb for spanish translation.")
+                font.pixelSize: Theme.fontSizeSmall
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            Label {
+                text: qsTr("DylanVanAssche for help.")
+                font.pixelSize: Theme.fontSizeSmall
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
             Separator {
                 width: parent.width
                 color: Theme.primaryColor

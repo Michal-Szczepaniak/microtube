@@ -28,6 +28,7 @@ $END_LICENSE */
 #include "channelmodel.h"
 #include "searchparams.h"
 #include "ytvideo.h"
+#include <QEasyDownloader.hpp>
 
 class YT : public QObject
 {
@@ -49,6 +50,16 @@ public:
     Q_INVOKABLE void toggleSubscription();
     Q_INVOKABLE void updateQuery();
     Q_INVOKABLE void itemActivated(int index);
+    Q_INVOKABLE void setSafeSearch(bool value);
+    Q_INVOKABLE bool getSafeSearch();
+    Q_INVOKABLE void download(QString url);
+
+public slots:
+    void downloaded(QUrl url, QString name);
+
+signals:
+    void notifyDownloaded(QUrl url, QString name);
+
 private:
     SearchParams* getSearchParams();
     void searchAgain();
@@ -61,6 +72,7 @@ private:
     PlaylistModel* playlistModel;
     ChannelModel* channelModel;
     QVector<VideoSource*> history;
+    QEasyDownloader downloader;
 };
 
 #endif // YT_H

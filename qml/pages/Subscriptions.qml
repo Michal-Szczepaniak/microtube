@@ -30,6 +30,15 @@ Page {
         anchors.fill: parent
         flickableDirection: Flickable.VerticalFlick
 
+        PullDownMenu {
+            MenuItem {
+                text: qsTr("Mark all as watched")
+                onClicked: {
+                    ChannelAggregator.markAllAsWatched()
+                }
+            }
+        }
+
         PageHeader {
             id: header
             title: qsTr("Subscriptions")
@@ -61,6 +70,30 @@ Page {
                 onClicked: {
                     YT.itemActivated(index)
                     pageStack.navigateBack()
+                }
+
+                Rectangle {
+                    visible: index > 0 && ( ( index === 1 && ChannelAggregator.unwatchedCount > 0 ) || ( index > 1 && channel.notifyCount > 0 ) )
+                    anchors.right: picture.right
+                    anchors.top: picture.top
+                    anchors.topMargin: -height/2
+                    width: Theme.itemSizeExtraSmall/1.5
+                    height: width
+                    color: Theme.rgba(Theme.highlightBackgroundColor, 0.7)
+                    border.color: "transparent"
+                    border.width: 1
+                    radius: width*0.5
+                    z: 100
+                    Text {
+                        anchors.margins: Theme.paddingSmall
+                        anchors.fill: parent
+                        color: Theme.primaryColor
+                        text: index > 1 ? channel.notifyCount : ChannelAggregator.unwatchedCount
+                        font.pixelSize: Theme.fontSizeMedium
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        elide: Text.ElideRight
+                    }
                 }
 
                 Image {

@@ -34,8 +34,13 @@ Page {
             MenuItem {
                 text: qsTr("About")
                 onClicked: {
-                    YT.updateQuery()
                     pageStack.push(Qt.resolvedUrl("About.qml"))
+                }
+            }
+            MenuItem {
+                text: qsTr("Settings")
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("Settings.qml"))
                 }
             }
             MenuItem {
@@ -52,7 +57,7 @@ Page {
             title: qsTr("Search")
         }
 
-        SilicaListView {
+        SilicaFastListView {
             id: listView
             anchors.top: header.bottom
             anchors.left: parent.left

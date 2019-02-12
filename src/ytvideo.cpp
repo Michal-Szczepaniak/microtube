@@ -127,6 +127,7 @@ void YTVideo::gotVideoInfo(const QByteArray &bytes) {
 
 void YTVideo::parseFmtUrlMap(const QString &fmtUrlMap, bool fromWebPage) {
     const QString definitionName = QSettings().value("definition", "360p").toString();
+    qDebug() << definitionName;
     const VideoDefinition &definition = VideoDefinition::forName(definitionName);
 
     qDebug() << "fmtUrlMap" << fmtUrlMap;

@@ -32,6 +32,32 @@
  (used for porting SailfishOS)</source>
         <translation>Alle Spenden gehen an Verdanditeam-Geräte (für SailfishOS-Ports genutzt)</translation>
     </message>
+    <message>
+        <source>jgibbon for german translation and help.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>carmenfdezb for spanish translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DylanVanAssche for help.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChannelAggregator</name>
+    <message>
+        <source>By %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>You have %n new video(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>CoverPage</name>
@@ -93,6 +119,10 @@
         <source>About</source>
         <translation>Über</translation>
     </message>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PlaylistModel</name>
@@ -114,6 +144,25 @@
     </message>
 </context>
 <context>
+    <name>Settings</name>
+    <message>
+        <source>Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restricted mode (safe for kids)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automatic change to next video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search for related videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Subscriptions</name>
     <message>
         <source>Subscriptions</source>
@@ -122,6 +171,25 @@
     <message>
         <source>Unsubscribe</source>
         <translation>Abonnement beenden</translation>
+    </message>
+    <message>
+        <source>Mark all as watched</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VideoElement</name>
+    <message>
+        <source>Unsubscribe</source>
+        <translation type="unfinished">Abonnement beenden</translation>
+    </message>
+    <message>
+        <source>Subscribe</source>
+        <translation type="unfinished">Abonnieren</translation>
+    </message>
+    <message>
+        <source>Copy url</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -168,6 +236,22 @@
             <numerusform>%L1 Ansicht</numerusform>
             <numerusform>%L1 Ansichten</numerusform>
         </translation>
+    </message>
+    <message>
+        <source>Unsubscribe</source>
+        <translation type="unfinished">Abonnement beenden</translation>
+    </message>
+    <message>
+        <source>Copy url</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloaded to</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

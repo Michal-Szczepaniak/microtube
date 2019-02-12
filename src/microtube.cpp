@@ -29,6 +29,9 @@ $END_LICENSE */
 #include "yt.h"
 #include "video.h"
 #include "ytchannel.h"
+#include "volume/pulseaudiocontrol.h"
+#include "channelaggregator.h"
+#include "QEasyDownloader/include/QEasyDownloader.hpp"
 #include <QtQuick>
 
 int main(int argc, char *argv[])
@@ -39,6 +42,15 @@ int main(int argc, char *argv[])
     YT yt;
 
     yt.registerObjectsInQml(view->rootContext());
+
+    PulseAudioControl pacontrol;
+    pacontrol.setVolume(5);
+
+    view->rootContext()->setContextProperty("pacontrol", &pacontrol);
+
+    view->rootContext()->setContextProperty("ChannelAggregator", ChannelAggregator::instance());
+    ChannelAggregator::instance()->run();
+    ChannelAggregator::instance()->updateUnwatchedCount();
 
     qmlRegisterType<Video>("com.verdanditeam.yt", 1, 0, "YtVideo");
 

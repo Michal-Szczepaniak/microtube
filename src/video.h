@@ -24,13 +24,14 @@ $END_LICENSE */
 
 #include <QtCore>
 #include <QtGui>
+#include "ytchannel.h"
 
 class YTVideo;
 
 class Video : public QObject {
     Q_OBJECT
     Q_PROPERTY(const QUrl streamUrl READ getStreamUrl NOTIFY gotStreamUrl)
-    Q_PROPERTY(const QUrl streamUrl READ getStreamUrl NOTIFY gotStreamUrl)
+    Q_PROPERTY(int viewCount READ getViewCount WRITE setViewCount NOTIFY viewCountChanged)
 
 public:
     Video();
@@ -71,8 +72,8 @@ public:
     void setDuration(int value);
     Q_INVOKABLE QString getFormattedDuration() const { return formattedDuration; }
 
-    Q_INVOKABLE int getViewCount() const { return viewCount; }
-    void setViewCount(int value) { viewCount = value; }
+    int getViewCount() const { return viewCount; }
+    void setViewCount(int value) { viewCount = value; emit this->viewCountChanged(viewCount); }
 
     Q_INVOKABLE QDateTime getPublished() const { return published; }
     void setPublished(const QDateTime &value);
@@ -86,6 +87,8 @@ public:
     Q_INVOKABLE QString getId() const { return id; }
     void setId(const QString &value) { id = value; }
 
+    Q_INVOKABLE bool isSubscribed(const QString &value) { return YTChannel::isSubscribed(value); }
+
     License getLicense() const { return license; }
     void setLicense(License value) { license = value; }
 
@@ -93,8 +96,9 @@ signals:
     void gotThumbnail();
     void gotMediumThumbnail(const QByteArray &bytes);
     void gotLargeThumbnail(const QByteArray &bytes);
-    void gotStreamUrl(const QUrl &streamUrl);
+    void gotStreamUrl(const QUrl streamUrl);
     void errorStreamUrl(const QString &message);
+    void viewCountChanged(int viewCount);
 
 private slots:
     void setThumbnail(const QByteArray &bytes);

@@ -23,13 +23,17 @@ import com.verdanditeam.yt 1.0
 
 ListItem {
     id: listItem
-    height: Theme.paddingLarge*8
+//    height: Theme.paddingLarge*8
     contentHeight: Theme.paddingLarge*8
+    menu: contextMenuComponent
 
     onClicked: {
-        if (video === undefined) return;
+        if (video === undefined) {
+            YTPlaylist.searchMore()
+            return;
+        }
+        ChannelAggregator.videoWatched(video)
         YTPlaylist.setActiveRow(index)
-        video.loadStreamUrl()
         if (!subPage)
             pageStack.push(Qt.resolvedUrl("../VideoPlayer.qml"),
                            { video: video, title: display, author: author, viewCount: viewCount, description: description })
@@ -42,8 +46,8 @@ ListItem {
         Column {
             id: left
             width: listItem.width/2.3
-            height: listItem.height
-            leftPadding: Theme.paddingLarge
+            height: Theme.paddingLarge*8
+            leftPadding: subPage ? 0 : Theme.paddingLarge
             topPadding: Theme.paddingSmall
             bottomPadding: Theme.paddingSmall
 
@@ -53,13 +57,14 @@ ListItem {
                 source: thumbnail !== undefined ? thumbnail : ""
                 asynchronous: true
                 cache: true
+                antialiasing: false
                 fillMode: Image.PreserveAspectFit
             }
         }
 
         Column {
             width: listItem.width - left.width
-            height: listItem.height
+            height: Theme.paddingLarge*8
             padding: Theme.paddingLarge
 
             Label {
@@ -77,9 +82,28 @@ ListItem {
 
             Row {
                 Label {
-                    text: (published !== undefined ? published : "") + (viewCount !== undefined ? "  -  " + viewCount + " views" : "")
+                    text: (published !== undefined ? published : "") + (video !== undefined ? "  -  " + video.viewCount + " views" : "")
                     font.pixelSize: Theme.fontSizeExtraSmall
                 }
+            }
+        }
+    }
+
+    Component {
+        id: contextMenuComponent
+        ContextMenu {
+            id: contextMenu
+            MenuItem {
+                property bool subscribed: video.isSubscribed(video.getChannelId())
+                text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
+                onClicked: {
+                    YT.toggleSubscription()
+                    subscribed = video.isSubscribed(video.getChannelId())
+                }
+            }
+            MenuItem {
+                text: qsTr("Copy url")
+                onClicked: Clipboard.text = video.getWebpage()
             }
         }
     }

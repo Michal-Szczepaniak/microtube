@@ -92,6 +92,8 @@ public:
     void setVideoSource(VideoSource *videoSource);
     void abortSearch();
 
+    Q_INVOKABLE void findRecommended();
+
 public slots:
     Q_INVOKABLE void searchMore();
     void searchNeeded();
