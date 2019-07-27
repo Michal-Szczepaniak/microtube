@@ -33,6 +33,7 @@ YT::YT(QObject *parent) : QObject(parent)
     playlistModel = new PlaylistModel();
     channelModel = new ChannelModel();
     connect(&downloader, SIGNAL (DownloadFinished(const QUrl&, const QString&)), this, SLOT (downloaded(const QUrl&, const QString&)));
+    connect(&downloader, SIGNAL (DownloadProgress(qint64,qint64,int,double,const QString&,const QUrl&,const QString&)), this, SLOT (downloadProgressUpdate(qint64,qint64,int,double,const QString&,const QUrl&,const QString&)));
     updateQuery();
 }
 
@@ -249,10 +250,26 @@ bool YT::getSafeSearch() {
 }
 
 void YT::download(QString url) {
-    downloader.Download(url, "/home/nemo/Downloads/" + playlistModel->activeVideo()->getTitle().replace("/", "") + ".mp4");
+    QString name = playlistModel->activeVideo()->getTitle();
+    name = name.replace("/", "");
+    downloader.Download(url, "/home/nemo/Downloads/" + name + ".mp4");
+    downloadNotification.setSummary("Downloading: " + name);
+    downloadNotification.setHintValue("x-nemo-progress", 0);
+    downloadNotification.publish();
+    downloadNotificationId = downloadNotification.replacesId();
 }
 
 void YT::downloaded(QUrl url, QString name) {
     qDebug()<<"downloaded to "<<name;
+    downloadNotification.close();
+    downloadNotificationId = 0;
     emit this->notifyDownloaded(url, name);
+}
+
+void YT::downloadProgressUpdate(qint64 bytesReceived, qint64 bytesTotal, int nPercentage, double speed, const QString &unit, const QUrl &_URL, const QString &_qsFileName)
+{
+    downloadNotification.setHintValue("x-nemo-progress", ((double)nPercentage)/(double)100);
+    downloadNotification.setReplacesId(downloadNotificationId);
+    downloadNotification.publish();
+    emit downloadProgress(nPercentage);
 }

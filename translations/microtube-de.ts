@@ -28,11 +28,6 @@
         <translation>Spenden</translation>
     </message>
     <message>
-        <source>All donations go for Verdanditeam devices
- (used for porting SailfishOS)</source>
-        <translation>Alle Spenden gehen an Verdanditeam-Geräte (für SailfishOS-Ports genutzt)</translation>
-    </message>
-    <message>
         <source>jgibbon for german translation and help.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -91,18 +86,37 @@
         </translation>
     </message>
     <message numerus="yes">
-        <source>%n weeks(s) ago</source>
-        <translation>
-            <numerusform>Vor %n Woche</numerusform>
-            <numerusform>Vor %n Wochen</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
         <source>%n month(s) ago</source>
         <translation>
             <numerusform>Vor %n Monat</numerusform>
             <numerusform>Vor %n Monaten</numerusform>
         </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n week(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>K</source>
+        <comment>K as in Kilo, i.e. thousands</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>M</source>
+        <comment>M stands for Millions</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>B</source>
+        <comment>B stands for Billions</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 views</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -126,10 +140,6 @@
 </context>
 <context>
     <name>PlaylistModel</name>
-    <message>
-        <source>Searching...</source>
-        <translation>Suche…</translation>
-    </message>
     <message>
         <source>Show %1 More</source>
         <translation>Zeige %1 mehr</translation>
@@ -195,54 +205,19 @@
 <context>
     <name>VideoPlayer</name>
     <message>
+        <source>Downloaded to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>720p</source>
-        <translation>720p</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>480p</source>
-        <translation>480p</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>360p</source>
-        <translation>360p</translation>
-    </message>
-    <message>
-        <source>Subscribe</source>
-        <translation>Abonnieren</translation>
-    </message>
-    <message>
-        <source>Error: Problem with allocating resources</source>
-        <translation>Fehler: Problem mit Ressourcenzuteilung</translation>
-    </message>
-    <message>
-        <source>Error: Media service error</source>
-        <translation>Fehler: Mediendienstfehler</translation>
-    </message>
-    <message>
-        <source>Error: Video or Audio format is not supported</source>
-        <translation>Fehler: Video- oder Audioformat wird nicht unterstützt </translation>
-    </message>
-    <message>
-        <source>Error: Access denied to the video</source>
-        <translation>Fehler: Zugriff auf Video verweigert</translation>
-    </message>
-    <message>
-        <source>Error: Network error</source>
-        <translation>Fehler: Netzwerkfehler</translation>
-    </message>
-    <message numerus="yes">
-        <source>%L1 views</source>
-        <translation>
-            <numerusform>%L1 Ansicht</numerusform>
-            <numerusform>%L1 Ansichten</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Unsubscribe</source>
-        <translation type="unfinished">Abonnement beenden</translation>
-    </message>
-    <message>
-        <source>Copy url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -250,8 +225,36 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Downloaded to</source>
+        <source>Copy url</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Problem with allocating resources</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Media service error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Video or Audio format is not supported</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Access denied to the video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Network error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsubscribe</source>
+        <translation type="unfinished">Abonnement beenden</translation>
+    </message>
+    <message>
+        <source>Subscribe</source>
+        <translation type="unfinished">Abonnieren</translation>
     </message>
 </context>
 <context>

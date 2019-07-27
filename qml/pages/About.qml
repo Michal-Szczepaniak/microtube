@@ -54,12 +54,16 @@ Page {
                 text: "microtube"
                 font.pixelSize: Theme.fontSizeExtraLarge
                 anchors.horizontalCenter: parent.horizontalCenter
+                wrapMode: Text.WordWrap
             }
 
             Label {
                 text: qsTr("Made by Michał Szczepaniak. Based on minitube.")
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
+                wrapMode: Text.WordWrap
+                width: parent.width - Theme.paddingLarge*2
+                horizontalAlignment: Text.AlignHCenter
             }
 
             Label {
@@ -86,7 +90,7 @@ Page {
                 textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width
+                width: parent.width - Theme.paddingLarge*2
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 linkColor: Theme.highlightColor
@@ -98,7 +102,7 @@ Page {
                 textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width
+                width: parent.width - Theme.paddingLarge*2
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 linkColor: Theme.highlightColor
@@ -122,7 +126,7 @@ Page {
                 textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width
+                width: parent.width - Theme.paddingLarge*2
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 linkColor: Theme.highlightColor
@@ -156,6 +160,7 @@ Page {
                 text: qsTr("Donate")
                 font.pixelSize: Theme.fontSizeLarge
                 anchors.horizontalCenter: parent.horizontalCenter
+                wrapMode: Text.WordWrap
             }
 
             Text {
@@ -164,17 +169,10 @@ Page {
                 textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width
+                width: parent.width - Theme.paddingLarge*2
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 linkColor: Theme.highlightColor
-            }
-
-            Label {
-                text: qsTr("All donations go for Verdanditeam devices\n (used for porting SailfishOS)")
-                font.pixelSize: Theme.fontSizeSmall
-                horizontalAlignment: Text.AlignHCenter
-                anchors.horizontalCenter: parent.horizontalCenter
             }
 
        }

@@ -62,7 +62,7 @@ ListView {
     pixelAligned: true
     pressDelay: 50
     flickDeceleration: Theme.flickDeceleration
-    maximumFlickVelocity: Theme.maximumFlickVelocity * 90
+    maximumFlickVelocity: Theme.maximumFlickVelocity * 140
     cacheBuffer: Theme.itemSizeMedium * 8
     boundsBehavior: (pullDownMenu && pullDownMenu._activationPermitted) || (pushUpMenu && pushUpMenu._activationPermitted) ? Flickable.DragOverBounds : Flickable.StopAtBounds
 

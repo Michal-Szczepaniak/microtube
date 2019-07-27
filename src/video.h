@@ -31,7 +31,8 @@ class YTVideo;
 class Video : public QObject {
     Q_OBJECT
     Q_PROPERTY(const QUrl streamUrl READ getStreamUrl NOTIFY gotStreamUrl)
-    Q_PROPERTY(int viewCount READ getViewCount WRITE setViewCount NOTIFY viewCountChanged)
+    Q_PROPERTY(const QUrl audioStreamUrl READ getStreamUrl NOTIFY gotStreamUrl)
+    Q_PROPERTY(const QString viewCount READ getFormattedViewCount NOTIFY viewCountChanged)
 
 public:
     Video();
@@ -73,16 +74,19 @@ public:
     Q_INVOKABLE QString getFormattedDuration() const { return formattedDuration; }
 
     int getViewCount() const { return viewCount; }
-    void setViewCount(int value) { viewCount = value; emit this->viewCountChanged(viewCount); }
+    void setViewCount(int value);
+    Q_INVOKABLE QString getFormattedViewCount() const { return formattedViewCount; }
 
     Q_INVOKABLE QDateTime getPublished() const { return published; }
     void setPublished(const QDateTime &value);
     Q_INVOKABLE QString getFormattedPublished() const { return formattedPublished; }
 
-    int getDefinitionCode() const { return definitionCode; }
+    Q_INVOKABLE int getDefinitionCode() const { return definitionCode; }
 
     Q_INVOKABLE void loadStreamUrl();
-    Q_INVOKABLE QUrl getStreamUrl() { return streamUrl; }
+    Q_INVOKABLE QString getStreamUrl() { return streamUrl; }
+    Q_INVOKABLE bool isLoadingStreamUrl() const { return ytVideo != nullptr; }
+    Q_INVOKABLE void abortLoadStreamUrl();
 
     Q_INVOKABLE QString getId() const { return id; }
     void setId(const QString &value) { id = value; }
@@ -96,13 +100,13 @@ signals:
     void gotThumbnail();
     void gotMediumThumbnail(const QByteArray &bytes);
     void gotLargeThumbnail(const QByteArray &bytes);
-    void gotStreamUrl(const QUrl streamUrl);
+    void gotStreamUrl(const QString &videoUrl, const QString &audioUrl);
     void errorStreamUrl(const QString &message);
     void viewCountChanged(int viewCount);
 
 private slots:
     void setThumbnail(const QByteArray &bytes);
-    void streamUrlLoaded(const QUrl &streamUrl);
+    void streamUrlLoaded(const QString &streamUrl, const QString &audioUrl);
 
 private:
     QString title;
@@ -110,7 +114,8 @@ private:
     QString channelTitle;
     QString channelId;
     QString webpage;
-    QUrl streamUrl;
+    QString streamUrl;
+    QString audioStreamUrl;
     QPixmap thumbnail;
     QString thumbnailUrl;
     QString mediumThumbnailUrl;
@@ -121,6 +126,7 @@ private:
     QDateTime published;
     QString formattedPublished;
     int viewCount;
+    QString formattedViewCount;
     License license;
     QString id;
     int definitionCode;

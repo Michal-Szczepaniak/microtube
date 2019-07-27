@@ -20,7 +20,7 @@ along with Minitube.  If not, see <http://www.gnu.org/licenses/>.
 $END_LICENSE */
 
 #include "playlistmodel.h"
-//#include "mediaview.h"
+#include "mediaview.h"
 #include "searchparams.h"
 #include "video.h"
 #include "videomimedata.h"
@@ -28,16 +28,18 @@ $END_LICENSE */
 #include "ytsearch.h"
 #include "ytsinglevideosource.h"
 
-static const int maxItems = 50;
-static const QString recentKeywordsKey = "recentKeywords";
-static const QString recentChannelsKey = "recentChannels";
+namespace {
+const int maxItems = 50;
+const QString recentKeywordsKey = "recentKeywords";
+const QString recentChannelsKey = "recentChannels";
+} // namespace
 
-PlaylistModel::PlaylistModel(QObject *parent) : QAbstractListModel(parent) {
-    videoSource = 0;
+PlaylistModel::PlaylistModel(QWidget *parent) : QAbstractListModel(parent) {
+    videoSource = nullptr;
     searching = false;
     canSearchMore = true;
     firstSearch = false;
-    m_activeVideo = 0;
+    m_activeVideo = nullptr;
     m_activeRow = -1;
     startIndex = 1;
     max = 0;
@@ -50,9 +52,9 @@ int PlaylistModel::rowCount(const QModelIndex & /*parent*/) const {
     int count = videos.size();
 
     // add the message item
-//    if (videos.isEmpty() || !searching) count++;
+    if (videos.isEmpty() || !searching) count++;
 
-    return count+1;
+    return count;
 }
 
 QVariant PlaylistModel::data(const QModelIndex &index, int role) const {
@@ -66,8 +68,8 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const {
             return ItemTypeShowMore;
         case Qt::DisplayRole:
             if (!errorMessage.isEmpty()) return errorMessage;
-            if (searching) return tr("Searching...");
-            if (canSearchMore && !videos.isEmpty()) return tr("Show %1 More").arg("").simplified();
+            if (searching) return QString(); // tr("Searching...");
+            if (canSearchMore) return tr("Show %1 More").arg("").simplified();
             if (videos.isEmpty())
                 return tr("No videos");
             else
@@ -130,6 +132,7 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const {
 void PlaylistModel::setActiveRow(int row, bool notify) {
     if (rowExists(row)) {
         m_activeRow = row;
+        Video *previousVideo = m_activeVideo;
         m_activeVideo = videoAt(row);
 
         int oldactiverow = m_activeRow;
@@ -139,15 +142,11 @@ void PlaylistModel::setActiveRow(int row, bool notify) {
                              createIndex(oldactiverow, columnCount() - 1));
 
         emit dataChanged(createIndex(m_activeRow, 0), createIndex(m_activeRow, columnCount() - 1));
-        if (notify) emit activeRowChanged(row);
+        if (notify) emit activeVideoChanged(m_activeVideo, previousVideo);
 
-    } else if (row == videos.count() && videos.count() != 0) {
-        searchMore();
-    }
-
-    else {
+    } else {
         m_activeRow = -1;
-        m_activeVideo = 0;
+        m_activeVideo = nullptr;
     }
 }
 
@@ -174,7 +173,7 @@ bool PlaylistModel::nextRowExists()  {
 
 Video *PlaylistModel::videoAt(int row) const {
     if (rowExists(row)) return videos.at(row);
-    return 0;
+    return nullptr;
 }
 
 Video *PlaylistModel::activeVideo() const {
@@ -183,9 +182,14 @@ Video *PlaylistModel::activeVideo() const {
 
 void PlaylistModel::setVideoSource(VideoSource *videoSource) {
     beginResetModel();
-    while (!videos.isEmpty())
-        delete videos.takeFirst();
-    m_activeVideo = 0;
+
+    qDeleteAll(videos);
+    videos.clear();
+
+    qDeleteAll(deletedVideos);
+    deletedVideos.clear();
+
+    m_activeVideo = nullptr;
     m_activeRow = -1;
     startIndex = 1;
     endResetModel();
@@ -195,12 +199,19 @@ void PlaylistModel::setVideoSource(VideoSource *videoSource) {
             Qt::UniqueConnection);
     connect(videoSource, SIGNAL(finished(int)), SLOT(searchFinished(int)), Qt::UniqueConnection);
     connect(videoSource, SIGNAL(error(QString)), SLOT(searchError(QString)), Qt::UniqueConnection);
+    connect(videoSource, &QObject::destroyed, this,
+            [this, videoSource] {
+                if (this->videoSource == videoSource) {
+                    this->videoSource = nullptr;
+                }
+            },
+            Qt::UniqueConnection);
 
     searchMore();
 }
 
 void PlaylistModel::searchMore(int max) {
-    if (searching) return;
+    if (videoSource == nullptr || searching) return;
     searching = true;
     firstSearch = startIndex == 1;
     this->max = max;
@@ -210,8 +221,7 @@ void PlaylistModel::searchMore(int max) {
 }
 
 void PlaylistModel::searchMore() {
-    if(videoSource != nullptr)
-        searchMore(maxItems);
+    searchMore(maxItems);
 }
 
 void PlaylistModel::searchNeeded() {
@@ -229,7 +239,7 @@ void PlaylistModel::abortSearch() {
     videos.squeeze();
     searching = false;
     m_activeRow = -1;
-    m_activeVideo = 0;
+    m_activeVideo = nullptr;
     startIndex = 1;
     endResetModel();
 }
@@ -325,7 +335,7 @@ void PlaylistModel::updateVideoSender() {
 
 void PlaylistModel::emitDataChanged() {
     QModelIndex index = createIndex(rowCount() - 1, 0);
-    emit dataChanged(createIndex(0, 0), index);
+    emit dataChanged(index, index);
 }
 
 // --- item removal
@@ -333,7 +343,7 @@ void PlaylistModel::emitDataChanged() {
 bool PlaylistModel::removeRows(int position, int rows, const QModelIndex & /*parent*/) {
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
     for (int row = 0; row < rows; ++row) {
-        videos.takeAt(position);
+        Video *video = videos.takeAt(position);
     }
     endRemoveRows();
     return true;
@@ -341,21 +351,21 @@ bool PlaylistModel::removeRows(int position, int rows, const QModelIndex & /*par
 
 void PlaylistModel::removeIndexes(QModelIndexList &indexes) {
     QVector<Video *> originalList(videos);
-    QVector<Video *> delitems;
-    delitems.reserve(indexes.size());
     for (const QModelIndex &index : indexes) {
         if (index.row() >= originalList.size()) continue;
         Video *video = originalList.at(index.row());
         int idx = videos.indexOf(video);
         if (idx != -1) {
             beginRemoveRows(QModelIndex(), idx, idx);
-            delitems.append(video);
+            deletedVideos.append(video);
+            if (m_activeVideo == video) {
+                m_activeVideo = nullptr;
+                m_activeRow = -1;
+            }
             videos.removeAll(video);
-            video->deleteLater();
             endRemoveRows();
         }
     }
-    qDeleteAll(delitems);
     videos.squeeze();
 }
 
@@ -562,7 +572,7 @@ QHash<int, QByteArray> PlaylistModel::roleNames() const {
 }
 
 void PlaylistModel::findRecommended() {
-    Video *video = this->activeVideo();
+   Video *video = this->activeVideo();
     if (!video) return;
     YTSingleVideoSource *singleVideoSource = new YTSingleVideoSource();
     singleVideoSource->setVideo(video->clone());

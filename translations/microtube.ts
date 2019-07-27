@@ -28,11 +28,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All donations go for Verdanditeam devices
- (used for porting SailfishOS)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>jgibbon for german translation and help.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -88,16 +83,35 @@
         </translation>
     </message>
     <message numerus="yes">
-        <source>%n weeks(s) ago</source>
+        <source>%n month(s) ago</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <source>%n month(s) ago</source>
+        <source>%n week(s) ago</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
+    </message>
+    <message>
+        <source>K</source>
+        <comment>K as in Kilo, i.e. thousands</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>M</source>
+        <comment>M stands for Millions</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>B</source>
+        <comment>B stands for Billions</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 views</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -121,10 +135,6 @@
 </context>
 <context>
     <name>PlaylistModel</name>
-    <message>
-        <source>Searching...</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Show %1 More</source>
         <translation type="unfinished"></translation>
@@ -190,6 +200,10 @@
 <context>
     <name>VideoPlayer</name>
     <message>
+        <source>Downloaded to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>720p</source>
         <translation type="unfinished"></translation>
     </message>
@@ -202,7 +216,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Subscribe</source>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy url</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -225,26 +243,12 @@
         <source>Error: Network error</source>
         <translation type="unfinished"></translation>
     </message>
-    <message numerus="yes">
-        <source>%L1 views</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
     <message>
         <source>Unsubscribe</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copy url</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Download</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Downloaded to</source>
+        <source>Subscribe</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

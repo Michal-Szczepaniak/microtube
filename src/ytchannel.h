@@ -29,7 +29,7 @@ $END_LICENSE */
 class YTChannel : public QObject {
 
     Q_OBJECT
-    Q_PROPERTY(int notifyCount READ getNotifyCount WRITE setNotifyCount NOTIFY notifyCountChanged)
+    Q_PROPERTY(int notifyCount READ getNotifyCount NOTIFY notifyCountChanged)
 
 public:
     static YTChannel* forId(const QString &channelId);
@@ -47,7 +47,7 @@ public:
     void setWatched(uint watched) { this->watched = watched; }
 
     int getNotifyCount() const { return notifyCount; }
-    void setNotifyCount(int count) { notifyCount = count; }
+    void setNotifyCount(int count) { notifyCount = count; emit this->notifyCountChanged(); }
     void storeNotifyCount(int count);
     bool updateNotifyCount();
 

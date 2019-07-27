@@ -22,18 +22,17 @@ $END_LICENSE */
 #ifndef JSFUNCTIONS_H
 #define JSFUNCTIONS_H
 
-#include <QtCore>
-#include <QtNetwork>
 #include <QJSEngine>
 #include <QJSValue>
+#include <QtCore>
+#include <QtNetwork>
 
 class JsFunctions : public QObject {
-
     Q_OBJECT
 
 public:
-    static JsFunctions* instance();
-    JsFunctions(const QString &url, QObject *parent = 0);
+    static JsFunctions *instance();
+    JsFunctions(const QString &url, QObject *parent = nullptr);
     QJSValue evaluate(const QString &js);
     QString string(const QString &js);
     QStringList stringArray(const QString &js);
@@ -49,6 +48,7 @@ public:
     QString ageGateRE();
     QString jsPlayerRE();
     QString signatureFunctionNameRE();
+    QStringList signatureFunctionNameREs();
     QStringList apiKeys();
 
 signals:

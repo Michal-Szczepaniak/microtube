@@ -14,15 +14,16 @@ TARGET = microtube
 
 include(src/http/http.pri)
 
-CONFIG += link_pkgconfig sailfishapp
+CONFIG += link_pkgconfig nemonotifications-qt5 sailfishapp
 
 INCLUDEPATH += src/QEasyDownloader/include
 
 PKGCONFIG += \
     dbus-1 \
-    dbus-glib-1
+    dbus-glib-1 \
+    nemonotifications-qt5
 
-QT += sql dbus network
+QT += sql dbus network widgets
 
 HEADERS += \
     src/ytsearch.h \
@@ -55,7 +56,9 @@ HEADERS += \
     src/aggregatevideosource.h \
     src/channelaggregator.h \
     src/volume/pulseaudiocontrol.h \
-    src/QEasyDownloader/include/QEasyDownloader.hpp
+    src/QEasyDownloader/include/QEasyDownloader.hpp \
+    src/mainwindow.h \
+    src/mediaview.h
 
 SOURCES += src/microtube.cpp \
     src/ytsearch.cpp \
@@ -106,7 +109,8 @@ DISTFILES += qml/microtube.qml \
     qml/pages/components/private/FastScrollAnimation.qml \
     qml/pages/components/private/QuickScroll.qml \
     qml/pages/components/private/QuickScrollArea.qml \
-    qml/pages/components/private/QuickScrollButton.qml
+    qml/pages/components/private/QuickScrollButton.qml \
+    qml/pages/components/private/HighlightImage.qml
 
 RESOURCES += \
     qml/resources/resources.qrc

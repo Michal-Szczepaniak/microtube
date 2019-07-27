@@ -22,9 +22,7 @@ $END_LICENSE */
 #ifndef PLAYLISTMODEL_H
 #define PLAYLISTMODEL_H
 
-#include <QAbstractListModel>
-#include <QMutex>
-
+#include <QtWidgets>
 
 class Video;
 class VideoSource;
@@ -46,49 +44,51 @@ enum DataRoles {
     DescriptionRole
 };
 
-enum ItemTypes {
-    ItemTypeVideo = 1,
-    ItemTypeShowMore
-};
+enum ItemTypes { ItemTypeVideo = 1, ItemTypeShowMore };
 
 class PlaylistModel : public QAbstractListModel {
-
     Q_OBJECT
 
 public:
-    PlaylistModel(QObject *parent = 0);
+    PlaylistModel(QWidget *parent = 0);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int columnCount( const QModelIndex& parent = QModelIndex() ) const { Q_UNUSED( parent ); return 4; }
+    int columnCount(const QModelIndex &parent = QModelIndex()) const {
+        Q_UNUSED(parent);
+        return 4;
+    }
     QVariant data(const QModelIndex &index, int role) const;
+    QHash<int, QByteArray> roleNames() const;
     bool removeRows(int position, int rows, const QModelIndex &parent);
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QStringList mimeTypes() const;
     Qt::DropActions supportedDropActions() const;
     Qt::DropActions supportedDragActions() const;
-    QMimeData* mimeData( const QModelIndexList &indexes ) const;
+    QMimeData *mimeData(const QModelIndexList &indexes) const;
     bool dropMimeData(const QMimeData *data,
-                      Qt::DropAction action, int row, int column,
+                      Qt::DropAction action,
+                      int row,
+                      int column,
                       const QModelIndex &parent);
 
-    Q_INVOKABLE void setActiveRow(int row , bool notify = true);
-    bool rowExists( int row ) const { return (( row >= 0 ) && ( row < videos.size() ) ); }
+    Q_INVOKABLE void setActiveRow(int row, bool notify = true);
+    Q_INVOKABLE bool rowExists(int row) const { return ((row >= 0) && (row < videos.size())); }
     Q_INVOKABLE int activeRow() const { return m_activeRow; } // returns -1 if there is no active row
     Q_INVOKABLE int nextRow() const;
     Q_INVOKABLE int previousRow() const;
+    void removeIndexes(QModelIndexList &indexes);
     Q_INVOKABLE bool nextRowExists();
     Q_INVOKABLE bool previousRowExists() const;
-    void removeIndexes(QModelIndexList &indexes);
-    int rowForVideo(Video* video);
-    QModelIndex indexForVideo(Video* video);
+    int rowForVideo(Video *video);
+    QModelIndex indexForVideo(Video *video);
     void move(QModelIndexList &indexes, bool up);
 
-    Q_INVOKABLE Video* videoAt( int row ) const;
-    Video* activeVideo() const;
+    Q_INVOKABLE Video *videoAt(int row) const;
+    Video *activeVideo() const;
     int rowForCloneVideo(const QString &videoId) const;
 
-    VideoSource* getVideoSource() { return videoSource; }
+    VideoSource *getVideoSource() { return videoSource; }
     void setVideoSource(VideoSource *videoSource);
     void abortSearch();
 
@@ -113,15 +113,12 @@ public slots:
     void exitAuthorPressed();
 
 signals:
-    void activeRowChanged(int);
-    void needSelectionFor(const QVector<Video*> &videos);
+    void activeVideoChanged(Video *video, Video *previousVideo);
+    void needSelectionFor(const QVector<Video *> &videos);
     void haveSuggestions(const QStringList &suggestions);
 
-protected:
-    QHash<int, QByteArray> roleNames() const;
-
 private:
-    void handleFirstVideo(Video* video);
+    void handleFirstVideo(Video *video);
     void searchMore(int max);
 
     VideoSource *videoSource;
@@ -129,7 +126,8 @@ private:
     bool canSearchMore;
     bool firstSearch;
 
-    QVector<Video*> videos;
+    QVector<Video *> videos;
+    QVector<Video *> deletedVideos;
     int startIndex;
     int max;
 

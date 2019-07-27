@@ -22,40 +22,50 @@ $END_LICENSE */
 #include "videodefinition.h"
 
 namespace {
-static const int kEmptyDefinitionCode = -1;
-
-static const VideoDefinition kEmptyDefinition(QString(), kEmptyDefinitionCode);
+const int kEmptyDefinitionCode = -1;
 
 template <typename T, T (VideoDefinition::*Getter)() const>
 const VideoDefinition &getDefinitionForImpl(T matchValue) {
     const auto &defs = VideoDefinition::getDefinitions();
+
+    for (auto i = defs.rbegin(); i != defs.rend(); ++i) {
+        if ((*i.*Getter)() == matchValue) return *i;
+    }
+    /*
     for (const VideoDefinition &def : defs) {
         if ((def.*Getter)() == matchValue) return def;
     }
+    */
+    static const VideoDefinition kEmptyDefinition(QString(), kEmptyDefinitionCode);
     return kEmptyDefinition;
 }
-}
+} // namespace
 
-// static
 const QVector<VideoDefinition> &VideoDefinition::getDefinitions() {
+    // List preferred equivalent format last:
+    // algo selects the last format with same name first
     static const QVector<VideoDefinition> definitions = {
-            VideoDefinition(QLatin1String("360p"), 18), VideoDefinition(QLatin1String("720p"), 22),
-            VideoDefinition(QLatin1String("1080p"), 37)};
+            VideoDefinition("360p", 18, true), VideoDefinition("720p", 22, true)
+    };
     return definitions;
 }
 
-// static
+const QVector<QString> &VideoDefinition::getDefinitionNames() {
+    static const QVector<QString> names = {"480p", "720p", "1080p", "1440p", "2160p"};
+    return names;
+}
+
 const VideoDefinition &VideoDefinition::forName(const QString &name) {
     return getDefinitionForImpl<const QString &, &VideoDefinition::getName>(name);
 }
 
-// static
 const VideoDefinition &VideoDefinition::forCode(int code) {
     return getDefinitionForImpl<int, &VideoDefinition::getCode>(code);
 }
 
-VideoDefinition::VideoDefinition(const QString &name, int code) : m_name(name), m_code(code) {}
+VideoDefinition::VideoDefinition(const QString &name, int code, bool hasAudioStream)
+    : name(name), code(code), hasAudioStream(hasAudioStream) {}
 
 bool VideoDefinition::isEmpty() const {
-    return m_code == kEmptyDefinitionCode && m_name.isEmpty();
+    return code == kEmptyDefinitionCode && name.isEmpty();
 }

@@ -29,7 +29,7 @@ $END_LICENSE */
 
 Video::Video()
     : duration(0), viewCount(-1), license(LicenseYouTube), definitionCode(0),
-      loadingThumbnail(false), ytVideo(0) {}
+      loadingThumbnail(false), ytVideo(nullptr) {}
 
 Video::~Video() {
     qDebug() << "Deleting" << id;
@@ -51,6 +51,7 @@ Video *Video::clone() {
     clone->published = published;
     clone->formattedPublished = formattedPublished;
     clone->viewCount = viewCount;
+    clone->formattedViewCount = formattedViewCount;
     clone->id = id;
     clone->definitionCode = definitionCode;
     return clone;
@@ -90,6 +91,12 @@ void Video::setDuration(int value) {
     formattedDuration = DataUtils::formatDuration(duration);
 }
 
+void Video::setViewCount(int value) {
+    viewCount = value;
+    formattedViewCount = DataUtils::formatCount(viewCount);
+    emit this->viewCountChanged(viewCount);
+}
+
 void Video::setPublished(const QDateTime &value) {
     published = value;
     formattedPublished = DataUtils::formatDateTime(published);
@@ -106,12 +113,14 @@ void Video::setThumbnail(const QByteArray &bytes) {
     loadingThumbnail = false;
 }
 
-void Video::streamUrlLoaded(const QUrl &streamUrl) {
+void Video::streamUrlLoaded(const QString &streamUrl, const QString &audioUrl) {
+    qDebug() << "Streams loaded";
     definitionCode = ytVideo->getDefinitionCode();
     this->streamUrl = streamUrl;
-    emit gotStreamUrl(this->streamUrl);
-    delete ytVideo;
-    ytVideo = 0;
+    this->audioStreamUrl = audioUrl;
+    emit gotStreamUrl(streamUrl, audioUrl);
+    ytVideo->deleteLater();
+    ytVideo = nullptr;
 }
 
 void Video::loadStreamUrl() {
@@ -121,7 +130,18 @@ void Video::loadStreamUrl() {
     }
     ytVideo = new YTVideo(id, this);
     connect(ytVideo, &YTVideo::gotStreamUrl, this, &Video::streamUrlLoaded);
-    connect(ytVideo, &YTVideo::errorStreamUrl, this, &Video::errorStreamUrl);
-    connect(ytVideo, &YTVideo::errorStreamUrl, ytVideo, &QObject::deleteLater);
+    connect(ytVideo, &YTVideo::errorStreamUrl, this, [this](const QString &msg) {
+        emit errorStreamUrl(msg);
+        ytVideo->deleteLater();
+        ytVideo = nullptr;
+    });
     ytVideo->loadStreamUrl();
+}
+
+void Video::abortLoadStreamUrl() {
+    if (ytVideo) {
+        ytVideo->disconnect(this);
+        ytVideo->deleteLater();
+        ytVideo = nullptr;
+    }
 }

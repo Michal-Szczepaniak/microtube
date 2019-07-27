@@ -1,24 +1,3 @@
-/* $BEGIN_LICENSE
-
-This file is part of Minitube.
-Copyright 2009, Flavio Tordini <flavio.tordini@gmail.com>
-Copyright 2018, Michał Szczepaniak <m.szczepaniak.000@gmail.com>
-
-Minitube is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Minitube is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Minitube.  If not, see <http://www.gnu.org/licenses/>.
-
-$END_LICENSE */
-
 #include "datautils.h"
 
 QString DataUtils::stringToFilename(const QString &s) {
@@ -93,7 +72,7 @@ QString DataUtils::formatDateTime(const QDateTime &dt) {
         s = QCoreApplication::translate("DataUtils", "%n day(s) ago", Q_NULLPTR, n);
     } else if (seconds < (f = 60 * 60 * 24 * 30)) {
         int n = seconds / (60 * 60 * 24 * 7);
-        s = QCoreApplication::translate("DataUtils", "%n weeks(s) ago", Q_NULLPTR, n);
+        s = QCoreApplication::translate("DataUtils", "%n week(s) ago", Q_NULLPTR, n);
     } else if (seconds < (f = 60 * 60 * 24 * 365)) {
         int n = seconds / (60 * 60 * 24 * 30);
         s = QCoreApplication::translate("DataUtils", "%n month(s) ago", Q_NULLPTR, n);
@@ -113,4 +92,28 @@ QString DataUtils::formatDuration(uint secs) {
     uint hours = d % 24;
     if (hours == 0) return res.sprintf("%d:%02d", minutes, seconds);
     return res.sprintf("%d:%02d:%02d", hours, minutes, seconds);
+}
+
+QString DataUtils::formatCount(int c) {
+    QString s;
+    int f = 1;
+    if (c < 1) {
+        return s;
+    } else if (c < (f *= 1000)) {
+        s = QString::number(c);
+    } else if (c < (f *= 1000)) {
+        int n = c / 1000;
+        s = QString::number(n) +
+            QCoreApplication::translate("DataUtils", "K", "K as in Kilo, i.e. thousands");
+    } else if (c < (f *= 1000)) {
+        int n = c / (1000 * 1000);
+        s = QString::number(n) +
+            QCoreApplication::translate("DataUtils", "M", "M stands for Millions");
+    } else {
+        int n = c / (1000 * 1000 * 1000);
+        s = QString::number(n) +
+            QCoreApplication::translate("DataUtils", "B", "B stands for Billions");
+    }
+
+    return QCoreApplication::translate("DataUtils", "%1 views").arg(s);
 }
