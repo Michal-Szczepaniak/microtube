@@ -27,7 +27,6 @@ import com.jolla.settings.system 1.0
 import org.nemomobile.systemsettings 1.0
 import org.nemomobile.configuration 1.0
 import Nemo.Notifications 1.0
-import QtGStreamer 1.0
 import "components"
 
 Page {
