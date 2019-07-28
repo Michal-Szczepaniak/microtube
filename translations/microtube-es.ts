@@ -206,7 +206,7 @@
     <name>VideoPlayer</name>
     <message>
         <source>Downloaded to</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Descargado en</translation>
     </message>
     <message>
         <source>720p</source>
@@ -222,11 +222,11 @@
     </message>
     <message>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Descargar</translation>
     </message>
     <message>
         <source>Copy url</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Copiar url</translation>
     </message>
     <message>
         <source>Error: Problem with allocating resources</source>
@@ -255,18 +255,6 @@
     <message>
         <source>Subscribe</source>
         <translation type="unfinished">Suscribirse</translation>
-    </message>
-    <message>
-        <source>Copy url</source>
-        <translation>Copiar url</translation>
-    </message>
-    <message>
-        <source>Download</source>
-        <translation>Descargar</translation>
-    </message>
-    <message>
-        <source>Downloaded to</source>
-        <translation>Descargado en</translation>
     </message>
 </context>
 <context>
