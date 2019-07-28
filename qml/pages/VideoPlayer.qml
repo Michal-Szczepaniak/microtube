@@ -397,11 +397,18 @@ Page {
                             property int lambdaBrightnessStep: -1
                             property int currentVolume: -1
 
+                            Timer{
+                                id: doubleClickTimer
+                                interval: 200
+                            }
+
                             function calculateStep(mouse) {
                                 return Math.round((offsetHeight - (mouse.y-offset)) / step)
                             }
 
                             onReleased: {
+                                if (doubleClickTimer.running) doubleClicked(mouse)
+                                if (!doubleClickTimer.running) doubleClickTimer.start()
                                 if (!stepChanged) _controlsVisible = !_controlsVisible
 
                                 if ( landscape ) {
@@ -417,6 +424,26 @@ Page {
                                     pacontrol.update()
                                     flickable.flickableDirection = Flickable.HorizontalFlick
                                     lambdaBrightnessStep = lambdaVolumeStep = calculateStep(mouse)
+                                }
+                            }
+
+                            function doubleClicked(mouse) {
+                                if ( landscape ) {
+                                    var newPos = null
+                                    if(mouse.x < mousearea.width/2 ) {
+                                        newPos = mediaPlayer.position - 5000
+                                        if(newPos < 0) newPos = 0
+                                        mediaPlayer.seek(newPos)
+                                        backwardIndicator.visible = true
+                                    } else if (mouse.x > mousearea.width/2) {
+                                        newPos = mediaPlayer.position + 5000
+                                        if(newPos > mediaPlayer.duration) {
+                                            mediaPlayer.nextVideo()
+                                            return
+                                        }
+                                        mediaPlayer.seek(newPos)
+                                        forwardIndicator.visible = true
+                                    }
                                 }
                             }
 
@@ -499,6 +526,81 @@ Page {
                                 font.pixelSize: Theme.fontSizeHuge
                                 anchors.verticalCenter: parent.verticalCenter
                             }
+                        }
+
+                        Row {
+                            id: backwardIndicator
+                            anchors.centerIn: parent
+                            visible: false
+                            spacing: -Theme.paddingLarge*2
+
+                            Image {
+                                id: prev1
+                                width: Theme.itemSizeLarge
+                                height: Theme.itemSizeLarge
+                                anchors.verticalCenter: parent.verticalCenter
+                                fillMode: Image.PreserveAspectFit
+                                source: "image://theme/icon-cover-play"
+
+                                transform: Rotation{
+                                    angle: 180
+                                    origin.x: prev1.width/2
+                                    origin.y: prev1.height/2
+                                }
+                            }
+                            Image {
+                                id: prev2
+                                width: Theme.itemSizeLarge
+                                height: Theme.itemSizeLarge
+                                anchors.verticalCenter: parent.verticalCenter
+                                fillMode: Image.PreserveAspectFit
+                                source: "image://theme/icon-cover-play"
+
+                                transform: Rotation{
+                                    angle: 180
+                                    origin.x: prev2.width/2
+                                    origin.y: prev2.height/2
+                                }
+                            }
+
+                            Timer {
+                                id: hideBackward
+                                interval: 300
+                                onTriggered: backwardIndicator.visible = false
+                            }
+
+                            onVisibleChanged: if (backwardIndicator.visible) hideBackward.start()
+                        }
+
+                        Row {
+                            id: forwardIndicator
+                            anchors.centerIn: parent
+                            visible: false
+                            spacing: -Theme.paddingLarge*2
+
+                            Image {
+                                width: Theme.itemSizeLarge
+                                height: Theme.itemSizeLarge
+                                anchors.verticalCenter: parent.verticalCenter
+                                fillMode: Image.PreserveAspectFit
+                                source: "image://theme/icon-cover-play"
+
+                            }
+                            Image {
+                                width: Theme.itemSizeLarge
+                                height: Theme.itemSizeLarge
+                                anchors.verticalCenter: parent.verticalCenter
+                                fillMode: Image.PreserveAspectFit
+                                source: "image://theme/icon-cover-play"
+                            }
+
+                            Timer {
+                                id: hideForward
+                                interval: 300
+                                onTriggered: forwardIndicator.visible = false
+                            }
+
+                            onVisibleChanged: if (forwardIndicator.visible) hideForward.start()
                         }
 
                         Label {
