@@ -94,29 +94,29 @@
     </message>
     <message numerus="yes">
         <source>%n week(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Hace %n semana</numerusform>
+            <numerusform>Hace %n semanas</numerusform>
         </translation>
     </message>
     <message>
         <source>K</source>
         <comment>K as in Kilo, i.e. thousands</comment>
-        <translation type="unfinished"></translation>
+        <translation>K</translation>
     </message>
     <message>
         <source>M</source>
         <comment>M stands for Millions</comment>
-        <translation type="unfinished"></translation>
+        <translation>M</translation>
     </message>
     <message>
         <source>B</source>
         <comment>B stands for Billions</comment>
-        <translation type="unfinished"></translation>
+        <translation>B</translation>
     </message>
     <message>
         <source>%1 views</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 visualizaciones</translation>
     </message>
 </context>
 <context>
@@ -206,47 +206,47 @@
     <name>VideoPlayer</name>
     <message>
         <source>Downloaded to</source>
-        <translation type="unfinished">Descargado en</translation>
+        <translation>Descargado en</translation>
     </message>
     <message>
         <source>720p</source>
-        <translation type="unfinished"></translation>
+        <translation>720p</translation>
     </message>
     <message>
         <source>480p</source>
-        <translation type="unfinished"></translation>
+        <translation>480p</translation>
     </message>
     <message>
         <source>360p</source>
-        <translation type="unfinished"></translation>
+        <translation>360p</translation>
     </message>
     <message>
         <source>Download</source>
-        <translation type="unfinished">Descargar</translation>
+        <translation>Descargar</translation>
     </message>
     <message>
         <source>Copy url</source>
-        <translation type="unfinished">Copiar url</translation>
+        <translation>Copiar url</translation>
     </message>
     <message>
         <source>Error: Problem with allocating resources</source>
-        <translation type="unfinished"></translation>
+        <translation>Error: problema con la asignación de recursos</translation>
     </message>
     <message>
         <source>Error: Media service error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error: error en servicio multimedia</translation>
     </message>
     <message>
         <source>Error: Video or Audio format is not supported</source>
-        <translation type="unfinished"></translation>
+        <translation>Error: formato de vídeo o audio no soportado</translation>
     </message>
     <message>
         <source>Error: Access denied to the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Error: acceso a vídeo denegado</translation>
     </message>
     <message>
         <source>Error: Network error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error: error de conexión</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
@@ -254,7 +254,7 @@
     </message>
     <message>
         <source>Subscribe</source>
-        <translation type="unfinished">Suscribirse</translation>
+        <translation>Suscribirse</translation>
     </message>
 </context>
 <context>
