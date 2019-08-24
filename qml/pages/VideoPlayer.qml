@@ -68,7 +68,10 @@ Page {
         interval: 500
         running: false
         repeat: false
-        onTriggered: volumeSlider.visible = false
+        onTriggered: {
+            volumeSlider.visible = false
+            volumeIndicator.visible = false
+        }
     }
 
     Timer {
@@ -76,7 +79,10 @@ Page {
         interval: 500
         running: false
         repeat: false
-        onTriggered: brightnessSlider.visible = false
+        onTriggered: {
+            brightnessSlider.visible = false
+            brightnessIndicator.visible = false
+        }
     }
 
     Notification {
@@ -90,8 +96,10 @@ Page {
         if (_controlsVisible) {
             showAnimation.start()
             hideControlsAutomatically.restart()
+            errorPane.show()
         } else {
             hideAnimation.start()
+            errorPane.hide()
         }
 
         if ((_controlsVisible && page.landscape) || page.orientation === Orientation.Portrait) {
@@ -134,6 +142,7 @@ Page {
     }
 
     Component.onCompleted: {
+        pacontrol.update()
         showHideControls()
         hideControlsAutomatically.restart()
         autoBrightness = displaySettings.autoBrightnessEnabled
@@ -169,6 +178,7 @@ Page {
         author = video.getChannelTitle()
         listView.positionViewAtIndex(YTPlaylist.activeRow(), ListView.Beginning)
         mediaPlayer.errorMsg = ""
+        errorPane.hide()
     }
 
     Connections {
@@ -189,7 +199,7 @@ Page {
 
     Connections {
         target: YTPlaylist
-        onActiveRowChanged: {
+        onActiveVideoChanged: {
             changeVideo()
         }
     }
@@ -244,7 +254,10 @@ Page {
             }
             MenuItem {
                 text: qsTr("Download")
-                onClicked: YT.download(video.streamUrl)
+                enabled: video.streamUrl.toString() !== ""
+                onClicked: {
+                    YT.download(video.streamUrl)
+                }
             }
             MenuItem {
                 text: qsTr("Copy url")
@@ -297,7 +310,7 @@ Page {
                         onPlaybackStateChanged: {
                             if (mediaPlayer.playbackState == MediaPlayer.StoppedState) {
                                 app.playing = ""
-                                if ( settings.autoPlay )
+                                if ( settings.autoPlay && video.streamUrl != "" )
                                     nextVideo()
                             }
 
@@ -315,6 +328,8 @@ Page {
                             nextVideo()
                         }
 
+                        onErrorMsgChanged: errorPane.show()
+
                         onBufferProgressChanged: {
                             if (videoPlaying && mediaPlayer.bufferProgress == 1) {
                                 mediaPlayer.play();
@@ -325,7 +340,7 @@ Page {
                             }
                         }
 
-                        onPositionChanged: proggress.value = position
+                        onPositionChanged: proggressSlider.value = position
                     }
 
                     VideoOutput {
@@ -337,10 +352,22 @@ Page {
 
                         Rectangle {
                             id: errorPane
-                            z: 99
                             anchors.fill: parent
-                            color: Theme.rgba("black", 0.8)
-                            visible: mediaPlayer.errorMsg !== ""
+                            property double colorOpacity: 0
+                            color: Theme.rgba("black", colorOpacity)
+                            Behavior on colorOpacity {
+                                NumberAnimation {}
+                            }
+                            visible: true//mediaPlayer.errorMsg !== ""
+
+                            function show() {
+                                colorOpacity = 0.5
+                            }
+
+                            function hide() {
+                                colorOpacity = 0
+                            }
+
                             Label {
                                 id: errorText
                                 text: mediaPlayer.errorMsg
@@ -364,50 +391,221 @@ Page {
                             property int offset: page.height/20
                             property int offsetHeight: height - (offset*2)
                             property int step: offsetHeight / 10
+                            property bool stepChanged: false
                             property int brightnessStep: displaySettings.maximumBrightness / 10
                             property int lambdaVolumeStep: -1
                             property int lambdaBrightnessStep: -1
+                            property int currentVolume: -1
+
+                            Timer{
+                                id: doubleClickTimer
+                                interval: 200
+                            }
 
                             function calculateStep(mouse) {
                                 return Math.round((offsetHeight - (mouse.y-offset)) / step)
                             }
 
                             onReleased: {
-                                if(lambdaVolumeStep === -1 && lambdaBrightnessStep === -1)
-                                    _controlsVisible = !_controlsVisible
-                                lambdaVolumeStep = -1
-                                lambdaBrightnessStep = -1
-                                flickable.flickableDirection = Flickable.VerticalFlick
+                                if (doubleClickTimer.running) doubleClicked(mouse)
+                                if (!doubleClickTimer.running) doubleClickTimer.start()
+                                if (!stepChanged) _controlsVisible = !_controlsVisible
+
+                                if ( landscape ) {
+                                    flickable.flickableDirection = Flickable.VerticalFlick
+                                    lambdaVolumeStep = -1
+                                    lambdaBrightnessStep = -1
+                                    stepChanged = false
+                                }
                             }
 
                             onPressed: {
-                                if ( landscape )
+                                if ( landscape ) {
+                                    pacontrol.update()
                                     flickable.flickableDirection = Flickable.HorizontalFlick
+                                    lambdaBrightnessStep = lambdaVolumeStep = calculateStep(mouse)
+                                }
+                            }
+
+                            function doubleClicked(mouse) {
+                                if ( landscape ) {
+                                    var newPos = null
+                                    if(mouse.x < mousearea.width/2 ) {
+                                        newPos = mediaPlayer.position - 5000
+                                        if(newPos < 0) newPos = 0
+                                        mediaPlayer.seek(newPos)
+                                        backwardIndicator.visible = true
+                                    } else if (mouse.x > mousearea.width/2) {
+                                        newPos = mediaPlayer.position + 5000
+                                        if(newPos > mediaPlayer.duration) {
+                                            mediaPlayer.nextVideo()
+                                            return
+                                        }
+                                        mediaPlayer.seek(newPos)
+                                        forwardIndicator.visible = true
+                                    }
+                                }
+                            }
+
+                            Connections {
+                                target: pacontrol
+                                onVolumeChanged: {
+                                    mousearea.currentVolume = volume
+                                    if (volume > 10) {
+                                        mousearea.currentVolume = 10
+                                    } else if (volume < 0) {
+                                        mousearea.currentVolume = 0
+                                    }
+                                }
                             }
 
                             onPositionChanged: {
                                 if ( landscape ) {
                                     var step = calculateStep(mouse)
-                                    if((mouse.y - offset) > 0 && (mouse.y - offset) < offsetHeight && mouse.x < mousearea.width/2 && lambdaVolumeStep !== step) {
+                                    if((mouse.y - offset) > 0 && (mouse.y + offset) < offsetHeight && mouse.x < mousearea.width/2 && lambdaVolumeStep !== step) {
+                                        pacontrol.setVolume(currentVolume - (lambdaVolumeStep - step))
+                                        volumeSlider.value = currentVolume - (lambdaVolumeStep - step)
                                         lambdaVolumeStep = step
-                                        pacontrol.setVolume(lambdaVolumeStep)
-                                        volumeSlider.value = lambdaVolumeStep
                                         volumeSlider.visible = true
+                                        volumeIndicator.visible = true
                                         hideVolumeSlider.restart()
-                                    } else if ((mouse.y - offset) > 0 && (mouse.y - offset) < offsetHeight && mouse.x > mousearea.width/2 && lambdaBrightnessStep !== step) {
+                                        pacontrol.update()
+                                        stepChanged = true
+                                    } else if ((mouse.y - offset) > 0 && (mouse.y + offset) < offsetHeight && mouse.x > mousearea.width/2 && lambdaBrightnessStep !== step) {
+                                        var relativeStep = Math.round(displaySettings.brightness/brightnessStep) - (lambdaBrightnessStep - step)
+                                        if (relativeStep > 10) relativeStep = 10;
+                                        if (relativeStep < 0) relativeStep = 0;
+                                        displaySettings.brightness = relativeStep * brightnessStep
+                                        activeBrightness = relativeStep * brightnessStep
                                         lambdaBrightnessStep = step
-                                        displaySettings.brightness = lambdaBrightnessStep * brightnessStep
-                                        activeBrightness = lambdaBrightnessStep * brightnessStep
-                                        brightnessSlider.value = lambdaBrightnessStep
+                                        brightnessSlider.value = relativeStep
                                         brightnessSlider.visible = true
+                                        brightnessIndicator.visible = true
                                         hideBrightnessSlider.restart()
+                                        stepChanged = true
                                     }
                                 }
                             }
                         }
 
+                        Row {
+                            id: volumeIndicator
+                            anchors.centerIn: parent
+                            visible: false
+                            spacing: Theme.paddingLarge
+
+                            Image {
+                                width: Theme.itemSizeLarge
+                                height: Theme.itemSizeLarge
+                                source: "image://theme/icon-m-speaker-on"
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+
+                            Label {
+                                text: (mousearea.currentVolume * 10) + "%"
+                                font.pixelSize: Theme.fontSizeHuge
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+
+                        Row {
+                            id: brightnessIndicator
+                            anchors.centerIn: parent
+                            visible: false
+                            spacing: Theme.paddingLarge
+
+                            Image {
+                                width: Theme.itemSizeLarge
+                                height: Theme.itemSizeLarge
+                                source: "image://theme/icon-m-light-contrast"
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+
+                            Label {
+                                text: (Math.round(displaySettings.brightness/mousearea.brightnessStep) * 10) + "%"
+                                font.pixelSize: Theme.fontSizeHuge
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+
+                        Row {
+                            id: backwardIndicator
+                            anchors.centerIn: parent
+                            visible: false
+                            spacing: -Theme.paddingLarge*2
+
+                            Image {
+                                id: prev1
+                                width: Theme.itemSizeLarge
+                                height: Theme.itemSizeLarge
+                                anchors.verticalCenter: parent.verticalCenter
+                                fillMode: Image.PreserveAspectFit
+                                source: "image://theme/icon-cover-play"
+
+                                transform: Rotation{
+                                    angle: 180
+                                    origin.x: prev1.width/2
+                                    origin.y: prev1.height/2
+                                }
+                            }
+                            Image {
+                                id: prev2
+                                width: Theme.itemSizeLarge
+                                height: Theme.itemSizeLarge
+                                anchors.verticalCenter: parent.verticalCenter
+                                fillMode: Image.PreserveAspectFit
+                                source: "image://theme/icon-cover-play"
+
+                                transform: Rotation{
+                                    angle: 180
+                                    origin.x: prev2.width/2
+                                    origin.y: prev2.height/2
+                                }
+                            }
+
+                            Timer {
+                                id: hideBackward
+                                interval: 300
+                                onTriggered: backwardIndicator.visible = false
+                            }
+
+                            onVisibleChanged: if (backwardIndicator.visible) hideBackward.start()
+                        }
+
+                        Row {
+                            id: forwardIndicator
+                            anchors.centerIn: parent
+                            visible: false
+                            spacing: -Theme.paddingLarge*2
+
+                            Image {
+                                width: Theme.itemSizeLarge
+                                height: Theme.itemSizeLarge
+                                anchors.verticalCenter: parent.verticalCenter
+                                fillMode: Image.PreserveAspectFit
+                                source: "image://theme/icon-cover-play"
+
+                            }
+                            Image {
+                                width: Theme.itemSizeLarge
+                                height: Theme.itemSizeLarge
+                                anchors.verticalCenter: parent.verticalCenter
+                                fillMode: Image.PreserveAspectFit
+                                source: "image://theme/icon-cover-play"
+                            }
+
+                            Timer {
+                                id: hideForward
+                                interval: 300
+                                onTriggered: forwardIndicator.visible = false
+                            }
+
+                            onVisibleChanged: if (forwardIndicator.visible) hideForward.start()
+                        }
+
                         Label {
                             id: progress
+                            width: Theme.itemSizeExtraSmall
                             anchors.left: parent.left
                             anchors.bottom: parent.bottom
                             anchors.margins: Theme.paddingLarge
@@ -498,15 +696,15 @@ Page {
                         }
 
                         Slider {
-                            id: proggress
+                            id: proggressSlider
                             value: mediaPlayer.position
                             minimumValue: 0
                             maximumValue: mediaPlayer.duration
-                            anchors.left: page.landscape ? proggress.right : videoOutput.left
+                            anchors.left: page.landscape ? progress.right : videoOutput.left
                             anchors.right: page.landscape ? duration.left : videoOutput.right
                             anchors.bottom: videoOutput.bottom
-                            anchors.bottomMargin: page.landscape ? 0 : -proggress.height/2
-                            anchors.leftMargin: page.landscape ? Theme.paddingLarge : -Theme.paddingLarge*4
+                            anchors.bottomMargin: page.landscape ? 0 : -proggressSlider.height/2
+                            anchors.leftMargin: page.landscape ? -Theme.paddingLarge*2 : -Theme.paddingLarge*4
                             anchors.rightMargin: page.landscape ? -Theme.paddingLarge*2 : -Theme.paddingLarge*4
                             handleVisible: _controlsVisible
 
@@ -522,7 +720,7 @@ Page {
                                 duration: 100
                             }
 
-                            onReleased: mediaPlayer.seek(proggress.value)
+                            onReleased: mediaPlayer.seek(proggressSlider.value)
                         }
                     }
 
@@ -538,6 +736,7 @@ Page {
                 height: parent.height - videoPlayer.height
                 NumberAnimation { id: anim; target: listView; property: "contentX"; duration: 500 }
                 SilicaFlickable {
+                    id: playlistFlickable
                     width: parent.width
                     height: playlist.height
                     contentHeight: (page.height - videoPlayer.height) + videoTitle.height + authorViews.height + videoDescription.height + progress.height/2
@@ -582,7 +781,7 @@ Page {
                                 }
 
                                 Label {
-                                    text: qsTr("%L1 views", '', parseInt(video.viewCount)).arg(parseInt(video.viewCount))
+                                    text: video.viewCount
                                     font.pixelSize: Theme.fontSizeMedium
                                     truncationMode: TruncationMode.Fade
                                     color: Theme.secondaryColor
@@ -593,6 +792,7 @@ Page {
                                 property bool subscribed: video.isSubscribed(video.getChannelId())
                                 text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
                                 onClicked: {
+                                    
                                     YT.toggleSubscription()
                                     subscribed = video.isSubscribed(video.getChannelId())
                                 }
@@ -618,6 +818,7 @@ Page {
                             spacing: Theme.paddingMedium
                             model: YTPlaylist
                             clip: true
+                            interactive: playlistFlickable.contentY > videoDescription.height
                             delegate: VideoElement {
                                 id: delegate
                                 subPage: true

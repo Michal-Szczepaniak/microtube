@@ -29,6 +29,7 @@ $END_LICENSE */
 #include "searchparams.h"
 #include "ytvideo.h"
 #include <QEasyDownloader.hpp>
+#include <notification.h>
 
 class YT : public QObject
 {
@@ -56,9 +57,11 @@ public:
 
 public slots:
     void downloaded(QUrl url, QString name);
+    void downloadProgressUpdate(qint64 bytesReceived, qint64 bytesTotal, int nPercentage, double speed, const QString& unit, const QUrl& _URL, const QString& _qsFileName);
 
 signals:
     void notifyDownloaded(QUrl url, QString name);
+    void downloadProgress(int nPercentage);
 
 private:
     SearchParams* getSearchParams();
@@ -73,6 +76,9 @@ private:
     ChannelModel* channelModel;
     QVector<VideoSource*> history;
     QEasyDownloader downloader;
+
+    Notification downloadNotification;
+    int downloadNotificationId = 0;
 };
 
 #endif // YT_H

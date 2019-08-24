@@ -85,7 +85,7 @@ Page {
                     radius: width*0.5
                     z: 100
                     Text {
-                        anchors.margins: Theme.paddingSmall
+                        anchors.margins: Theme.paddingSmall/2
                         anchors.fill: parent
                         color: Theme.primaryColor
                         text: index > 1 ? channel.notifyCount : ChannelAggregator.unwatchedCount

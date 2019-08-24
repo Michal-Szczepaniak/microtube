@@ -1,34 +1,14 @@
-/* $BEGIN_LICENSE
-
-This file is part of Minitube.
-Copyright 2009, Flavio Tordini <flavio.tordini@gmail.com>
-Copyright 2018, Michał Szczepaniak <m.szczepaniak.000@gmail.com>
-
-Minitube is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-Minitube is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with Minitube.  If not, see <http://www.gnu.org/licenses/>.
-
-$END_LICENSE */
-
 #include "yt3.h"
 
 #include <algorithm>
 #include <ctime>
 
-#include "jsfunctions.h"
+#include "constants.h"
 #include "http.h"
 #include "httputils.h"
-#include "constants.h"
-//#include "mainwindow.h"
+#include "jsfunctions.h"
+#include "mainwindow.h"
+#include "videodefinition.h"
 
 #ifdef APP_EXTRA
 #include "extra.h"
@@ -76,14 +56,14 @@ void YT3::initApiKeys() {
 #endif
 
 #ifdef APP_EXTRA
-    if (keys.isEmpty())
-        keys << Extra::apiKeys();
+    if (keys.isEmpty()) keys << Extra::apiKeys();
 #endif
 
     if (keys.isEmpty()) {
         qWarning() << "No available API keys";
 #ifdef APP_LINUX
-        QMetaObject::invokeMethod(MainWindow::instance(), "missingKeyWarning", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(MainWindow::instance(), "missingKeyWarning",
+                                  Qt::QueuedConnection);
 #endif
     } else {
         key = keys.takeFirst();
@@ -118,6 +98,18 @@ QUrl YT3::method(const QString &name) {
     QUrl url(baseUrl() + name);
     addApiKey(url);
     return url;
+}
+
+const VideoDefinition &YT3::maxVideoDefinition() {
+    const QString name = QSettings().value("definition", "720p").toString();
+    const VideoDefinition &definition = VideoDefinition::forName(name);
+    return definition;
+}
+
+void YT3::setMaxVideoDefinition(const QString &name) {
+    QSettings settings;
+    settings.setValue("definition", name);
+    emit maxVideoDefinitionChanged(name);
 }
 
 void YT3::testResponse(const HttpReply &reply) {

@@ -82,7 +82,7 @@ ListItem {
 
             Row {
                 Label {
-                    text: (published !== undefined ? published : "") + (video !== undefined ? "  -  " + video.viewCount + " views" : "")
+                    text: (published !== undefined ? published : "") + (video !== undefined ? "  -  " + video.viewCount : "")
                     font.pixelSize: Theme.fontSizeExtraSmall
                 }
             }

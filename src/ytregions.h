@@ -22,11 +22,7 @@ $END_LICENSE */
 #ifndef YTREGIONS_H
 #define YTREGIONS_H
 
-#include <QString>
-#include <QObject>
-#include <QVector>
-#include <QLocale>
-#include <QIcon>
+#include <QtWidgets>
 
 struct YTRegion {
     QString id;

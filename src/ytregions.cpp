@@ -20,7 +20,7 @@ along with Minitube.  If not, see <http://www.gnu.org/licenses/>.
 $END_LICENSE */
 
 #include "ytregions.h"
-#include <QSettings>
+#include "iconutils.h"
 
 YTRegions::YTRegions() : QObject() {}
 
@@ -69,7 +69,6 @@ const QVector<YTRegion> &YTRegions::list() {
                                r(tr("Taiwan"), "TW"),
                                r(tr("Tunisia"), "TN"),
                                r(tr("Turkey"), "TR"),
-
                                r(tr("Uganda"), "UG"),
                                r(tr("United Arab Emirates"), "AE"),
                                r(tr("United Kingdom"), "GB"),
@@ -87,7 +86,7 @@ YTRegion YTRegions::r(const QString &name, const QString &id) {
 }
 
 const YTRegion &YTRegions::localRegion() {
-    static const YTRegion region = [] {
+    static const YTRegion region = []() -> YTRegion {
         QString country = QLocale::system().name().right(2);
         for (const YTRegion &r : list()) {
             if (r.id == country) return r;
@@ -125,6 +124,6 @@ const YTRegion &YTRegions::regionById(const QString &id) {
 }
 
 QIcon YTRegions::iconForRegionId(const QString &regionId) {
-    if (regionId.isEmpty()) return QIcon(":images/worldwide.png");
+    if (regionId.isEmpty()) return IconUtils::icon("worldwide");
     return QIcon(":flags/" + regionId.toLower() + ".png");
 }

@@ -44,7 +44,6 @@ int main(int argc, char *argv[])
     yt.registerObjectsInQml(view->rootContext());
 
     PulseAudioControl pacontrol;
-    pacontrol.setVolume(5);
 
     view->rootContext()->setContextProperty("pacontrol", &pacontrol);
 

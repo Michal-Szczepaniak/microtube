@@ -27,20 +27,23 @@ $END_LICENSE */
 class VideoDefinition {
 public:
     static const QVector<VideoDefinition> &getDefinitions();
+    static const QVector<QString> &getDefinitionNames();
     static const VideoDefinition &forName(const QString &name);
     static const VideoDefinition &forCode(int code);
 
-    VideoDefinition(const QString &name, int code);
+    VideoDefinition(const QString &name, int code, bool hasAudioStream = false);
 
-    const QString &getName() const { return m_name; }
-    int getCode() const { return m_code; }
+    const QString &getName() const { return name; }
+    int getCode() const { return code; }
+    bool hasAudio() const { return hasAudioStream; }
     bool isEmpty() const;
 
     VideoDefinition &operator=(const VideoDefinition &);
 
 private:
-    const QString m_name;
-    const int m_code;
+    const QString name;
+    const int code;
+    const bool hasAudioStream;
 };
 
 inline bool operator==(const VideoDefinition &lhs, const VideoDefinition &rhs) {
