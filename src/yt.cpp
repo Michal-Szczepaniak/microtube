@@ -26,6 +26,7 @@ $END_LICENSE */
 #include "ytchannel.h"
 #include "database.h"
 #include "aggregatevideosource.h"
+#include "ytstandardfeed.h"
 #include <QDebug>
 
 YT::YT(QObject *parent) : QObject(parent)
@@ -37,10 +38,18 @@ YT::YT(QObject *parent) : QObject(parent)
     updateQuery();
 }
 
+void YT::loadDefaultVideos() {
+    YTStandardFeed *feed = new YTStandardFeed(this);
+    feed->setFeedId("most_popular");
+    feed->setLabel("most_popular");
+    setVideoSource(feed, false, false);
+}
+
 void YT::registerObjectsInQml(QQmlContext* context) {
     context->setContextProperty("YT",this);
     context->setContextProperty("YTPlaylist",this->playlistModel);
     context->setContextProperty("YTChannels",this->channelModel);
+    loadDefaultVideos();
 }
 
 void YT::search(QString query) {

@@ -79,6 +79,7 @@ private:
 
     Notification downloadNotification;
     int downloadNotificationId = 0;
+    void loadDefaultVideos();
 };
 
 #endif // YT_H

@@ -168,6 +168,13 @@
     </message>
 </context>
 <context>
+    <name>SharePage</name>
+    <message>
+        <source>Share</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Subscriptions</name>
     <message>
         <source>Subscriptions</source>

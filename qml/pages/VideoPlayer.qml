@@ -759,7 +759,6 @@ Page {
 
                         Row{
                             width: parent.width
-                            rightPadding: Theme.paddingLarge
                             Column {
                                 id: authorViews
                                 width: parent.width/2
@@ -788,13 +787,26 @@ Page {
                                     bottomPadding: Theme.paddingLarge
                                 }
                             }
-                            Button {
-                                property bool subscribed: video.isSubscribed(video.getChannelId())
-                                text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
-                                onClicked: {
-                                    
-                                    YT.toggleSubscription()
-                                    subscribed = video.isSubscribed(video.getChannelId())
+
+                            Row {
+                                width: parent.width/2
+                                rightPadding: Theme.paddingLarge*2
+                                layoutDirection: Qt.RightToLeft
+
+                                Button {
+                                    id: subscribeButton
+                                    width: Theme.itemSizeHuge
+                                    property bool subscribed: video.isSubscribed(video.getChannelId())
+                                    text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
+                                    onClicked: {
+                                        YT.toggleSubscription()
+                                        subscribed = video.isSubscribed(video.getChannelId())
+                                    }
+                                }
+
+                                IconButton {
+                                    icon.source: "image://theme/icon-m-share"
+                                    onClicked: pageStack.push(Qt.resolvedUrl("components/SharePage.qml"), {videoUrl: video.getWebpage(), videoTitle: title})
                                 }
                             }
                         }

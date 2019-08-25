@@ -104,6 +104,7 @@ DISTFILES += qml/microtube.qml \
     qml/pages/VideoPlayer.qml \
     qml/pages/components/VideoElement.qml \
     qml/pages/components/SilicaFastListView.qml \
+    qml/pages/components/SharePage.qml \
     qml/pages/components/private/BoundsBehavior.qml \
     qml/pages/components/private/FastScrollAnimation.js \
     qml/pages/components/private/FastScrollAnimation.qml \
