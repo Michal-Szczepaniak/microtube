@@ -40,16 +40,18 @@ ListItem {
     }
 
     property bool subPage: false
+    property bool isVideo: itemType === 1 // video type
 
     Row {
         anchors.fill: parent
         Column {
             id: left
-            width: listItem.width/2.3
+            width: isVideo ? listItem.width/2.3 : 0
             height: Theme.paddingLarge*8
             leftPadding: subPage ? 0 : Theme.paddingLarge
             topPadding: Theme.paddingSmall
             bottomPadding: Theme.paddingSmall
+            visible: isVideo
 
             Image {
                 width: parent.width - Theme.paddingLarge
@@ -71,6 +73,7 @@ ListItem {
                 text: display
                 width: parent.width - Theme.paddingLarge*2
                 truncationMode: TruncationMode.Fade
+                horizontalAlignment: !isVideo ? Text.AlignHCenter : Text.AlignLeft
             }
 
             Label {

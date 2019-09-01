@@ -147,6 +147,10 @@
         <source>No more videos</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Check internet connection.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Settings</name>

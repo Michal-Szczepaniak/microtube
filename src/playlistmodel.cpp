@@ -67,7 +67,7 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const {
         case ItemTypeRole:
             return ItemTypeShowMore;
         case Qt::DisplayRole:
-            if (!errorMessage.isEmpty()) return errorMessage;
+            if (!errorMessage.isEmpty()) return tr("Check internet connection."); // errorMessage; #23 it looks ugly user shouldn't see it
             if (searching) return QString(); // tr("Searching...");
             if (canSearchMore) return tr("Show %1 More").arg("").simplified();
             if (videos.isEmpty())
