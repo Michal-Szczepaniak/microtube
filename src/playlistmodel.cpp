@@ -131,19 +131,12 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const {
 
 void PlaylistModel::setActiveRow(int row, bool notify) {
     if (rowExists(row)) {
-        m_activeRow = row;
         Video *previousVideo = m_activeVideo;
+        m_activeRow = row;
         m_activeVideo = videoAt(row);
 
-        int oldactiverow = m_activeRow;
-
-        if (rowExists(oldactiverow))
-            emit dataChanged(createIndex(oldactiverow, 0),
-                             createIndex(oldactiverow, columnCount() - 1));
-
         emit dataChanged(createIndex(m_activeRow, 0), createIndex(m_activeRow, columnCount() - 1));
-        if (notify) emit activeVideoChanged(m_activeVideo, previousVideo);
-
+        if (notify) emit activeVideoChanged(m_activeVideo, m_activeVideo);
     } else {
         m_activeRow = -1;
         m_activeVideo = nullptr;
@@ -173,6 +166,11 @@ bool PlaylistModel::nextRowExists()  {
 
 Video *PlaylistModel::videoAt(int row) const {
     if (rowExists(row)) return videos.at(row);
+    return nullptr;
+}
+
+Video *PlaylistModel::qmlVideoAt(int row) const {
+    if (rowExists(row)) return videos.at(row)->clone();
     return nullptr;
 }
 

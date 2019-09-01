@@ -84,7 +84,8 @@ public:
     QModelIndex indexForVideo(Video *video);
     void move(QModelIndexList &indexes, bool up);
 
-    Q_INVOKABLE Video *videoAt(int row) const;
+    Video *videoAt(int row) const;
+    Q_INVOKABLE Video *qmlVideoAt(int row) const;
     Video *activeVideo() const;
     int rowForCloneVideo(const QString &videoId) const;
 

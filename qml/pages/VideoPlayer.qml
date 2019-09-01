@@ -38,6 +38,7 @@ Page {
     property string author: ""
     property bool subscribed: false
     property bool _controlsVisible: true
+    property bool videoChanging: false
     property bool landscape: ( page.orientation === Orientation.Landscape || page.orientation === Orientation.LandscapeInverted )
     property int autoBrightness: -1
     property int inactiveBrightness: -1
@@ -154,7 +155,7 @@ Page {
         if ( settings.relatedVideos ) {
             YTPlaylist.findRecommended()
             YTPlaylist.setActiveRow(0, false)
-            video = YTPlaylist.videoAt(0)
+            video = YTPlaylist.qmlVideoAt(0)
         }
         video.loadStreamUrl()
     }
@@ -167,9 +168,9 @@ Page {
         if ( settings.relatedVideos ) {
             YTPlaylist.findRecommended()
             YTPlaylist.setActiveRow(0, false)
-            video = YTPlaylist.videoAt(0)
+            video = YTPlaylist.qmlVideoAt(0)
         } else {
-            video = YTPlaylist.videoAt(YTPlaylist.activeRow())
+            video = YTPlaylist.qmlVideoAt(YTPlaylist.activeRow())
         }
         video.loadStreamUrl()
         title = video.getTitle()
@@ -184,6 +185,7 @@ Page {
     Connections {
         target: video
         onStreamUrlChanged: {
+            if(videoChanging) videoChanging = false
             mediaPlayer.videoPlay()
         }
     }
@@ -230,26 +232,32 @@ Page {
         flickableDirection: Flickable.VerticalFlick
 
         PullDownMenu {
+            id: topMenu
             visible: page.orientation === Orientation.Portrait
+
+            function resolutionChange(name) {
+                videoChanging = true
+                mediaPlayer.stop()
+                YT.setDefinition(name)
+                video.loadStreamUrl()
+            }
+
             MenuItem {
                 text: qsTr("720p")
                 onClicked: {
-                    YT.setDefinition("720p")
-                    video.loadStreamUrl()
+                    topMenu.resolutionChange("720p")
                 }
             }
             MenuItem {
                 text: qsTr("480p")
                 onClicked: {
-                    YT.setDefinition("480p")
-                    video.loadStreamUrl()
+                    topMenu.resolutionChange("480p")
                 }
             }
             MenuItem {
                 text: qsTr("360p")
                 onClicked: {
-                    YT.setDefinition("360p")
-                    video.loadStreamUrl()
+                    topMenu.resolutionChange("360p");
                 }
             }
             MenuItem {
@@ -295,6 +303,8 @@ Page {
 
                         function nextVideo() {
                             if (!YTPlaylist.nextRowExists()) return
+                            videoChanging = true
+                            mediaPlayer.stop()
                             mediaPlayer.seek(0)
                             YTPlaylist.setActiveRow(YTPlaylist.nextRow())
 //                            changeVideo()
@@ -302,6 +312,8 @@ Page {
 
                         function prevVideo() {
                             if (!YTPlaylist.previousRowExists()) return
+                            videoChanging = true
+                            mediaPlayer.stop()
                             mediaPlayer.seek(0)
                             YTPlaylist.setActiveRow(YTPlaylist.previousRow())
 //                            changeVideo()
@@ -310,7 +322,7 @@ Page {
                         onPlaybackStateChanged: {
                             if (mediaPlayer.playbackState == MediaPlayer.StoppedState) {
                                 app.playing = ""
-                                if ( settings.autoPlay && video.streamUrl != "" )
+                                if ( settings.autoPlay && video.streamUrl !== "" && videoChanging === false )
                                     nextVideo()
                             }
 
