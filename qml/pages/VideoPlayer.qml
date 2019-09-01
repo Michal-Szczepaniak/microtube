@@ -46,6 +46,12 @@ Page {
 
     DisplaySettings {
         id: displaySettings
+        onBrightnessChanged: {
+            if (inactiveBrightness === -1) {
+                inactiveBrightness = brightness
+                activeBrightness = brightness
+            }
+        }
     }
 
     ConfigurationGroup {
@@ -147,8 +153,6 @@ Page {
         showHideControls()
         hideControlsAutomatically.restart()
         autoBrightness = displaySettings.autoBrightnessEnabled
-        inactiveBrightness = displaySettings.brightness + 0
-        activeBrightness = displaySettings.brightness + 0
         if ( landscape )
             displaySettings.autoBrightnessEnabled = false
 
