@@ -811,7 +811,7 @@ Page {
 
                                 Button {
                                     id: subscribeButton
-                                    width: Theme.itemSizeHuge
+                                    preferredWidth: Theme.itemSizeHuge
                                     property bool subscribed: video.isSubscribed(video.getChannelId())
                                     text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
                                     onClicked: {
