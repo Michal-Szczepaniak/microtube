@@ -5,7 +5,7 @@
     <name>About</name>
     <message>
         <source>About</source>
-        <translation>Mévjegy</translation>
+        <translation>Névjegy</translation>
     </message>
     <message>
         <source>Made by Michał Szczepaniak. Based on minitube.</source>
