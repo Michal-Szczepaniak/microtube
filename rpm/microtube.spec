@@ -61,11 +61,17 @@ desktop-file-install --delete-original       \
   --dir %{buildroot}%{_datadir}/applications             \
    %{buildroot}%{_datadir}/applications/*.desktop
 
+%post
+su nemo -c "xdg-mime default %{name}-url.desktop x-scheme-handler/http"
+su nemo -c "xdg-mime default %{name}-url.desktop x-scheme-handler/https"
+su nemo -c "update-desktop-database /home/nemo/.local/share/applications"
+
 %files
 %defattr(-,root,root,-)
 %{_bindir}
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
+/home/nemo/.local/share/applications/%{name}-url.desktop
 # >> files
 # << files

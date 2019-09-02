@@ -40,8 +40,13 @@ int main(int argc, char *argv[])
     QSharedPointer<QQuickView> view(SailfishApp::createView());
 
     YT yt;
-
     yt.registerObjectsInQml(view->rootContext());
+
+    if (argc == 2) {
+        yt.search(QString::fromUtf8(argv[1]));
+    } else {
+        yt.loadDefaultVideos();
+    }
 
     PulseAudioControl pacontrol;
 

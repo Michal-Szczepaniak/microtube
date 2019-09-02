@@ -49,7 +49,6 @@ void YT::registerObjectsInQml(QQmlContext* context) {
     context->setContextProperty("YT",this);
     context->setContextProperty("YTPlaylist",this->playlistModel);
     context->setContextProperty("YTChannels",this->channelModel);
-    loadDefaultVideos();
 }
 
 void YT::search(QString query) {

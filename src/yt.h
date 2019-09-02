@@ -54,6 +54,7 @@ public:
     Q_INVOKABLE void setSafeSearch(bool value);
     Q_INVOKABLE bool getSafeSearch();
     Q_INVOKABLE void download(QString url);
+    void loadDefaultVideos();
 
 public slots:
     void downloaded(QUrl url, QString name);
@@ -79,7 +80,6 @@ private:
 
     Notification downloadNotification;
     int downloadNotificationId = 0;
-    void loadDefaultVideos();
 };
 
 #endif // YT_H
