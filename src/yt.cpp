@@ -27,6 +27,7 @@ $END_LICENSE */
 #include "database.h"
 #include "aggregatevideosource.h"
 #include "ytstandardfeed.h"
+#include "ytregions.h"
 #include <QDebug>
 
 YT::YT(QObject *parent) : QObject(parent)
@@ -39,9 +40,11 @@ YT::YT(QObject *parent) : QObject(parent)
 }
 
 void YT::loadDefaultVideos() {
+    QString regionId = YTRegions::currentRegionId();
     YTStandardFeed *feed = new YTStandardFeed(this);
     feed->setFeedId("most_popular");
     feed->setLabel("most_popular");
+    feed->setRegionId(regionId);
     setVideoSource(feed, false, false);
 }
 
@@ -280,4 +283,44 @@ void YT::downloadProgressUpdate(qint64 bytesReceived, qint64 bytesTotal, int nPe
     downloadNotification.setReplacesId(downloadNotificationId);
     downloadNotification.publish();
     emit downloadProgress(nPercentage);
+}
+
+QStringList YT::getRegions() {
+    auto regions = YTRegions::list();
+    QStringList regionsList;
+
+    for(YTRegion region: regions) {
+        regionsList << region.name;
+    }
+
+    return regionsList;
+}
+
+int YT::getCurrentRegion()
+{
+    QString regionCode = YTRegions::currentRegionId();
+    if (regionCode.isEmpty()) regionCode = "";
+    auto regions = YTRegions::list();
+
+    int i = 0;
+    for(YTRegion region: regions) {
+        if (region.id.toLower().compare(regionCode.toLower()) == 0) return i;
+        i++;
+    }
+
+    return i;
+}
+
+void YT::setRegion(int id)
+{
+    auto regions = YTRegions::list();
+
+    int i = 0;
+    for(YTRegion region: regions) {
+        if (i == id) {
+            YTRegions::setRegion(region.id.toLower());
+            return;
+        }
+        i++;
+    }
 }

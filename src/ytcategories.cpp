@@ -43,7 +43,7 @@ void YTCategories::loadCategories(QString language) {
     q.addQueryItem("hl", language);
 
     QString regionCode = YTRegions::currentRegionId();
-    if (regionCode.isEmpty()) regionCode = "us";
+    if (regionCode.isEmpty()) regionCode = "";
     q.addQueryItem("regionCode", regionCode);
     url.setQuery(q);
 

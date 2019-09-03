@@ -74,6 +74,20 @@ Page {
                    settings.relatedVideos = checked
                }
             }
+
+            ComboBox {
+                id: regions
+                width: parent.width
+                label: "Region"
+                currentIndex: YT.getCurrentRegion();
+                menu: ContextMenu {
+                    Repeater {
+                        model: YT.getRegions();
+                        delegate: MenuItem { text: modelData }
+                    }
+                }
+                onCurrentItemChanged: YT.setRegion(currentIndex)
+            }
         }
         VerticalScrollDecorator {}
     }
