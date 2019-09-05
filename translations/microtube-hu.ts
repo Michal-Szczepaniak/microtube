@@ -39,6 +39,10 @@
         <source>DylanVanAssche for help.</source>
         <translation>DylanVanAssche-nak a segítségért.</translation>
     </message>
+    <message>
+        <source>1Zgp for hungarian translation.</source>
+        <translation>1Zgp-nek a magyar fordításért.</translation>
+    </message>
 </context>
 <context>
     <name>ChannelAggregator</name>
@@ -457,6 +461,10 @@
     <message>
         <source>Worldwide</source>
         <translation>Világszerte</translation>
+    </message>
+    <message>
+        <source>United States</source>
+        <translation>Egyesült Államok</translation>
     </message>
 </context>
 <context>
