@@ -41,7 +41,7 @@
     </message>
     <message>
         <source>1Zgp for hungarian translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>1Zgp por la traducción al húngaro.</translation>
     </message>
 </context>
 <context>
@@ -158,7 +158,7 @@
     </message>
     <message>
         <source>Check internet connection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprueba la conexión a internet.</translation>
     </message>
 </context>
 <context>
@@ -179,12 +179,16 @@
         <source>Search for related videos</source>
         <translation>Buscar vídeos relacionados</translation>
     </message>
+    <message>
+        <source>Region</source>
+        <translation>Región</translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>
     <message>
         <source>Share</source>
-        <translation type="unfinished"></translation>
+        <translation>Compartir</translation>
     </message>
 </context>
 <context>
@@ -479,7 +483,7 @@
     </message>
     <message>
         <source>United States</source>
-        <translation type="unfinished"></translation>
+        <translation>Estados Unidos</translation>
     </message>
 </context>
 <context>

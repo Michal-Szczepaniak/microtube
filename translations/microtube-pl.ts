@@ -174,6 +174,10 @@
         <source>Search for related videos</source>
         <translation>Wyszukiwanie powiązanych filmów</translation>
     </message>
+    <message>
+        <source>Region</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>

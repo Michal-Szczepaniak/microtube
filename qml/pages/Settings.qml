@@ -78,7 +78,7 @@ Page {
             ComboBox {
                 id: regions
                 width: parent.width
-                label: "Region"
+                label: qsTr("Region")
                 currentIndex: YT.getCurrentRegion();
                 menu: ContextMenu {
                     Repeater {
