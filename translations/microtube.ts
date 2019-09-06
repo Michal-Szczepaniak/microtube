@@ -39,6 +39,10 @@
         <source>DylanVanAssche for help.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>1Zgp for hungarian translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ChannelAggregator</name>
@@ -147,6 +151,10 @@
         <source>No more videos</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Check internet connection.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Settings</name>
@@ -164,6 +172,13 @@
     </message>
     <message>
         <source>Search for related videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SharePage</name>
+    <message>
+        <source>Share</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -455,6 +470,10 @@
     </message>
     <message>
         <source>Worldwide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>United States</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

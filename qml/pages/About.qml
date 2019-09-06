@@ -51,7 +51,7 @@ Page {
             }
 
             Label {
-                text: "microtube 1.5.2"
+                text: "microtube 1.7.1"
                 font.pixelSize: Theme.fontSizeExtraLarge
                 anchors.horizontalCenter: parent.horizontalCenter
                 wrapMode: Text.WordWrap
@@ -140,6 +140,12 @@ Page {
 
             Label {
                 text: qsTr("carmenfdezb for spanish translation.")
+                font.pixelSize: Theme.fontSizeSmall
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            Label {
+                text: qsTr("1Zgp for hungarian translation.")
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
             }

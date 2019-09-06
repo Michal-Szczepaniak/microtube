@@ -93,6 +93,7 @@ SOURCES += src/microtube.cpp \
     src/QEasyDownloader/src/QEasyDownloader.cc
 
 DISTFILES += qml/microtube.qml \
+    microtube-url.desktop \
     qml/cover/CoverPage.qml \
     rpm/microtube.spec \
     translations/*.ts \
@@ -104,6 +105,7 @@ DISTFILES += qml/microtube.qml \
     qml/pages/VideoPlayer.qml \
     qml/pages/components/VideoElement.qml \
     qml/pages/components/SilicaFastListView.qml \
+    qml/pages/components/SharePage.qml \
     qml/pages/components/private/BoundsBehavior.qml \
     qml/pages/components/private/FastScrollAnimation.js \
     qml/pages/components/private/FastScrollAnimation.qml \
@@ -116,6 +118,11 @@ RESOURCES += \
     qml/resources/resources.qrc
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
+
+urlfile.files = microtube-url.desktop
+urlfile.path = /home/nemo/.local/share/applications
+
+INSTALLS += urlfile
 
 # to disable building translations every time, comment out the
 # following CONFIG line

@@ -28,11 +28,6 @@
         <translation>Dotacje</translation>
     </message>
     <message>
-        <source>All donations go for Verdanditeam devices
- (used for porting SailfishOS)</source>
-        <translation>Wszystie dotacje są wykorzystywane do kupna urządzeń dla VerdandiTeam (używane do portowania SailfishOS)</translation>
-    </message>
-    <message>
         <source>jgibbon for german translation and help.</source>
         <translation>jgibbon za Niemieckie tłumaczenie oraz pomoc.</translation>
     </message>
@@ -44,6 +39,10 @@
         <source>DylanVanAssche for help.</source>
         <translation>DylanVanAssche za pomoc.</translation>
     </message>
+    <message>
+        <source>1Zgp for hungarian translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ChannelAggregator</name>
@@ -53,7 +52,7 @@
     </message>
     <message numerus="yes">
         <source>You have %n new video(s)</source>
-        <translatio>
+        <translation>
             <numerusform>Masz %n nowy(ch) film(ów)</numerusform>
         </translation>
     </message>
@@ -88,16 +87,35 @@
         </translation>
     </message>
     <message numerus="yes">
-        <source>%n weeks(s) ago</source>
-        <translation>
-            <numerusform>%n tygodni temu</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
         <source>%n month(s) ago</source>
         <translation>
             <numerusform>%n miesięcy temu</numerusform>
         </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n week(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>K</source>
+        <comment>K as in Kilo, i.e. thousands</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>M</source>
+        <comment>M stands for Millions</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>B</source>
+        <comment>B stands for Billions</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 views</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -122,10 +140,6 @@
 <context>
     <name>PlaylistModel</name>
     <message>
-        <source>Searching...</source>
-        <translation>Wyszukiwanie...</translation>
-    </message>
-    <message>
         <source>Show %1 More</source>
         <translation>Pokaż %1 wiecej</translation>
     </message>
@@ -136,6 +150,10 @@
     <message>
         <source>No more videos</source>
         <translation>Nie ma więcej filmów</translation>
+    </message>
+    <message>
+        <source>Check internet connection.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -155,6 +173,13 @@
     <message>
         <source>Search for related videos</source>
         <translation>Wyszukiwanie powiązanych filmów</translation>
+    </message>
+</context>
+<context>
+    <name>SharePage</name>
+    <message>
+        <source>Share</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -225,12 +250,6 @@
         <source>Error: Network error</source>
         <translation>Błąd: Problem z połączeniem internetowym</translation>
     </message>
-    <message numerus="yes">
-        <source>%L1 views</source>
-        <translation>
-            <numerusform>%L1 wyświetleń</numerusform>
-        </translation>
-    </message>
     <message>
         <source>Unsubscribe</source>
         <translation>Odsubskrybuj</translation>
@@ -242,6 +261,10 @@
     <message>
         <source>Download</source>
         <translation>Pobierz</translation>
+    </message>
+    <message>
+        <source>Downloaded to</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -448,6 +471,10 @@
     <message>
         <source>Worldwide</source>
         <translation>Międzynarodowy</translation>
+    </message>
+    <message>
+        <source>United States</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

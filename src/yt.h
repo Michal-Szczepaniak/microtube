@@ -30,6 +30,7 @@ $END_LICENSE */
 #include "ytvideo.h"
 #include <QEasyDownloader.hpp>
 #include <notification.h>
+#include <QQmlPropertyMap>
 
 class YT : public QObject
 {
@@ -54,6 +55,10 @@ public:
     Q_INVOKABLE void setSafeSearch(bool value);
     Q_INVOKABLE bool getSafeSearch();
     Q_INVOKABLE void download(QString url);
+    void loadDefaultVideos();
+    Q_INVOKABLE QStringList getRegions();
+    Q_INVOKABLE int getCurrentRegion();
+    Q_INVOKABLE void setRegion(int id);
 
 public slots:
     void downloaded(QUrl url, QString name);

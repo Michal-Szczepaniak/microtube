@@ -2,7 +2,6 @@
 
 This file is part of Minitube.
 Copyright 2009, Flavio Tordini <flavio.tordini@gmail.com>
-Copyright 2018, Michał Szczepaniak <m.szczepaniak.000@gmail.com>
 
 Minitube is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,7 +25,8 @@ YTRegions::YTRegions() : QObject() {}
 
 const QVector<YTRegion> &YTRegions::list() {
     static const QVector<YTRegion> list = [] {
-        QVector<YTRegion> l = {r(tr("Algeria"), "DZ"),
+        QVector<YTRegion> l = {r(tr("Worldwide"), ""),
+                               r(tr("Algeria"), "DZ"),
                                r(tr("Argentina"), "AR"),
                                r(tr("Australia"), "AU"),
                                r(tr("Belgium"), "BE"),
@@ -72,6 +72,7 @@ const QVector<YTRegion> &YTRegions::list() {
                                r(tr("Uganda"), "UG"),
                                r(tr("United Arab Emirates"), "AE"),
                                r(tr("United Kingdom"), "GB"),
+                               r(tr("United States"), "US"),
                                r(tr("Yemen"), "YE")};
         std::sort(l.begin(), l.end());
         return l;

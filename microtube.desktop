@@ -2,7 +2,7 @@
 Type=Application
 X-Nemo-Application-Type=silica-qt5
 Icon=microtube
-Exec=microtube
+Exec=microtube %U
 Name=µTube
 # translation example:
 # your app name in German locale (de)
