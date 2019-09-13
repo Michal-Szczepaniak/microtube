@@ -104,10 +104,10 @@ void YTVideo::gotVideoInfo(const QByteArray &bytes) {
         if (obj.contains("streamingData")) {
             auto parseFormats = [this](const QJsonArray &formats) {
                 for (const QJsonValue &format : formats) {
-                    int itag = format["itag"].toInt();
-                    QString url = format["url"].toString();
+                    int itag = format.toObject().value("itag").toInt();
+                    QString url = format.toObject().value("url").toString();
                     if (url.isEmpty()) {
-                        QString cipher = format["cipher"].toString();
+                        QString cipher = format.toObject().value("cipher").toString();
                         QUrlQuery q(cipher);
                         url = q.queryItemValue("url");
                     }
