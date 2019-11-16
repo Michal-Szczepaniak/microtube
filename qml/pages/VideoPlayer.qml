@@ -27,6 +27,7 @@ import com.jolla.settings.system 1.0
 import org.nemomobile.systemsettings 1.0
 import org.nemomobile.configuration 1.0
 import Nemo.Notifications 1.0
+import Nemo.KeepAlive 1.2
 import "components"
 
 Page {
@@ -740,8 +741,8 @@ Page {
                         }
                     }
 
-                    ScreenBlank {
-                        suspend: mediaPlayer.playbackState == MediaPlayer.PlayingState
+                    DisplayBlanking {
+                        preventBlanking: mediaPlayer.playbackState == MediaPlayer.PlayingState
                     }
                 }
             }
