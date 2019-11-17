@@ -33,9 +33,12 @@ ListItem {
         }
         ChannelAggregator.videoWatched(video)
         YTPlaylist.setActiveRow(index)
-        if (!subPage)
-            pageStack.push(Qt.resolvedUrl("../VideoPlayer.qml"),
+        if (!subPage) {
+            pageStack.pushAttached(Qt.resolvedUrl("../VideoPlayer.qml"),
                            { video: video, title: display, author: author, viewCount: viewCount, description: description })
+            pageStack.navigateForward()
+        }
+
     }
 
     property bool subPage: false
