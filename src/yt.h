@@ -50,6 +50,7 @@ public:
     void updateSubscriptionAction(Video *video, bool subscribed);
     Q_INVOKABLE void setDefinition(QString definition);
     Q_INVOKABLE void toggleSubscription();
+    Q_INVOKABLE void toggleSubscription(const QString &channelId);
     Q_INVOKABLE void updateQuery();
     Q_INVOKABLE void itemActivated(int index);
     Q_INVOKABLE void setSafeSearch(bool value);

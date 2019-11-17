@@ -198,6 +198,16 @@ void YT::toggleSubscription() {
     }
 }
 
+void YT::toggleSubscription(const QString &channelId) {
+    if (channelId.isEmpty()) return;
+    bool subscribed = YTChannel::isSubscribed(channelId);
+    if (subscribed) {
+        YTChannel::unsubscribe(channelId);
+    } else {
+        YTChannel::subscribe(channelId);
+    }
+}
+
 void YT::updateQuery() {
     QString sql = "select user_id from subscriptions";
 //    if (showUpdated)
