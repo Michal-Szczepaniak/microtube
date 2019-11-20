@@ -232,10 +232,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>480p</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>360p</source>
         <translation type="unfinished"></translation>
     </message>

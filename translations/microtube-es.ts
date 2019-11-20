@@ -225,55 +225,51 @@
     <name>VideoPlayer</name>
     <message>
         <source>Downloaded to</source>
-        <translation>Descargado en</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>720p</source>
-        <translation>720p</translation>
-    </message>
-    <message>
-        <source>480p</source>
-        <translation>480p</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>360p</source>
-        <translation>360p</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download</source>
-        <translation>Descargar</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Copy url</source>
-        <translation>Copiar url</translation>
+        <translation type="unfinished">Copiar url</translation>
     </message>
     <message>
         <source>Error: Problem with allocating resources</source>
-        <translation>Error: problema con la asignación de recursos</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error: Media service error</source>
-        <translation>Error: error en servicio multimedia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error: Video or Audio format is not supported</source>
-        <translation>Error: formato de vídeo o audio no soportado</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error: Access denied to the video</source>
-        <translation>Error: acceso a vídeo denegado</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error: Network error</source>
-        <translation>Error: error de conexión</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unsubscribe</source>
-        <translation>Borrar suscripción</translation>
+        <translation type="unfinished">Borrar suscripción</translation>
     </message>
     <message>
         <source>Subscribe</source>
-        <translation>Suscribirse</translation>
+        <translation type="unfinished">Suscribirse</translation>
     </message>
 </context>
 <context>

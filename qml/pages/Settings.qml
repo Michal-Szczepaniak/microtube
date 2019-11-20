@@ -32,6 +32,9 @@ Page {
 
         property bool autoPlay: true
         property bool relatedVideos: true
+        property bool audioOnlyMode: false
+        property bool developerMode: false
+        property double buffer: 1.0
     }
 
     SilicaFlickable {
@@ -73,6 +76,18 @@ Page {
                onClicked: {
                    settings.relatedVideos = checked
                }
+            }
+
+            Slider {
+                id: bufferSlider
+                width: parent.width
+                minimumValue: 0
+                maximumValue: 1
+                stepSize: 0.1
+                value: settings.buffer
+                visible: settings.developerMode
+
+                onValueChanged: settings.buffer = value
             }
 
             ComboBox {

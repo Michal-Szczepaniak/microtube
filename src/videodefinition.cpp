@@ -45,7 +45,9 @@ const QVector<VideoDefinition> &VideoDefinition::getDefinitions() {
     // List preferred equivalent format last:
     // algo selects the last format with same name first
     static const QVector<VideoDefinition> definitions = {
-            VideoDefinition("360p", 18, true), VideoDefinition("720p", 22, true)
+        VideoDefinition("audio", 140),
+        VideoDefinition("360p", 18, true),
+        VideoDefinition("720p", 22, true)
     };
     return definitions;
 }

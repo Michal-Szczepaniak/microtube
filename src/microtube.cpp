@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     yt.registerObjectsInQml(view->rootContext());
 
     if (argc == 2) {
-        yt.search(QString::fromUtf8(argv[1]));
+        yt.search(QString::fromUtf8(argv[1]).replace("invidio.us", "youtube.com"));
     } else {
         yt.loadDefaultVideos();
     }

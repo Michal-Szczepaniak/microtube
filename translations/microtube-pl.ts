@@ -219,56 +219,52 @@
 <context>
     <name>VideoPlayer</name>
     <message>
-        <source>720p</source>
-        <translation>720p</translation>
+        <source>Downloaded to</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>480p</source>
-        <translation>480p</translation>
+        <source>720p</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>360p</source>
-        <translation>360p</translation>
-    </message>
-    <message>
-        <source>Subscribe</source>
-        <translation>Subskrybuj</translation>
-    </message>
-    <message>
-        <source>Error: Problem with allocating resources</source>
-        <translation>Błąd: Problem przy alokacji zasobów</translation>
-    </message>
-    <message>
-        <source>Error: Media service error</source>
-        <translation>Błąd: Błąd usługi mediów</translation>
-    </message>
-    <message>
-        <source>Error: Video or Audio format is not supported</source>
-        <translation>Błąd: Format wideo lub audio jest nieprawidłowy</translation>
-    </message>
-    <message>
-        <source>Error: Access denied to the video</source>
-        <translation>Błąd: Dostęp zabroniony</translation>
-    </message>
-    <message>
-        <source>Error: Network error</source>
-        <translation>Błąd: Problem z połączeniem internetowym</translation>
-    </message>
-    <message>
-        <source>Unsubscribe</source>
-        <translation>Odsubskrybuj</translation>
-    </message>
-    <message>
-        <source>Copy url</source>
-        <translation>Kopiuj url</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download</source>
-        <translation>Pobierz</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Downloaded to</source>
+        <source>Copy url</source>
+        <translation type="unfinished">Kopiuj url</translation>
+    </message>
+    <message>
+        <source>Error: Problem with allocating resources</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Media service error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Video or Audio format is not supported</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Access denied to the video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Network error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsubscribe</source>
+        <translation type="unfinished">Odsubskrybuj</translation>
+    </message>
+    <message>
+        <source>Subscribe</source>
+        <translation type="unfinished">Subskrybuj</translation>
     </message>
 </context>
 <context>
