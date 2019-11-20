@@ -270,10 +270,10 @@ bool YT::getSafeSearch() {
     return settings.value("safeSearch", false).toBool();
 }
 
-void YT::download(QString url) {
+void YT::download(QString url, QString location) {
     QString name = playlistModel->activeVideo()->getTitle();
     name = name.replace("/", "");
-    downloader.Download(url, "/home/nemo/Downloads/" + name + ".mp4");
+    downloader.Download(url, location + name + ".mp4");
     downloadNotification.setSummary("Downloading: " + name);
     downloadNotification.setHintValue("x-nemo-progress", 0);
     downloadNotification.publish();

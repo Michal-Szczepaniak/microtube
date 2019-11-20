@@ -35,6 +35,7 @@ Page {
         property bool audioOnlyMode: false
         property bool developerMode: false
         property double buffer: 1.0
+        property string downloadLocation: "/home/nemo/Downloads"
     }
 
     SilicaFlickable {
@@ -88,6 +89,13 @@ Page {
                 visible: settings.developerMode
 
                 onValueChanged: settings.buffer = value
+            }
+
+            TextField {
+                width: parent.width
+                text: settings.downloadLocation
+                label: qsTr("Download location")
+                onTextChanged: settings.downloadLocation = text
             }
 
             ComboBox {

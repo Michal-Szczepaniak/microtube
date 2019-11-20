@@ -183,6 +183,10 @@
         <source>Region</source>
         <translation>Región</translation>
     </message>
+    <message>
+        <source>Download location</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>

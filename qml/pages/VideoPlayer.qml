@@ -66,6 +66,7 @@ Page {
         property bool developerMode: false
         property double buffer: 1.0
         property string videoQuality: "360p"
+        property string downloadLocation: "/home/nemo/Downloads"
     }
 
     Timer {
@@ -282,7 +283,7 @@ Page {
                 text: qsTr("Download")
                 enabled: video.streamUrl.toString() !== ""
                 onClicked: {
-                    YT.download(video.streamUrl)
+                    YT.download(video.streamUrl, settings.downloadLocation)
                 }
             }
             MenuItem {

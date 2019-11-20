@@ -55,7 +55,7 @@ public:
     Q_INVOKABLE void itemActivated(int index);
     Q_INVOKABLE void setSafeSearch(bool value);
     Q_INVOKABLE bool getSafeSearch();
-    Q_INVOKABLE void download(QString url);
+    Q_INVOKABLE void download(QString url, QString location);
     void loadDefaultVideos();
     Q_INVOKABLE QStringList getRegions();
     Q_INVOKABLE int getCurrentRegion();
