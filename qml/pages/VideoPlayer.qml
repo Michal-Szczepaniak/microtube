@@ -150,12 +150,22 @@ Page {
         app.playing = title
     }
 
+    onStatusChanged: {
+        if ( status === PageStatus.Deactivating ) {
+            app.videoCover = false
+        } else if ( status === PageStatus.Activating ) {
+            app.videoCover = true
+        }
+    }
+
     Component.onDestruction: {
+        app.videoCover = false
         displaySettings.autoBrightnessEnabled = autoBrightness
         displaySettings.brightness = inactiveBrightness
     }
 
     Component.onCompleted: {
+        app.videoCover = true
         pacontrol.update()
         showHideControls()
         hideControlsAutomatically.restart()
@@ -175,7 +185,7 @@ Page {
 
     showNavigationIndicator: page.orientation === Orientation.Portrait
 
-    allowedOrientations: Orientation.All
+    allowedOrientations: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? Orientation.Portrait : Orientation.All
 
     function changeVideo() {
         if ( settings.relatedVideos ) {
@@ -283,7 +293,7 @@ Page {
                 text: qsTr("Download")
                 enabled: video.streamUrl.toString() !== ""
                 onClicked: {
-                    YT.download(video.streamUrl, settings.downloadLocation)
+                    YT.download(settings.audioOnlyMode ? video.audioStreamUrl : video.streamUrl, settings.downloadLocation)
                 }
             }
             MenuItem {
@@ -830,11 +840,12 @@ Page {
                     Column {
                         width: parent.width
                         padding: Theme.paddingLarge
+                        spacing: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? 100000 : 0
                         TextArea {
                             id: videoTitle
                             text: title
                             width: page.width - Theme.paddingLarge*2
-                            font.pixelSize: Theme.fontSizeLarge
+                            font.pixelSize: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? Theme.fontSizeHuge : Theme.fontSizeLarge
                             color: Theme.highlightColor
                             font.family: Theme.fontFamilyHeading
                             readOnly: true
