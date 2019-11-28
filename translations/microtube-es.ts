@@ -185,7 +185,7 @@
     </message>
     <message>
         <source>Download location</source>
-        <translation type="unfinished"></translation>
+        <translation>Ubicación de descargas</translation>
     </message>
 </context>
 <context>
@@ -229,51 +229,51 @@
     <name>VideoPlayer</name>
     <message>
         <source>Downloaded to</source>
-        <translation type="unfinished"></translation>
+        <translation>Descargado en</translation>
     </message>
     <message>
         <source>720p</source>
-        <translation type="unfinished"></translation>
+        <translation>720p</translation>
     </message>
     <message>
         <source>360p</source>
-        <translation type="unfinished"></translation>
+        <translation>360p</translation>
     </message>
     <message>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Descargar</translation>
     </message>
     <message>
         <source>Copy url</source>
-        <translation type="unfinished">Copiar url</translation>
+        <translation>Copiar url</translation>
     </message>
     <message>
         <source>Error: Problem with allocating resources</source>
-        <translation type="unfinished"></translation>
+        <translation>Error: problema con asignación de recursos</translation>
     </message>
     <message>
         <source>Error: Media service error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error: error en servicio multimedia</translation>
     </message>
     <message>
         <source>Error: Video or Audio format is not supported</source>
-        <translation type="unfinished"></translation>
+        <translation>Error: formato de vídeo o audio no soportado</translation>
     </message>
     <message>
         <source>Error: Access denied to the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Error: acceso al vídeo denegado</translation>
     </message>
     <message>
         <source>Error: Network error</source>
-        <translation type="unfinished"></translation>
+        <translation>Error: error de conexión</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
-        <translation type="unfinished">Borrar suscripción</translation>
+        <translation>Dejar suscripción</translation>
     </message>
     <message>
         <source>Subscribe</source>
-        <translation type="unfinished">Suscribirse</translation>
+        <translation>Suscribirse</translation>
     </message>
 </context>
 <context>
