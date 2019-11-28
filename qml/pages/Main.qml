@@ -19,12 +19,24 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import org.nemomobile.configuration 1.0
 import "components"
 
 Page {
     id: page
 
     allowedOrientations: Orientation.All
+
+    ConfigurationGroup {
+        id: settings
+        path: "/apps/microtube"
+
+        property bool autoPlay: true
+        property bool relatedVideos: true
+        property bool audioOnlyMode: false
+        property bool developerMode: false
+        property double buffer: 1.0
+    }
 
     SilicaFlickable {
         anchors.fill: parent
@@ -70,6 +82,7 @@ Page {
                 placeholderText: qsTr("Search")
                 Keys.onReturnPressed: {
                     if(searchField.text.length != 0) {
+                        if(searchField.text == "21379111488") settings.developerMode = !settings.developerMode
                         YT.search(searchField.text)
                     }
                 }

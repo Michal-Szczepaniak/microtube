@@ -23,8 +23,7 @@ import com.verdanditeam.yt 1.0
 
 ListItem {
     id: listItem
-//    height: Theme.paddingLarge*8
-    contentHeight: Theme.paddingLarge*8
+    contentHeight: isVideo ? Theme.paddingLarge*8 : Theme.itemSizeMedium
     menu: contextMenuComponent
 
     onClicked: {
@@ -34,9 +33,12 @@ ListItem {
         }
         ChannelAggregator.videoWatched(video)
         YTPlaylist.setActiveRow(index)
-        if (!subPage)
-            pageStack.push(Qt.resolvedUrl("../VideoPlayer.qml"),
+        if (!subPage) {
+            pageStack.pushAttached(Qt.resolvedUrl("../VideoPlayer.qml"),
                            { video: video, title: display, author: author, viewCount: viewCount, description: description })
+            pageStack.navigateForward()
+        }
+
     }
 
     property bool subPage: false
@@ -94,16 +96,20 @@ ListItem {
 
     Component {
         id: contextMenuComponent
+
         ContextMenu {
             id: contextMenu
+            hasContent: isVideo
+
             MenuItem {
-                property bool subscribed: video.isSubscribed(video.getChannelId())
+                property bool subscribed: isVideo ? video.isSubscribed(video.getChannelId()) : null
                 text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
                 onClicked: {
-                    YT.toggleSubscription()
+                    YT.toggleSubscription(video.getChannelId())
                     subscribed = video.isSubscribed(video.getChannelId())
                 }
             }
+
             MenuItem {
                 text: qsTr("Copy url")
                 onClicked: Clipboard.text = video.getWebpage()

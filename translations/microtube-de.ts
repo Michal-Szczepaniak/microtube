@@ -183,6 +183,10 @@
         <source>Region</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Download location</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>
@@ -229,10 +233,6 @@
     </message>
     <message>
         <source>720p</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>480p</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -31,7 +31,7 @@ class YTVideo;
 class Video : public QObject {
     Q_OBJECT
     Q_PROPERTY(const QUrl streamUrl READ getStreamUrl NOTIFY gotStreamUrl)
-    Q_PROPERTY(const QUrl audioStreamUrl READ getStreamUrl NOTIFY gotStreamUrl)
+    Q_PROPERTY(const QUrl audioStreamUrl READ getAudioStreamUrl NOTIFY gotStreamUrl)
     Q_PROPERTY(const QString viewCount READ getFormattedViewCount NOTIFY viewCountChanged)
 
 public:
@@ -85,6 +85,7 @@ public:
 
     Q_INVOKABLE void loadStreamUrl();
     Q_INVOKABLE QString getStreamUrl() { return streamUrl; }
+    Q_INVOKABLE QString getAudioStreamUrl() { return audioStreamUrl; }
     Q_INVOKABLE bool isLoadingStreamUrl() const { return ytVideo != nullptr; }
     Q_INVOKABLE void abortLoadStreamUrl();
 

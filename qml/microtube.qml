@@ -25,8 +25,10 @@ ApplicationWindow
 {
     id: app
     initialPage: Component { Main { } }
-    cover: Qt.resolvedUrl("cover/CoverPage.qml")
+    cover: !videoCover ? Qt.resolvedUrl("cover/CoverPage.qml") : null
+
     allowedOrientations: defaultAllowedOrientations
 
     property string playing: ""
+    property bool videoCover: false
 }

@@ -32,6 +32,10 @@ Page {
 
         property bool autoPlay: true
         property bool relatedVideos: true
+        property bool audioOnlyMode: false
+        property bool developerMode: false
+        property double buffer: 1.0
+        property string downloadLocation: "/home/nemo/Downloads"
     }
 
     SilicaFlickable {
@@ -73,6 +77,25 @@ Page {
                onClicked: {
                    settings.relatedVideos = checked
                }
+            }
+
+            Slider {
+                id: bufferSlider
+                width: parent.width
+                minimumValue: 0
+                maximumValue: 1
+                stepSize: 0.1
+                value: settings.buffer
+                visible: settings.developerMode
+
+                onValueChanged: settings.buffer = value
+            }
+
+            TextField {
+                width: parent.width
+                text: settings.downloadLocation
+                label: qsTr("Download location")
+                onTextChanged: settings.downloadLocation = text
             }
 
             ComboBox {

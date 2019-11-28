@@ -27,6 +27,8 @@ import com.jolla.settings.system 1.0
 import org.nemomobile.systemsettings 1.0
 import org.nemomobile.configuration 1.0
 import Nemo.Notifications 1.0
+import Nemo.KeepAlive 1.2
+import QtGraphicalEffects 1.0
 import "components"
 
 Page {
@@ -60,6 +62,11 @@ Page {
 
         property bool autoPlay: true
         property bool relatedVideos: true
+        property bool audioOnlyMode: false
+        property bool developerMode: false
+        property double buffer: 1.0
+        property string videoQuality: "360p"
+        property string downloadLocation: "/home/nemo/Downloads"
     }
 
     Timer {
@@ -143,12 +150,22 @@ Page {
         app.playing = title
     }
 
+    onStatusChanged: {
+        if ( status === PageStatus.Deactivating ) {
+            app.videoCover = false
+        } else if ( status === PageStatus.Activating ) {
+            app.videoCover = true
+        }
+    }
+
     Component.onDestruction: {
+        app.videoCover = false
         displaySettings.autoBrightnessEnabled = autoBrightness
         displaySettings.brightness = inactiveBrightness
     }
 
     Component.onCompleted: {
+        app.videoCover = true
         pacontrol.update()
         showHideControls()
         hideControlsAutomatically.restart()
@@ -161,12 +178,14 @@ Page {
             YTPlaylist.setActiveRow(0, false)
             video = YTPlaylist.qmlVideoAt(0)
         }
+        if(settings.audioOnlyMode)
+            topMenu.resolutionChange("audio")
         video.loadStreamUrl()
     }
 
     showNavigationIndicator: page.orientation === Orientation.Portrait
 
-    allowedOrientations: Orientation.All
+    allowedOrientations: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? Orientation.Portrait : Orientation.All
 
     function changeVideo() {
         if ( settings.relatedVideos ) {
@@ -189,8 +208,17 @@ Page {
     Connections {
         target: video
         onStreamUrlChanged: {
-            if(videoChanging) videoChanging = false
-            mediaPlayer.videoPlay()
+            if(!settings.audioOnlyMode) {
+                if(videoChanging) videoChanging = false
+                mediaPlayer.videoPlay()
+            }
+        }
+
+        onAudioStreamUrlChanged: {
+            if(settings.audioOnlyMode) {
+                if(videoChanging) videoChanging = false
+                mediaPlayer.videoPlay()
+            }
         }
     }
 
@@ -240,6 +268,7 @@ Page {
             visible: page.orientation === Orientation.Portrait
 
             function resolutionChange(name) {
+                if(name !== "audio") settings.videoQuality = name
                 videoChanging = true
                 mediaPlayer.stop()
                 YT.setDefinition(name)
@@ -248,18 +277,14 @@ Page {
 
             MenuItem {
                 text: qsTr("720p")
+                enabled: !settings.audioOnlyMode
                 onClicked: {
                     topMenu.resolutionChange("720p")
                 }
             }
             MenuItem {
-                text: qsTr("480p")
-                onClicked: {
-                    topMenu.resolutionChange("480p")
-                }
-            }
-            MenuItem {
                 text: qsTr("360p")
+                enabled: !settings.audioOnlyMode
                 onClicked: {
                     topMenu.resolutionChange("360p");
                 }
@@ -268,7 +293,7 @@ Page {
                 text: qsTr("Download")
                 enabled: video.streamUrl.toString() !== ""
                 onClicked: {
-                    YT.download(video.streamUrl)
+                    YT.download(settings.audioOnlyMode ? video.audioStreamUrl : video.streamUrl, settings.downloadLocation)
                 }
             }
             MenuItem {
@@ -288,11 +313,11 @@ Page {
 
                     MediaPlayer {
                         id: mediaPlayer
-                        source: video.streamUrl
+                        source: settings.audioOnlyMode ? video.audioStreamUrl : video.streamUrl
 
                         function videoPlay() {
                             videoPlaying = true
-                            if (mediaPlayer.bufferProgress == 1) {
+                            if (mediaPlayer.bufferProgress == 1 || (settings.developerMode && mediaPlayer.bufferProgress > settings.buffer) || settings.audioOnlyMode) {
                                 mediaPlayer.play()
                             }
                         }
@@ -347,16 +372,18 @@ Page {
                         onErrorMsgChanged: errorPane.show()
 
                         onBufferProgressChanged: {
-                            if (videoPlaying && mediaPlayer.bufferProgress == 1) {
+                            if (videoPlaying && mediaPlayer.bufferProgress == 1
+                                    || (videoPlaying && settings.developerMode && mediaPlayer.bufferProgress > settings.buffer)
+                                    || videoPlaying && settings.audioOnlyMode) {
                                 mediaPlayer.play();
                             }
 
-                            if (mediaPlayer.bufferProgress == 0) {
+                            if (mediaPlayer.bufferProgress == 0 && !settings.audioOnlyMode) {
                                 mediaPlayer.pause();
                             }
                         }
 
-                        onPositionChanged: proggressSlider.value = position
+                        onPositionChanged: progressSlider.value = position
                     }
 
                     VideoOutput {
@@ -397,108 +424,160 @@ Page {
                         BusyIndicator {
                             size: BusyIndicatorSize.Large
                             anchors.centerIn: parent
-                            running: mediaPlayer.bufferProgress != 1
+                            running: (!settings.developerMode && mediaPlayer.bufferProgress != 1) || (settings.developerMode && mediaPlayer.bufferProgress < settings.buffer)
                         }
 
-
-                        MouseArea {
-                            id: mousearea
+                        SilicaFlickable {
+                            id: videoOptions
                             anchors.fill: videoOutput
-                            property int offset: page.height/20
-                            property int offsetHeight: height - (offset*2)
-                            property int step: offsetHeight / 10
-                            property bool stepChanged: false
-                            property int brightnessStep: displaySettings.maximumBrightness / 10
-                            property int lambdaVolumeStep: -1
-                            property int lambdaBrightnessStep: -1
-                            property int currentVolume: -1
+                            flickableDirection: Flickable.HorizontalAndVerticalFlick
+                            interactive: !landscape
+                            contentHeight: this.height + Theme.itemSizeMedium
+                            contentY: 0
+                            clip: true
 
-                            Timer{
-                                id: doubleClickTimer
-                                interval: 200
-                            }
+                            onMovementEnded: {
+                                if (videoOptions.contentY > 0) {
+                                    if (videoOptions.contentY === Theme.itemSizeMedium) {
+                                        videoChanging = true
+                                        mediaPlayer.stop()
+                                        settings.audioOnlyMode = !settings.audioOnlyMode
+                                        var quality = settings.audioOnlyMode ? "audio" : settings.videoQuality
+                                        topMenu.resolutionChange(quality)
+                                    }
 
-                            function calculateStep(mouse) {
-                                return Math.round((offsetHeight - (mouse.y-offset)) / step)
-                            }
-
-                            onReleased: {
-                                if (doubleClickTimer.running) doubleClicked(mouse)
-                                if (!doubleClickTimer.running) doubleClickTimer.start()
-                                if (!stepChanged) _controlsVisible = !_controlsVisible
-
-                                if ( landscape ) {
-                                    flickable.flickableDirection = Flickable.VerticalFlick
-                                    lambdaVolumeStep = -1
-                                    lambdaBrightnessStep = -1
-                                    stepChanged = false
+                                    videoOptions.contentY = 0
                                 }
                             }
 
-                            onPressed: {
-                                if ( landscape ) {
-                                    pacontrol.update()
-                                    flickable.flickableDirection = Flickable.HorizontalFlick
-                                    lambdaBrightnessStep = lambdaVolumeStep = calculateStep(mouse)
+                            Rectangle {
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                anchors.bottom: parent.bottom
+                                height: Theme.itemSizeMedium
+                                gradient: Gradient {
+                                    GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightBackgroundColor, 0.0) }
+                                    GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightBackgroundColor, 0.7) }
                                 }
                             }
 
-                            function doubleClicked(mouse) {
-                                if ( landscape ) {
-                                    var newPos = null
-                                    if(mouse.x < mousearea.width/2 ) {
-                                        newPos = mediaPlayer.position - 5000
-                                        if(newPos < 0) newPos = 0
-                                        mediaPlayer.seek(newPos)
-                                        backwardIndicator.visible = true
-                                    } else if (mouse.x > mousearea.width/2) {
-                                        newPos = mediaPlayer.position + 5000
-                                        if(newPos > mediaPlayer.duration) {
-                                            mediaPlayer.nextVideo()
-                                            return
-                                        }
-                                        mediaPlayer.seek(newPos)
-                                        forwardIndicator.visible = true
+                            Image {
+                                id: audioOnlyIcon
+                                width: Theme.itemSizeMedium
+                                height: Theme.itemSizeMedium
+                                fillMode: Image.PreserveAspectFit
+                                anchors.bottom: parent.bottom
+                                anchors.bottomMargin: (Theme.itemSizeLarge - Theme.itemSizeMedium)
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                source: "image://theme/icon-cover-play"
+
+                                transform: Rotation{
+                                    angle: 180
+                                    origin.x: prev1.width/2
+                                    origin.y: prev1.height/2
+                                }
+                            }
+
+                            MouseArea {
+                                id: mousearea
+                                anchors.fill: parent
+                                propagateComposedEvents: true
+                                property int offset: page.height/20
+                                property int offsetHeight: height - (offset*2)
+                                property int step: offsetHeight / 10
+                                property bool stepChanged: false
+                                property int brightnessStep: displaySettings.maximumBrightness / 10
+                                property int lambdaVolumeStep: -1
+                                property int lambdaBrightnessStep: -1
+                                property int currentVolume: -1
+
+                                Timer{
+                                    id: doubleClickTimer
+                                    interval: 200
+                                }
+
+                                function calculateStep(mouse) {
+                                    return Math.round((offsetHeight - (mouse.y-offset)) / step)
+                                }
+
+                                onReleased: {
+                                    if (doubleClickTimer.running) doubleClicked(mouse)
+                                    if (!doubleClickTimer.running) doubleClickTimer.start()
+                                    if (!stepChanged) _controlsVisible = !_controlsVisible
+
+                                    if ( landscape ) {
+                                        flickable.flickableDirection = Flickable.VerticalFlick
+                                        lambdaVolumeStep = -1
+                                        lambdaBrightnessStep = -1
+                                        stepChanged = false
                                     }
                                 }
-                            }
 
-                            Connections {
-                                target: pacontrol
-                                onVolumeChanged: {
-                                    mousearea.currentVolume = volume
-                                    if (volume > 10) {
-                                        mousearea.currentVolume = 10
-                                    } else if (volume < 0) {
-                                        mousearea.currentVolume = 0
-                                    }
-                                }
-                            }
-
-                            onPositionChanged: {
-                                if ( landscape ) {
-                                    var step = calculateStep(mouse)
-                                    if((mouse.y - offset) > 0 && (mouse.y + offset) < offsetHeight && mouse.x < mousearea.width/2 && lambdaVolumeStep !== step) {
-                                        pacontrol.setVolume(currentVolume - (lambdaVolumeStep - step))
-                                        volumeSlider.value = currentVolume - (lambdaVolumeStep - step)
-                                        lambdaVolumeStep = step
-                                        volumeSlider.visible = true
-                                        volumeIndicator.visible = true
-                                        hideVolumeSlider.restart()
+                                onPressed: {
+                                    if ( landscape ) {
                                         pacontrol.update()
-                                        stepChanged = true
-                                    } else if ((mouse.y - offset) > 0 && (mouse.y + offset) < offsetHeight && mouse.x > mousearea.width/2 && lambdaBrightnessStep !== step) {
-                                        var relativeStep = Math.round(displaySettings.brightness/brightnessStep) - (lambdaBrightnessStep - step)
-                                        if (relativeStep > 10) relativeStep = 10;
-                                        if (relativeStep < 0) relativeStep = 0;
-                                        displaySettings.brightness = relativeStep * brightnessStep
-                                        activeBrightness = relativeStep * brightnessStep
-                                        lambdaBrightnessStep = step
-                                        brightnessSlider.value = relativeStep
-                                        brightnessSlider.visible = true
-                                        brightnessIndicator.visible = true
-                                        hideBrightnessSlider.restart()
-                                        stepChanged = true
+                                        flickable.flickableDirection = Flickable.HorizontalFlick
+                                        lambdaBrightnessStep = lambdaVolumeStep = calculateStep(mouse)
+                                    }
+                                }
+
+                                function doubleClicked(mouse) {
+                                    if ( landscape ) {
+                                        var newPos = null
+                                        if(mouse.x < mousearea.width/2 ) {
+                                            newPos = mediaPlayer.position - 5000
+                                            if(newPos < 0) newPos = 0
+                                            mediaPlayer.seek(newPos)
+                                            backwardIndicator.visible = true
+                                        } else if (mouse.x > mousearea.width/2) {
+                                            newPos = mediaPlayer.position + 5000
+                                            if(newPos > mediaPlayer.duration) {
+                                                mediaPlayer.nextVideo()
+                                                return
+                                            }
+                                            mediaPlayer.seek(newPos)
+                                            forwardIndicator.visible = true
+                                        }
+                                    }
+                                }
+
+                                Connections {
+                                    target: pacontrol
+                                    onVolumeChanged: {
+                                        mousearea.currentVolume = volume
+                                        if (volume > 10) {
+                                            mousearea.currentVolume = 10
+                                        } else if (volume < 0) {
+                                            mousearea.currentVolume = 0
+                                        }
+                                    }
+                                }
+
+                                onPositionChanged: {
+                                    if ( landscape ) {
+                                        var step = calculateStep(mouse)
+                                        if((mouse.y - offset) > 0 && (mouse.y + offset) < offsetHeight && mouse.x < mousearea.width/2 && lambdaVolumeStep !== step) {
+                                            pacontrol.setVolume(currentVolume - (lambdaVolumeStep - step))
+                                            volumeSlider.value = currentVolume - (lambdaVolumeStep - step)
+                                            lambdaVolumeStep = step
+                                            volumeSlider.visible = true
+                                            volumeIndicator.visible = true
+                                            hideVolumeSlider.restart()
+                                            pacontrol.update()
+                                            stepChanged = true
+                                        } else if ((mouse.y - offset) > 0 && (mouse.y + offset) < offsetHeight && mouse.x > mousearea.width/2 && lambdaBrightnessStep !== step) {
+                                            var relativeStep = Math.round(displaySettings.brightness/brightnessStep) - (lambdaBrightnessStep - step)
+                                            if (relativeStep > 10) relativeStep = 10;
+                                            if (relativeStep < 0) relativeStep = 0;
+                                            displaySettings.brightness = relativeStep * brightnessStep
+                                            activeBrightness = relativeStep * brightnessStep
+                                            lambdaBrightnessStep = step
+                                            brightnessSlider.value = relativeStep
+                                            brightnessSlider.visible = true
+                                            brightnessIndicator.visible = true
+                                            hideBrightnessSlider.restart()
+                                            stepChanged = true
+                                        }
                                     }
                                 }
                             }
@@ -653,7 +732,7 @@ Page {
 
                         IconButton {
                             id: playButton
-                            enabled: opacity != 0
+                            visible: opacity != 0
                             icon.source: mediaPlayer.playbackState == MediaPlayer.PlayingState ? "image://theme/icon-m-pause" : "image://theme/icon-m-play"
                             anchors.centerIn: parent
                             onClicked: mediaPlayer.playbackState == MediaPlayer.PlayingState ? mediaPlayer.videoPause() : mediaPlayer.videoPlay()
@@ -661,7 +740,7 @@ Page {
 
                         IconButton {
                             id: nextButton
-                            enabled: opacity != 0
+                            visible: opacity != 0
                             icon.source: "image://theme/icon-m-next"
                             anchors.top: playButton.top
                             anchors.left: playButton.right
@@ -671,7 +750,7 @@ Page {
 
                         IconButton {
                             id: prevButton
-                            enabled: opacity != 0
+                            visible: opacity != 0
                             icon.source: "image://theme/icon-m-previous"
                             anchors.top: playButton.top
                             anchors.right: playButton.left
@@ -712,16 +791,17 @@ Page {
                         }
 
                         Slider {
-                            id: proggressSlider
+                            id: progressSlider
                             value: mediaPlayer.position
                             minimumValue: 0
                             maximumValue: mediaPlayer.duration
                             anchors.left: page.landscape ? progress.right : videoOutput.left
                             anchors.right: page.landscape ? duration.left : videoOutput.right
                             anchors.bottom: videoOutput.bottom
-                            anchors.bottomMargin: page.landscape ? 0 : -proggressSlider.height/2
+                            anchors.bottomMargin: page.landscape ? 0 : -progressSlider.height/2
                             anchors.leftMargin: page.landscape ? -Theme.paddingLarge*2 : -Theme.paddingLarge*4
                             anchors.rightMargin: page.landscape ? -Theme.paddingLarge*2 : -Theme.paddingLarge*4
+                            enabled: handleVisible
                             handleVisible: _controlsVisible
 
                             NumberAnimation on opacity {
@@ -736,12 +816,12 @@ Page {
                                 duration: 100
                             }
 
-                            onReleased: mediaPlayer.seek(proggressSlider.value)
+                            onReleased: mediaPlayer.seek(progressSlider.value)
                         }
                     }
 
-                    ScreenBlank {
-                        suspend: mediaPlayer.playbackState == MediaPlayer.PlayingState
+                    DisplayBlanking {
+                        preventBlanking: mediaPlayer.playbackState == MediaPlayer.PlayingState
                     }
                 }
             }
@@ -760,11 +840,12 @@ Page {
                     Column {
                         width: parent.width
                         padding: Theme.paddingLarge
+                        spacing: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? 100000 : 0
                         TextArea {
                             id: videoTitle
                             text: title
                             width: page.width - Theme.paddingLarge*2
-                            font.pixelSize: Theme.fontSizeLarge
+                            font.pixelSize: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? Theme.fontSizeHuge : Theme.fontSizeLarge
                             color: Theme.highlightColor
                             font.family: Theme.fontFamilyHeading
                             readOnly: true

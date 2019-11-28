@@ -13,7 +13,7 @@ Name:       microtube
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    µTube
-Version:    1.7.1
+Version:    1.7.4
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE
@@ -62,8 +62,10 @@ desktop-file-install --delete-original       \
    %{buildroot}%{_datadir}/applications/*.desktop
 
 %post
-su nemo -c "xdg-mime default %{name}-url.desktop x-scheme-handler/http"
-su nemo -c "xdg-mime default %{name}-url.desktop x-scheme-handler/https"
+su nemo -c "cp /usr/share/applications/open-url.desktop /home/nemo/.local/share/applications/open-url.desktop"
+su nemo -c "update-desktop-database /home/nemo/.local/share/applications"
+
+%postun
 su nemo -c "update-desktop-database /home/nemo/.local/share/applications"
 
 %files
