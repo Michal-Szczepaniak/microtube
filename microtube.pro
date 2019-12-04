@@ -128,10 +128,8 @@ INSTALLS += urlfile
 # following CONFIG line
 CONFIG += sailfishapp_i18n
 
-# German translation is enabled as an example. If you aren't
-# planning to localize your app, remember to comment out the
-# following TRANSLATIONS line. And also do not forget to
-# modify the localized app name in the the .desktop file.
 TRANSLATIONS += translations/microtube-de.ts \
     translations/microtube-es.ts \
+    translations/microtube-cs.ts \
+    translations/microtube-hu.ts \
     translations/microtube-pl.ts
