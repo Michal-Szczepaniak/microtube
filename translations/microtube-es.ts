@@ -45,7 +45,7 @@
     </message>
     <message>
         <source>Malakay for Czech translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Malakay por la traducción al checo.</translation>
     </message>
 </context>
 <context>
