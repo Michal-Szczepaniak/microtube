@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="cs" sourcelanguage="cs">
 <context>
@@ -42,6 +42,10 @@
     <message>
         <source>1Zgp for hungarian translation.</source>
         <translation type="unfinished">1Zgp za maďarský překlad.</translation>
+    </message>
+    <message>
+        <source>Malakay for Czech translation.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
