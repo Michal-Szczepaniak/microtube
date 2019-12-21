@@ -43,6 +43,10 @@
         <source>1Zgp for hungarian translation.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Malakay for Czech translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ChannelAggregator</name>

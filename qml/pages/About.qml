@@ -151,6 +151,12 @@ Page {
             }
 
             Label {
+                text: qsTr("Malakay for Czech translation.")
+                font.pixelSize: Theme.fontSizeSmall
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            Label {
                 text: qsTr("DylanVanAssche for help.")
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter

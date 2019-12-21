@@ -1,64 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_ES">
+<TS version="2.1">
 <context>
     <name>About</name>
     <message>
         <source>About</source>
-        <translation>Acerca de</translation>
+        <translation>关于</translation>
     </message>
     <message>
         <source>Made by Michał Szczepaniak. Based on minitube.</source>
-        <translation>Hecho por Michał Szczepaniak. Basado en minitube.</translation>
+        <translation>由 Michał Szczepaniak 开发，基于 minitube 。</translation>
     </message>
     <message>
         <source>Licensed under GPLv3</source>
-        <translation>Autorizado bajo GPLv3</translation>
+        <translation>采用 GPLv3 许可协议</translation>
     </message>
     <message>
         <source>Links</source>
-        <translation>Enlaces</translation>
+        <translation>链接</translation>
     </message>
     <message>
         <source>Thanks to</source>
-        <translation>Gracias a</translation>
+        <translation>感谢</translation>
     </message>
     <message>
         <source>Donate</source>
-        <translation>Donar</translation>
+        <translation>捐赠</translation>
     </message>
     <message>
         <source>jgibbon for german translation and help.</source>
-        <translation>jgibbon por la traducción al alemán y su ayuda.</translation>
+        <translation>jgibbon 提供德语翻译及开发协助。</translation>
     </message>
     <message>
         <source>carmenfdezb for spanish translation.</source>
-        <translation>carmenfdezb por la traducción al español.</translation>
+        <translation>carmenfdezb 提供西班牙语翻译</translation>
     </message>
     <message>
         <source>DylanVanAssche for help.</source>
-        <translation>DylanVanAssche por su ayuda.</translation>
+        <translation>DylanVanAssche 开发协助。</translation>
     </message>
     <message>
         <source>1Zgp for hungarian translation.</source>
-        <translation>1Zgp por la traducción al húngaro.</translation>
-    </message>
-    <message>
-        <source>Malakay for Czech translation.</source>
-        <translation>Malakay por la traducción al checo.</translation>
+        <translation>1Zgp 提供匈牙利语翻译。</translation>
     </message>
 </context>
 <context>
     <name>ChannelAggregator</name>
     <message>
         <source>By %1</source>
-        <translation>Por %1</translation>
+        <translation>视频来自 %1</translation>
     </message>
     <message numerus="yes">
         <source>You have %n new video(s)</source>
         <translation>
-            <numerusform>Tienes %n vídeo nuevo</numerusform>
-            <numerusform>Tienes %n vídeos nuevos</numerusform>
+            <numerusform>你有 %1 新视频</numerusform>
         </translation>
     </message>
 </context>
@@ -70,41 +65,37 @@
     </message>
     <message>
         <source>Playing:</source>
-        <translation>Reproduciendo:</translation>
+        <translation>正在播放:</translation>
     </message>
 </context>
 <context>
     <name>DataUtils</name>
     <message>
         <source>Just now</source>
-        <translation>Justo ahora</translation>
+        <translation>刚刚</translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s) ago</source>
         <translation>
-            <numerusform>Hace %n hora</numerusform>
-            <numerusform>Hace %n horas</numerusform>
+            <numerusform>%n 小时前</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s) ago</source>
         <translation>
-            <numerusform>Hace %n día</numerusform>
-            <numerusform>Hace %n días</numerusform>
+            <numerusform>%n 天前</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n month(s) ago</source>
         <translation>
-            <numerusform>Hace %n mes</numerusform>
-            <numerusform>Hace %n meses</numerusform>
+            <numerusform>%n 月前</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n week(s) ago</source>
         <translation>
-            <numerusform>Hace %n semana</numerusform>
-            <numerusform>Hace %n semanas</numerusform>
+            <numerusform>%n 周前</numerusform>
         </translation>
     </message>
     <message>
@@ -124,116 +115,116 @@
     </message>
     <message>
         <source>%1 views</source>
-        <translation>%1 visualizaciones</translation>
+        <translation>%1 次观看</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Subscriptions</source>
-        <translation>Suscripciones</translation>
+        <translation>订阅</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation>Buscar</translation>
+        <translation>搜索</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Acerca de</translation>
+        <translation>关于</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ajustes</translation>
+        <translation>设置</translation>
     </message>
 </context>
 <context>
     <name>PlaylistModel</name>
     <message>
+        <source>Show %1 More</source>
+        <translation>多显示 %1 个视频</translation>
+    </message>
+    <message>
         <source>No videos</source>
-        <translation>No hay vídeos</translation>
+        <translation>无视频</translation>
     </message>
     <message>
         <source>No more videos</source>
-        <translation>No hay más vídeos</translation>
+        <translation>没有更多视频</translation>
     </message>
     <message>
         <source>Check internet connection.</source>
-        <translation>Comprueba la conexión a internet.</translation>
-    </message>
-    <message>
-        <source>Show more</source>
-        <translation type="unfinished"></translation>
+        <translation>检查网络连接。</translation>
     </message>
 </context>
 <context>
     <name>Settings</name>
     <message>
         <source>Settings</source>
-        <translation>Ajustes</translation>
+        <translation>设置</translation>
     </message>
     <message>
         <source>Restricted mode (safe for kids)</source>
-        <translation>Modo restringido (seguro para niños)</translation>
+        <translation>严格模式（对儿童安全）</translation>
     </message>
     <message>
         <source>Automatic change to next video</source>
-        <translation>Cambio automático al siguiente vídeo</translation>
+        <translation>自动播放下一个视频</translation>
     </message>
     <message>
         <source>Search for related videos</source>
-        <translation>Buscar vídeos relacionados</translation>
+        <translation>搜索相关视频</translation>
     </message>
     <message>
         <source>Region</source>
-        <translation>Región</translation>
+        <translation>区域</translation>
     </message>
     <message>
         <source>Download location</source>
-        <translation>Ubicación de descargas</translation>
+        <translation>下载位置</translation>
     </message>
 </context>
 <context>
     <name>SharePage</name>
     <message>
         <source>Share</source>
-        <translation>Compartir</translation>
+        <translation>分享</translation>
     </message>
 </context>
 <context>
     <name>Subscriptions</name>
     <message>
         <source>Subscriptions</source>
-        <translation>Suscripciones</translation>
+        <translation>订阅</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
-        <translation>Borrar suscripción</translation>
+        <translation>取消订阅</translation>
     </message>
     <message>
         <source>Mark all as watched</source>
-        <translation>Marcar todos como vistos</translation>
+        <translation>标记为已看</translation>
     </message>
 </context>
 <context>
     <name>VideoElement</name>
     <message>
         <source>Unsubscribe</source>
-        <translation>Borrar suscripción</translation>
+        <translation>取消订阅</translation>
     </message>
     <message>
         <source>Subscribe</source>
-        <translation>Suscribirse</translation>
+        <translation>订阅</translation>
     </message>
     <message>
         <source>Copy url</source>
-        <translation>Copiar url</translation>
+        <translation>复制 url</translation>
     </message>
 </context>
 <context>
     <name>VideoPlayer</name>
     <message>
         <source>Downloaded to</source>
-        <translation>Descargado en</translation>
+        <translation>下载到</translation>
     </message>
     <message>
         <source>720p</source>
@@ -245,256 +236,256 @@
     </message>
     <message>
         <source>Download</source>
-        <translation>Descargar</translation>
+        <translation>下载</translation>
     </message>
     <message>
         <source>Copy url</source>
-        <translation>Copiar url</translation>
+        <translation>复制 url</translation>
     </message>
     <message>
         <source>Error: Problem with allocating resources</source>
-        <translation>Error: problema con asignación de recursos</translation>
+        <translation>错误:分配资源出错</translation>
     </message>
     <message>
         <source>Error: Media service error</source>
-        <translation>Error: error en servicio multimedia</translation>
+        <translation>错误:媒体服务错误</translation>
     </message>
     <message>
         <source>Error: Video or Audio format is not supported</source>
-        <translation>Error: formato de vídeo o audio no soportado</translation>
+        <translation>错误:不支持的视频或音频格式</translation>
     </message>
     <message>
         <source>Error: Access denied to the video</source>
-        <translation>Error: acceso al vídeo denegado</translation>
+        <translation>错误:访问视频被拒绝</translation>
     </message>
     <message>
         <source>Error: Network error</source>
-        <translation>Error: error de conexión</translation>
+        <translation>错误:网络错误</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
-        <translation>Dejar suscripción</translation>
+        <translation>取消订阅</translation>
     </message>
     <message>
         <source>Subscribe</source>
-        <translation>Suscribirse</translation>
+        <translation>订阅</translation>
     </message>
 </context>
 <context>
     <name>YT</name>
     <message>
         <source>All Videos</source>
-        <translation>Todos los vídeos</translation>
+        <translation>全部视频</translation>
     </message>
     <message>
         <source>Unwatched Videos</source>
-        <translation>Vídeos no vistos</translation>
+        <translation>未看视频</translation>
     </message>
 </context>
 <context>
     <name>YTRegions</name>
     <message>
         <source>Algeria</source>
-        <translation>Argelia</translation>
+        <translation>阿尔及利亚</translation>
     </message>
     <message>
         <source>Argentina</source>
-        <translation>Argentina</translation>
+        <translation>阿根廷</translation>
     </message>
     <message>
         <source>Australia</source>
-        <translation>Australia</translation>
+        <translation>澳大利亚</translation>
     </message>
     <message>
         <source>Belgium</source>
-        <translation>Bélgica</translation>
+        <translation>比利时</translation>
     </message>
     <message>
         <source>Brazil</source>
-        <translation>Brasil</translation>
+        <translation>巴西</translation>
     </message>
     <message>
         <source>Canada</source>
-        <translation>Canadá</translation>
+        <translation>加拿大</translation>
     </message>
     <message>
         <source>Chile</source>
-        <translation>Chile</translation>
+        <translation>智利</translation>
     </message>
     <message>
         <source>Colombia</source>
-        <translation>Colombia</translation>
+        <translation>哥伦比亚</translation>
     </message>
     <message>
         <source>Czech Republic</source>
-        <translation>República Checa</translation>
+        <translation>捷克共和国</translation>
     </message>
     <message>
         <source>Egypt</source>
-        <translation>Egipto</translation>
+        <translation>埃及</translation>
     </message>
     <message>
         <source>France</source>
-        <translation>Francia</translation>
+        <translation>法国</translation>
     </message>
     <message>
         <source>Germany</source>
-        <translation>Alemania</translation>
+        <translation><德国/translation>
     </message>
     <message>
         <source>Ghana</source>
-        <translation>Ghana</translation>
+        <translation>加纳</translation>
     </message>
     <message>
         <source>Greece</source>
-        <translation>Grecia</translation>
+        <translation>希腊</translation>
     </message>
     <message>
         <source>Hong Kong</source>
-        <translation>Hong Kong</translation>
+        <translation>中国香港</translation>
     </message>
     <message>
         <source>Hungary</source>
-        <translation>Hungría</translation>
+        <translation>匈牙利</translation>
     </message>
     <message>
         <source>India</source>
-        <translation>La india</translation>
+        <translation>印度</translation>
     </message>
     <message>
         <source>Indonesia</source>
-        <translation>Indonesia</translation>
+        <translation>印度尼西亚</translation>
     </message>
     <message>
         <source>Ireland</source>
-        <translation>Irlanda</translation>
+        <translation>爱尔兰</translation>
     </message>
     <message>
         <source>Israel</source>
-        <translation>Israel</translation>
+        <translation>以色列</translation>
     </message>
     <message>
         <source>Italy</source>
-        <translation>Italia</translation>
+        <translation>意大利</translation>
     </message>
     <message>
         <source>Japan</source>
-        <translation>Japón</translation>
+        <translation>日本</translation>
     </message>
     <message>
         <source>Jordan</source>
-        <translation>Jordania</translation>
+        <translation>约旦</translation>
     </message>
     <message>
         <source>Kenya</source>
-        <translation>Kenia</translation>
+        <translation>肯尼亚</translation>
     </message>
     <message>
         <source>Malaysia</source>
-        <translation>Malasia</translation>
+        <translation>马来西亚</translation>
     </message>
     <message>
         <source>Mexico</source>
-        <translation>México</translation>
+        <translation>墨西哥</translation>
     </message>
     <message>
         <source>Morocco</source>
-        <translation>Marruecos</translation>
+        <translation>摩洛哥</translation>
     </message>
     <message>
         <source>Netherlands</source>
-        <translation>Países Bajos</translation>
+        <translation>荷兰</translation>
     </message>
     <message>
         <source>New Zealand</source>
-        <translation>Nueva Zelanda</translation>
+        <translation>新西兰</translation>
     </message>
     <message>
         <source>Nigeria</source>
-        <translation>Nigeria</translation>
+        <translation>尼日利亚</translation>
     </message>
     <message>
         <source>Peru</source>
-        <translation>Perú</translation>
+        <translation>秘鲁</translation>
     </message>
     <message>
         <source>Philippines</source>
-        <translation>Filipinas</translation>
+        <translation>菲律宾</translation>
     </message>
     <message>
         <source>Poland</source>
-        <translation>Polonia</translation>
+        <translation>波兰</translation>
     </message>
     <message>
         <source>Russia</source>
-        <translation>Rusia</translation>
+        <translation>俄罗斯</translation>
     </message>
     <message>
         <source>Saudi Arabia</source>
-        <translation>Arabia Saudí</translation>
+        <translation>沙特阿拉伯</translation>
     </message>
     <message>
         <source>Singapore</source>
-        <translation>Singapur</translation>
+        <translation>新加坡</translation>
     </message>
     <message>
         <source>South Africa</source>
-        <translation>Sudáfrica</translation>
+        <translation>南非</translation>
     </message>
     <message>
         <source>South Korea</source>
-        <translation>Corea del Sur</translation>
+        <translation>韩国</translation>
     </message>
     <message>
         <source>Spain</source>
-        <translation>España</translation>
+        <translation>西班牙</translation>
     </message>
     <message>
         <source>Sweden</source>
-        <translation>Suecia</translation>
+        <translation>瑞典</translation>
     </message>
     <message>
         <source>Taiwan</source>
-        <translation>Taiwán</translation>
+        <translation>中国台湾</translation>
     </message>
     <message>
         <source>Tunisia</source>
-        <translation>Túnez</translation>
+        <translation>突尼斯</translation>
     </message>
     <message>
         <source>Turkey</source>
-        <translation>Turkía</translation>
+        <translation>土耳其</translation>
     </message>
     <message>
         <source>Uganda</source>
-        <translation>Uganda</translation>
+        <translation>乌干达</translation>
     </message>
     <message>
         <source>United Arab Emirates</source>
-        <translation>Emiratos Árabes Unidos</translation>
+        <translation>阿拉伯联合酋长国</translation>
     </message>
     <message>
         <source>United Kingdom</source>
-        <translation>Reino Unido</translation>
+        <translation>英国</translation>
     </message>
     <message>
         <source>Yemen</source>
-        <translation>Yemen</translation>
+        <translation>也门</translation>
     </message>
     <message>
         <source>Worldwide</source>
-        <translation>Todo el mundo</translation>
+        <translation>全球</translation>
     </message>
     <message>
         <source>United States</source>
-        <translation>Estados Unidos</translation>
+        <translation>美国</translation>
     </message>
 </context>
 <context>
     <name>YTVideo</name>
     <message>
         <source>Cannot get video stream for %1</source>
-        <translation>No es posible obtener transmisión de vídeo %1</translation>
+        <translation>无法获取 %1 视频流媒体</translation>
     </message>
 </context>
 </TS>

@@ -1,64 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es_ES">
+<TS version="2.1" language="cs" sourcelanguage="cs">
 <context>
     <name>About</name>
     <message>
         <source>About</source>
-        <translation>Acerca de</translation>
+        <translation type="unfinished">O aplikaci</translation>
     </message>
     <message>
         <source>Made by Michał Szczepaniak. Based on minitube.</source>
-        <translation>Hecho por Michał Szczepaniak. Basado en minitube.</translation>
+        <translation type="unfinished">Vytvořil Michał Szczepaniak. Na základu minitube.</translation>
     </message>
     <message>
         <source>Licensed under GPLv3</source>
-        <translation>Autorizado bajo GPLv3</translation>
+        <translation type="unfinished">Licencováno pod GPLv3</translation>
     </message>
     <message>
         <source>Links</source>
-        <translation>Enlaces</translation>
+        <translation type="unfinished">Odkazy</translation>
     </message>
     <message>
         <source>Thanks to</source>
-        <translation>Gracias a</translation>
+        <translation type="unfinished">Díky patří</translation>
     </message>
     <message>
         <source>Donate</source>
-        <translation>Donar</translation>
+        <translation type="unfinished">Darovat</translation>
     </message>
     <message>
         <source>jgibbon for german translation and help.</source>
-        <translation>jgibbon por la traducción al alemán y su ayuda.</translation>
+        <translation type="unfinished">jgibbon za německý překlad a pomoc.</translation>
     </message>
     <message>
         <source>carmenfdezb for spanish translation.</source>
-        <translation>carmenfdezb por la traducción al español.</translation>
+        <translation type="unfinished">carmenfdezb za španělský překlad.</translation>
     </message>
     <message>
         <source>DylanVanAssche for help.</source>
-        <translation>DylanVanAssche por su ayuda.</translation>
+        <translation type="unfinished">DylanVanAssche za pomoc.</translation>
     </message>
     <message>
         <source>1Zgp for hungarian translation.</source>
-        <translation>1Zgp por la traducción al húngaro.</translation>
+        <translation type="unfinished">1Zgp za maďarský překlad.</translation>
     </message>
     <message>
         <source>Malakay for Czech translation.</source>
-        <translation>Malakay por la traducción al checo.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ChannelAggregator</name>
     <message>
         <source>By %1</source>
-        <translation>Por %1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
         <source>You have %n new video(s)</source>
-        <translation>
-            <numerusform>Tienes %n vídeo nuevo</numerusform>
-            <numerusform>Tienes %n vídeos nuevos</numerusform>
+        <translation type="unfinished">
+            <numerusform>Máte %n nové video.</numerusform>
+            <numerusform></numerusform>
+            <numerusform>Máte %n nových videí.</numerusform>
         </translation>
     </message>
 </context>
@@ -66,435 +67,439 @@
     <name>CoverPage</name>
     <message>
         <source>µtube</source>
-        <translation>µtube</translation>
+        <translation type="unfinished">µtube</translation>
     </message>
     <message>
         <source>Playing:</source>
-        <translation>Reproduciendo:</translation>
+        <translation type="unfinished">Hraje:</translation>
     </message>
 </context>
 <context>
     <name>DataUtils</name>
     <message>
         <source>Just now</source>
-        <translation>Justo ahora</translation>
+        <translation type="unfinished">Právě teď</translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s) ago</source>
-        <translation>
-            <numerusform>Hace %n hora</numerusform>
-            <numerusform>Hace %n horas</numerusform>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s) ago</source>
-        <translation>
-            <numerusform>Hace %n día</numerusform>
-            <numerusform>Hace %n días</numerusform>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n month(s) ago</source>
-        <translation>
-            <numerusform>Hace %n mes</numerusform>
-            <numerusform>Hace %n meses</numerusform>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n week(s) ago</source>
-        <translation>
-            <numerusform>Hace %n semana</numerusform>
-            <numerusform>Hace %n semanas</numerusform>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
         <source>K</source>
         <comment>K as in Kilo, i.e. thousands</comment>
-        <translation>K</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>M</source>
         <comment>M stands for Millions</comment>
-        <translation>M</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>B</source>
         <comment>B stands for Billions</comment>
-        <translation>B</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>%1 views</source>
-        <translation>%1 visualizaciones</translation>
+        <translation type="unfinished">%1 shlédnutí</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
     <message>
         <source>Subscriptions</source>
-        <translation>Suscripciones</translation>
+        <translation type="unfinished">Sledování</translation>
     </message>
     <message>
         <source>Search</source>
-        <translation>Buscar</translation>
+        <translation type="unfinished">Hledat</translation>
     </message>
     <message>
         <source>About</source>
-        <translation>Acerca de</translation>
+        <translation type="unfinished">O aplikaci</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation>Ajustes</translation>
+        <translation type="unfinished">Nastavení</translation>
     </message>
 </context>
 <context>
     <name>PlaylistModel</name>
     <message>
+        <source>Show %1 More</source>
+        <translation type="unfinished">Zobrazit %1 dalších</translation>
+    </message>
+    <message>
         <source>No videos</source>
-        <translation>No hay vídeos</translation>
+        <translation type="unfinished">Žádná videa</translation>
     </message>
     <message>
         <source>No more videos</source>
-        <translation>No hay más vídeos</translation>
+        <translation type="unfinished">Žádná další videa</translation>
     </message>
     <message>
         <source>Check internet connection.</source>
-        <translation>Comprueba la conexión a internet.</translation>
-    </message>
-    <message>
-        <source>Show more</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zkontrolujte připojení.</translation>
     </message>
 </context>
 <context>
     <name>Settings</name>
     <message>
         <source>Settings</source>
-        <translation>Ajustes</translation>
+        <translation type="unfinished">Nastavení</translation>
     </message>
     <message>
         <source>Restricted mode (safe for kids)</source>
-        <translation>Modo restringido (seguro para niños)</translation>
+        <translation type="unfinished">Omezený mód (pro děti)</translation>
     </message>
     <message>
         <source>Automatic change to next video</source>
-        <translation>Cambio automático al siguiente vídeo</translation>
+        <translation type="unfinished">Automaticky skočit na další video</translation>
     </message>
     <message>
         <source>Search for related videos</source>
-        <translation>Buscar vídeos relacionados</translation>
+        <translation type="unfinished">Hledat podobná videa</translation>
     </message>
     <message>
         <source>Region</source>
-        <translation>Región</translation>
+        <translation type="unfinished">Oblast</translation>
     </message>
     <message>
         <source>Download location</source>
-        <translation>Ubicación de descargas</translation>
+        <translation type="unfinished">Složka pro stahování</translation>
     </message>
 </context>
 <context>
     <name>SharePage</name>
     <message>
         <source>Share</source>
-        <translation>Compartir</translation>
+        <translation type="unfinished">Sdílet</translation>
     </message>
 </context>
 <context>
     <name>Subscriptions</name>
     <message>
         <source>Subscriptions</source>
-        <translation>Suscripciones</translation>
+        <translation type="unfinished">Sledování</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
-        <translation>Borrar suscripción</translation>
+        <translation type="unfinished">Nesledovat</translation>
     </message>
     <message>
         <source>Mark all as watched</source>
-        <translation>Marcar todos como vistos</translation>
+        <translation type="unfinished">Označit vše jako shlédnuté</translation>
     </message>
 </context>
 <context>
     <name>VideoElement</name>
     <message>
         <source>Unsubscribe</source>
-        <translation>Borrar suscripción</translation>
+        <translation type="unfinished">Odebrat</translation>
     </message>
     <message>
         <source>Subscribe</source>
-        <translation>Suscribirse</translation>
+        <translation type="unfinished">Sledovat</translation>
     </message>
     <message>
         <source>Copy url</source>
-        <translation>Copiar url</translation>
+        <translation type="unfinished">Kopírovat URL</translation>
     </message>
 </context>
 <context>
     <name>VideoPlayer</name>
     <message>
         <source>Downloaded to</source>
-        <translation>Descargado en</translation>
+        <translation type="unfinished">Staženo do</translation>
     </message>
     <message>
         <source>720p</source>
-        <translation>720p</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>360p</source>
-        <translation>360p</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download</source>
-        <translation>Descargar</translation>
+        <translation type="unfinished">Stáhnout</translation>
     </message>
     <message>
         <source>Copy url</source>
-        <translation>Copiar url</translation>
+        <translation type="unfinished">Kopírovat URL</translation>
     </message>
     <message>
         <source>Error: Problem with allocating resources</source>
-        <translation>Error: problema con asignación de recursos</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error: Media service error</source>
-        <translation>Error: error en servicio multimedia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error: Video or Audio format is not supported</source>
-        <translation>Error: formato de vídeo o audio no soportado</translation>
+        <translation type="unfinished">Formát není podporován</translation>
     </message>
     <message>
         <source>Error: Access denied to the video</source>
-        <translation>Error: acceso al vídeo denegado</translation>
+        <translation type="unfinished">Přístup k videu odepřen</translation>
     </message>
     <message>
         <source>Error: Network error</source>
-        <translation>Error: error de conexión</translation>
+        <translation type="unfinished">Chyba sítě</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
-        <translation>Dejar suscripción</translation>
+        <translation type="unfinished">Odebrat</translation>
     </message>
     <message>
         <source>Subscribe</source>
-        <translation>Suscribirse</translation>
+        <translation type="unfinished">Sledovat</translation>
     </message>
 </context>
 <context>
     <name>YT</name>
     <message>
         <source>All Videos</source>
-        <translation>Todos los vídeos</translation>
+        <translation type="unfinished">Všechna videa</translation>
     </message>
     <message>
         <source>Unwatched Videos</source>
-        <translation>Vídeos no vistos</translation>
+        <translation type="unfinished">Neshlédnutá videa</translation>
     </message>
 </context>
 <context>
     <name>YTRegions</name>
     <message>
         <source>Algeria</source>
-        <translation>Argelia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Argentina</source>
-        <translation>Argentina</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Australia</source>
-        <translation>Australia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Belgium</source>
-        <translation>Bélgica</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Brazil</source>
-        <translation>Brasil</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Canada</source>
-        <translation>Canadá</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Chile</source>
-        <translation>Chile</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Colombia</source>
-        <translation>Colombia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Czech Republic</source>
-        <translation>República Checa</translation>
+        <translation type="unfinished">Česká republika</translation>
     </message>
     <message>
         <source>Egypt</source>
-        <translation>Egipto</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>France</source>
-        <translation>Francia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Germany</source>
-        <translation>Alemania</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Ghana</source>
-        <translation>Ghana</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Greece</source>
-        <translation>Grecia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hong Kong</source>
-        <translation>Hong Kong</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hungary</source>
-        <translation>Hungría</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>India</source>
-        <translation>La india</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Indonesia</source>
-        <translation>Indonesia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Ireland</source>
-        <translation>Irlanda</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Israel</source>
-        <translation>Israel</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Italy</source>
-        <translation>Italia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Japan</source>
-        <translation>Japón</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Jordan</source>
-        <translation>Jordania</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Kenya</source>
-        <translation>Kenia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Malaysia</source>
-        <translation>Malasia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mexico</source>
-        <translation>México</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Morocco</source>
-        <translation>Marruecos</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Netherlands</source>
-        <translation>Países Bajos</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>New Zealand</source>
-        <translation>Nueva Zelanda</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Nigeria</source>
-        <translation>Nigeria</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Peru</source>
-        <translation>Perú</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Philippines</source>
-        <translation>Filipinas</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Poland</source>
-        <translation>Polonia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Russia</source>
-        <translation>Rusia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Saudi Arabia</source>
-        <translation>Arabia Saudí</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Singapore</source>
-        <translation>Singapur</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>South Africa</source>
-        <translation>Sudáfrica</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>South Korea</source>
-        <translation>Corea del Sur</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Spain</source>
-        <translation>España</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sweden</source>
-        <translation>Suecia</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Taiwan</source>
-        <translation>Taiwán</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tunisia</source>
-        <translation>Túnez</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Turkey</source>
-        <translation>Turkía</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Uganda</source>
-        <translation>Uganda</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>United Arab Emirates</source>
-        <translation>Emiratos Árabes Unidos</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>United Kingdom</source>
-        <translation>Reino Unido</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Yemen</source>
-        <translation>Yemen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Worldwide</source>
-        <translation>Todo el mundo</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>United States</source>
-        <translation>Estados Unidos</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>YTVideo</name>
     <message>
         <source>Cannot get video stream for %1</source>
-        <translation>No es posible obtener transmisión de vídeo %1</translation>
+        <translation type="unfinished">Nelze najít stream pro %1</translation>
     </message>
 </context>
 </TS>
