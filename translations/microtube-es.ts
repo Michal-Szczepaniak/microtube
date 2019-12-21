@@ -145,10 +145,6 @@
 <context>
     <name>PlaylistModel</name>
     <message>
-        <source>Show %1 More</source>
-        <translation>Mostrar %1 más</translation>
-    </message>
-    <message>
         <source>No videos</source>
         <translation>No hay vídeos</translation>
     </message>
@@ -159,6 +155,10 @@
     <message>
         <source>Check internet connection.</source>
         <translation>Comprueba la conexión a internet.</translation>
+    </message>
+    <message>
+        <source>Show more</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

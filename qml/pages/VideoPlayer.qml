@@ -45,6 +45,7 @@ Page {
     property int autoBrightness: -1
     property int inactiveBrightness: -1
     property int activeBrightness: -1
+    property bool fillMode: false
 
     DisplaySettings {
         id: displaySettings
@@ -52,6 +53,9 @@ Page {
             if (inactiveBrightness === -1) {
                 inactiveBrightness = brightness
                 activeBrightness = brightness
+                autoBrightness = displaySettings.autoBrightnessEnabled
+                if ( landscape )
+                    displaySettings.autoBrightnessEnabled = false
             }
         }
     }
@@ -169,9 +173,6 @@ Page {
         pacontrol.update()
         showHideControls()
         hideControlsAutomatically.restart()
-        autoBrightness = displaySettings.autoBrightnessEnabled
-        if ( landscape )
-            displaySettings.autoBrightnessEnabled = false
 
         if ( settings.relatedVideos ) {
             YTPlaylist.findRecommended()
@@ -188,6 +189,9 @@ Page {
     allowedOrientations: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? Orientation.Portrait : Orientation.All
 
     function changeVideo() {
+        page.videoChanging = true
+        mediaPlayer.stop()
+        mediaPlayer.seek(0)
         if ( settings.relatedVideos ) {
             YTPlaylist.findRecommended()
             YTPlaylist.setActiveRow(0, false)
@@ -307,8 +311,9 @@ Page {
             Row {
                 id: videoPlayer
                 Rectangle {
+                    id: videoBackground
                     width: page.width
-                    height: page.width/1.777777777777778
+                    height: landscape ? page.height : (settings.videoQuality === "360p" ? page.width/1.74 : page.width/1.777777777777778)
                     color: "black"
 
                     MediaPlayer {
@@ -388,10 +393,11 @@ Page {
 
                     VideoOutput {
                         id: videoOutput
-                        anchors.fill: parent
                         width : page.width
-                        height: page.width/1.777777777777778
+                        anchors.centerIn: parent
+                        height: landscape ? (page.fillMode ? page.width : page.height) : (settings.videoQuality === "360p" ? page.width/1.74 : page.width/1.777777777777778)
                         source: mediaPlayer
+                        fillMode: page.fillMode ? VideoOutput.PreserveAspectCrop : VideoOutput.PreserveAspectFit
 
                         Rectangle {
                             id: errorPane
@@ -469,13 +475,7 @@ Page {
                                 anchors.bottom: parent.bottom
                                 anchors.bottomMargin: (Theme.itemSizeLarge - Theme.itemSizeMedium)
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                source: "image://theme/icon-cover-play"
-
-                                transform: Rotation{
-                                    angle: 180
-                                    origin.x: prev1.width/2
-                                    origin.y: prev1.height/2
-                                }
+                                source: settings.audioOnlyMode ? "qrc:///images/icon-m-audio-only-disable.svg" : "qrc:///images/icon-m-audio-only-enable.svg"
                             }
 
                             MouseArea {
@@ -582,255 +582,284 @@ Page {
                                 }
                             }
                         }
-
-                        Row {
-                            id: volumeIndicator
-                            anchors.centerIn: parent
-                            visible: false
-                            spacing: Theme.paddingLarge
-
-                            Image {
-                                width: Theme.itemSizeLarge
-                                height: Theme.itemSizeLarge
-                                source: "image://theme/icon-m-speaker-on"
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-
-                            Label {
-                                text: (mousearea.currentVolume * 10) + "%"
-                                font.pixelSize: Theme.fontSizeHuge
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-
-                        Row {
-                            id: brightnessIndicator
-                            anchors.centerIn: parent
-                            visible: false
-                            spacing: Theme.paddingLarge
-
-                            Image {
-                                width: Theme.itemSizeLarge
-                                height: Theme.itemSizeLarge
-                                source: "image://theme/icon-m-light-contrast"
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-
-                            Label {
-                                text: (Math.round(displaySettings.brightness/mousearea.brightnessStep) * 10) + "%"
-                                font.pixelSize: Theme.fontSizeHuge
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-
-                        Row {
-                            id: backwardIndicator
-                            anchors.centerIn: parent
-                            visible: false
-                            spacing: -Theme.paddingLarge*2
-
-                            Image {
-                                id: prev1
-                                width: Theme.itemSizeLarge
-                                height: Theme.itemSizeLarge
-                                anchors.verticalCenter: parent.verticalCenter
-                                fillMode: Image.PreserveAspectFit
-                                source: "image://theme/icon-cover-play"
-
-                                transform: Rotation{
-                                    angle: 180
-                                    origin.x: prev1.width/2
-                                    origin.y: prev1.height/2
-                                }
-                            }
-                            Image {
-                                id: prev2
-                                width: Theme.itemSizeLarge
-                                height: Theme.itemSizeLarge
-                                anchors.verticalCenter: parent.verticalCenter
-                                fillMode: Image.PreserveAspectFit
-                                source: "image://theme/icon-cover-play"
-
-                                transform: Rotation{
-                                    angle: 180
-                                    origin.x: prev2.width/2
-                                    origin.y: prev2.height/2
-                                }
-                            }
-
-                            Timer {
-                                id: hideBackward
-                                interval: 300
-                                onTriggered: backwardIndicator.visible = false
-                            }
-
-                            onVisibleChanged: if (backwardIndicator.visible) hideBackward.start()
-                        }
-
-                        Row {
-                            id: forwardIndicator
-                            anchors.centerIn: parent
-                            visible: false
-                            spacing: -Theme.paddingLarge*2
-
-                            Image {
-                                width: Theme.itemSizeLarge
-                                height: Theme.itemSizeLarge
-                                anchors.verticalCenter: parent.verticalCenter
-                                fillMode: Image.PreserveAspectFit
-                                source: "image://theme/icon-cover-play"
-
-                            }
-                            Image {
-                                width: Theme.itemSizeLarge
-                                height: Theme.itemSizeLarge
-                                anchors.verticalCenter: parent.verticalCenter
-                                fillMode: Image.PreserveAspectFit
-                                source: "image://theme/icon-cover-play"
-                            }
-
-                            Timer {
-                                id: hideForward
-                                interval: 300
-                                onTriggered: forwardIndicator.visible = false
-                            }
-
-                            onVisibleChanged: if (forwardIndicator.visible) hideForward.start()
-                        }
-
-                        Label {
-                            id: progress
-                            width: Theme.itemSizeExtraSmall
-                            anchors.left: parent.left
-                            anchors.bottom: parent.bottom
-                            anchors.margins: Theme.paddingLarge
-                            text:  Format.formatDuration(Math.round(mediaPlayer.position/1000), Formatter.DurationShort)
-                        }
-
-                        Label {
-                            id: duration
-                            anchors.right: parent.right
-                            anchors.bottom: parent.bottom
-                            anchors.margins: Theme.paddingLarge
-                            text: Format.formatDuration(Math.round(mediaPlayer.duration/1000), Formatter.DurationShort)
-                        }
-
-                        NumberAnimation {
-                            id: showAnimation
-                            targets: [progress, duration, playButton, prevButton, nextButton]
-                            properties: "opacity"
-                            to: 1
-                            duration: 100
-                        }
-                        NumberAnimation {
-                            id: hideAnimation
-                            targets: [progress, duration, playButton, prevButton, nextButton]
-                            properties: "opacity"
-                            to: 0
-                            duration: 100
-                        }
-
-                        IconButton {
-                            id: playButton
-                            visible: opacity != 0
-                            icon.source: mediaPlayer.playbackState == MediaPlayer.PlayingState ? "image://theme/icon-m-pause" : "image://theme/icon-m-play"
-                            anchors.centerIn: parent
-                            onClicked: mediaPlayer.playbackState == MediaPlayer.PlayingState ? mediaPlayer.videoPause() : mediaPlayer.videoPlay()
-                        }
-
-                        IconButton {
-                            id: nextButton
-                            visible: opacity != 0
-                            icon.source: "image://theme/icon-m-next"
-                            anchors.top: playButton.top
-                            anchors.left: playButton.right
-                            anchors.leftMargin: page.width/4 - playButton.width/2
-                            onClicked: mediaPlayer.nextVideo()
-                        }
-
-                        IconButton {
-                            id: prevButton
-                            visible: opacity != 0
-                            icon.source: "image://theme/icon-m-previous"
-                            anchors.top: playButton.top
-                            anchors.right: playButton.left
-                            anchors.rightMargin: page.width/4 - playButton.width/2
-                            onClicked: mediaPlayer.prevVideo()
-                        }
-
-                        Slider {
-                            id: volumeSlider
-                            visible: false
-                            x: page.width - height
-                            y: page.height
-                            width: page.height
-                            minimumValue: 0
-                            maximumValue: 10
-                            transform: Rotation { angle: -90}
-                            enabled: false
-
-                            Behavior on opacity {
-                                PropertyAction {}
-                            }
-                        }
-
-                        Slider {
-                            id: brightnessSlider
-                            visible: false
-                            x: 0
-                            y: page.height
-                            width: page.height
-                            transform: Rotation { angle: -90}
-                            enabled: false
-                            maximumValue: 10
-                            minimumValue: 0
-
-                            Behavior on opacity {
-                                PropertyAction {}
-                            }
-                        }
-
-                        Slider {
-                            id: progressSlider
-                            value: mediaPlayer.position
-                            minimumValue: 0
-                            maximumValue: mediaPlayer.duration
-                            anchors.left: page.landscape ? progress.right : videoOutput.left
-                            anchors.right: page.landscape ? duration.left : videoOutput.right
-                            anchors.bottom: videoOutput.bottom
-                            anchors.bottomMargin: page.landscape ? 0 : -progressSlider.height/2
-                            anchors.leftMargin: page.landscape ? -Theme.paddingLarge*2 : -Theme.paddingLarge*4
-                            anchors.rightMargin: page.landscape ? -Theme.paddingLarge*2 : -Theme.paddingLarge*4
-                            enabled: handleVisible
-                            handleVisible: _controlsVisible
-
-                            NumberAnimation on opacity {
-                                id: showAnimation3
-                                to: 1
-                                duration: 100
-
-                            }
-                            NumberAnimation on opacity {
-                                id: hideAnimation3
-                                to: 0
-                                duration: 100
-                            }
-
-                            onReleased: mediaPlayer.seek(progressSlider.value)
-                        }
                     }
 
                     DisplayBlanking {
                         preventBlanking: mediaPlayer.playbackState == MediaPlayer.PlayingState
                     }
+
+                    Row {
+                        id: volumeIndicator
+                        anchors.centerIn: parent
+                        visible: false
+                        spacing: Theme.paddingLarge
+
+                        Image {
+                            width: Theme.itemSizeLarge
+                            height: Theme.itemSizeLarge
+                            source: "image://theme/icon-m-speaker-on"
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        Label {
+                            text: (mousearea.currentVolume * 10) + "%"
+                            font.pixelSize: Theme.fontSizeHuge
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                    }
+
+                    Row {
+                        id: brightnessIndicator
+                        anchors.centerIn: parent
+                        visible: false
+                        spacing: Theme.paddingLarge
+
+                        Image {
+                            width: Theme.itemSizeLarge
+                            height: Theme.itemSizeLarge
+                            source: "image://theme/icon-m-light-contrast"
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        Label {
+                            text: (Math.round(displaySettings.brightness/mousearea.brightnessStep) * 10) + "%"
+                            font.pixelSize: Theme.fontSizeHuge
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                    }
+
+                    Row {
+                        id: backwardIndicator
+                        anchors.centerIn: parent
+                        visible: false
+                        spacing: -Theme.paddingLarge*2
+
+                        Image {
+                            id: prev1
+                            width: Theme.itemSizeLarge
+                            height: Theme.itemSizeLarge
+                            anchors.verticalCenter: parent.verticalCenter
+                            fillMode: Image.PreserveAspectFit
+                            source: "image://theme/icon-cover-play"
+
+                            transform: Rotation{
+                                angle: 180
+                                origin.x: prev1.width/2
+                                origin.y: prev1.height/2
+                            }
+                        }
+                        Image {
+                            id: prev2
+                            width: Theme.itemSizeLarge
+                            height: Theme.itemSizeLarge
+                            anchors.verticalCenter: parent.verticalCenter
+                            fillMode: Image.PreserveAspectFit
+                            source: "image://theme/icon-cover-play"
+
+                            transform: Rotation{
+                                angle: 180
+                                origin.x: prev2.width/2
+                                origin.y: prev2.height/2
+                            }
+                        }
+
+                        Timer {
+                            id: hideBackward
+                            interval: 300
+                            onTriggered: backwardIndicator.visible = false
+                        }
+
+                        onVisibleChanged: if (backwardIndicator.visible) hideBackward.start()
+                    }
+
+                    Row {
+                        id: forwardIndicator
+                        anchors.centerIn: parent
+                        visible: false
+                        spacing: -Theme.paddingLarge*2
+
+                        Image {
+                            width: Theme.itemSizeLarge
+                            height: Theme.itemSizeLarge
+                            anchors.verticalCenter: parent.verticalCenter
+                            fillMode: Image.PreserveAspectFit
+                            source: "image://theme/icon-cover-play"
+
+                        }
+                        Image {
+                            width: Theme.itemSizeLarge
+                            height: Theme.itemSizeLarge
+                            anchors.verticalCenter: parent.verticalCenter
+                            fillMode: Image.PreserveAspectFit
+                            source: "image://theme/icon-cover-play"
+                        }
+
+                        Timer {
+                            id: hideForward
+                            interval: 300
+                            onTriggered: forwardIndicator.visible = false
+                        }
+
+                        onVisibleChanged: if (forwardIndicator.visible) hideForward.start()
+                    }
+
+                    NumberAnimation {
+                        id: showAnimation
+                        targets: [progress, duration, playButton, prevButton, nextButton, fillModeButton]
+                        properties: "opacity"
+                        to: 1
+                        duration: 100
+                    }
+                    NumberAnimation {
+                        id: hideAnimation
+                        targets: [progress, duration, playButton, prevButton, nextButton, fillModeButton]
+                        properties: "opacity"
+                        to: 0
+                        duration: 100
+                    }
+
+                    IconButton {
+                        id: playButton
+                        visible: opacity != 0
+                        icon.source: mediaPlayer.playbackState == MediaPlayer.PlayingState ? "image://theme/icon-m-pause" : "image://theme/icon-m-play"
+                        anchors.centerIn: parent
+                        onClicked: mediaPlayer.playbackState == MediaPlayer.PlayingState ? mediaPlayer.videoPause() : mediaPlayer.videoPlay()
+                    }
+
+                    IconButton {
+                        id: nextButton
+                        visible: opacity != 0
+                        icon.source: "image://theme/icon-m-next"
+                        anchors.top: playButton.top
+                        anchors.left: playButton.right
+                        anchors.leftMargin: page.width/4 - playButton.width/2
+                        onClicked: mediaPlayer.nextVideo()
+                    }
+
+                    IconButton {
+                        id: prevButton
+                        visible: opacity != 0
+                        icon.source: "image://theme/icon-m-previous"
+                        anchors.top: playButton.top
+                        anchors.right: playButton.left
+                        anchors.rightMargin: page.width/4 - playButton.width/2
+                        onClicked: mediaPlayer.prevVideo()
+                    }
+
+                    IconButton {
+                        id: fillModeButton
+                        visible: opacity != 0 && landscape
+                        icon.source: page.fillMode ? "qrc:///images/icon-m-scale-to-16-9.svg" : "qrc:///images/icon-m-scale-to-21-9.svg"
+                        width: Theme.itemSizeExtraSmall
+                        height: width
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.margins: Theme.paddingMedium
+                        icon.width: width
+                        icon.height: width
+                        onClicked: page.fillMode = !page.fillMode
+                    }
+
+                    Slider {
+                        id: volumeSlider
+                        visible: false
+                        x: page.width - height
+                        y: page.height
+                        width: page.height
+                        minimumValue: 0
+                        maximumValue: 10
+                        transform: Rotation { angle: -90}
+                        enabled: false
+
+                        Behavior on opacity {
+                            PropertyAction {}
+                        }
+                    }
+
+                    Slider {
+                        id: brightnessSlider
+                        visible: false
+                        x: 0
+                        y: page.height
+                        width: page.height
+                        transform: Rotation { angle: -90}
+                        enabled: false
+                        maximumValue: 10
+                        minimumValue: 0
+
+                        Behavior on opacity {
+                            PropertyAction {}
+                        }
+                    }
+
+                    Label {
+                        id: progress
+                        width: Theme.itemSizeExtraSmall
+                        anchors.left: parent.left
+                        anchors.bottom: parent.bottom
+                        anchors.margins: Theme.paddingLarge
+                        text: Format.formatDuration(Math.round(mediaPlayer.position/1000), ((mediaPlayer.duration/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort))
+                    }
+
+                    Label {
+                        id: duration
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        anchors.margins: Theme.paddingLarge
+                        text: Format.formatDuration(Math.round(mediaPlayer.duration/1000), ((mediaPlayer.duration/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort))
+                    }
+
+                    Slider {
+                        id: progressSlider
+                        value: mediaPlayer.position
+                        valueText: down ? Format.formatDuration(Math.round(value/1000), ((value/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort)) : ""
+                        minimumValue: 0
+                        maximumValue: mediaPlayer.duration
+                        anchors.bottom: if (landscape && opacity == 0) videoBackground.top; else videoBackground.bottom
+                        x: landscape ? progress.width : - Theme.paddingLarge * 4
+                        width: landscape ? parent.width - progress.width - duration.width : parent.width + Theme.paddingLarge * 8
+                        anchors.bottomMargin: page.landscape ? 0 : (down ? -height/3 : -height/2)
+                        handleVisible: _controlsVisible || down
+
+                        NumberAnimation on opacity {
+                            id: showAnimation3
+                            to: 1
+                            duration: 100
+                        }
+
+                        NumberAnimation on opacity {
+                            id: hideAnimation3
+                            to: 0
+                            duration: 100
+                        }
+
+                        onReleased: mediaPlayer.seek(progressSlider.value)
+                    }
                 }
+            }
+
+            TextArea {
+                id: videoCoverTitle
+                text: title
+                anchors.top: videoOutput.bottom
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.margins: Theme.paddingLarge
+                font.pixelSize: Theme.fontSizeHuge
+                color: Theme.highlightColor
+                font.family: Theme.fontFamilyHeading
+                readOnly: true
+                textMargin: 0
+                labelVisible: false
+                wrapMode: TextEdit.WordWrap
+                visible: app.videoCover && Qt.application.state === Qt.ApplicationInactive
             }
 
             Row {
                 id: playlist
                 width: parent.width
                 height: parent.height - videoPlayer.height
-                NumberAnimation { id: anim; target: listView; property: "contentX"; duration: 500 }
+                NumberAnimation { id: anim; target: listView; property: "contentY"; duration: 500 }
                 SilicaFlickable {
                     id: playlistFlickable
                     width: parent.width
@@ -840,7 +869,7 @@ Page {
                     Column {
                         width: parent.width
                         padding: Theme.paddingLarge
-                        spacing: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? 100000 : 0
+                        visible: !(app.videoCover && Qt.application.state === Qt.ApplicationInactive)
                         TextArea {
                             id: videoTitle
                             text: title

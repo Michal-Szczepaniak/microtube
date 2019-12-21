@@ -51,7 +51,7 @@ Page {
             }
 
             Label {
-                text: "microtube 1.7.4"
+                text: "microtube 1.8"
                 font.pixelSize: Theme.fontSizeExtraLarge
                 anchors.horizontalCenter: parent.horizontalCenter
                 wrapMode: Text.WordWrap
