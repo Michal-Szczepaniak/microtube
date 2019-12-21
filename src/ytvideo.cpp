@@ -30,7 +30,8 @@ void YTVideo::loadStreamUrl() {
     ageGate = false;
     webPageLoaded = false;
 
-    getVideoInfo();
+    // getVideoInfo();
+    loadWebPage();
 }
 
 void YTVideo::getVideoInfo() {
@@ -76,42 +77,39 @@ void YTVideo::gotVideoInfo(const QByteArray &bytes) {
     QString videoInfo = QString::fromUtf8(bytes);
     // qDebug() << "videoInfo" << videoInfo;
 
-    // get video token
-    static const QRegExp videoTokeRE(JsFunctions::instance()->videoTokenRE());
-    if (videoTokeRE.indexIn(videoInfo) == -1) {
-        qDebug() << "Cannot get token. Trying next el param" << videoInfo << videoTokeRE.pattern();
-        // Don't panic! We're gonna try another magic "el" param
-        elIndex++;
-        getVideoInfo();
-        return;
-    }
-
-    QString videoToken = videoTokeRE.cap(1);
-    qDebug() << "got token" << videoToken;
-    while (videoToken.contains('%'))
-        videoToken = QByteArray::fromPercentEncoding(videoToken.toLatin1());
-    qDebug() << "videoToken" << videoToken;
-    this->videoToken = videoToken;
-
     // get player_response
     static const QRegExp playerResponseRE("&player_response=([^&]+)");
     if (playerResponseRE.indexIn(videoInfo) != -1) {
         QString playerResponse = playerResponseRE.cap(1);
         QByteArray playerResponseUtf8 = QByteArray::fromPercentEncoding(playerResponse.toUtf8());
-        qDebug() << "player_response" << playerResponseUtf8;
+        // qDebug() << "player_response" << playerResponseUtf8;
         QJsonDocument doc = QJsonDocument::fromJson(playerResponseUtf8);
         QJsonObject obj = doc.object();
         if (obj.contains("streamingData")) {
             auto parseFormats = [this](const QJsonArray &formats) {
                 for (const QJsonValue &format : formats) {
-                    int itag = format.toObject().value("itag").toInt();
-                    QString url = format.toObject().value("url").toString();
+                    QJsonObject formatObj = format.toObject();
+                    int itag = formatObj["itag"].toInt();
+                    QString url = formatObj["url"].toString();
                     if (url.isEmpty()) {
-                        QString cipher = format.toObject().value("cipher").toString();
+                        QString cipher = formatObj.toObject().value("cipher").toString();
                         QUrlQuery q(cipher);
-                        url = q.queryItemValue("url");
+                        qDebug() << "Cipher is " << q.toString();
+                        url = q.queryItemValue("url").trimmed();
+                        // while (url.contains('%'))
+                        url = QByteArray::fromPercentEncoding(url.toUtf8());
+                        if (q.hasQueryItem("s")) {
+                            QString s = q.queryItemValue("s");
+                            qDebug() << "s is" << s;
+                            s = decryptSignature(s);
+                            if (!s.isEmpty()) {
+                                qDebug() << "Added signature" << s;
+                                url += "&sig=";
+                                url += s;
+                            }
+                        }
                     }
-                    qDebug() << "player_response format" << itag << url;
+                    // qDebug() << "player_response format" << itag << url;
                     if (!url.isEmpty()) urlMap.insert(itag, url);
                 }
             };
@@ -120,6 +118,23 @@ void YTVideo::gotVideoInfo(const QByteArray &bytes) {
             parseFormats(streamingDataObj["adaptiveFormats"].toArray());
         }
     }
+
+    /*
+    // get video token
+    static const QRegExp videoTokeRE(JsFunctions::instance()->videoTokenRE());
+    if (videoTokeRE.indexIn(videoInfo) == -1) {
+        qDebug() << "Cannot get token. Trying next el param" << videoTokeRE.pattern() << videoInfo;
+        // Don't panic! We're gonna try another magic "el" param
+        elIndex++;
+        getVideoInfo();
+        return;
+    }
+    QString videoToken = videoTokeRE.cap(1);
+    while (videoToken.contains('%'))
+        videoToken = QByteArray::fromPercentEncoding(videoToken.toLatin1());
+    qDebug() << "videoToken" << videoToken;
+    this->videoToken = videoToken;
+
 
     // get fmt_url_map
     static const QRegExp fmtMapRE(JsFunctions::instance()->videoInfoFmtMapRE());
@@ -131,6 +146,14 @@ void YTVideo::gotVideoInfo(const QByteArray &bytes) {
         return;
     }
     QString fmtUrlMap = fmtMapRE.cap(1);
+    */
+
+    if (urlMap.isEmpty()) {
+        elIndex++;
+        getVideoInfo();
+        return;
+    }
+
     // qDebug() << "got fmtUrlMap" << fmtUrlMap;
     fmtUrlMap = QByteArray::fromPercentEncoding(fmtUrlMap.toUtf8());
 
@@ -138,7 +161,7 @@ void YTVideo::gotVideoInfo(const QByteArray &bytes) {
     parseFmtUrlMap(fmtUrlMap);
 }
 
-void YTVideo::parseFmtUrlMap(const QString &fmtUrlMap, bool fromWebPage) {
+void YTVideo::parseFmtUrlMap(const QString &fmtUrlMap) {
     int videoFormat = 0;
     const VideoDefinition &definition = YT3::instance().maxVideoDefinition();
 
@@ -170,7 +193,7 @@ void YTVideo::parseFmtUrlMap(const QString &fmtUrlMap, bool fromWebPage) {
                 int separator = urlParam.indexOf('=');
                 sig = QByteArray::fromPercentEncoding(urlParam.mid(separator + 1).toUtf8());
             } else if (urlParam.startsWith(QLatin1String("s="))) {
-                if (fromWebPage || ageGate) {
+                if (webPageLoaded || ageGate) {
                     int separator = urlParam.indexOf('=');
                     sig = QByteArray::fromPercentEncoding(urlParam.mid(separator + 1).toUtf8());
                     sig = decryptSignature(sig);
@@ -210,7 +233,7 @@ void YTVideo::parseFmtUrlMap(const QString &fmtUrlMap, bool fromWebPage) {
         urlMap.insert(format, url);
     }
 
-    if (!fromWebPage && !ageGate) {
+    if (!webPageLoaded && !ageGate) {
         loadWebPage();
         return;
     }
@@ -291,11 +314,11 @@ void YTVideo::scrapeWebPage(const QByteArray &bytes) {
         fmtUrlMap += adaptiveFormatsRE.cap(1).replace("\\u0026", "&");
     }
 
-    if (fmtUrlMap.isEmpty()) {
-        qWarning() << "Cannot get fmtUrlMap from video page. Trying next el" << html;
-        elIndex++;
-        getVideoInfo();
-        return;
+    if (fmtUrlMap.isEmpty() && urlMap.isEmpty()) {
+        qWarning() << "Cannot get fmtUrlMap from video page. Trying next el";
+        // elIndex++;
+        // getVideoInfo();
+        // return;
     }
 
     static const QRegExp jsPlayerRe(JsFunctions::instance()->jsPlayerRE());
@@ -333,7 +356,7 @@ void YTVideo::parseJsPlayer(const QByteArray &bytes) {
     }();
     for (const QRegExp &funcNameRe : funcNameRes) {
         if (funcNameRe.indexIn(jsPlayer) == -1) {
-            qWarning() << "Cannot capture signature function name" << funcNameRe;
+            qDebug() << "Cannot capture signature function name" << funcNameRe;
             continue;
         } else {
             sigFuncName = funcNameRe.cap(1);
@@ -349,7 +372,8 @@ void YTVideo::parseJsPlayer(const QByteArray &bytes) {
     }
     if (sigFuncName.isEmpty()) qDebug() << "Empty signature function name";
 
-    parseFmtUrlMap(fmtUrlMap, true);
+    // parseFmtUrlMap(fmtUrlMap, true);
+    getVideoInfo();
 }
 
 void YTVideo::captureFunction(const QString &name, const QString &js) {
