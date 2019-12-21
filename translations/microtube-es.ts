@@ -240,10 +240,6 @@
         <translation>720p</translation>
     </message>
     <message>
-        <source>360p</source>
-        <translation>360p</translation>
-    </message>
-    <message>
         <source>Download</source>
         <translation>Descargar</translation>
     </message>

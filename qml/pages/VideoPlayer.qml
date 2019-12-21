@@ -181,6 +181,8 @@ Page {
         }
         if(settings.audioOnlyMode)
             topMenu.resolutionChange("audio")
+        else
+            topMenu.resolutionChange("720p")
         video.loadStreamUrl()
     }
 
@@ -284,13 +286,6 @@ Page {
                 enabled: !settings.audioOnlyMode
                 onClicked: {
                     topMenu.resolutionChange("720p")
-                }
-            }
-            MenuItem {
-                text: qsTr("360p")
-                enabled: !settings.audioOnlyMode
-                onClicked: {
-                    topMenu.resolutionChange("360p");
                 }
             }
             MenuItem {

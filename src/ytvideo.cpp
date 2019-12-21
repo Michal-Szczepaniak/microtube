@@ -92,7 +92,7 @@ void YTVideo::gotVideoInfo(const QByteArray &bytes) {
                     int itag = formatObj["itag"].toInt();
                     QString url = formatObj["url"].toString();
                     if (url.isEmpty()) {
-                        QString cipher = formatObj.toObject().value("cipher").toString();
+                        QString cipher = formatObj["cipher"].toString();
                         QUrlQuery q(cipher);
                         qDebug() << "Cipher is " << q.toString();
                         url = q.queryItemValue("url").trimmed();
