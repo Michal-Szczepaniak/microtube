@@ -53,7 +53,7 @@
     <message numerus="yes">
         <source>You have %n new video(s)</source>
         <translation>
-            <numerusform>你有 %1 新视频</numerusform>
+            <numerusform>你有 %1 个新视频</numerusform>
         </translation>
     </message>
 </context>
