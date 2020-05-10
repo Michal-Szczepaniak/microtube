@@ -94,6 +94,7 @@ Page {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 linkColor: Theme.highlightColor
+                onLinkActivated: Qt.openUrlExternally("https://github.com/Michal-Szczepaniak/microtube")
             }
 
             Text {
@@ -106,6 +107,7 @@ Page {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 linkColor: Theme.highlightColor
+                onLinkActivated: Qt.openUrlExternally("https://twitter.com/Mister1Magister")
             }
 
             Separator {
@@ -130,6 +132,7 @@ Page {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 linkColor: Theme.highlightColor
+                onLinkActivated: Qt.openUrlExternally("https://github.com/flaviotordini/minitube")
             }
 
             Label {
@@ -185,6 +188,7 @@ Page {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 linkColor: Theme.highlightColor
+                onLinkActivated: Qt.openUrlExternally("https://www.paypal.me/MisterMagister")
             }
 
        }
