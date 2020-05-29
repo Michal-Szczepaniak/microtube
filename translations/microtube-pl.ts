@@ -186,6 +186,14 @@
         <source>Download location</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Youtube API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>

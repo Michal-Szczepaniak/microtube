@@ -35,7 +35,7 @@ $END_LICENSE */
 class YT : public QObject
 {
     Q_OBJECT
-
+    Q_PROPERTY(QString apiKey READ apiKey WRITE setApiKey NOTIFY apiKeyChanged)
 public:
     explicit YT(QObject *parent = nullptr);
     void registerObjectsInQml(QQmlContext* context);
@@ -61,6 +61,9 @@ public:
     Q_INVOKABLE int getCurrentRegion();
     Q_INVOKABLE void setRegion(int id);
 
+    QString apiKey();
+    void setApiKey(QString apiKey);
+
 public slots:
     void downloaded(QUrl url, QString name);
     void downloadProgressUpdate(qint64 bytesReceived, qint64 bytesTotal, int nPercentage, double speed, const QString& unit, const QUrl& _URL, const QString& _qsFileName);
@@ -68,6 +71,7 @@ public slots:
 signals:
     void notifyDownloaded(QUrl url, QString name);
     void downloadProgress(int nPercentage);
+    void apiKeyChanged(QString apiKey);
 
 private:
     SearchParams* getSearchParams();
@@ -77,6 +81,7 @@ private:
     QTimer *errorTimer;
     Video *skippedVideo;
     QString currentVideoId;
+    QString _apiKey;
 
     PlaylistModel* playlistModel;
     ChannelModel* channelModel;

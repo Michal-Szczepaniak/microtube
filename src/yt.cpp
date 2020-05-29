@@ -37,6 +37,9 @@ YT::YT(QObject *parent) : QObject(parent)
     connect(&downloader, SIGNAL (DownloadFinished(const QUrl&, const QString&)), this, SLOT (downloaded(const QUrl&, const QString&)));
     connect(&downloader, SIGNAL (DownloadProgress(qint64,qint64,int,double,const QString&,const QUrl&,const QString&)), this, SLOT (downloadProgressUpdate(qint64,qint64,int,double,const QString&,const QUrl&,const QString&)));
     updateQuery();
+
+    QSettings settings;
+    _apiKey = settings.value("googleApiKey").toString();
 }
 
 void YT::loadDefaultVideos() {
@@ -333,4 +336,19 @@ void YT::setRegion(int id)
         }
         i++;
     }
+}
+
+QString YT::apiKey()
+{
+    return _apiKey;
+}
+
+void YT::setApiKey(QString apiKey)
+{
+    _apiKey = apiKey;
+
+    QSettings settings;
+    settings.setValue("googleApiKey", apiKey);
+
+    emit apiKeyChanged(apiKey);
 }
