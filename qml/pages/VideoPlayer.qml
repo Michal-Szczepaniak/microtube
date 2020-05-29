@@ -70,7 +70,7 @@ Page {
         property bool developerMode: false
         property double buffer: 1.0
         property string videoQuality: "360p"
-        property string downloadLocation: "/home/nemo/Downloads"
+        property string downloadLocation: "/home/nemo/Downloads/"
     }
 
     Timer {
