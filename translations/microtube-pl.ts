@@ -194,6 +194,14 @@
         <source>API Key</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>After applying key, you need to restart Microtube</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>

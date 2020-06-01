@@ -122,7 +122,19 @@ Page {
             }
 
             Text {
-                text: "To get Youtube API key go to <a href=\"https://console.cloud.google.com\">https://console.cloud.google.com</a> and get \"YouTube Data API v3\" API key"
+                text: qsTr("After applying key, you need to restart Microtube")
+                color: Theme.secondaryHighlightColor
+                textFormat: Text.StyledText
+                font.pixelSize: Theme.fontSizeSmall
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width - Theme.paddingLarge*2
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                onLinkActivated: Qt.openUrlExternally(link)
+                linkColor: Theme.highlightColor
+            }
+
+            Text {
+                text: qsTr("To get Youtube API key go to <a href=\"https://console.cloud.google.com\">https://console.cloud.google.com</a> and get \"YouTube Data API v3\" API key")
                 color: Theme.secondaryHighlightColor
                 textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall
