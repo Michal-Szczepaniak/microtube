@@ -51,7 +51,7 @@ Page {
             }
 
             Label {
-                text: "microtube 1.7.4"
+                text: "microtube 1.8.2"
                 font.pixelSize: Theme.fontSizeExtraLarge
                 anchors.horizontalCenter: parent.horizontalCenter
                 wrapMode: Text.WordWrap
@@ -93,6 +93,7 @@ Page {
                 width: parent.width - Theme.paddingLarge*2
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
+                onLinkActivated: Qt.openUrlExternally(link)
                 linkColor: Theme.highlightColor
             }
 
@@ -106,6 +107,7 @@ Page {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 linkColor: Theme.highlightColor
+                onLinkActivated: Qt.openUrlExternally(link)
             }
 
             Separator {
@@ -130,6 +132,7 @@ Page {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 linkColor: Theme.highlightColor
+                onLinkActivated: Qt.openUrlExternally(link)
             }
 
             Label {
@@ -185,6 +188,7 @@ Page {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 linkColor: Theme.highlightColor
+                onLinkActivated: Qt.openUrlExternally(link)
             }
 
        }

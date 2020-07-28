@@ -154,10 +154,6 @@
 <context>
     <name>PlaylistModel</name>
     <message>
-        <source>Show %1 More</source>
-        <translation type="unfinished">Zobrazit %1 dalších</translation>
-    </message>
-    <message>
         <source>No videos</source>
         <translation type="unfinished">Žádná videa</translation>
     </message>
@@ -168,6 +164,10 @@
     <message>
         <source>Check internet connection.</source>
         <translation type="unfinished">Zkontrolujte připojení.</translation>
+    </message>
+    <message>
+        <source>Show more</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -195,6 +195,22 @@
     <message>
         <source>Download location</source>
         <translation type="unfinished">Složka pro stahování</translation>
+    </message>
+    <message>
+        <source>Youtube API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>After applying key, you need to restart Microtube</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -242,10 +258,6 @@
     </message>
     <message>
         <source>720p</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>360p</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

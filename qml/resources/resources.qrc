@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file>images/channels.png</file>
         <file>images/unwatched.png</file>
+        <file>images/icon-m-audio-only-disable.svg</file>
+        <file>images/icon-m-audio-only-enable.svg</file>
+        <file>images/icon-m-scale-to-16-9.svg</file>
+        <file>images/icon-m-scale-to-21-9.svg</file>
     </qresource>
 </RCC>
