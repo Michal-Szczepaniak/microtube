@@ -95,12 +95,14 @@ SOURCES += src/microtube.cpp \
 DISTFILES += qml/microtube.qml \
     microtube-url.desktop \
     qml/cover/CoverPage.qml \
+    qml/pages/SubscriptionsImport.qml \
     rpm/microtube.spec \
     translations/*.ts \
     microtube.desktop \
     qml/pages/About.qml \
     qml/pages/Main.qml \
     qml/pages/Subscriptions.qml \
+    qml/pages/SubscriptionsImport.qml \
     qml/pages/Settings.qml \
     qml/pages/VideoPlayer.qml \
     qml/pages/components/VideoElement.qml \
@@ -132,4 +134,6 @@ TRANSLATIONS += translations/microtube-de.ts \
     translations/microtube-es.ts \
     translations/microtube-cs.ts \
     translations/microtube-hu.ts \
+    translations/microtube-sv.ts \
+    translations/microtube-zh_CN.ts \
     translations/microtube-pl.ts

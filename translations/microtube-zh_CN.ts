@@ -43,6 +43,10 @@
         <source>1Zgp for hungarian translation.</source>
         <translation>1Zgp 提供匈牙利语翻译。</translation>
     </message>
+    <message>
+        <source>Malakay for Czech translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ChannelAggregator</name>
@@ -140,10 +144,6 @@
 <context>
     <name>PlaylistModel</name>
     <message>
-        <source>Show %1 More</source>
-        <translation>多显示 %1 个视频</translation>
-    </message>
-    <message>
         <source>No videos</source>
         <translation>无视频</translation>
     </message>
@@ -154,6 +154,10 @@
     <message>
         <source>Check internet connection.</source>
         <translation>检查网络连接。</translation>
+    </message>
+    <message>
+        <source>Show more</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -182,6 +186,22 @@
         <source>Download location</source>
         <translation>下载位置</translation>
     </message>
+    <message>
+        <source>Youtube API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>After applying key, you need to restart Microtube</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>
@@ -203,6 +223,33 @@
     <message>
         <source>Mark all as watched</source>
         <translation>标记为已看</translation>
+    </message>
+    <message>
+        <source>Import subscriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SubscriptionsImport</name>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Instructions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Go to YouTube website on desktop and while logged in, save the page by clicking ctrl+s. Upload saved file to your device and pick it from pull down menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import successful</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -229,10 +276,6 @@
     <message>
         <source>720p</source>
         <translation>720p</translation>
-    </message>
-    <message>
-        <source>360p</source>
-        <translation>360p</translation>
     </message>
     <message>
         <source>Download</source>
@@ -330,7 +373,7 @@
     </message>
     <message>
         <source>Germany</source>
-        <translation><德国/translation>
+        <translation>德国</translation>
     </message>
     <message>
         <source>Ghana</source>

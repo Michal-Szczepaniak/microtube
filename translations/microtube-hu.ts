@@ -43,6 +43,10 @@
         <source>1Zgp for hungarian translation.</source>
         <translation>1Zgp-nek a magyar fordításért.</translation>
     </message>
+    <message>
+        <source>Malakay for Czech translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ChannelAggregator</name>
@@ -52,7 +56,9 @@
     </message>
     <message numerus="yes">
         <source>You have %n new video(s)</source>
-        <translation>%n új videód van</translation>
+        <translation>
+            <numerusform>%n új videód van</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -74,19 +80,27 @@
     </message>
     <message numerus="yes">
         <source>%n hour(s) ago</source>
-        <translation>%n órával ezelőtt</translation>
+        <translation>
+            <numerusform>%n órával ezelőtt</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s) ago</source>
-        <translation>%n nappal ezelőtt</translation>
+        <translation>
+            <numerusform>%n nappal ezelőtt</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n month(s) ago</source>
-        <translation>%n hónappal ezelőtt</translation>
+        <translation>
+            <numerusform>%n hónappal ezelőtt</numerusform>
+        </translation>
     </message>
     <message numerus="yes">
         <source>%n week(s) ago</source>
-        <translation>%n héttel ezelőtt</translation>
+        <translation>
+            <numerusform>%n héttel ezelőtt</numerusform>
+        </translation>
     </message>
     <message>
         <source>K</source>
@@ -130,10 +144,6 @@
 <context>
     <name>PlaylistModel</name>
     <message>
-        <source>Show %1 More</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>No videos</source>
         <translation>Nincs videó</translation>
     </message>
@@ -144,6 +154,10 @@
     <message>
         <source>Check internet connection.</source>
         <translation>Ellenőrizd az interetkapcsolatot.</translation>
+    </message>
+    <message>
+        <source>Show more</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -163,6 +177,30 @@
     <message>
         <source>Search for related videos</source>
         <translation>Kapcsolódó videók keresése</translation>
+    </message>
+    <message>
+        <source>Download location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Region</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Youtube API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>After applying key, you need to restart Microtube</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -185,6 +223,33 @@
     <message>
         <source>Mark all as watched</source>
         <translation>Az összes megjelölése megnézettként</translation>
+    </message>
+    <message>
+        <source>Import subscriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SubscriptionsImport</name>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Instructions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Go to YouTube website on desktop and while logged in, save the page by clicking ctrl+s. Upload saved file to your device and pick it from pull down menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import successful</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -211,14 +276,6 @@
     <message>
         <source>720p</source>
         <translation>720p</translation>
-    </message>
-    <message>
-        <source>480p</source>
-        <translation>480p</translation>
-    </message>
-    <message>
-        <source>360p</source>
-        <translation>360p</translation>
     </message>
     <message>
         <source>Download</source>
