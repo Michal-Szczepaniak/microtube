@@ -162,7 +162,7 @@
     </message>
     <message>
         <source>Show more</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar más</translation>
     </message>
 </context>
 <context>
@@ -177,7 +177,7 @@
     </message>
     <message>
         <source>Automatic change to next video</source>
-        <translation>Cambio automático al siguiente vídeo</translation>
+        <translation>Reproducción automática</translation>
     </message>
     <message>
         <source>Search for related videos</source>
@@ -193,19 +193,19 @@
     </message>
     <message>
         <source>Youtube API Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Clave API de Youtube</translation>
     </message>
     <message>
         <source>API Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Clave API</translation>
     </message>
     <message>
         <source>After applying key, you need to restart Microtube</source>
-        <translation type="unfinished"></translation>
+        <translation>Después de aplicar la clave, debes reiniciar Microtube</translation>
     </message>
     <message>
         <source>To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key</source>
-        <translation type="unfinished"></translation>
+        <translation>Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; y solicita una clave &quot;YouTube Data API v3&quot;</translation>
     </message>
 </context>
 <context>
