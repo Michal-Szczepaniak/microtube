@@ -218,6 +218,7 @@ Page {
                 if(videoChanging) videoChanging = false
                 mediaPlayer.videoPlay()
             }
+            description = video.getDescription().replace(/\\n/g, "<br/>")
         }
 
         onAudioStreamUrlChanged: {
@@ -836,7 +837,6 @@ Page {
             TextArea {
                 id: videoCoverTitle
                 text: title
-                anchors.top: videoOutput.bottom
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: Theme.paddingLarge
@@ -865,17 +865,19 @@ Page {
                         width: parent.width
                         padding: Theme.paddingLarge
                         visible: !(app.videoCover && Qt.application.state === Qt.ApplicationInactive)
-                        TextArea {
+                        Label {
                             id: videoTitle
                             text: title
                             width: page.width - Theme.paddingLarge*2
                             font.pixelSize: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? Theme.fontSizeHuge : Theme.fontSizeLarge
                             color: Theme.highlightColor
                             font.family: Theme.fontFamilyHeading
-                            readOnly: true
-                            textMargin: 0
-                            labelVisible: false
                             wrapMode: TextEdit.WordWrap
+                        }
+
+                        Item {
+                            height: Theme.paddingLarge
+                            width: 1
                         }
 
                         Row{
@@ -933,13 +935,11 @@ Page {
                         }
 
 
-                        TextArea {
+                        LinkedLabel {
                             id: videoDescription
                             text: description
                             width: page.width - Theme.paddingLarge*2
-                            readOnly: true
-                            textMargin: 0
-                            labelVisible: false
+                            color: palette.secondaryColor
                             wrapMode: TextEdit.WordWrap
                         }
 

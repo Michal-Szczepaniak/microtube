@@ -61,7 +61,7 @@ Page {
 
             cellWidth: columnWidth
             cellHeight: columnWidth
-
+            clip: true
 
             model: YTChannels
 

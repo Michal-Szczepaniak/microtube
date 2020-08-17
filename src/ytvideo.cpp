@@ -93,6 +93,7 @@ void YTVideo::gotVideoInfo(const QByteArray &bytes) {
                     QString url = formatObj["url"].toString();
                     if (url.isEmpty()) {
                         QString cipher = formatObj["cipher"].toString();
+                        if (cipher.isEmpty()) cipher = formatObj["signatureCipher"].toString();
                         QUrlQuery q(cipher);
                         qDebug() << "Cipher is " << q.toString();
                         url = q.queryItemValue("url").trimmed();
@@ -319,6 +320,14 @@ void YTVideo::scrapeWebPage(const QByteArray &bytes) {
         // elIndex++;
         // getVideoInfo();
         // return;
+    }
+
+    QRegularExpression description("\\\"description\\\":{\\\"simpleText\\\":\\\"(.*?)\\\"");
+    bool valid = description.isValid();
+
+    if (description.match(html).hasMatch()) {
+        qDebug() << "Found description " << description.match(html).captured(1);
+        emit gotDescription(description.match(html).captured(1));
     }
 
     static const QRegExp jsPlayerRe(JsFunctions::instance()->jsPlayerRE());

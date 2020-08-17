@@ -82,7 +82,7 @@ Page {
                 xhr.onreadystatechange = function() {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         var response = xhr.responseText.replace(/(\r\n|\n|\r)/gm,"");
-                        var scriptRegex = /<script.[^>]*>.[^<]*?ytInitialGuideData(.[^{]*?)<\/script>/g;
+                        var scriptRegex = /<script[^>]*>[^<]*?ytInitialGuideData(.[^{]*?)<\/script>/g;
                         var script = response.match(scriptRegex)[1].replace(/.[^{]*/, "").replace(/;.*/, "");
                         var ytData = JSON.parse(script);
                         var subscriptions = (ytData.items[1].guideSubscriptionsSectionRenderer.items);
