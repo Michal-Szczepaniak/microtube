@@ -76,7 +76,18 @@ void YT::search(QString query) {
 
     // go!
     this->watch(searchParams);
-//    emit search(searchParams);
+    //    emit search(searchParams);
+}
+
+void YT::loadCategory(QString id, QString label)
+{
+    QString regionId = YTRegions::currentRegionId();
+    YTStandardFeed *feed = new YTStandardFeed(this);
+    feed->setFeedId(id);
+    feed->setLabel(label);
+    feed->setCategory(id);
+    feed->setRegionId(regionId);
+    setVideoSource(feed, false, false);
 }
 
 void YT::watch(SearchParams *searchParams) {

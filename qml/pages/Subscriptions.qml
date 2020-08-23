@@ -19,6 +19,7 @@
 
 import QtQuick 2.6
 import Sailfish.Silica 1.0
+import SortFilterProxyModel 0.2
 import "components"
 
 Page {
@@ -48,6 +49,14 @@ Page {
             title: qsTr("Subscriptions")
         }
 
+        SortFilterProxyModel {
+            id: channelsProxyModel
+            sourceModel: YTChannels
+            sorters: [
+                RoleSorter { roleName: "notifyCount"; sortOrder: Qt.DescendingOrder}
+            ]
+        }
+
         SilicaGridView {
             id: listView
 
@@ -63,7 +72,7 @@ Page {
             cellHeight: columnWidth
             clip: true
 
-            model: YTChannels
+            model: channelsProxyModel
 
             delegate: ListItem {
                 width: listView.columnWidth
@@ -72,7 +81,7 @@ Page {
                 contentHeight: listView.columnWidth
 
                 onClicked: {
-                    YT.itemActivated(index)
+                    YT.itemActivated(channelsProxyModel.mapToSource(index))
                     pageStack.navigateBack()
                 }
 
@@ -133,7 +142,7 @@ Page {
                     MenuItem {
                         text: qsTr("Unsubscribe")
                         onClicked: {
-                            YTChannels.unsubscribe(index);
+                            YTChannels.unsubscribe(channelsProxyModel.mapToSource(index));
                             YT.updateQuery()
                         }
                     }

@@ -31,7 +31,6 @@ ListItem {
             YTPlaylist.searchMore()
             return;
         }
-        ChannelAggregator.videoWatched(video)
         YTPlaylist.setActiveRow(index)
         if (!subPage) {
             pageStack.pushAttached(Qt.resolvedUrl("../VideoPlayer.qml"),

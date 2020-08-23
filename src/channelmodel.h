@@ -37,6 +37,7 @@ public:
     enum DataRoles {
         ItemTypeRole = Qt::UserRole,
         DataObjectRole,
+        NotifyCountRole,
         HoveredItemRole,
         UsernameRole,
         ThumbnailRole

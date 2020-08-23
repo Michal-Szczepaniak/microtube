@@ -47,6 +47,10 @@
         <source>Malakay for Czech translation.</source>
         <translation>Malakay por la traducción al checo.</translation>
     </message>
+    <message>
+        <source>mkiol for integration with Jupii.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ChannelAggregator</name>
@@ -125,6 +129,53 @@
     <message>
         <source>%1 views</source>
         <translation>%1 visualizaciones</translation>
+    </message>
+</context>
+<context>
+    <name>InstallDialog</name>
+    <message>
+        <source>Thank you for installing Microtube!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changelog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added subscriptions import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added first install and update page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added full description with working links</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added DLNA casting using Yupii</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Installation</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -207,6 +258,22 @@
         <source>To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key</source>
         <translation>Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; y solicita una clave &quot;YouTube Data API v3&quot;</translation>
     </message>
+    <message>
+        <source>Default category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Buffer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test new install</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Test update</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>
@@ -218,19 +285,19 @@
 <context>
     <name>Subscriptions</name>
     <message>
-        <source>Subscriptions</source>
-        <translation>Suscripciones</translation>
-    </message>
-    <message>
-        <source>Unsubscribe</source>
-        <translation>Borrar suscripción</translation>
-    </message>
-    <message>
         <source>Mark all as watched</source>
-        <translation>Marcar todos como vistos</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Import subscriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subscriptions</source>
+        <translation type="unfinished">Suscripciones</translation>
+    </message>
+    <message>
+        <source>Unsubscribe</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -254,6 +321,53 @@
     </message>
     <message>
         <source>Import successful</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UpdateDialog</name>
+    <message>
+        <source>Update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Microtube was updated to version %1!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changelog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added subscriptions import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added first install and update page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added full description with working links</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added DLNA casting using Yupii</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Donation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

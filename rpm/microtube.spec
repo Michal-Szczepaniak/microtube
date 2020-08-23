@@ -13,7 +13,7 @@ Name:       microtube
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    µTube
-Version:    1.8.2
+Version:    2.0
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE

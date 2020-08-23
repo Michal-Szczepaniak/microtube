@@ -111,6 +111,8 @@ Page {
      }
 
     function showHideControls() {
+        jupii.ping()
+
         if (_controlsVisible) {
             showAnimation.start()
             hideControlsAutomatically.restart()
@@ -159,6 +161,23 @@ Page {
             app.videoCover = false
         } else if ( status === PageStatus.Activating ) {
             app.videoCover = true
+        } else if(status === PageStatus.Active) {
+            app.videoCover = true
+            pacontrol.update()
+            showHideControls()
+            hideControlsAutomatically.restart()
+
+            if ( settings.relatedVideos ) {
+                YTPlaylist.findRecommended()
+                YTPlaylist.setActiveRow(0, false)
+                video = YTPlaylist.qmlVideoAt(0)
+            }
+            if(settings.audioOnlyMode)
+                topMenu.resolutionChange("audio")
+            else
+                topMenu.resolutionChange("720p")
+            video.loadStreamUrl()
+            ChannelAggregator.videoWatched(video)
         }
     }
 
@@ -169,21 +188,6 @@ Page {
     }
 
     Component.onCompleted: {
-        app.videoCover = true
-        pacontrol.update()
-        showHideControls()
-        hideControlsAutomatically.restart()
-
-        if ( settings.relatedVideos ) {
-            YTPlaylist.findRecommended()
-            YTPlaylist.setActiveRow(0, false)
-            video = YTPlaylist.qmlVideoAt(0)
-        }
-        if(settings.audioOnlyMode)
-            topMenu.resolutionChange("audio")
-        else
-            topMenu.resolutionChange("720p")
-        video.loadStreamUrl()
     }
 
     showNavigationIndicator: page.orientation === Orientation.Portrait
@@ -218,7 +222,7 @@ Page {
                 if(videoChanging) videoChanging = false
                 mediaPlayer.videoPlay()
             }
-            description = video.getDescription().replace(/\\n/g, "<br/>")
+            description = video.getDescription().replace(/\\n/g, '\n').replace(/\\u0026/, '&')
         }
 
         onAudioStreamUrlChanged: {
@@ -701,14 +705,14 @@ Page {
 
                     NumberAnimation {
                         id: showAnimation
-                        targets: [progress, duration, playButton, prevButton, nextButton, fillModeButton]
+                        targets: [progress, duration, playButton, prevButton, nextButton, fillModeButton, castButton]
                         properties: "opacity"
                         to: 1
                         duration: 100
                     }
                     NumberAnimation {
                         id: hideAnimation
-                        targets: [progress, duration, playButton, prevButton, nextButton, fillModeButton]
+                        targets: [progress, duration, playButton, prevButton, nextButton, fillModeButton, castButton]
                         properties: "opacity"
                         to: 0
                         duration: 100
@@ -740,6 +744,20 @@ Page {
                         anchors.right: playButton.left
                         anchors.rightMargin: page.width/4 - playButton.width/2
                         onClicked: mediaPlayer.prevVideo()
+                    }
+
+                    IconButton {
+                        id: castButton
+                        visible: opacity != 0 && landscape && jupii.found
+                        icon.source: "qrc:///images/icon-m-cast.svg"
+                        width: Theme.itemSizeExtraSmall
+                        height: width
+                        anchors.right: fillModeButton.left
+                        anchors.top: parent.top
+                        anchors.margins: Theme.paddingMedium
+                        icon.width: width
+                        icon.height: width
+                        onClicked: jupii.addUrlOnceAndPlay(video.streamUrl.toString(), title, author, (settings.audioOnlyMode ? 1 : 2), "microtube", "/usr/share/icons/hicolor/172x172/apps/microtube.png")
                     }
 
                     IconButton {
@@ -859,8 +877,21 @@ Page {
                     id: playlistFlickable
                     width: parent.width
                     height: playlist.height
-                    contentHeight: (page.height - videoPlayer.height) + videoTitle.height + authorViews.height + videoDescription.height + progress.height/2
+                    contentHeight: (page.height - videoPlayer.height) + videoTitle.height + authorViews.height + videoDescription.height + progress.height/2 + Theme.paddingLarge*2
                     clip: true
+                    property int oldContentHeight: 0
+                    onContentHeightChanged: {
+                        if (oldContentHeight !== 0 && contentY >= parseInt(oldContentHeight - (page.height - videoPlayer.height))) {
+                            var diff = contentHeight - oldContentHeight
+                            playlistFlickable.contentY += diff
+                            oldContentHeight = JSON.parse(JSON.stringify(contentHeight));
+                        } else {
+                            oldContentHeight = JSON.parse(JSON.stringify(contentHeight));
+                        }
+                    }
+
+                    onContentYChanged: console.log(contentY, parseInt(contentHeight - (page.height - videoPlayer.height)), oldContentHeight, contentHeight)
+
                     Column {
                         width: parent.width
                         padding: Theme.paddingLarge
@@ -937,7 +968,7 @@ Page {
 
                         LinkedLabel {
                             id: videoDescription
-                            text: description
+                            plainText: description
                             width: page.width - Theme.paddingLarge*2
                             color: palette.secondaryColor
                             wrapMode: TextEdit.WordWrap
@@ -951,7 +982,7 @@ Page {
                             spacing: Theme.paddingMedium
                             model: YTPlaylist
                             clip: true
-                            interactive: playlistFlickable.contentY > videoDescription.height
+                            interactive: playlistFlickable.contentY >= parseInt(playlistFlickable.contentHeight - (page.height - videoPlayer.height))
                             delegate: VideoElement {
                                 id: delegate
                                 subPage: true
@@ -961,6 +992,10 @@ Page {
                 }
             }
         }
+    }
+
+    Jupii {
+        id: jupii
     }
 
     CoverActionList {

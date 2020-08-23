@@ -12,9 +12,10 @@
 # The name of your application
 TARGET = microtube
 
+include(vendor/vendor.pri)
 include(src/http/http.pri)
 
-CONFIG += link_pkgconfig nemonotifications-qt5 sailfishapp
+CONFIG += link_pkgconfig nemonotifications-qt5 sailfishapp c++11
 
 INCLUDEPATH += src/QEasyDownloader/include
 
@@ -26,6 +27,7 @@ PKGCONFIG += \
 QT += sql dbus network widgets
 
 HEADERS += \
+    src/categoriesmodel.h \
     src/ytsearch.h \
     src/ytstandardfeed.h \
     src/ytregions.h \
@@ -61,6 +63,7 @@ HEADERS += \
     src/mediaview.h
 
 SOURCES += src/microtube.cpp \
+    src/categoriesmodel.cpp \
     src/ytsearch.cpp \
     src/ytstandardfeed.cpp \
     src/ytregions.cpp \
@@ -95,7 +98,12 @@ SOURCES += src/microtube.cpp \
 DISTFILES += qml/microtube.qml \
     microtube-url.desktop \
     qml/cover/CoverPage.qml \
+    qml/pages/InstallDialog.qml \
     qml/pages/SubscriptionsImport.qml \
+    qml/pages/UpdateDialog.qml \
+    qml/pages/components/CenteredLabel.qml \
+    qml/pages/components/Jupii.qml \
+    qml/pages/components/VideoElement_copy.qml \
     rpm/microtube.spec \
     translations/*.ts \
     microtube.desktop \
@@ -106,6 +114,7 @@ DISTFILES += qml/microtube.qml \
     qml/pages/Settings.qml \
     qml/pages/VideoPlayer.qml \
     qml/pages/components/VideoElement.qml \
+    qml/pages/components/CategoryElement.qml \
     qml/pages/components/SilicaFastListView.qml \
     qml/pages/components/SharePage.qml \
     qml/pages/components/private/BoundsBehavior.qml \

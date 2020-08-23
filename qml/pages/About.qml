@@ -29,7 +29,7 @@ Page {
     SilicaFlickable {
         anchors.fill: parent
 
-        contentHeight: column.height + header.height
+        contentHeight: column.height + header.height + Theme.paddingLarge
 
         PageHeader {
             id: header
@@ -51,7 +51,7 @@ Page {
             }
 
             Label {
-                text: "microtube 1.8.2"
+                text: "microtube " + app.version
                 font.pixelSize: Theme.fontSizeExtraLarge
                 anchors.horizontalCenter: parent.horizontalCenter
                 wrapMode: Text.WordWrap
@@ -161,6 +161,12 @@ Page {
 
             Label {
                 text: qsTr("DylanVanAssche for help.")
+                font.pixelSize: Theme.fontSizeSmall
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            Label {
+                text: qsTr("mkiol for integration with Jupii.")
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
             }

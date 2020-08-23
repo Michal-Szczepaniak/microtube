@@ -44,6 +44,13 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const {
             return QVariant::fromValue(channelForIndex(index));
         break;
 
+    case ChannelModel::NotifyCountRole:
+        if (typeForIndex(index) == ChannelModel::ItemChannel)
+            return channelForIndex(index)->getNotifyCount();
+        else if (index.row() == 0 || index.row() == 1)
+            return INT_MAX;
+        break;
+
     case ChannelModel::HoveredItemRole:
         return hoveredRow == index.row();
 
@@ -185,6 +192,7 @@ QHash<int, QByteArray> ChannelModel::roleNames() const {
     QHash<int, QByteArray> roles;
     roles[ItemTypeRole] = "itemType";
     roles[DataObjectRole] = "channel";
+    roles[NotifyCountRole] = "notifyCount";
     roles[Qt::StatusTipRole] = "description";
     roles[UsernameRole] = "username";
     roles[ThumbnailRole] = "thumbnail";

@@ -20,12 +20,14 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
+import com.verdanditeam.yt 1.0
 import "components"
 
 Page {
     id: page
 
     allowedOrientations: Orientation.All
+    backNavigation: false
 
     ConfigurationGroup {
         id: settings
@@ -36,6 +38,16 @@ Page {
         property bool audioOnlyMode: false
         property bool developerMode: false
         property double buffer: 1.0
+        property string categoryId: "0"
+        property string categoryName: "Film & Animation"
+    }
+
+    YtCategories {
+        id: categories
+        onRowsInserted: {
+            console.log("load category")
+            YT.loadCategory(settings.categoryId, settings.categoryName)
+        }
     }
 
     SilicaFlickable {
@@ -69,27 +81,78 @@ Page {
             title: qsTr("Search")
         }
 
-        SilicaFastListView {
-            id: listView
+        SearchField {
+            id: searchField
+            width: parent.width
             anchors.top: header.bottom
+            placeholderText: qsTr("Search")
+            Keys.onReturnPressed: {
+                if(searchField.text.length != 0) {
+                    if(searchField.text == "21379111488") settings.developerMode = !settings.developerMode
+                    YT.search(searchField.text)
+                }
+            }
+        }
+
+
+        SilicaListView {
+            id: swipeView
+
+            clip: true
+            orientation: ListView.Horizontal
+            layoutDirection: ListView.LeftToRight
+
+            anchors.top: searchField.bottom
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            clip: true
-            header: SearchField {
-                id: searchField
-                width: parent.width
-                placeholderText: qsTr("Search")
-                Keys.onReturnPressed: {
-                    if(searchField.text.length != 0) {
-                        if(searchField.text == "21379111488") settings.developerMode = !settings.developerMode
-                        YT.search(searchField.text)
+
+            interactive: true
+            contentHeight: height
+            contentWidth: width*2
+            snapMode: ListView.SnapOneItem
+
+            contentX: width
+
+            model: ListModel {
+                id: listModel
+
+                ListElement {}
+                ListElement {}
+            }
+
+            delegate: Item {
+                width: swipeView.width
+                height: swipeView.height
+
+                SilicaFastListView {
+                    id: browseList
+                    width: swipeView.width
+                    height: swipeView.height
+                    clip: true
+                    spacing: 0
+                    model: categories
+                    visible: index === 0
+
+                    delegate: CategoryElement {
+                        onClicked: {
+                            YT.loadCategory(id, name)
+                            swipeView.positionViewAtEnd()
+                        }
                     }
                 }
+
+                SilicaFastListView {
+                    id: searchList
+                    width: swipeView.width
+                    height: swipeView.height
+                    clip: true
+                    spacing: Theme.paddingMedium
+                    visible: index === 1
+                    model: YTPlaylist
+                    delegate: VideoElement {}
+                }
             }
-            spacing: Theme.paddingMedium
-            model: YTPlaylist
-            delegate: VideoElement {}
         }
     }
 }
