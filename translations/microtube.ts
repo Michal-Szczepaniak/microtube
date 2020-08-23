@@ -224,6 +224,33 @@
         <source>Mark all as watched</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Import subscriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SubscriptionsImport</name>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Instructions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Go to YouTube website on desktop and while logged in, save the page by clicking ctrl+s. Upload saved file to your device and pick it from pull down menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import successful</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>VideoElement</name>

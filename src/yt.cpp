@@ -211,6 +211,11 @@ void YT::toggleSubscription(const QString &channelId) {
     }
 }
 
+bool YT::isSubscribed(const QString &channelId)
+{
+    return YTChannel::isSubscribed(channelId);
+}
+
 void YT::updateQuery() {
     QString sql = "select user_id from subscriptions";
 //    if (showUpdated)

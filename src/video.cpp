@@ -130,6 +130,7 @@ void Video::loadStreamUrl() {
     }
     ytVideo = new YTVideo(id, this);
     connect(ytVideo, &YTVideo::gotStreamUrl, this, &Video::streamUrlLoaded);
+    connect(ytVideo, &YTVideo::gotDescription, this, &Video::setDescription);
     connect(ytVideo, &YTVideo::errorStreamUrl, this, [this](const QString &msg) {
         emit errorStreamUrl(msg);
         ytVideo->deleteLater();

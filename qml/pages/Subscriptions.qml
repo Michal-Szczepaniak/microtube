@@ -37,6 +37,10 @@ Page {
                     ChannelAggregator.markAllAsWatched()
                 }
             }
+            MenuItem {
+                text: qsTr("Import subscriptions")
+                onClicked: pageStack.push(Qt.resolvedUrl("SubscriptionsImport.qml"))
+            }
         }
 
         PageHeader {
@@ -57,7 +61,7 @@ Page {
 
             cellWidth: columnWidth
             cellHeight: columnWidth
-
+            clip: true
 
             model: YTChannels
 

@@ -26,6 +26,7 @@ BuildRequires:  pkgconfig(Qt5Qml)
 BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  qt5-qtsql-devel
 BuildRequires:  desktop-file-utils
+BuildRequires:  nemo-qml-plugin-notifications-qt5-devel
 
 %description
 µtube is alternative youtube client!

@@ -14,6 +14,7 @@ public:
     int getDefinitionCode() const { return definitionCode; }
 
 signals:
+    void gotDescription(const QString &description);
     void gotStreamUrl(const QString &videoUrl, const QString &audioUrl);
     void errorStreamUrl(const QString &message);
 
