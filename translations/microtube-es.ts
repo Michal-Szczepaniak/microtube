@@ -231,30 +231,30 @@
     </message>
     <message>
         <source>Import subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>Importar suscripciones</translation>
     </message>
 </context>
 <context>
     <name>SubscriptionsImport</name>
     <message>
         <source>Import</source>
-        <translation type="unfinished"></translation>
+        <translation>Importar</translation>
     </message>
     <message>
         <source>Import file</source>
-        <translation type="unfinished"></translation>
+        <translation>Importar archivo</translation>
     </message>
     <message>
         <source>Instructions</source>
-        <translation type="unfinished"></translation>
+        <translation>Instrucciones</translation>
     </message>
     <message>
         <source>Go to YouTube website on desktop and while logged in, save the page by clicking ctrl+s. Upload saved file to your device and pick it from pull down menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visita el sitio web de YouTube desde un ordenador, y cuando accedas con tu usuario, guarda la página pulsando ctrl+s. Copia el archivo guardado en tu dispositivo y selecciónalo en el menú deslizante.</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Importación correcta</translation>
     </message>
 </context>
 <context>
