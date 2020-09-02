@@ -31,63 +31,75 @@ ListItem {
             YTPlaylist.searchMore()
             return;
         }
-        YTPlaylist.setActiveRow(index)
-        if (!subPage) {
-            pageStack.pushAttached(Qt.resolvedUrl("../VideoPlayer.qml"),
-                           { video: video, title: display, author: author, viewCount: viewCount, description: description })
-            pageStack.navigateForward()
-        }
 
+        if (!subPage) {
+            pageStack.pushAttached(Qt.resolvedUrl("../VideoPlayer.qml"))
+            pageStack.navigateForward()
+            YTPlaylist.setActiveRow(index, false)
+        } else {
+            YTPlaylist.setActiveRow(index)
+        }
     }
 
     property bool subPage: false
     property bool isVideo: itemType === 1 // video type
 
-    Row {
-        anchors.fill: parent
-        Column {
-            id: left
-            width: isVideo ? listItem.width/2.3 : 0
-            height: Theme.paddingLarge*8
-            leftPadding: subPage ? 0 : Theme.paddingLarge
-            topPadding: Theme.paddingSmall
-            bottomPadding: Theme.paddingSmall
-            visible: isVideo
+    Loader {
+        asynchronous: true
+        sourceComponent: rowComponent
+    }
 
-            Image {
-                width: parent.width - Theme.paddingLarge
-                height: parent.height - Theme.paddingSmall*2
-                source: thumbnail !== undefined ? thumbnail : ""
-                asynchronous: true
-                cache: true
-                antialiasing: false
-                fillMode: Image.PreserveAspectFit
-            }
-        }
+    Component {
+        id: rowComponent
 
-        Column {
-            width: listItem.width - left.width
-            height: Theme.paddingLarge*8
-            padding: Theme.paddingLarge
+        Row {
+            anchors.fill: parent
+            Column {
+                id: left
+                width: isVideo ? listItem.width/2.3 : 0
+                height: Theme.paddingLarge*8
+                leftPadding: subPage ? 0 : Theme.paddingLarge
+                topPadding: Theme.paddingSmall
+                bottomPadding: Theme.paddingSmall
+                visible: isVideo
 
-            Label {
-                text: display
-                width: parent.width - Theme.paddingLarge*2
-                truncationMode: TruncationMode.Fade
-                horizontalAlignment: !isVideo ? Text.AlignHCenter : Text.AlignLeft
+                Image {
+                    width: parent.width - Theme.paddingLarge
+                    height: parent.height - Theme.paddingSmall*2
+                    source: thumbnail !== undefined ? thumbnail : ""
+                    sourceSize.width: width
+                    sourceSize.height: height
+                    asynchronous: true
+                    cache: true
+                    antialiasing: false
+                    fillMode: Image.PreserveAspectFit
+                }
             }
 
-            Label {
-                text: author !== undefined ? author : ""
-                width: parent.width - Theme.paddingLarge*2
-                font.pixelSize: Theme.fontSizeExtraSmall
-                truncationMode: TruncationMode.Fade
-            }
+            Column {
+                width: listItem.width - left.width
+                height: Theme.paddingLarge*8
+                padding: Theme.paddingLarge
 
-            Row {
                 Label {
-                    text: (published !== undefined ? published : "") + (video !== undefined ? "  -  " + video.viewCount : "")
+                    text: display
+                    width: parent.width - Theme.paddingLarge*2
+                    truncationMode: TruncationMode.Fade
+                    horizontalAlignment: !isVideo ? Text.AlignHCenter : Text.AlignLeft
+                }
+
+                Label {
+                    text: author !== undefined ? author : ""
+                    width: parent.width - Theme.paddingLarge*2
                     font.pixelSize: Theme.fontSizeExtraSmall
+                    truncationMode: TruncationMode.Fade
+                }
+
+                Row {
+                    Label {
+                        text: (published !== undefined ? published : "") + (video !== undefined ? "  -  " + video.viewCount : "")
+                        font.pixelSize: Theme.fontSizeExtraSmall
+                    }
                 }
             }
         }

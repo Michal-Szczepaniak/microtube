@@ -17,28 +17,28 @@
     along with Microtube.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
-import Nemo.DBus 2.0
+import QtQuick 2.6
+import Sailfish.Silica 1.0
+import com.verdanditeam.yt 1.0
 
-Item {
-    property bool found: false
+BackgroundItem {
+    id: barButton
 
-    onVisibleChanged: ping()
+    height: Theme.itemSizeLarge
+    property alias text: label.text
 
-    function ping() {
-        found = (jupiiPlayer.getProperty('canControl') === true)
+    Label {
+        id: label
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        color: barButton.highlighted ? Theme.highlightColor : Theme.primaryColor
     }
 
-    function addUrlOnceAndPlay(url, origUrl, title, author, type, app, icon) {
-        jupiiPlayer.call('add', [url, origUrl, title, author, "", type, app, icon, true, true])
-
-    }
-
-    DBusInterface {
-        id: jupiiPlayer
-
-        service: 'org.jupii'
-        iface: 'org.jupii.Player'
-        path: '/'
+    Image {
+        id: rightIcon
+        anchors.right: parent.right
+        anchors.rightMargin: Theme.paddingMedium
+        anchors.verticalCenter: parent.verticalCenter
+        source: "image://theme/icon-m-right"
     }
 }

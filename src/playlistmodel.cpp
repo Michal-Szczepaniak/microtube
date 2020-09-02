@@ -67,6 +67,7 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const {
         case ItemTypeRole:
             return ItemTypeShowMore;
         case Qt::DisplayRole:
+            if (!errorMessage.isEmpty() && errorMessage.endsWith("Forbidden")) return tr("API key quota exceeded."); // errorMessage; #23 it looks ugly user shouldn't see it
             if (!errorMessage.isEmpty()) return tr("Check internet connection."); // errorMessage; #23 it looks ugly user shouldn't see it
             if (searching) return QString(); // tr("Searching...");
             if (canSearchMore) return tr("Show more");
@@ -131,7 +132,6 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const {
 
 void PlaylistModel::setActiveRow(int row, bool notify) {
     if (rowExists(row)) {
-        Video *previousVideo = m_activeVideo;
         m_activeRow = row;
         m_activeVideo = videoAt(row);
 
@@ -341,7 +341,7 @@ void PlaylistModel::emitDataChanged() {
 bool PlaylistModel::removeRows(int position, int rows, const QModelIndex & /*parent*/) {
     beginRemoveRows(QModelIndex(), position, position + rows - 1);
     for (int row = 0; row < rows; ++row) {
-        Video *video = videos.takeAt(position);
+        videos.removeAt(position);
     }
     endRemoveRows();
     return true;

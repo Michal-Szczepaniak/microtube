@@ -66,6 +66,27 @@
     </message>
 </context>
 <context>
+    <name>Comment</name>
+    <message>
+        <source>%1 replies</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Comments</name>
+    <message>
+        <source>Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CommentsModel</name>
+    <message>
+        <source>Show more</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CoverPage</name>
     <message>
         <source>µtube</source>
@@ -123,6 +144,69 @@
     </message>
     <message>
         <source>%1 views</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Filters</name>
+    <message>
+        <source>Filters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Relevance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View Count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Anytime</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Today</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>7 Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>30 Days</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Short</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Medium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Long</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -191,6 +275,10 @@
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
+    <message>
+        <source>Filters</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>PlaylistModel</name>
@@ -203,11 +291,15 @@
         <translation>Nie ma więcej filmów</translation>
     </message>
     <message>
-        <source>Check internet connection.</source>
+        <source>Show more</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Show more</source>
+        <source>API key quota exceeded.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -426,6 +518,10 @@
     <message>
         <source>Subscribe</source>
         <translation type="unfinished">Subskrybuj</translation>
+    </message>
+    <message>
+        <source>Comments</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

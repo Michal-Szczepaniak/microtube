@@ -33,7 +33,13 @@ void YTCategories::loadCategories(QString language) {
         language = QLocale::system().uiLanguages().at(0);
         int index = language.indexOf('-');
         if (index > 0) language = language.mid(0, index);
+
+        // case for system locales such as "C"
+        if (language.length() < 2) {
+            language = "en-US";
+        }
     }
+
     lastLanguage = language;
 
     QUrl url = YT3::instance().method("videoCategories");

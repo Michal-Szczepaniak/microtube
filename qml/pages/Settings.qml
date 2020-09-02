@@ -64,10 +64,10 @@ Page {
             anchors.right: parent.right
 
             TextSwitch {
-               checked: YT.getSafeSearch()
+               checked: YT.safeSearch
                width: parent.width
                text: qsTr("Restricted mode (safe for kids)")
-               onClicked: YT.setSafeSearch(checked)
+               onClicked: YT.safeSearch = checked
             }
 
             TextSwitch {
@@ -128,14 +128,14 @@ Page {
                 id: regions
                 width: parent.width
                 label: qsTr("Region")
-                currentIndex: YT.getCurrentRegion();
+                currentIndex: YT.region
                 menu: ContextMenu {
                     Repeater {
                         model: YT.getRegions();
                         delegate: MenuItem { text: modelData }
                     }
                 }
-                onCurrentItemChanged: YT.setRegion(currentIndex)
+                onCurrentItemChanged: YT.region = currentIndex
             }
 
             TextField {

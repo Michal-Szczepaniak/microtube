@@ -12,10 +12,19 @@
 # The name of your application
 TARGET = microtube
 
+CONFIG += link_pkgconfig nemonotifications-qt5 sailfishapp c++11
+
 include(vendor/vendor.pri)
 include(src/http/http.pri)
 
-CONFIG += link_pkgconfig nemonotifications-qt5 sailfishapp c++11
+CONFIG -= debug_and_release
+CONFIG(debug, debug|release): {
+    message(Building for debug)
+}
+CONFIG(release, debug|release): {
+    message(Building for release)
+    DEFINES *= QT_NO_DEBUG_OUTPUT
+}
 
 INCLUDEPATH += src/QEasyDownloader/include
 
@@ -28,6 +37,9 @@ QT += sql dbus network widgets
 
 HEADERS += \
     src/categoriesmodel.h \
+    src/comment.h \
+    src/commentsmodel.h \
+    src/threadmodel.h \
     src/ytsearch.h \
     src/ytstandardfeed.h \
     src/ytregions.h \
@@ -64,6 +76,9 @@ HEADERS += \
 
 SOURCES += src/microtube.cpp \
     src/categoriesmodel.cpp \
+    src/comment.cpp \
+    src/commentsmodel.cpp \
+    src/threadmodel.cpp \
     src/ytsearch.cpp \
     src/ytstandardfeed.cpp \
     src/ytregions.cpp \
@@ -98,10 +113,14 @@ SOURCES += src/microtube.cpp \
 DISTFILES += qml/microtube.qml \
     microtube-url.desktop \
     qml/cover/CoverPage.qml \
+    qml/pages/Comments.qml \
+    qml/pages/Filters.qml \
     qml/pages/InstallDialog.qml \
     qml/pages/SubscriptionsImport.qml \
     qml/pages/UpdateDialog.qml \
     qml/pages/components/CenteredLabel.qml \
+    qml/pages/components/Comment.qml \
+    qml/pages/components/CommentsButton.qml \
     qml/pages/components/Jupii.qml \
     qml/pages/components/VideoElement_copy.qml \
     rpm/microtube.spec \

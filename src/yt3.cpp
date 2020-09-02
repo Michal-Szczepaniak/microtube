@@ -42,7 +42,7 @@ void YT3::initApiKeys() {
 
     if (keys.isEmpty()) {
         QSettings settings;
-        if (settings.contains("googleApiKey")) {
+        if (settings.contains("googleApiKey") && settings.value("googleApiKey") != "") {
             keys << settings.value("googleApiKey").toString();
             qDebug() << "API key from settings" << keys;
         }

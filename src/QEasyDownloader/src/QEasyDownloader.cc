@@ -254,7 +254,7 @@ void QEasyDownloader::finished()
     _Timer.stop();
     _pFile->close();
     _pFile = nullptr;
-    _pCurrentReply = 0;
+    _pCurrentReply = nullptr;
 
     if (!_bDoIterate) {
         startNextDownload();

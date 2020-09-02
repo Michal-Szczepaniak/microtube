@@ -57,6 +57,7 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const {
     case Qt::StatusTipRole:
         if (typeForIndex(index) == ChannelModel::ItemChannel)
             return channelForIndex(index)->getDescription();
+        break;
 
     case ChannelModel::UsernameRole:
         if (typeForIndex(index) == ChannelModel::ItemChannel)
@@ -65,6 +66,7 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const {
             return "All videos";
         else if (index.row() == 1)
             return "Unwatched videos";
+        break;
 
     case ChannelModel::ThumbnailRole:
         if (typeForIndex(index) == ChannelModel::ItemChannel)
@@ -73,6 +75,7 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const {
             return "/usr/share/microtube/qml/resources/images/channels.png";
         else if (index.row() == 1)
             return "/usr/share/microtube/qml/resources/images/unwatched.png";
+        break;
 
     }
 
@@ -81,12 +84,12 @@ QVariant ChannelModel::data(const QModelIndex &index, int role) const {
 
 YTChannel* ChannelModel::channelForIndex(const QModelIndex &index) const {
     const int row = index.row();
-    if (row < channelOffset) return 0;
+    if (row < channelOffset) return nullptr;
     return channels.at(index.row() - channelOffset);
 }
 
 YTChannel* ChannelModel::channelForIndex(int index) const {
-    if (index < channelOffset) return 0;
+    if (index < channelOffset) return nullptr;
     return channels.at(index - channelOffset);
 }
 

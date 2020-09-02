@@ -45,7 +45,6 @@ Page {
     YtCategories {
         id: categories
         onRowsInserted: {
-            console.log("load category")
             YT.loadCategory(settings.categoryId, settings.categoryName)
         }
     }
@@ -72,6 +71,13 @@ Page {
                 onClicked: {
                     YT.updateQuery()
                     pageStack.push(Qt.resolvedUrl("Subscriptions.qml"))
+                }
+            }
+            MenuItem {
+                text: qsTr("Filters")
+                enabled: typeof YT.searchParams !== "undefined"
+                onClicked: {
+                    pageStack.push(Qt.resolvedUrl("Filters.qml"))
                 }
             }
         }
@@ -130,7 +136,6 @@ Page {
                     width: swipeView.width
                     height: swipeView.height
                     clip: true
-                    spacing: 0
                     model: categories
                     visible: index === 0
 

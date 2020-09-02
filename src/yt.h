@@ -27,15 +27,22 @@ $END_LICENSE */
 #include "playlistmodel.h"
 #include "channelmodel.h"
 #include "searchparams.h"
+#include "commentsmodel.h"
 #include "ytvideo.h"
 #include <QEasyDownloader.hpp>
 #include <notification.h>
 #include <QQmlPropertyMap>
 
+typedef QPointer<SearchParams> SearchParamsPointer;
+Q_DECLARE_METATYPE(SearchParamsPointer)
+
 class YT : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString apiKey READ apiKey WRITE setApiKey NOTIFY apiKeyChanged)
+    Q_PROPERTY(QVariant searchParams READ searchParams NOTIFY searchParamsChanged)
+    Q_PROPERTY(int region READ region WRITE setRegion NOTIFY regionChanged)
+    Q_PROPERTY(bool safeSearch READ safeSearch WRITE setSafeSearch NOTIFY safeSearchChanged)
 public:
     explicit YT(QObject *parent = nullptr);
     void registerObjectsInQml(QQmlContext* context);
@@ -44,9 +51,9 @@ public:
     Q_INVOKABLE void loadCategory(QString id, QString label);
     Q_INVOKABLE void watchChannel(const QString &channelId);
     void watch(SearchParams *searchParams);
-    const QVector<VideoSource*> & getHistory() { return history; }
+    const QVector<VideoSource*> & getHistory() { return _history; }
     int getHistoryIndex();
-    PlaylistModel* getPlaylistModel() { return playlistModel; }
+    PlaylistModel* getPlaylistModel() { return _playlistModel; }
     const QString &getCurrentVideoId();
     void updateSubscriptionAction(Video *video, bool subscribed);
     Q_INVOKABLE void setDefinition(QString definition);
@@ -55,18 +62,20 @@ public:
     Q_INVOKABLE bool isSubscribed(const QString &channelId);
     Q_INVOKABLE void updateQuery();
     Q_INVOKABLE void itemActivated(int index);
-    Q_INVOKABLE void setSafeSearch(bool value);
-    Q_INVOKABLE bool getSafeSearch();
     Q_INVOKABLE void download(QString url, QString location);
     void loadDefaultVideos();
     Q_INVOKABLE QStringList getRegions();
-    Q_INVOKABLE int getCurrentRegion();
-    Q_INVOKABLE void setRegion(int id);
+    Q_INVOKABLE void searchAgain();
 
     QString apiKey();
     void setApiKey(QString apiKey);
+    int region();
+    void setRegion(int id);
+    bool safeSearch();
+    void setSafeSearch(bool value);
 
 public slots:
+    void debug(const QString&);
     void downloaded(QUrl url, QString name);
     void downloadProgressUpdate(qint64 bytesReceived, qint64 bytesTotal, int nPercentage, double speed, const QString& unit, const QUrl& _URL, const QString& _qsFileName);
 
@@ -74,24 +83,28 @@ signals:
     void notifyDownloaded(QUrl url, QString name);
     void downloadProgress(int nPercentage);
     void apiKeyChanged(QString apiKey);
+    void searchParamsChanged();
+    void regionChanged(int region);
+    void safeSearchChanged(bool safeSearch);
+
+protected:
+    QVariant searchParams();
 
 private:
-    SearchParams* getSearchParams();
-    void searchAgain();
-
-    bool stopped;
-    QTimer *errorTimer;
-    Video *skippedVideo;
-    QString currentVideoId;
+    bool _stopped;
+    QTimer *_errorTimer;
+    Video *_skippedVideo;
+    QString _currentVideoId;
     QString _apiKey;
 
-    PlaylistModel* playlistModel;
-    ChannelModel* channelModel;
-    QVector<VideoSource*> history;
-    QEasyDownloader downloader;
+    PlaylistModel* _playlistModel;
+    ChannelModel* _channelModel;
+    CommentsModel* _commentsModel;
+    QVector<VideoSource*> _history;
+    QEasyDownloader* _downloader;
 
-    Notification downloadNotification;
-    int downloadNotificationId = 0;
+    Notification _downloadNotification;
+    quint32 _downloadNotificationId = 0;
 };
 
 #endif // YT_H

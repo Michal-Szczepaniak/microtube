@@ -17,8 +17,8 @@ static const QString jsNameChars = "a-zA-Z0-9\\$_";
 }
 
 YTVideo::YTVideo(const QString &videoId, QObject *parent)
-    : QObject(parent), videoId(videoId), definitionCode(0), elIndex(0), ageGate(false),
-      loadingStreamUrl(false) {}
+    : QObject(parent), videoId(videoId), definitionCode(0),
+      loadingStreamUrl(false), elIndex(0), ageGate(false) {}
 
 void YTVideo::loadStreamUrl() {
     if (loadingStreamUrl) {
@@ -323,7 +323,6 @@ void YTVideo::scrapeWebPage(const QByteArray &bytes) {
     }
 
     QRegularExpression description("\\\"description\\\":{\\\"simpleText\\\":\\\"(.*?)\\\"");
-    bool valid = description.isValid();
 
     if (description.match(html).hasMatch()) {
         qDebug() << "Found description " << description.match(html).captured(1);

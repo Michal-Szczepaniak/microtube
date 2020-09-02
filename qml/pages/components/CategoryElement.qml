@@ -24,34 +24,14 @@ import com.verdanditeam.yt 1.0
 BackgroundItem {
     id: barButton
 
-    height: Theme.itemSizeLarge
+    height: Theme.itemSizeSmall
 
-    property bool attention: false
-    property color baseColor: Theme.highlightBackgroundColor
-    property color attentionColor: "red"
-    highlightedColor: Theme.rgba(Theme.highlightBackgroundFromColor(attention ? attentionColor : baseColor, Theme.colorScheme),
-                                 Theme.highlightBackgroundOpacity)
-
-    function _color(alpha) {
-        alpha = attention ? alpha*0.75 : alpha*0.25
-        return Theme.rgba(attention ? attentionColor : baseColor, alpha)
-    }
-
-    Rectangle {
-        x: -1
-        anchors.fill: parent
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: _color(1) }
-            GradientStop { position: 0.2; color: _color(0.6) }
-            GradientStop { position: 0.8; color: _color(0.4) }
-            GradientStop { position: 1.0; color: "transparent" }
-        }
-    }
+    highlightedColor: Theme.rgba(Theme.highlightBackgroundColor, Theme.highlightBackgroundOpacity)
 
     Label {
         id: label
-        anchors.right: rightIcon.left
-        anchors.rightMargin: Theme.paddingMedium
+        anchors.left: parent.left
+        anchors.leftMargin: Theme.paddingLarge
         text: name
         anchors.verticalCenter: parent.verticalCenter
         color: barButton.highlighted ? Theme.highlightColor : Theme.primaryColor
