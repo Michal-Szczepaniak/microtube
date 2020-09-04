@@ -19,40 +19,9 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import org.nemomobile.configuration 1.0
-import "pages"
 
-ApplicationWindow
-{
-    id: app
-    initialPage: settings.version === version ? mainPage : (settings.version === "" ? installPage : updatePage)
-    cover: !videoCover ? Qt.resolvedUrl("cover/CoverPage.qml") : null
-
-    allowedOrientations: defaultAllowedOrientations
-
-    property string playing: ""
-    property bool videoCover: false
-    property string version: "2.0"
-
-    Component {
-        id: updatePage
-        UpdateDialog { }
-    }
-
-    Component {
-        id: installPage
-        InstallDialog { }
-    }
-
-    Component {
-        id: mainPage
-        Main { }
-    }
-
-    ConfigurationGroup {
-        id: settings
-        path: "/apps/microtube"
-
-        property string version: ""
-    }
+Label {
+    width: parent.width
+    horizontalAlignment: Text.AlignHCenter
+    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 }

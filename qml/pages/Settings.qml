@@ -20,6 +20,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
+import com.verdanditeam.yt 1.0
 
 Page {
     id: settingsPage
@@ -36,6 +37,13 @@ Page {
         property bool developerMode: false
         property double buffer: 1.0
         property string downloadLocation: "/home/nemo/Downloads/"
+        property string version: ""
+        property string categoryId: "0"
+        property string categoryName: "Film & Animation"
+    }
+
+    YtCategories {
+        id: categories
     }
 
     SilicaFlickable {
@@ -51,14 +59,15 @@ Page {
         Column {
             id: column
             spacing: Theme.paddingLarge
-            anchors.topMargin: header.height
-            anchors.fill: parent
+            anchors.top: header.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
 
             TextSwitch {
-               checked: YT.getSafeSearch()
+               checked: YT.safeSearch
                width: parent.width
                text: qsTr("Restricted mode (safe for kids)")
-               onClicked: YT.setSafeSearch(checked)
+               onClicked: YT.safeSearch = checked
             }
 
             TextSwitch {
@@ -89,6 +98,23 @@ Page {
                 visible: settings.developerMode
 
                 onValueChanged: settings.buffer = value
+                label: qsTr("Buffer")
+            }
+
+            Button {
+                id: testNewInstall
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: settings.developerMode
+                onClicked: settings.version = ""
+                text: qsTr("Test new install")
+            }
+
+            Button {
+                id: testUpdate
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: settings.developerMode
+                onClicked: settings.version = "1"
+                text: qsTr("Test update")
             }
 
             TextField {
@@ -102,14 +128,14 @@ Page {
                 id: regions
                 width: parent.width
                 label: qsTr("Region")
-                currentIndex: YT.getCurrentRegion();
+                currentIndex: YT.region
                 menu: ContextMenu {
                     Repeater {
                         model: YT.getRegions();
                         delegate: MenuItem { text: modelData }
                     }
                 }
-                onCurrentItemChanged: YT.setRegion(currentIndex)
+                onCurrentItemChanged: YT.region = currentIndex
             }
 
             TextField {
@@ -143,6 +169,26 @@ Page {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 onLinkActivated: Qt.openUrlExternally(link)
                 linkColor: Theme.highlightColor
+            }
+
+            ComboBox {
+                id: defaultCategory
+                width: parent.width
+                label: qsTr("Default category")
+                value: settings.categoryName
+                currentIndex: -1
+                menu: ContextMenu {
+                    Repeater {
+                        model: categories
+                        delegate: MenuItem {
+                            text: name
+                            onClicked: {
+                                settings.categoryId = id
+                                settings.categoryName = name
+                            }
+                        }
+                    }
+                }
             }
         }
         VerticalScrollDecorator {}

@@ -29,6 +29,7 @@ $END_LICENSE */
 #include "yt.h"
 #include "video.h"
 #include "ytchannel.h"
+#include "categoriesmodel.h"
 #include "volume/pulseaudiocontrol.h"
 #include "channelaggregator.h"
 #include "QEasyDownloader/include/QEasyDownloader.hpp"
@@ -44,9 +45,9 @@ int main(int argc, char *argv[])
 
     if (argc == 2) {
         yt.search(QString::fromUtf8(argv[1]).replace("invidio.us", "youtube.com"));
-    } else {
-        yt.loadDefaultVideos();
-    }
+    }// else {
+//        yt.loadDefaultVideos();
+//    }
 
     PulseAudioControl pacontrol;
 
@@ -57,6 +58,7 @@ int main(int argc, char *argv[])
     ChannelAggregator::instance()->updateUnwatchedCount();
 
     qmlRegisterType<Video>("com.verdanditeam.yt", 1, 0, "YtVideo");
+    qmlRegisterType<CategoriesModel>("com.verdanditeam.yt", 1, 0, "YtCategories");
 
     view->setSource(SailfishApp::pathTo("qml/microtube.qml"));
     view->show();

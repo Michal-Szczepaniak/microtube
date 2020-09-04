@@ -111,6 +111,8 @@ Page {
      }
 
     function showHideControls() {
+        jupii.ping()
+
         if (_controlsVisible) {
             showAnimation.start()
             hideControlsAutomatically.restart()
@@ -131,15 +133,12 @@ Page {
         page.landscape = ( page.orientation === Orientation.Landscape || page.orientation === Orientation.LandscapeInverted )
 
         if ( Qt.application.state === Qt.ApplicationActive && page.status === PageStatus.Active ) {
-            if ((_controlsVisible && page.landscape) || page.orientation === Orientation.Portrait)
-                showAnimation3.start()
-            else
+            if (landscape) {
                 hideAnimation3.start()
-
-            if ( landscape ) {
                 displaySettings.autoBrightnessEnabled = false
                 displaySettings.brightness = activeBrightness
             } else {
+                showAnimation3.start()
                 displaySettings.autoBrightnessEnabled = autoBrightness
                 displaySettings.brightness = inactiveBrightness
             }
@@ -155,10 +154,20 @@ Page {
     }
 
     onStatusChanged: {
-        if ( status === PageStatus.Deactivating ) {
+        if (status === PageStatus.Deactivating) {
             app.videoCover = false
-        } else if ( status === PageStatus.Activating ) {
+        } else if(status === PageStatus.Active && video === null) {
             app.videoCover = true
+            pacontrol.update()
+            showHideControls()
+            hideControlsAutomatically.restart()
+            YTPlaylist.setActiveRow(YTPlaylist.activeRow())
+
+            if(settings.audioOnlyMode) {
+                topMenu.resolutionChange("audio")
+            } else {
+                topMenu.resolutionChange("720p")
+            }
         }
     }
 
@@ -168,32 +177,13 @@ Page {
         displaySettings.brightness = inactiveBrightness
     }
 
-    Component.onCompleted: {
-        app.videoCover = true
-        pacontrol.update()
-        showHideControls()
-        hideControlsAutomatically.restart()
-
-        if ( settings.relatedVideos ) {
-            YTPlaylist.findRecommended()
-            YTPlaylist.setActiveRow(0, false)
-            video = YTPlaylist.qmlVideoAt(0)
-        }
-        if(settings.audioOnlyMode)
-            topMenu.resolutionChange("audio")
-        else
-            topMenu.resolutionChange("720p")
-        video.loadStreamUrl()
-    }
-
-    showNavigationIndicator: page.orientation === Orientation.Portrait
+    showNavigationIndicator: _controlsVisible
 
     allowedOrientations: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? Orientation.Portrait : Orientation.All
 
     function changeVideo() {
         page.videoChanging = true
         mediaPlayer.stop()
-        mediaPlayer.seek(0)
         if ( settings.relatedVideos ) {
             YTPlaylist.findRecommended()
             YTPlaylist.setActiveRow(0, false)
@@ -206,6 +196,8 @@ Page {
         description = video.getDescription()
         viewCount = video.viewCount
         author = video.getChannelTitle()
+        YTComments.loadComments(video.getId())
+        ChannelAggregator.videoWatched(video)
         listView.positionViewAtIndex(YTPlaylist.activeRow(), ListView.Beginning)
         mediaPlayer.errorMsg = ""
         errorPane.hide()
@@ -218,7 +210,7 @@ Page {
                 if(videoChanging) videoChanging = false
                 mediaPlayer.videoPlay()
             }
-            description = video.getDescription().replace(/\\n/g, "<br/>")
+            description = video.getDescription().replace(/\\n/g, '\n').replace(/\\u0026/, '&')
         }
 
         onAudioStreamUrlChanged: {
@@ -226,14 +218,14 @@ Page {
                 if(videoChanging) videoChanging = false
                 mediaPlayer.videoPlay()
             }
+            description = video.getDescription().replace(/\\n/g, '\n').replace(/\\u0026/, '&')
         }
     }
 
     Connections {
         target: YT
         onNotifyDownloaded: {
-            var splitted = name.split("/");
-            downloadNotification.summary = qsTr("Downloaded to") + " ~/" + splitted[3] + "/" + splitted[4]
+            downloadNotification.summary = qsTr("Downloaded to") + " ~/" + video.getId() + ".mp4"
             downloadNotification.publish()
         }
     }
@@ -293,6 +285,7 @@ Page {
                 text: qsTr("Download")
                 enabled: video.streamUrl.toString() !== ""
                 onClicked: {
+                    console.log(video.streamUrl)
                     YT.download(settings.audioOnlyMode ? video.audioStreamUrl : video.streamUrl, settings.downloadLocation)
                 }
             }
@@ -335,18 +328,14 @@ Page {
                             if (!YTPlaylist.nextRowExists()) return
                             videoChanging = true
                             mediaPlayer.stop()
-                            mediaPlayer.seek(0)
                             YTPlaylist.setActiveRow(YTPlaylist.nextRow())
-//                            changeVideo()
                         }
 
                         function prevVideo() {
                             if (!YTPlaylist.previousRowExists()) return
                             videoChanging = true
                             mediaPlayer.stop()
-                            mediaPlayer.seek(0)
                             YTPlaylist.setActiveRow(YTPlaylist.previousRow())
-//                            changeVideo()
                         }
 
                         onPlaybackStateChanged: {
@@ -701,14 +690,14 @@ Page {
 
                     NumberAnimation {
                         id: showAnimation
-                        targets: [progress, duration, playButton, prevButton, nextButton, fillModeButton]
+                        targets: [progress, duration, playButton, prevButton, nextButton, fillModeButton, castButton]
                         properties: "opacity"
                         to: 1
                         duration: 100
                     }
                     NumberAnimation {
                         id: hideAnimation
-                        targets: [progress, duration, playButton, prevButton, nextButton, fillModeButton]
+                        targets: [progress, duration, playButton, prevButton, nextButton, fillModeButton, castButton]
                         properties: "opacity"
                         to: 0
                         duration: 100
@@ -740,6 +729,20 @@ Page {
                         anchors.right: playButton.left
                         anchors.rightMargin: page.width/4 - playButton.width/2
                         onClicked: mediaPlayer.prevVideo()
+                    }
+
+                    IconButton {
+                        id: castButton
+                        visible: opacity != 0 && landscape && jupii.found
+                        icon.source: "qrc:///images/icon-m-cast.svg"
+                        width: Theme.itemSizeExtraSmall
+                        height: width
+                        anchors.right: fillModeButton.left
+                        anchors.top: parent.top
+                        anchors.margins: Theme.paddingMedium
+                        icon.width: width
+                        icon.height: width
+                        onClicked: jupii.addUrlOnceAndPlay(video.streamUrl.toString(), video.getWebpage(), title, author, (settings.audioOnlyMode ? 1 : 2), "microtube", "/usr/share/icons/hicolor/172x172/apps/microtube.png")
                     }
 
                     IconButton {
@@ -859,8 +862,19 @@ Page {
                     id: playlistFlickable
                     width: parent.width
                     height: playlist.height
-                    contentHeight: (page.height - videoPlayer.height) + videoTitle.height + authorViews.height + videoDescription.height + progress.height/2
+                    contentHeight: (page.height - videoPlayer.height) + videoTitle.height + authorViews.height + videoDescription.height + comments.height + progress.height/2 + Theme.paddingLarge
                     clip: true
+                    property int oldContentHeight: 0
+                    onContentHeightChanged: {
+                        if (oldContentHeight !== 0 && contentY >= parseInt(oldContentHeight - (page.height - videoPlayer.height))) {
+                            var diff = contentHeight - oldContentHeight
+                            playlistFlickable.contentY += diff
+                            oldContentHeight = JSON.parse(JSON.stringify(contentHeight));
+                        } else {
+                            oldContentHeight = JSON.parse(JSON.stringify(contentHeight));
+                        }
+                    }
+
                     Column {
                         width: parent.width
                         padding: Theme.paddingLarge
@@ -937,10 +951,18 @@ Page {
 
                         LinkedLabel {
                             id: videoDescription
-                            text: description
+                            plainText: description
                             width: page.width - Theme.paddingLarge*2
                             color: palette.secondaryColor
                             wrapMode: TextEdit.WordWrap
+                        }
+
+                        CommentsButton {
+                            id: comments
+                            text: qsTr("Comments")
+                            width: parent.width - Theme.paddingLarge
+
+                            onClicked: pageStack.push(Qt.resolvedUrl("Comments.qml"), {})
                         }
 
                         SilicaFastListView {
@@ -951,7 +973,7 @@ Page {
                             spacing: Theme.paddingMedium
                             model: YTPlaylist
                             clip: true
-                            interactive: playlistFlickable.contentY > videoDescription.height
+                            interactive: playlistFlickable.contentY >= parseInt(playlistFlickable.contentHeight - (page.height - videoPlayer.height))
                             delegate: VideoElement {
                                 id: delegate
                                 subPage: true
@@ -961,6 +983,10 @@ Page {
                 }
             }
         }
+    }
+
+    Jupii {
+        id: jupii
     }
 
     CoverActionList {
@@ -1023,22 +1049,18 @@ Page {
         volume: 1
 
         onPauseRequested: {
-            console.log("pause")
             mediaPlayer.videoPause()
         }
 
         onPlayRequested: {
-            console.log("play")
             mediaPlayer.videoPlay()
         }
 
         onPlayPauseRequested: {
-            console.log("pauseplay")
             mediaPlayer.playbackState == MediaPlayer.PlayingState ? mediaPlayer.videoPause() : mediaPlayer.videoPlay()
         }
 
         onStopRequested: {
-            console.log("stop")
             mediaPlayer.stop()
         }
 

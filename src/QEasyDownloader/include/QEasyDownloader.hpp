@@ -154,9 +154,9 @@ private:
     QString _qsFileName, _qsFolderPath;
     QQueue<QStringList> _downloadQueue;
 
-    int _nDownloadTotal = 0,
-        _nDownloadSize = 0,
-        _nDownloadSizeAtPause = 0,
+    qint64 _nDownloadTotal = 0,
+           _nDownloadSizeAtPause = 0;
+    int _nDownloadSize = 0,
         _nTimeoutTime = 5000,
         _nRetryTime = 6000;
     bool _bAcceptRanges = false,

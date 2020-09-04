@@ -17,42 +17,28 @@
     along with Microtube.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 2.0
+import QtQuick 2.6
 import Sailfish.Silica 1.0
-import org.nemomobile.configuration 1.0
-import "pages"
+import com.verdanditeam.yt 1.0
 
-ApplicationWindow
-{
-    id: app
-    initialPage: settings.version === version ? mainPage : (settings.version === "" ? installPage : updatePage)
-    cover: !videoCover ? Qt.resolvedUrl("cover/CoverPage.qml") : null
+BackgroundItem {
+    id: barButton
 
-    allowedOrientations: defaultAllowedOrientations
+    height: Theme.itemSizeLarge
+    property alias text: label.text
 
-    property string playing: ""
-    property bool videoCover: false
-    property string version: "2.0"
-
-    Component {
-        id: updatePage
-        UpdateDialog { }
+    Label {
+        id: label
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        color: barButton.highlighted ? Theme.highlightColor : Theme.primaryColor
     }
 
-    Component {
-        id: installPage
-        InstallDialog { }
-    }
-
-    Component {
-        id: mainPage
-        Main { }
-    }
-
-    ConfigurationGroup {
-        id: settings
-        path: "/apps/microtube"
-
-        property string version: ""
+    Image {
+        id: rightIcon
+        anchors.right: parent.right
+        anchors.rightMargin: Theme.paddingMedium
+        anchors.verticalCenter: parent.verticalCenter
+        source: "image://theme/icon-m-right"
     }
 }

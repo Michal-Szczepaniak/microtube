@@ -28,15 +28,14 @@ $END_LICENSE */
 class YTChannel;
 
 class ChannelModel : public QAbstractListModel {
-
     Q_OBJECT
-
 public:
     ChannelModel(QObject *parent = 0);
 
     enum DataRoles {
         ItemTypeRole = Qt::UserRole,
         DataObjectRole,
+        NotifyCountRole,
         HoveredItemRole,
         UsernameRole,
         ThumbnailRole

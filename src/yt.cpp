@@ -32,10 +32,9 @@ $END_LICENSE */
 
 YT::YT(QObject *parent) : QObject(parent)
 {
-    playlistModel = new PlaylistModel();
-    channelModel = new ChannelModel();
-    connect(&downloader, SIGNAL (DownloadFinished(const QUrl&, const QString&)), this, SLOT (downloaded(const QUrl&, const QString&)));
-    connect(&downloader, SIGNAL (DownloadProgress(qint64,qint64,int,double,const QString&,const QUrl&,const QString&)), this, SLOT (downloadProgressUpdate(qint64,qint64,int,double,const QString&,const QUrl&,const QString&)));
+    _playlistModel = new PlaylistModel();
+    _channelModel = new ChannelModel();
+    _commentsModel = new CommentsModel();
     updateQuery();
 
     QSettings settings;
@@ -53,8 +52,9 @@ void YT::loadDefaultVideos() {
 
 void YT::registerObjectsInQml(QQmlContext* context) {
     context->setContextProperty("YT",this);
-    context->setContextProperty("YTPlaylist",this->playlistModel);
-    context->setContextProperty("YTChannels",this->channelModel);
+    context->setContextProperty("YTPlaylist",this->_playlistModel);
+    context->setContextProperty("YTChannels",this->_channelModel);
+    context->setContextProperty("YTComments",this->_commentsModel);
 }
 
 void YT::search(QString query) {
@@ -69,14 +69,24 @@ void YT::search(QString query) {
     SearchParams *searchParams = new SearchParams();
     searchParams->setKeywords(q);
 
-    if (getSafeSearch())
+    if (safeSearch())
         searchParams->setSafeSearch(SearchParams::Strict);
     else
         searchParams->setSafeSearch(SearchParams::None);
 
     // go!
     this->watch(searchParams);
-//    emit search(searchParams);
+    //    emit search(searchParams);
+}
+
+void YT::loadCategory(QString id, QString label)
+{
+    QString regionId = YTRegions::currentRegionId();
+    YTStandardFeed *feed = new YTStandardFeed(this);
+    feed->setLabel(label);
+    feed->setCategory(id);
+    feed->setRegionId(regionId);
+    setVideoSource(feed, false, false);
 }
 
 void YT::watch(SearchParams *searchParams) {
@@ -88,15 +98,13 @@ void YT::watch(SearchParams *searchParams) {
                 YTSingleVideoSource *singleVideoSource = new YTSingleVideoSource(this);
                 singleVideoSource->setVideoId(videoId);
                 setVideoSource(singleVideoSource);
-//                QTime tstamp = YTSearch::videoTimestampFromUrl(searchParams->keywords());
-//                pauseTime = QTime(0, 0).msecsTo(tstamp);
                 return;
             }
         }
     }
     YTSearch *ytSearch = new YTSearch(searchParams);
     ytSearch->setAsyncDetails(true);
-    connect(ytSearch, SIGNAL(gotDetails()), playlistModel, SLOT(emitDataChanged()));
+    connect(ytSearch, SIGNAL(gotDetails()), _playlistModel, SLOT(emitDataChanged()));
     setVideoSource(ytSearch);
 }
 
@@ -121,67 +129,39 @@ void YT::watchChannel(const QString &channelId) {
 
 void YT::setVideoSource(VideoSource *videoSource, bool addToHistory, bool back) {
     Q_UNUSED(back);
-    stopped = false;
-//    errorTimer->stop();
+    _stopped = false;
 
-    // qDebug() << "Adding VideoSource" << videoSource->getName() << videoSource;
+    qDebug() << "Adding VideoSource" << videoSource->getName() << videoSource;
 
     if (addToHistory) {
         int currentIndex = getHistoryIndex();
-        if (currentIndex >= 0 && currentIndex < history.size() - 1) {
-            while (history.size() > currentIndex + 1) {
-                VideoSource *vs = history.takeLast();
+        if (currentIndex >= 0 && currentIndex < _history.size() - 1) {
+            while (_history.size() > currentIndex + 1) {
+                VideoSource *vs = _history.takeLast();
                 if (!vs->parent()) {
                     qDebug() << "Deleting VideoSource" << vs->getName() << vs;
                     delete vs;
                 }
             }
         }
-        history.append(videoSource);
+        _history.append(videoSource);
     }
 
-#ifdef APP_EXTRA
-    if (history.size() > 1)
-        Extra::slideTransition(playlistView->viewport(), playlistView->viewport(), back);
-#endif
-
-    playlistModel->setVideoSource(videoSource);
-
-//    QSettings settings;
-//    if (settings.value("manualplay", false).toBool()) {
-//        videoAreaWidget->showPickMessage();
-//    }
-
-//    sidebar->showPlaylist();
-//    sidebar->getRefineSearchWidget()->setSearchParams(getSearchParams());
-//    sidebar->hideSuggestions();
-//    sidebar->getHeader()->updateInfo();
-
-//    SearchParams *searchParams = getSearchParams();
-//    bool isChannel = searchParams && !searchParams->channelId().isEmpty();
-//    playlistView->setClickableAuthors(!isChannel);
+    _playlistModel->setVideoSource(videoSource);
+    emit searchParamsChanged();
 }
 
 void YT::searchAgain() {
-    VideoSource *currentVideoSource = playlistModel->getVideoSource();
+    VideoSource *currentVideoSource = _playlistModel->getVideoSource();
     setVideoSource(currentVideoSource, false);
 }
 
-SearchParams *YT::getSearchParams() {
-    VideoSource *videoSource = playlistModel->getVideoSource();
-    if (videoSource && videoSource->metaObject()->className() == QLatin1String("YTSearch")) {
-        YTSearch *search = qobject_cast<YTSearch *>(videoSource);
-        return search->getSearchParams();
-    }
-    return 0;
-}
-
 const QString &YT::getCurrentVideoId() {
-    return currentVideoId;
+    return _currentVideoId;
 }
 
 int YT::getHistoryIndex() {
-    return history.lastIndexOf(playlistModel->getVideoSource());
+    return _history.lastIndexOf(_playlistModel->getVideoSource());
 }
 
 void YT::setDefinition(QString definition) {
@@ -189,7 +169,7 @@ void YT::setDefinition(QString definition) {
 }
 
 void YT::toggleSubscription() {
-    Video *video = playlistModel->activeVideo();
+    Video *video = _playlistModel->activeVideo();
     if (!video) return;
     QString userId = video->getChannelId();
     if (userId.isEmpty()) return;
@@ -218,36 +198,16 @@ bool YT::isSubscribed(const QString &channelId)
 
 void YT::updateQuery() {
     QString sql = "select user_id from subscriptions";
-//    if (showUpdated)
-//        sql += " where notify_count>0";
-
-//    switch (sortBy) {
-//    case SortByUpdated:
-//        sql += " order by updated desc";
-//        break;
-//    case SortByAdded:
-//        sql += " order by added desc";
-//        break;
-//    case SortByLastWatched:
-//        sql += " order by watched desc";
-//        break;
-//    case SortByMostWatched:
-//        sql += " order by views desc";
-//        break;
-//    default:
-//        sql += " order by name collate nocase";
-//        break;
-//    }
 
     sql += " order by added desc";
 
-    channelModel->setQuery(sql, Database::instance().getConnection());
+    _channelModel->setQuery(sql, Database::instance().getConnection());
 }
 
 void YT::itemActivated(int index) {
-    ChannelModel::ItemTypes itemType = channelModel->typeForIndex(index);
+    ChannelModel::ItemTypes itemType = _channelModel->typeForIndex(index);
     if (itemType == ChannelModel::ItemChannel) {
-        YTChannel *channel = channelModel->channelForIndex(index);
+        YTChannel *channel = _channelModel->channelForIndex(index);
         SearchParams *params = new SearchParams();
         params->setChannelId(channel->getChannelId());
         params->setSortBy(SearchParams::SortByNewest);
@@ -268,38 +228,40 @@ void YT::itemActivated(int index) {
     }
 }
 
-void YT::setSafeSearch(bool value) {
-    QSettings settings;
-    settings.setValue("safeSearch", value);
-}
-
-bool YT::getSafeSearch() {
-    QSettings settings;
-    return settings.value("safeSearch", false).toBool();
-}
-
 void YT::download(QString url, QString location) {
-    QString name = playlistModel->activeVideo()->getTitle();
-    name = name.replace("/", "");
-    downloader.Download(url, location + name + ".mp4");
-    downloadNotification.setSummary("Downloading: " + name);
-    downloadNotification.setHintValue("x-nemo-progress", 0);
-    downloadNotification.publish();
-    downloadNotificationId = downloadNotification.replacesId();
+    QString id = _playlistModel->activeVideo()->getId();
+    qDebug() << url;
+    _downloader = new QEasyDownloader();
+    _downloader->setDebug(true);
+    connect(_downloader, SIGNAL (DownloadFinished(const QUrl&, const QString&)), this, SLOT (downloaded(const QUrl&, const QString&)));
+    connect(_downloader, SIGNAL (DownloadProgress(qint64,qint64,int,double,const QString&,const QUrl&,const QString&)), this, SLOT (downloadProgressUpdate(qint64,qint64,int,double,const QString&,const QUrl&,const QString&)));
+    connect(_downloader, SIGNAL (Debugger(const QString&)), this, SLOT (debug(const QString&)));
+    _downloader->Download(url, location + id + ".mp4");
+    _downloadNotification.setSummary("Downloading: " + id);
+    _downloadNotification.setHintValue("x-nemo-progress", 0);
+    _downloadNotification.publish();
+    _downloadNotificationId = _downloadNotification.replacesId();
 }
 
 void YT::downloaded(QUrl url, QString name) {
     qDebug()<<"downloaded to "<<name;
-    downloadNotification.close();
-    downloadNotificationId = 0;
+    _downloadNotification.close();
+    _downloadNotificationId = 0;
     emit this->notifyDownloaded(url, name);
+    delete _downloader;
 }
 
 void YT::downloadProgressUpdate(qint64 bytesReceived, qint64 bytesTotal, int nPercentage, double speed, const QString &unit, const QUrl &_URL, const QString &_qsFileName)
 {
-    downloadNotification.setHintValue("x-nemo-progress", ((double)nPercentage)/(double)100);
-    downloadNotification.setReplacesId(downloadNotificationId);
-    downloadNotification.publish();
+    Q_UNUSED(bytesReceived)
+    Q_UNUSED(bytesTotal)
+    Q_UNUSED(speed)
+    Q_UNUSED(unit)
+    Q_UNUSED(_URL)
+    Q_UNUSED(_qsFileName)
+    _downloadNotification.setHintValue("x-nemo-progress", (static_cast<double>(nPercentage))/static_cast<double>(100));
+    _downloadNotification.setReplacesId(_downloadNotificationId);
+    _downloadNotification.publish();
     emit downloadProgress(nPercentage);
 }
 
@@ -312,35 +274,6 @@ QStringList YT::getRegions() {
     }
 
     return regionsList;
-}
-
-int YT::getCurrentRegion()
-{
-    QString regionCode = YTRegions::currentRegionId();
-    if (regionCode.isEmpty()) regionCode = "";
-    auto regions = YTRegions::list();
-
-    int i = 0;
-    for(YTRegion region: regions) {
-        if (region.id.toLower().compare(regionCode.toLower()) == 0) return i;
-        i++;
-    }
-
-    return i;
-}
-
-void YT::setRegion(int id)
-{
-    auto regions = YTRegions::list();
-
-    int i = 0;
-    for(YTRegion region: regions) {
-        if (i == id) {
-            YTRegions::setRegion(region.id.toLower());
-            return;
-        }
-        i++;
-    }
 }
 
 QString YT::apiKey()
@@ -356,4 +289,48 @@ void YT::setApiKey(QString apiKey)
     settings.setValue("googleApiKey", apiKey);
 
     emit apiKeyChanged(apiKey);
+}
+
+int YT::region()
+{
+    QString regionCode = YTRegions::currentRegionId();
+    if (regionCode.isEmpty()) regionCode = "";
+    auto regions = YTRegions::list();
+
+    auto region = std::find_if(regions.begin(), regions.end(), [&](YTRegion &region) { return region.id.toLower().compare(regionCode.toLower()) == 0; } );
+    return std::distance(regions.begin(), region);
+}
+
+void YT::setRegion(int id)
+{
+    auto regions = YTRegions::list();
+
+    auto region = regions.at(id);
+
+    YTRegions::setRegion(region.id.toLower());
+}
+
+bool YT::safeSearch() {
+    QSettings settings;
+    return settings.value("safeSearch", false).toBool();
+}
+
+void YT::setSafeSearch(bool value) {
+    QSettings settings;
+    settings.setValue("safeSearch", value);
+    emit safeSearchChanged(value);
+}
+
+void YT::debug(const QString &debug)
+{
+    qDebug() << debug;
+}
+
+QVariant YT::searchParams() {
+    VideoSource *videoSource = _playlistModel->getVideoSource();
+    if (videoSource && videoSource->metaObject()->className() == QLatin1String("YTSearch")) {
+        YTSearch *search = qobject_cast<YTSearch *>(videoSource);
+        return QVariant::fromValue(search->getSearchParams());
+    }
+    return QVariant();
 }

@@ -49,9 +49,9 @@ protected:
     QString nextPageToken;
     uint tokenTimestamp;
     QUrl lastUrl;
+    bool reloadingToken;
     int currentMax;
     int currentStartIndex;
-    bool reloadingToken;
     QVector<Video*> videos;
     QHash<QString, Video*> videoMap;
     bool asyncDetails;

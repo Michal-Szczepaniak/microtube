@@ -18,41 +18,27 @@
 */
 
 import QtQuick 2.0
-import Sailfish.Silica 1.0
-import org.nemomobile.configuration 1.0
-import "pages"
+import Nemo.DBus 2.0
 
-ApplicationWindow
-{
-    id: app
-    initialPage: settings.version === version ? mainPage : (settings.version === "" ? installPage : updatePage)
-    cover: !videoCover ? Qt.resolvedUrl("cover/CoverPage.qml") : null
+Item {
+    property bool found: false
 
-    allowedOrientations: defaultAllowedOrientations
+    onVisibleChanged: ping()
 
-    property string playing: ""
-    property bool videoCover: false
-    property string version: "2.0"
-
-    Component {
-        id: updatePage
-        UpdateDialog { }
+    function ping() {
+        found = (jupiiPlayer.getProperty('canControl') === true)
     }
 
-    Component {
-        id: installPage
-        InstallDialog { }
+    function addUrlOnceAndPlay(url, origUrl, title, author, type, app, icon) {
+        jupiiPlayer.call('add', [url, origUrl, title, author, "", type, app, icon, true, true])
+
     }
 
-    Component {
-        id: mainPage
-        Main { }
-    }
+    DBusInterface {
+        id: jupiiPlayer
 
-    ConfigurationGroup {
-        id: settings
-        path: "/apps/microtube"
-
-        property string version: ""
+        service: 'org.jupii'
+        iface: 'org.jupii.Player'
+        path: '/'
     }
 }
