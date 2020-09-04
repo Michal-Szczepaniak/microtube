@@ -49,7 +49,7 @@
     </message>
     <message>
         <source>mkiol for integration with Jupii.</source>
-        <translation type="unfinished"></translation>
+        <translation>mkiol por la integración con Jupii.</translation>
     </message>
 </context>
 <context>
@@ -64,6 +64,27 @@
             <numerusform>Tienes %n vídeo nuevo</numerusform>
             <numerusform>Tienes %n vídeos nuevos</numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>Comment</name>
+    <message>
+        <source>%1 replies</source>
+        <translation>%1 respuestas</translation>
+    </message>
+</context>
+<context>
+    <name>Comments</name>
+    <message>
+        <source>Comments</source>
+        <translation>Comentarios</translation>
+    </message>
+</context>
+<context>
+    <name>CommentsModel</name>
+    <message>
+        <source>Show more</source>
+        <translation>Mostrar más</translation>
     </message>
 </context>
 <context>
@@ -132,50 +153,113 @@
     </message>
 </context>
 <context>
+    <name>Filters</name>
+    <message>
+        <source>Filters</source>
+        <translation>Filtros</translation>
+    </message>
+    <message>
+        <source>Sort by</source>
+        <translation>Ordenar por</translation>
+    </message>
+    <message>
+        <source>Relevance</source>
+        <translation>Relevancia</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Fecha</translation>
+    </message>
+    <message>
+        <source>View Count</source>
+        <translation>Visualizaciones</translation>
+    </message>
+    <message>
+        <source>Rating</source>
+        <translation>Puntuación</translation>
+    </message>
+    <message>
+        <source>Anytime</source>
+        <translation>Cualquier momento</translation>
+    </message>
+    <message>
+        <source>Today</source>
+        <translation>Hoy</translation>
+    </message>
+    <message>
+        <source>7 Days</source>
+        <translation>7 días</translation>
+    </message>
+    <message>
+        <source>30 Days</source>
+        <translation>30 días</translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation>Duración</translation>
+    </message>
+    <message>
+        <source>All</source>
+        <translation>Todos</translation>
+    </message>
+    <message>
+        <source>Short</source>
+        <translation>Corta</translation>
+    </message>
+    <message>
+        <source>Medium</source>
+        <translation>Mediana</translation>
+    </message>
+    <message>
+        <source>Long</source>
+        <translation>Larga</translation>
+    </message>
+</context>
+<context>
     <name>InstallDialog</name>
     <message>
         <source>Thank you for installing Microtube!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Gracias por instalar Microtube!</translation>
     </message>
     <message>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Registro de cambios</translation>
     </message>
     <message>
         <source>Added subscriptions import</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadida importación de suscripciones</translation>
     </message>
     <message>
         <source>Added first install and update page</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadida página de primera instalación y actualización</translation>
     </message>
     <message>
         <source>Added categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadidas categorías</translation>
     </message>
     <message>
         <source>Added full description with working links</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadida descripción completa con enlaces operativos</translation>
     </message>
     <message>
         <source>Added DLNA casting using Yupii</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadida transmisión por DLNA usando Yupii</translation>
     </message>
     <message>
         <source>Donation</source>
-        <translation type="unfinished"></translation>
+        <translation>Donación</translation>
     </message>
     <message>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Aviso</translation>
     </message>
     <message>
         <source>In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para evitar errores, añade tu propia clave API de YouTube cuando uses esta aplicación. Las instrucciones para añadir la clave API están en la página de ajustes. Si continuas ejecutando la aplicación sin añadir tu clave API podrías tener problemas.</translation>
     </message>
     <message>
         <source>Installation</source>
-        <translation type="unfinished"></translation>
+        <translation>Instalación</translation>
     </message>
 </context>
 <context>
@@ -196,6 +280,10 @@
         <source>Settings</source>
         <translation>Ajustes</translation>
     </message>
+    <message>
+        <source>Filters</source>
+        <translation>Filtros</translation>
+    </message>
 </context>
 <context>
     <name>PlaylistModel</name>
@@ -214,6 +302,10 @@
     <message>
         <source>Show more</source>
         <translation>Mostrar más</translation>
+    </message>
+    <message>
+        <source>API key quota exceeded.</source>
+        <translation>Límite excedido para clave API.</translation>
     </message>
 </context>
 <context>
@@ -260,19 +352,19 @@
     </message>
     <message>
         <source>Default category</source>
-        <translation type="unfinished"></translation>
+        <translation>Categoría por defecto</translation>
     </message>
     <message>
         <source>Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Búfer</translation>
     </message>
     <message>
         <source>Test new install</source>
-        <translation type="unfinished"></translation>
+        <translation>Probar nueva instalación</translation>
     </message>
     <message>
         <source>Test update</source>
-        <translation type="unfinished"></translation>
+        <translation>Probar actualización</translation>
     </message>
 </context>
 <context>
@@ -286,22 +378,19 @@
     <name>Subscriptions</name>
     <message>
         <source>Mark all as watched</source>
-        <translation type="unfinished"></translation>
+        <translation>Marcar todo como visto</translation>
     </message>
     <message>
         <source>Import subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>Importar suscripciones</translation>
     </message>
     <message>
         <source>Subscriptions</source>
-        <translation type="unfinished">Suscripciones</translation>
+        <translation>Suscripciones</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
-        <translation type="unfinished"></translation>
-    </message>
-        <source>Import subscriptions</source>
-        <translation>Importar suscripciones</translation>
+        <translation>Borrar suscripción</translation>
     </message>
 </context>
 <context>
@@ -331,47 +420,47 @@
     <name>UpdateDialog</name>
     <message>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualizar</translation>
     </message>
     <message>
         <source>Microtube was updated to version %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Microtube se ha actualizado a la versión %1!</translation>
     </message>
     <message>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Registro de cambios</translation>
     </message>
     <message>
         <source>Added subscriptions import</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadida importación de suscripciones</translation>
     </message>
     <message>
         <source>Added first install and update page</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadida página de primera instalación y actualización</translation>
     </message>
     <message>
         <source>Added categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadidas categorías</translation>
     </message>
     <message>
         <source>Added full description with working links</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadida descripción completa con enlaces operativos</translation>
     </message>
     <message>
         <source>Added DLNA casting using Yupii</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadida transmisión por DLNA usando Yupii</translation>
     </message>
     <message>
         <source>Donation</source>
-        <translation type="unfinished"></translation>
+        <translation>Donación</translation>
     </message>
     <message>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Aviso</translation>
     </message>
     <message>
         <source>In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para evitar errores, añade tu propia clave API de YouTube cuando uses esta aplicación. Las instrucciones para añadir la clave API están en la página de ajustes. Si continuas ejecutando la aplicación sin añadir tu clave API podrías tener problemas.</translation>
     </message>
 </context>
 <context>
@@ -434,6 +523,10 @@
     <message>
         <source>Subscribe</source>
         <translation>Suscribirse</translation>
+    </message>
+    <message>
+        <source>Comments</source>
+        <translation>Comentarios</translation>
     </message>
 </context>
 <context>
