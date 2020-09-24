@@ -33,8 +33,14 @@ void YT3ListParser::parseItem(const QJsonObject &item) {
     if (id.isString())
         video->setId(id.toString());
     else {
-        QString videoId = id.toObject()[QLatin1String("videoId")].toString();
+        auto idObject = id.toObject();
+        QString videoId = idObject[QLatin1String("videoId")].toString();
         video->setId(videoId);
+
+        if (idObject[QLatin1String("kind")].isString()) {
+            QString kind = idObject[QLatin1String("kind")].toString().split("#").last();
+            video->setKind(kind);
+        }
     }
 
     QJsonObject snippet = item[QLatin1String("snippet")].toObject();

@@ -40,32 +40,17 @@ class YT : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString apiKey READ apiKey WRITE setApiKey NOTIFY apiKeyChanged)
-    Q_PROPERTY(QVariant searchParams READ searchParams NOTIFY searchParamsChanged)
     Q_PROPERTY(int region READ region WRITE setRegion NOTIFY regionChanged)
     Q_PROPERTY(bool safeSearch READ safeSearch WRITE setSafeSearch NOTIFY safeSearchChanged)
+
 public:
     explicit YT(QObject *parent = nullptr);
     void registerObjectsInQml(QQmlContext* context);
-    void setVideoSource(VideoSource *videoSource, bool addToHistory = true, bool back = false);
-    Q_INVOKABLE void search(QString query);
-    Q_INVOKABLE void loadCategory(QString id, QString label);
-    Q_INVOKABLE void watchChannel(const QString &channelId);
-    void watch(SearchParams *searchParams);
-    const QVector<VideoSource*> & getHistory() { return _history; }
-    int getHistoryIndex();
-    PlaylistModel* getPlaylistModel() { return _playlistModel; }
     const QString &getCurrentVideoId();
-    void updateSubscriptionAction(Video *video, bool subscribed);
     Q_INVOKABLE void setDefinition(QString definition);
-    Q_INVOKABLE void toggleSubscription();
-    Q_INVOKABLE void toggleSubscription(const QString &channelId);
-    Q_INVOKABLE bool isSubscribed(const QString &channelId);
-    Q_INVOKABLE void updateQuery();
-    Q_INVOKABLE void itemActivated(int index);
-    Q_INVOKABLE void download(QString url, QString location);
-    void loadDefaultVideos();
+    Q_INVOKABLE QVariant getChannel(const QString &channelId);
+    Q_INVOKABLE void download(QString name, QString url, QString location);
     Q_INVOKABLE QStringList getRegions();
-    Q_INVOKABLE void searchAgain();
 
     QString apiKey();
     void setApiKey(QString apiKey);
@@ -83,12 +68,8 @@ signals:
     void notifyDownloaded(QUrl url, QString name);
     void downloadProgress(int nPercentage);
     void apiKeyChanged(QString apiKey);
-    void searchParamsChanged();
     void regionChanged(int region);
     void safeSearchChanged(bool safeSearch);
-
-protected:
-    QVariant searchParams();
 
 private:
     bool _stopped;
@@ -97,7 +78,6 @@ private:
     QString _currentVideoId;
     QString _apiKey;
 
-    PlaylistModel* _playlistModel;
     ChannelModel* _channelModel;
     CommentsModel* _commentsModel;
     QVector<VideoSource*> _history;

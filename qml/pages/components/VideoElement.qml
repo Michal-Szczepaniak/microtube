@@ -23,25 +23,36 @@ import com.verdanditeam.yt 1.0
 
 ListItem {
     id: listItem
-    contentHeight: isVideo ? Theme.paddingLarge*8 : Theme.itemSizeMedium
+    contentHeight: isVideo ? Theme.itemSizeHuge : Theme.itemSizeMedium
     menu: contextMenuComponent
 
     onClicked: {
         if (video === undefined) {
-            YTPlaylist.searchMore()
+            playlistModel.searchMore()
+            return;
+        }
+
+        if (video.kind === "channel") {
+            if (!subPage) {
+                pageStack.push(Qt.resolvedUrl("../Channel.qml"), {channel: YT.getChannel(video.getChannelId())})
+            } else {
+                pageStack.navigateBack(PageStackAction.Immediate)
+                pageStack.push(Qt.resolvedUrl("../Channel.qml"), {channel: YT.getChannel(video.getChannelId())})
+            }
             return;
         }
 
         if (!subPage) {
-            pageStack.pushAttached(Qt.resolvedUrl("../VideoPlayer.qml"))
+            if (popPage) pageStack.navigateBack(PageStackAction.Immediate)
+            pageStack.pushAttached(Qt.resolvedUrl("../VideoPlayer.qml"), {video: playlistModel.qmlVideoAt(index), model: playlistModel})
             pageStack.navigateForward()
-            YTPlaylist.setActiveRow(index, false)
-        } else {
-            YTPlaylist.setActiveRow(index)
         }
+
+        playlistModel.setActiveRow(index)
     }
 
     property bool subPage: false
+    property bool popPage: false
     property bool isVideo: itemType === 1 // video type
 
     Loader {
@@ -53,32 +64,49 @@ ListItem {
         id: rowComponent
 
         Row {
-            anchors.fill: parent
-            Column {
+            width: parent.width
+            height: Theme.itemSizeHuge
+
+            Item {
                 id: left
                 width: isVideo ? listItem.width/2.3 : 0
-                height: Theme.paddingLarge*8
-                leftPadding: subPage ? 0 : Theme.paddingLarge
-                topPadding: Theme.paddingSmall
-                bottomPadding: Theme.paddingSmall
+                height: parent.height
                 visible: isVideo
+                anchors.verticalCenter: parent.verticalCenter
 
                 Image {
+                    anchors.right: parent.right
                     width: parent.width - Theme.paddingLarge
-                    height: parent.height - Theme.paddingSmall*2
+                    height: parent.height - Theme.paddingLarge
                     source: thumbnail !== undefined ? thumbnail : ""
-                    sourceSize.width: width
-                    sourceSize.height: height
+                    anchors.centerIn: parent
                     asynchronous: true
                     cache: true
                     antialiasing: false
                     fillMode: Image.PreserveAspectFit
+
+                    Rectangle {
+                        color: Theme.rgba(Theme.highlightBackgroundColor, 0.7)
+                        width: childrenRect.width
+                        height: childrenRect.height
+                        anchors.right: parent.right
+                        anchors.bottom: parent.bottom
+                        anchors.margins: Theme.paddingMedium
+                        radius: 10
+                        visible: video.formattedDuration !== ""
+
+                        Label {
+                            id: duration
+                            text: " " + video.formattedDuration + " "
+                        }
+                    }
                 }
             }
 
             Column {
+                anchors.verticalCenter: parent.verticalCenter
                 width: listItem.width - left.width
-                height: Theme.paddingLarge*8
+                height: this.contentHeight
                 padding: Theme.paddingLarge
 
                 Label {
@@ -97,7 +125,7 @@ ListItem {
 
                 Row {
                     Label {
-                        text: (published !== undefined ? published : "") + (video !== undefined ? "  -  " + video.viewCount : "")
+                        text: (published !== undefined ? published : "") + (video !== undefined ? "  -  " + video.viewCount : "") + " " + (video.kind === "channel" ? YT.getChannel(video.getChannelId()).subscriberCount : "")
                         font.pixelSize: Theme.fontSizeExtraSmall
                     }
                 }
@@ -113,11 +141,11 @@ ListItem {
             hasContent: isVideo
 
             MenuItem {
-                property bool subscribed: isVideo ? video.isSubscribed(video.getChannelId()) : null
+                property bool subscribed: isVideo ? YT.getChannel(video.getChannelId()).isSubscribed : null
                 text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
                 onClicked: {
-                    YT.toggleSubscription(video.getChannelId())
-                    subscribed = video.isSubscribed(video.getChannelId())
+                    var channel = YT.getChannel(video.getChannelId())
+                    channel.isSubscribed ? channel.unsubscribe() : channel.subscribe()
                 }
             }
 

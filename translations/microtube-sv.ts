@@ -53,6 +53,37 @@
     </message>
 </context>
 <context>
+    <name>Channel</name>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show more</source>
+        <translation type="unfinished">Visa mer</translation>
+    </message>
+    <message>
+        <source>Subscribe</source>
+        <translation type="unfinished">Prenumerera</translation>
+    </message>
+    <message>
+        <source>Unsubscribe</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy url</source>
+        <translation type="unfinished">Kopiera URL</translation>
+    </message>
+    <message>
+        <source>Created at: %1-%2-%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play all</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ChannelAggregator</name>
     <message>
         <source>By %1</source>
@@ -150,6 +181,10 @@
     <message>
         <source>%1 views</source>
         <translation>%1 visningar</translation>
+    </message>
+    <message>
+        <source>%1 subscribers</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -261,6 +296,14 @@
         <source>Installation</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Added Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added listing channels and channel page</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Main</name>
@@ -321,10 +364,6 @@
     <message>
         <source>Automatic change to next video</source>
         <translation>Växla automatiskt till nästa video</translation>
-    </message>
-    <message>
-        <source>Search for related videos</source>
-        <translation>Sök efter liknande videor</translation>
     </message>
     <message>
         <source>Region</source>
@@ -462,6 +501,14 @@
         <source>In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Added Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added listing channels and channel page</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>VideoElement</name>
@@ -528,16 +575,13 @@
         <source>Comments</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>YT</name>
     <message>
-        <source>All Videos</source>
-        <translation>Alla videor</translation>
+        <source>360p</source>
+        <translation type="unfinished">720p {360p?}</translation>
     </message>
     <message>
-        <source>Unwatched Videos</source>
-        <translation>Osedda videor</translation>
+        <source>Load recommended videos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

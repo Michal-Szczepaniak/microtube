@@ -21,6 +21,7 @@ $END_LICENSE */
 
 #include "channelmodel.h"
 #include "ytchannel.h"
+#include "database.h"
 
 static const int channelOffset = 2;
 
@@ -205,4 +206,12 @@ QHash<int, QByteArray> ChannelModel::roleNames() const {
 void ChannelModel::unsubscribe(int index) {
     YTChannel::unsubscribe(channelForIndex(index)->getChannelId());
     removeChannel(channelForIndex(index));
+}
+
+void ChannelModel::updateQuery() {
+    QString sql = "select user_id from subscriptions";
+
+    sql += " order by added desc";
+
+    setQuery(sql, Database::instance().getConnection());
 }

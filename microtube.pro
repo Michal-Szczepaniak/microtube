@@ -113,6 +113,7 @@ SOURCES += src/microtube.cpp \
 DISTFILES += qml/microtube.qml \
     microtube-url.desktop \
     qml/cover/CoverPage.qml \
+    qml/pages/Channel.qml \
     qml/pages/Comments.qml \
     qml/pages/Filters.qml \
     qml/pages/InstallDialog.qml \

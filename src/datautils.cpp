@@ -117,3 +117,51 @@ QString DataUtils::formatCount(int c) {
 
     return QCoreApplication::translate("DataUtils", "%1 views").arg(s);
 }
+
+QString DataUtils::formatCount(qint64 c) {
+    QString s;
+    qint64 f = 1;
+    if (c < 1) {
+        return s;
+    } else if (c < (f *= 1000)) {
+        s = QString::number(c);
+    } else if (c < (f *= 1000)) {
+        int n = c / 1000;
+        s = QString::number(n) +
+            QCoreApplication::translate("DataUtils", "K", "K as in Kilo, i.e. thousands");
+    } else if (c < (f *= 1000)) {
+        int n = c / (1000 * 1000);
+        s = QString::number(n) +
+            QCoreApplication::translate("DataUtils", "M", "M stands for Millions");
+    } else {
+        int n = c / (1000 * 1000 * 1000);
+        s = QString::number(n) +
+            QCoreApplication::translate("DataUtils", "B", "B stands for Billions");
+    }
+
+    return QCoreApplication::translate("DataUtils", "%1 views").arg(s);
+}
+
+QString DataUtils::formatSubscriberCount(int c) {
+    QString s;
+    int f = 1;
+    if (c < 1) {
+        return s;
+    } else if (c < (f *= 1000)) {
+        s = QString::number(c);
+    } else if (c < (f *= 1000)) {
+        int n = c / 1000;
+        s = QString::number(n) +
+            QCoreApplication::translate("DataUtils", "K", "K as in Kilo, i.e. thousands");
+    } else if (c < (f *= 1000)) {
+        int n = c / (1000 * 1000);
+        s = QString::number(n) +
+            QCoreApplication::translate("DataUtils", "M", "M stands for Millions");
+    } else {
+        int n = c / (1000 * 1000 * 1000);
+        s = QString::number(n) +
+            QCoreApplication::translate("DataUtils", "B", "B stands for Billions");
+    }
+
+    return QCoreApplication::translate("DataUtils", "%1 subscribers").arg(s);
+}

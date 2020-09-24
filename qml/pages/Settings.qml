@@ -32,7 +32,6 @@ Page {
         path: "/apps/microtube"
 
         property bool autoPlay: true
-        property bool relatedVideos: true
         property bool audioOnlyMode: false
         property bool developerMode: false
         property double buffer: 1.0
@@ -76,15 +75,6 @@ Page {
                text: qsTr("Automatic change to next video")
                onClicked: {
                    settings.autoPlay = checked
-               }
-            }
-
-            TextSwitch {
-               checked: settings.relatedVideos
-               width: parent.width
-               text: qsTr("Search for related videos")
-               onClicked: {
-                   settings.relatedVideos = checked
                }
             }
 

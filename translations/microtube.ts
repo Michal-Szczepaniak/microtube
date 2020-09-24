@@ -53,6 +53,37 @@
     </message>
 </context>
 <context>
+    <name>Channel</name>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subscribe</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsubscribe</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy url</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Created at: %1-%2-%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play all</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ChannelAggregator</name>
     <message>
         <source>By %1</source>
@@ -144,6 +175,10 @@
     </message>
     <message>
         <source>%1 views</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 subscribers</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -256,6 +291,14 @@
         <source>Installation</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Added Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added listing channels and channel page</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Main</name>
@@ -315,10 +358,6 @@
     </message>
     <message>
         <source>Automatic change to next video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Search for related videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -457,6 +496,14 @@
         <source>In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Added Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added listing channels and channel page</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>VideoElement</name>
@@ -523,15 +570,12 @@
         <source>Comments</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>YT</name>
     <message>
-        <source>All Videos</source>
+        <source>360p</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unwatched Videos</source>
+        <source>Load recommended videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

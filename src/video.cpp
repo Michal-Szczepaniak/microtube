@@ -89,12 +89,13 @@ void Video::loadThumbnail() {
 void Video::setDuration(int value) {
     duration = value;
     formattedDuration = DataUtils::formatDuration(duration);
+    emit durationChanged();
 }
 
 void Video::setViewCount(int value) {
     viewCount = value;
     formattedViewCount = DataUtils::formatCount(viewCount);
-    emit this->viewCountChanged(viewCount);
+    emit viewCountChanged(viewCount);
 }
 
 void Video::setPublished(const QDateTime &value) {

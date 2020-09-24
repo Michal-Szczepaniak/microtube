@@ -23,7 +23,9 @@ $END_LICENSE */
 #include "database.h"
 #include "http.h"
 #include "httputils.h"
+#include "datautils.h"
 #include <QtSql>
+#include <QQmlEngine>
 
 #include "yt3.h"
 
@@ -36,7 +38,7 @@ YTChannel::YTChannel(const QString &channelId, QObject *parent)
 QHash<QString, YTChannel *> YTChannel::cache;
 
 YTChannel *YTChannel::forId(const QString &channelId) {
-    if (channelId.isEmpty()) return 0;
+    if (channelId.isEmpty()) return nullptr;
 
     auto i = cache.constFind(channelId);
     if (i != cache.constEnd()) return i.value();
@@ -49,7 +51,7 @@ YTChannel *YTChannel::forId(const QString &channelId) {
     bool success = query.exec();
     if (!success) qWarning() << query.lastQuery() << query.lastError().text();
 
-    YTChannel *channel = 0;
+    YTChannel *channel = nullptr;
     if (query.next()) {
         // Change userId to ChannelId
 
@@ -64,9 +66,42 @@ YTChannel *YTChannel::forId(const QString &channelId) {
         channel->loaded = query.value(7).toUInt();
         channel->thumbnail = QPixmap(channel->getThumbnailLocation());
         channel->thumbnail.setDevicePixelRatio(2.0);
+        connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(displayNameChanged()));
+        connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(descriptionChanged()));
+        connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(viewCountChanged()));
+        connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(subscriberCountChanged()));
+        connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(bannerMobileImageUrlChanged()));
+        connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(thumbnailUrlChanged()));
+        connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(publishedAtChanged()));
+        connect(channel, SIGNAL(thumbnailLoaded()), channel, SIGNAL(thumbnailLocationChanged()));
         channel->maybeLoadfromAPI();
         cache.insert(channelId, channel);
     }
+
+    return channel;
+}
+
+YTChannel *YTChannel::fromId(const QString &channelId)
+{
+    if (channelId.isEmpty()) return nullptr;
+
+    auto i = cache.constFind(channelId);
+    if (i != cache.constEnd()) return i.value();
+
+    YTChannel *channel = new YTChannel(channelId);
+    QQmlEngine::setObjectOwnership(channel, QQmlEngine::CppOwnership);
+    channel->thumbnail = QPixmap(channel->getThumbnailLocation());
+    channel->thumbnail.setDevicePixelRatio(2.0);
+    connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(displayNameChanged()));
+    connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(descriptionChanged()));
+    connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(viewCountChanged()));
+    connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(subscriberCountChanged()));
+    connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(bannerMobileImageUrlChanged()));
+    connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(thumbnailUrlChanged()));
+    connect(channel, SIGNAL(infoLoaded()), channel, SIGNAL(publishedAtChanged()));
+    connect(channel, SIGNAL(thumbnailLoaded()), channel, SIGNAL(thumbnailLocationChanged()));
+    channel->maybeLoadfromAPI();
+    cache.insert(channelId, channel);
 
     return channel;
 }
@@ -77,14 +112,14 @@ void YTChannel::maybeLoadfromAPI() {
 
     uint now = QDateTime::currentDateTime().toTime_t();
     static const int refreshInterval = 60 * 60 * 24 * 10;
-    if (loaded > now - refreshInterval) return;
+    if (loaded > now - refreshInterval && !subscriberCount.isEmpty()) return;
 
     loading = true;
 
     QUrl url = YT3::instance().method("channels");
     QUrlQuery q(url);
     q.addQueryItem("id", channelId);
-    q.addQueryItem("part", "snippet");
+    q.addQueryItem("part", "snippet,statistics,brandingSettings");
     url.setQuery(q);
 
     QObject *reply = HttpUtils::yt().get(url);
@@ -101,9 +136,21 @@ void YTChannel::parseResponse(const QByteArray &bytes) {
         QJsonObject snippet = item["snippet"].toObject();
         displayName = snippet["title"].toString();
         description = snippet["description"].toString();
+        QString tmpPublishedAt = snippet[QLatin1String("publishedAt")].toString();
+        QDateTime publishedDateTime = QDateTime::fromString(tmpPublishedAt, Qt::ISODate);
+        publishedAt = publishedDateTime;
+
         QJsonObject thumbnails = snippet["thumbnails"].toObject();
         thumbnailUrl = thumbnails["medium"].toObject()["url"].toString();
         qDebug() << displayName << description << thumbnailUrl;
+
+        QJsonObject statistics = item["statistics"].toObject();
+        viewCount = statistics["viewCount"].toString();
+        subscriberCount = statistics["subscriberCount"].toString();
+
+        QJsonObject image = item["brandingSettings"].toObject()["image"].toObject();
+        bannerMobileImageUrl = image["bannerMobileImageUrl"].toString();
+        qDebug() << __PRETTY_FUNCTION__ << viewCount;
     }
 
     emit infoLoaded();
@@ -132,6 +179,13 @@ QString YTChannel::getThumbnailLocation() {
     return getThumbnailDir() + channelId;
 }
 
+QString &YTChannel::getWebpage()
+{
+    if (webpage.isEmpty() && !channelId.isEmpty())
+        webpage.append("https://www.youtube.com/channel/").append(channelId);
+    return webpage;
+}
+
 QString YTChannel::latestVideoId() {
     QSqlDatabase db = Database::instance().getConnection();
     QSqlQuery query(db);
@@ -144,8 +198,20 @@ QString YTChannel::latestVideoId() {
     return query.value(0).toString();
 }
 
+bool YTChannel::getIsSubscribed()
+{
+    return YTChannel::isSubscribed(channelId);
+}
+
+void YTChannel::subscribe()
+{
+    YTChannel::subscribe(channelId);
+    emit isSubscribedChanged();
+}
+
 void YTChannel::unsubscribe() {
     YTChannel::unsubscribe(channelId);
+    emit isSubscribedChanged();
 }
 
 void YTChannel::storeThumbnail(const QByteArray &bytes) {
@@ -200,6 +266,36 @@ void YTChannel::storeInfo() {
     loadThumbnail();
 }
 
+QString YTChannel::getBannerMobileImageUrl() const
+{
+    return bannerMobileImageUrl;
+}
+
+QDateTime YTChannel::getPublishedAt() const
+{
+    return publishedAt;
+}
+
+QString YTChannel::getViewCount() const
+{
+    return viewCount;
+}
+
+QString YTChannel::getFormattedViewCount() const
+{
+    return DataUtils::formatCount(viewCount.toLongLong());
+}
+
+QString YTChannel::getSubscriberCount() const
+{
+    return subscriberCount;
+}
+
+QString YTChannel::getFormattedSubscriberCount() const
+{
+    return DataUtils::formatSubscriberCount(subscriberCount.toInt());
+}
+
 void YTChannel::subscribe(const QString &channelId) {
     if (channelId.isEmpty()) return;
 
@@ -234,9 +330,6 @@ void YTChannel::unsubscribe(const QString &channelId) {
     query.bindValue(0, channelId);
     success = query.exec();
     if (!success) qWarning() << query.lastQuery() << query.lastError().text();
-
-    YTChannel *user = cache.take(channelId);
-    if (user) user->deleteLater();
 }
 
 bool YTChannel::isSubscribed(const QString &channelId) {

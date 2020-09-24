@@ -34,7 +34,6 @@ Page {
         path: "/apps/microtube"
 
         property bool autoPlay: true
-        property bool relatedVideos: true
         property bool audioOnlyMode: false
         property bool developerMode: false
         property double buffer: 1.0
@@ -44,9 +43,6 @@ Page {
 
     YtCategories {
         id: categories
-        onRowsInserted: {
-            YT.loadCategory(settings.categoryId, settings.categoryName)
-        }
     }
 
     SilicaFlickable {
@@ -69,15 +65,15 @@ Page {
             MenuItem {
                 text: qsTr("Subscriptions")
                 onClicked: {
-                    YT.updateQuery()
-                    pageStack.push(Qt.resolvedUrl("Subscriptions.qml"))
+                    YTChannels.updateQuery()
+                    pageStack.push(Qt.resolvedUrl("Subscriptions.qml"), {playlistModel: app.playlistModel})
                 }
             }
             MenuItem {
                 text: qsTr("Filters")
-                enabled: typeof YT.searchParams !== "undefined"
+                enabled: typeof app.playlistModel.searchParams !== "undefined"
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("Filters.qml"))
+                    pageStack.push(Qt.resolvedUrl("Filters.qml"), {playlistModel: app.playlistModel})
                 }
             }
         }
@@ -95,7 +91,7 @@ Page {
             Keys.onReturnPressed: {
                 if(searchField.text.length != 0) {
                     if(searchField.text == "21379111488") settings.developerMode = !settings.developerMode
-                    YT.search(searchField.text)
+                    app.playlistModel.search(searchField.text)
                 }
             }
         }
@@ -141,7 +137,7 @@ Page {
 
                     delegate: CategoryElement {
                         onClicked: {
-                            YT.loadCategory(id, name)
+                            app.playlistModel.loadCategory(id, name)
                             swipeView.positionViewAtEnd()
                         }
                     }
@@ -154,7 +150,7 @@ Page {
                     clip: true
                     spacing: Theme.paddingMedium
                     visible: index === 1
-                    model: YTPlaylist
+                    model: app.playlistModel
                     delegate: VideoElement {}
                 }
             }

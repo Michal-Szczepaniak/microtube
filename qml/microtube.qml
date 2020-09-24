@@ -20,6 +20,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
+import com.verdanditeam.yt 1.0
 import "pages"
 
 ApplicationWindow
@@ -33,6 +34,7 @@ ApplicationWindow
     property string playing: ""
     property bool videoCover: false
     property string version: "2.0"
+    property alias playlistModel: playlistModel
 
     Component {
         id: updatePage
@@ -49,10 +51,21 @@ ApplicationWindow
         Main { }
     }
 
+    YtPlaylist {
+        id: playlistModel
+
+        Component.onCompleted: {
+            if (typeof startSearch !== "undefined") search(startSearch)
+            else loadCategory(settings.categoryId, settings.categoryName)
+        }
+    }
+
     ConfigurationGroup {
         id: settings
         path: "/apps/microtube"
 
         property string version: ""
+        property string categoryId: "0"
+        property string categoryName: "Film & Animation"
     }
 }

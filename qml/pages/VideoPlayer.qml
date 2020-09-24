@@ -65,7 +65,6 @@ Page {
         path: "/apps/microtube"
 
         property bool autoPlay: true
-        property bool relatedVideos: true
         property bool audioOnlyMode: false
         property bool developerMode: false
         property double buffer: 1.0
@@ -156,18 +155,18 @@ Page {
     onStatusChanged: {
         if (status === PageStatus.Deactivating) {
             app.videoCover = false
-        } else if(status === PageStatus.Active && video === null) {
+        } else if(status === PageStatus.Active && video !== null && video.streamUrl == "") {
             app.videoCover = true
             pacontrol.update()
             showHideControls()
             hideControlsAutomatically.restart()
-            YTPlaylist.setActiveRow(YTPlaylist.activeRow())
 
             if(settings.audioOnlyMode) {
                 topMenu.resolutionChange("audio")
             } else {
                 topMenu.resolutionChange("720p")
             }
+
         }
     }
 
@@ -184,21 +183,18 @@ Page {
     function changeVideo() {
         page.videoChanging = true
         mediaPlayer.stop()
-        if ( settings.relatedVideos ) {
-            YTPlaylist.findRecommended()
-            YTPlaylist.setActiveRow(0, false)
-            video = YTPlaylist.qmlVideoAt(0)
-        } else {
-            video = YTPlaylist.qmlVideoAt(YTPlaylist.activeRow())
-        }
+        video = app.playlistModel.qmlVideoAt(app.playlistModel.activeRow())
         video.loadStreamUrl()
+        setVideoInfo()
+    }
+
+    function setVideoInfo() {
         title = video.getTitle()
         description = video.getDescription()
         viewCount = video.viewCount
         author = video.getChannelTitle()
-        YTComments.loadComments(video.getId())
         ChannelAggregator.videoWatched(video)
-        listView.positionViewAtIndex(YTPlaylist.activeRow(), ListView.Beginning)
+        listView.positionViewAtIndex(app.playlistModel.activeRow(), ListView.Beginning)
         mediaPlayer.errorMsg = ""
         errorPane.hide()
     }
@@ -210,7 +206,8 @@ Page {
                 if(videoChanging) videoChanging = false
                 mediaPlayer.videoPlay()
             }
-            description = video.getDescription().replace(/\\n/g, '\n').replace(/\\u0026/, '&')
+            setVideoInfo();
+            description = video.getDescription().replace(/(\\n|\\r\\n)/g, '\n').replace(/\\u0026/, '&')
         }
 
         onAudioStreamUrlChanged: {
@@ -218,7 +215,8 @@ Page {
                 if(videoChanging) videoChanging = false
                 mediaPlayer.videoPlay()
             }
-            description = video.getDescription().replace(/\\n/g, '\n').replace(/\\u0026/, '&')
+            setVideoInfo();
+            description = video.getDescription().replace(/(\\n|\\r\\n)/g, '\n').replace(/\\u0026/, '&')
         }
     }
 
@@ -231,7 +229,8 @@ Page {
     }
 
     Connections {
-        target: YTPlaylist
+        target: app.playlistModel
+
         onActiveVideoChanged: {
             changeVideo()
         }
@@ -257,6 +256,12 @@ Page {
         }
     }
 
+    Keys.onRightPressed: mediaPlayer.seek(mediaPlayer.position + 5000)
+    Keys.onLeftPressed: mediaPlayer.seek(mediaPlayer.position - 5000)
+    Keys.onUpPressed: mediaPlayer.prevVideo()
+    Keys.onDownPressed: mediaPlayer.nextVideo()
+
+
     SilicaFlickable {
         id: flickable
         anchors.fill: parent
@@ -275,20 +280,38 @@ Page {
             }
 
             MenuItem {
+                text: qsTr("360p")
+                enabled: !settings.audioOnlyMode
+                onClicked: {
+                    topMenu.resolutionChange("360p")
+                }
+            }
+
+            MenuItem {
                 text: qsTr("720p")
                 enabled: !settings.audioOnlyMode
                 onClicked: {
                     topMenu.resolutionChange("720p")
                 }
             }
+
             MenuItem {
                 text: qsTr("Download")
                 enabled: video.streamUrl.toString() !== ""
                 onClicked: {
                     console.log(video.streamUrl)
-                    YT.download(settings.audioOnlyMode ? video.audioStreamUrl : video.streamUrl, settings.downloadLocation)
+                    YT.download(video.getId(), settings.audioOnlyMode ? video.audioStreamUrl : video.streamUrl, settings.downloadLocation)
                 }
             }
+
+            MenuItem {
+                text: qsTr("Load recommended videos")
+                onClicked: {
+                    app.playlistModel.findRecommended(video)
+                    app.playlistModel.setActiveRow(0, false)
+                }
+            }
+
             MenuItem {
                 text: qsTr("Copy url")
                 onClicked: Clipboard.text = video.getWebpage()
@@ -325,17 +348,17 @@ Page {
                         property string errorMsg: ""
 
                         function nextVideo() {
-                            if (!YTPlaylist.nextRowExists()) return
+                            if (!app.playlistModel.nextRowExists()) return
                             videoChanging = true
                             mediaPlayer.stop()
-                            YTPlaylist.setActiveRow(YTPlaylist.nextRow())
+                            app.playlistModel.setActiveRow(app.playlistModel.nextRow())
                         }
 
                         function prevVideo() {
-                            if (!YTPlaylist.previousRowExists()) return
+                            if (!app.playlistModel.previousRowExists()) return
                             videoChanging = true
                             mediaPlayer.stop()
-                            YTPlaylist.setActiveRow(YTPlaylist.previousRow())
+                            app.playlistModel.setActiveRow(app.playlistModel.previousRow())
                         }
 
                         onPlaybackStateChanged: {
@@ -567,6 +590,15 @@ Page {
                                 }
                             }
                         }
+                    }
+
+                    Image {
+                        id: thumbnail
+                        anchors.fill: parent
+                        source: video.getThumbnailUrl()
+                        asynchronous: true
+                        fillMode: Image.PreserveAspectCrop
+                        visible: settings.audioOnlyMode
                     }
 
                     DisplayBlanking {
@@ -910,8 +942,8 @@ Page {
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            YT.watchChannel(video.getChannelId())
-                                            pageStack.navigateBack()
+                                            pageStack.navigateBack(PageStackAction.Immediate)
+                                            pageStack.push(Qt.resolvedUrl("Channel.qml"), {channel: YT.getChannel(video.getChannelId())})
                                         }
                                     }
                                 }
@@ -933,11 +965,11 @@ Page {
                                 Button {
                                     id: subscribeButton
                                     preferredWidth: Theme.itemSizeHuge
-                                    property bool subscribed: video.isSubscribed(video.getChannelId())
+                                    property bool subscribed: YT.getChannel(video.getChannelId()).isSubscribed
                                     text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
                                     onClicked: {
-                                        YT.toggleSubscription()
-                                        subscribed = video.isSubscribed(video.getChannelId())
+                                        var channel = YT.getChannel(video.getChannelId())
+                                        channel.isSubscribed ? channel.unsubscribe() : channel.subscribe()
                                     }
                                 }
 
@@ -962,7 +994,7 @@ Page {
                             text: qsTr("Comments")
                             width: parent.width - Theme.paddingLarge
 
-                            onClicked: pageStack.push(Qt.resolvedUrl("Comments.qml"), {})
+                            onClicked: pageStack.push(Qt.resolvedUrl("Comments.qml"), {videoId: video.getId()})
                         }
 
                         SilicaFastListView {
@@ -971,7 +1003,7 @@ Page {
                             height: page.height - videoPlayer.height
                             maximumFlickVelocity: 9999
                             spacing: Theme.paddingMedium
-                            model: YTPlaylist
+                            model: app.playlistModel
                             clip: true
                             interactive: playlistFlickable.contentY >= parseInt(playlistFlickable.contentHeight - (page.height - videoPlayer.height))
                             delegate: VideoElement {

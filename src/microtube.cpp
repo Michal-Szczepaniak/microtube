@@ -40,11 +40,14 @@ int main(int argc, char *argv[])
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     QSharedPointer<QQuickView> view(SailfishApp::createView());
 
+    // Initialize api keys
+    YT3::instance();
+
     YT yt;
     yt.registerObjectsInQml(view->rootContext());
 
     if (argc == 2) {
-        yt.search(QString::fromUtf8(argv[1]).replace("invidio.us", "youtube.com"));
+        view->rootContext()->setContextProperty("startSearch", QString::fromUtf8(argv[1]).replace("invidio.us", "youtube.com"));
     }// else {
 //        yt.loadDefaultVideos();
 //    }
@@ -59,6 +62,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<Video>("com.verdanditeam.yt", 1, 0, "YtVideo");
     qmlRegisterType<CategoriesModel>("com.verdanditeam.yt", 1, 0, "YtCategories");
+    qmlRegisterType<PlaylistModel>("com.verdanditeam.yt", 1, 0, "YtPlaylist");
 
     view->setSource(SailfishApp::pathTo("qml/microtube.qml"));
     view->show();

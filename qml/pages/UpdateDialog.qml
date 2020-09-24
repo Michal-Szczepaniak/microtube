@@ -101,6 +101,18 @@ Page {
                     text: "• " + qsTr("Added DLNA casting using Yupii")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
+
+                Label {
+                    width: parent.width
+                    text: "• " + qsTr("Added Comments")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                }
+
+                Label {
+                    width: parent.width
+                    text: "• " + qsTr("Added listing channels and channel page")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                }
             }
 
             SectionHeader {
