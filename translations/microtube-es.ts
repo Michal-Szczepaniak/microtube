@@ -53,6 +53,37 @@
     </message>
 </context>
 <context>
+    <name>Channel</name>
+    <message>
+        <source>Unsubscribe</source>
+        <translation>Borrar suscripción</translation>
+    </message>
+    <message>
+        <source>Subscribe</source>
+        <translation>Suscribirse</translation>
+    </message>
+    <message>
+        <source>Copy url</source>
+        <translation>Copiar url</translation>
+    </message>
+    <message>
+        <source>Play all</source>
+        <translation>Reproducir todo</translation>
+    </message>
+    <message>
+        <source>Created at: %1-%2-%3</source>
+        <translation>Creado por: %1-%2-%3</translation>
+    </message>
+    <message>
+        <source>Description</source>
+        <translation>Descripción</translation>
+    </message>
+    <message>
+        <source>Show more</source>
+        <translation>Mostrar más</translation>
+    </message>
+</context>
+<context>
     <name>ChannelAggregator</name>
     <message>
         <source>By %1</source>
@@ -150,6 +181,10 @@
     <message>
         <source>%1 views</source>
         <translation>%1 visualizaciones</translation>
+    </message>
+    <message>
+        <source>%1 subscribers</source>
+        <translation>%1 suscriptores</translation>
     </message>
 </context>
 <context>
@@ -261,6 +296,14 @@
         <source>Installation</source>
         <translation>Instalación</translation>
     </message>
+    <message>
+        <source>Added Comments</source>
+        <translation>Añadidos comentarios</translation>
+    </message>
+    <message>
+        <source>Added listing channels and channel page</source>
+        <translation>Añadidos lista de canales y página del canal</translation>
+    </message>
 </context>
 <context>
     <name>Main</name>
@@ -324,7 +367,7 @@
     </message>
     <message>
         <source>Search for related videos</source>
-        <translation>Buscar vídeos relacionados</translation>
+        <translation type="vanished">Buscar vídeos relacionados</translation>
     </message>
     <message>
         <source>Region</source>
@@ -462,6 +505,14 @@
         <source>In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.</source>
         <translation>Para evitar errores, añade tu propia clave API de YouTube cuando uses esta aplicación. Las instrucciones para añadir la clave API están en la página de ajustes. Si continuas ejecutando la aplicación sin añadir tu clave API podrías tener problemas.</translation>
     </message>
+    <message>
+        <source>Added Comments</source>
+        <translation>Añadidos comentarios</translation>
+    </message>
+    <message>
+        <source>Added listing channels and channel page</source>
+        <translation>Añadidos lista de canales y página del canal</translation>
+    </message>
 </context>
 <context>
     <name>VideoElement</name>
@@ -528,16 +579,13 @@
         <source>Comments</source>
         <translation>Comentarios</translation>
     </message>
-</context>
-<context>
-    <name>YT</name>
     <message>
-        <source>All Videos</source>
-        <translation>Todos los vídeos</translation>
+        <source>360p</source>
+        <translation>360p</translation>
     </message>
     <message>
-        <source>Unwatched Videos</source>
-        <translation>Vídeos no vistos</translation>
+        <source>Load recommended videos</source>
+        <translation>Cargar vídeos recomendados</translation>
     </message>
 </context>
 <context>
