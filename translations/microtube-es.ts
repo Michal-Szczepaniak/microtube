@@ -366,10 +366,6 @@
         <translation>Reproducción automática</translation>
     </message>
     <message>
-        <source>Search for related videos</source>
-        <translation type="vanished">Buscar vídeos relacionados</translation>
-    </message>
-    <message>
         <source>Region</source>
         <translation>Región</translation>
     </message>
