@@ -441,6 +441,15 @@ Page {
                             running: (!settings.developerMode && mediaPlayer.bufferProgress != 1) || (settings.developerMode && mediaPlayer.bufferProgress < settings.buffer)
                         }
 
+                        Image {
+                            id: thumbnail
+                            anchors.fill: parent
+                            source: video.getThumbnailUrl()
+                            asynchronous: true
+                            fillMode: Image.PreserveAspectCrop
+                            visible: settings.audioOnlyMode
+                        }
+
                         SilicaFlickable {
                             id: videoOptions
                             anchors.fill: videoOutput
@@ -590,15 +599,6 @@ Page {
                                 }
                             }
                         }
-                    }
-
-                    Image {
-                        id: thumbnail
-                        anchors.fill: parent
-                        source: video.getThumbnailUrl()
-                        asynchronous: true
-                        fillMode: Image.PreserveAspectCrop
-                        visible: settings.audioOnlyMode
                     }
 
                     DisplayBlanking {

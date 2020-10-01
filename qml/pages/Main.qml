@@ -29,6 +29,13 @@ Page {
     allowedOrientations: Orientation.All
     backNavigation: false
 
+
+    onStatusChanged: {
+        if(status === PageStatus.Active && YT.apiKey == "") {
+            pageStack.push(Qt.resolvedUrl("components/APIKeyDialog.qml"))
+        }
+    }
+
     ConfigurationGroup {
         id: settings
         path: "/apps/microtube"

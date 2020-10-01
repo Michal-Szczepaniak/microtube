@@ -119,6 +119,7 @@ DISTFILES += qml/microtube.qml \
     qml/pages/InstallDialog.qml \
     qml/pages/SubscriptionsImport.qml \
     qml/pages/UpdateDialog.qml \
+    qml/pages/components/APIKeyDialog.qml \
     qml/pages/components/CenteredLabel.qml \
     qml/pages/components/Comment.qml \
     qml/pages/components/CommentsButton.qml \

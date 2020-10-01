@@ -122,6 +122,7 @@ void YT::setSafeSearch(bool value) {
 
 QString YT::apiKey()
 {
+    qDebug() << __PRETTY_FUNCTION__ << " " << _apiKey;
     return _apiKey;
 }
 

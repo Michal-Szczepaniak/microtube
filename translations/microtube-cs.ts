@@ -2,6 +2,22 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="cs" sourcelanguage="cs">
 <context>
+    <name>APIKeyDialog</name>
+    <message>
+        <source>Youtube API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Youtube API key is required to run this application.
+To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>About</name>
     <message>
         <source>About</source>
@@ -290,14 +306,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Warning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Installation</source>
         <translation type="unfinished"></translation>
     </message>
@@ -391,10 +399,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Default category</source>
         <translation type="unfinished"></translation>
     </message>
@@ -408,6 +412,10 @@
     </message>
     <message>
         <source>Test update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -496,14 +504,6 @@
     </message>
     <message>
         <source>Donation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

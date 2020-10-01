@@ -150,7 +150,7 @@ Page {
             }
 
             Text {
-                text: qsTr("To get Youtube API key go to <a href=\"https://console.cloud.google.com\">https://console.cloud.google.com</a> and get \"YouTube Data API v3\" API key")
+                text: qsTr("To get Youtube API key go to <a href=\"https://console.cloud.google.com\">https://console.cloud.google.com</a> and get \"YouTube Data API v3\" API key.")
                 color: Theme.secondaryHighlightColor
                 textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall
