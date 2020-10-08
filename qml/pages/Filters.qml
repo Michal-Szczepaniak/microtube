@@ -1,11 +1,14 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
+import com.verdanditeam.yt 1.0
 
 Page {
     id: page
     allowedOrientations: Orientation.All
 
-    onStatusChanged: if (status === PageStatus.Deactivating) YT.searchAgain()
+    property YtPlaylist playlistModel: null
+
+    onStatusChanged: if (status === PageStatus.Deactivating) playlistModel.searchAgain()
 
     SilicaFlickable {
         anchors.fill: parent
@@ -27,7 +30,7 @@ Page {
             ComboBox {
                 width: parent.width
                 label: qsTr("Sort by")
-                currentIndex: YT.searchParams.sortBy
+                currentIndex: playlistModel.searchParams.sortBy
 
                 menu: ContextMenu {
                     MenuItem { text: qsTr("Relevance") }
@@ -36,7 +39,7 @@ Page {
                     MenuItem { text: qsTr("Rating") }
                 }
 
-                onCurrentIndexChanged: YT.searchParams.sortBy = parseInt(currentIndex)
+                onCurrentIndexChanged: playlistModel.searchParams.sortBy = parseInt(currentIndex)
             }
 
 
@@ -52,7 +55,7 @@ Page {
                     MenuItem { text: qsTr("30 Days") }
                 }
 
-                onCurrentIndexChanged: YT.searchParams.time = parseInt(currentIndex)
+                onCurrentIndexChanged: playlistModel.searchParams.time = parseInt(currentIndex)
             }
 
             ComboBox {
@@ -67,7 +70,7 @@ Page {
                     MenuItem { text: qsTr("Long") }
                 }
 
-                onCurrentIndexChanged: YT.searchParams.duration = parseInt(currentIndex)
+                onCurrentIndexChanged: playlistModel.searchParams.duration = parseInt(currentIndex)
             }
         }
     }

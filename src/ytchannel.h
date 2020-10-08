@@ -30,12 +30,26 @@ class YTChannel : public QObject {
 
     Q_OBJECT
     Q_PROPERTY(int notifyCount READ getNotifyCount NOTIFY notifyCountChanged)
+    Q_PROPERTY(QString channelId READ getChannelId NOTIFY channelIdChanged)
+    Q_PROPERTY(QString userName READ getUserName NOTIFY userNameChanged)
+    Q_PROPERTY(QString displayName READ getDisplayName NOTIFY displayNameChanged)
+    Q_PROPERTY(QString description READ getDescription NOTIFY descriptionChanged)
+    Q_PROPERTY(QString countryCode READ getCountryCode NOTIFY countryCodeChanged)
+    Q_PROPERTY(bool isSubscribed READ getIsSubscribed NOTIFY isSubscribedChanged)
+    Q_PROPERTY(QString viewCount READ getFormattedViewCount NOTIFY viewCountChanged)
+    Q_PROPERTY(QString subscriberCount READ getFormattedSubscriberCount NOTIFY subscriberCountChanged)
+    Q_PROPERTY(QString bannerMobileImageUrl READ getBannerMobileImageUrl NOTIFY bannerMobileImageUrlChanged)
+    Q_PROPERTY(QString thumbnail READ getThumbnailLocation NOTIFY thumbnailLocationChanged)
+    Q_PROPERTY(QString thumbnailUrl READ getThumbnailUrl NOTIFY thumbnailUrlChanged)
+    Q_PROPERTY(QString webpage READ getWebpage NOTIFY webpageChanged)
+    Q_PROPERTY(QDateTime publishedAt READ getPublishedAt NOTIFY publishedAtChanged)
 
 public:
     static YTChannel* forId(const QString &channelId);
+    static YTChannel* fromId(const QString &channelId);
     static void subscribe(const QString &channelId);
     static void unsubscribe(const QString &channelId);
-    Q_INVOKABLE static bool isSubscribed(const QString &channelId);
+    static bool isSubscribed(const QString &channelId);
 
     int getId() { return id; }
     void setId(int id) { this->id = id; }
@@ -61,20 +75,44 @@ public:
     const QString & getThumbnailDir();
     QString getThumbnailLocation();
     const QPixmap & getThumbnail() { return thumbnail; }
+    const QString getThumbnailUrl() { return thumbnailUrl; }
+    QString & getWebpage();
 
     QString latestVideoId();
+    bool getIsSubscribed();
+    Q_INVOKABLE void subscribe();
 
     static const QHash<QString, YTChannel*> &getCachedChannels() { return cache; }
 
+    QString getViewCount() const;
+    QString getFormattedViewCount() const;
+    QString getSubscriberCount() const;
+    QString getFormattedSubscriberCount() const;
+    QString getBannerMobileImageUrl() const;
+    QDateTime getPublishedAt() const;
+
 public slots:
     void updateWatched();
-    void unsubscribe();
+    Q_INVOKABLE void unsubscribe();
 
 signals:
     void infoLoaded();
     void thumbnailLoaded();
     void error(QString message);
     void notifyCountChanged();
+    void channelIdChanged();
+    void userNameChanged();
+    void displayNameChanged();
+    void descriptionChanged();
+    void countryCodeChanged();
+    void viewCountChanged();
+    void subscriberCountChanged();
+    void isSubscribedChanged();
+    void bannerMobileImageUrlChanged();
+    void thumbnailUrlChanged();
+    void thumbnailLocationChanged();
+    void webpageChanged();
+    void publishedAtChanged();
 
 private slots:
     void parseResponse(const QByteArray &bytes);
@@ -82,7 +120,7 @@ private slots:
     void storeThumbnail(const QByteArray &bytes);
 
 private:
-    YTChannel(const QString &channelId, QObject *parent = 0);
+    YTChannel(const QString &channelId, QObject *parent = nullptr);
     void maybeLoadfromAPI();
     void storeInfo();
 
@@ -94,6 +132,11 @@ private:
     QString displayName;
     QString description;
     QString countryCode;
+    QString viewCount;
+    QString subscriberCount;
+    QString bannerMobileImageUrl;
+    QString webpage;
+    QDateTime publishedAt;
 
     QString thumbnailUrl;
     QPixmap thumbnail;

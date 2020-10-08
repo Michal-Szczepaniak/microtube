@@ -56,6 +56,7 @@ public:
     void setHoveredRow(int row);
 
     Q_INVOKABLE void unsubscribe(int index);
+    Q_INVOKABLE void updateQuery();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role) const;

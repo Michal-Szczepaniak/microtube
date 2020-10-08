@@ -20,12 +20,15 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
 import SortFilterProxyModel 0.2
+import com.verdanditeam.yt 1.0
 import "components"
 
 Page {
     id: page
 
     allowedOrientations: Orientation.All
+
+    property YtPlaylist playlistModel: null
 
     SilicaFlickable {
         anchors.fill: parent
@@ -76,12 +79,22 @@ Page {
 
             delegate: ListItem {
                 width: listView.columnWidth
-                height: listView.columnWidth
+                height: listView.columnWidth + contextMenu.height
                 contentWidth: listView.columnWidth
-                contentHeight: listView.columnWidth
+                contentHeight: listView.columnWidth + contextMenu.height
 
                 onClicked: {
-                    YT.itemActivated(channelsProxyModel.mapToSource(index))
+                    switch(index) {
+                    case 0:
+                        playlistModel.loadAllSubscribedChannelsVideos();
+                        break;
+                    case 1:
+                        playlistModel.loadUnwatchedVideos();
+                        break;
+                    default:
+                        playlistModel.loadChannelVideos(channel.channelId)
+                    }
+
                     pageStack.navigateBack()
                 }
 
@@ -124,10 +137,10 @@ Page {
                 }
                 Label {
                     text: username
-                    anchors.bottom: parent.bottom
+                    anchors.top: picture.bottom
                     anchors.leftMargin: Theme.paddingSmall
                     anchors.rightMargin: Theme.paddingSmall
-                    anchors.bottomMargin: Theme.paddingSmall
+                    anchors.topMargin: Theme.paddingSmall
                     anchors.left: parent.left
                     anchors.right: parent.right
                     width: parent.width
@@ -137,13 +150,14 @@ Page {
                 }
 
                 menu: ContextMenu {
+                    id: contextMenu
                     hasContent: index >= 2
                     width: page.width
                     MenuItem {
                         text: qsTr("Unsubscribe")
                         onClicked: {
                             YTChannels.unsubscribe(channelsProxyModel.mapToSource(index));
-                            YT.updateQuery()
+                            YTChannels.updateQuery()
                         }
                     }
                 }

@@ -51,7 +51,11 @@ void YTSearch::loadVideos(int max, int startIndex) {
 
     QUrlQuery q(url);
     q.addQueryItem("part", "snippet");
-    q.addQueryItem("type", "video");
+    if (searchParams->duration() > 0) {
+        q.addQueryItem("type", "video");
+    } else {
+        q.addQueryItem("type", "video,channel");
+    }
     q.addQueryItem("maxResults", QString::number(max));
 
     if (startIndex > 1) {
@@ -168,6 +172,7 @@ void YTSearch::parseResults(const QByteArray &data) {
         emit gotVideos(videos);
         emit finished(videos.size());
     }
+
     loadVideoDetails(videos);
 }
 

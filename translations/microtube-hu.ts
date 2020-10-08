@@ -2,6 +2,22 @@
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
+    <name>APIKeyDialog</name>
+    <message>
+        <source>Youtube API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>API Key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Youtube API key is required to run this application.
+To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>About</name>
     <message>
         <source>About</source>
@@ -49,6 +65,37 @@
     </message>
     <message>
         <source>mkiol for integration with Jupii.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Channel</name>
+    <message>
+        <source>Description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show more</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subscribe</source>
+        <translation type="unfinished">Feliratkozás</translation>
+    </message>
+    <message>
+        <source>Unsubscribe</source>
+        <translation type="unfinished">Leiratkozás</translation>
+    </message>
+    <message>
+        <source>Copy url</source>
+        <translation type="unfinished">Url másolása</translation>
+    </message>
+    <message>
+        <source>Created at: %1-%2-%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play all</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -145,6 +192,10 @@
     <message>
         <source>%1 views</source>
         <translation>%1 megtekintés</translation>
+    </message>
+    <message>
+        <source>%1 subscribers</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -245,15 +296,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Warning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Installation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added listing channels and channel page</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -318,10 +369,6 @@
         <translation>Automatikus váltás a következő videóra</translation>
     </message>
     <message>
-        <source>Search for related videos</source>
-        <translation>Kapcsolódó videók keresése</translation>
-    </message>
-    <message>
         <source>Download location</source>
         <translation type="unfinished"></translation>
     </message>
@@ -342,10 +389,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Default category</source>
         <translation type="unfinished"></translation>
     </message>
@@ -359,6 +402,10 @@
     </message>
     <message>
         <source>Test update</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -450,11 +497,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Warning</source>
+        <source>Added Comments</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.</source>
+        <source>Added listing channels and channel page</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -523,16 +570,13 @@
         <source>Comments</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>YT</name>
     <message>
-        <source>All Videos</source>
-        <translation>Minden videó</translation>
+        <source>360p</source>
+        <translation type="unfinished">720p {360p?}</translation>
     </message>
     <message>
-        <source>Unwatched Videos</source>
-        <translation>Megnézetlen videók</translation>
+        <source>Load recommended videos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

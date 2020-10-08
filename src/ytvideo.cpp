@@ -150,6 +150,7 @@ void YTVideo::gotVideoInfo(const QByteArray &bytes) {
     */
 
     if (urlMap.isEmpty()) {
+        qDebug() << "empty urlMap, trying next el";
         elIndex++;
         getVideoInfo();
         return;
@@ -248,7 +249,7 @@ void YTVideo::parseFmtUrlMap(const QString &fmtUrlMap) {
 
     qDebug() << "available formats" << urlMap.keys();
     const QVector<VideoDefinition> &definitions = VideoDefinition::getDefinitions();
-    int previousIndex = std::max(definitions.indexOf(definition) - 1, 0);
+    int previousIndex = std::max(definitions.indexOf(definition), 0);
     for (; previousIndex >= 0; previousIndex--) {
         const VideoDefinition &previousDefinition = definitions.at(previousIndex);
         qDebug() << "Testing format" << previousDefinition.getCode();
@@ -290,7 +291,7 @@ void YTVideo::scrapeWebPage(const QByteArray &bytes) {
     webPageLoaded = true;
 
     const QString html = QString::fromUtf8(bytes);
-    // qDebug() << "scrapeWebPage" << html;
+    qDebug() << "scrapeWebPage" << html;
 
     static const QRegExp ageGateRE(JsFunctions::instance()->ageGateRE());
     if (ageGateRE.indexIn(html) != -1) {

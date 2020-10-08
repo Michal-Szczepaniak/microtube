@@ -12,6 +12,8 @@ public:
     static QString formatDateTime(const QDateTime &dt);
     static QString formatDuration(uint secs);
     static QString formatCount(int c);
+    static QString formatCount(qint64 c);
+    static QString formatSubscriberCount(int c);
 
 private:
     DataUtils() {}

@@ -88,16 +88,18 @@ Page {
                         var subscriptions = (ytData.items[1].guideSubscriptionsSectionRenderer.items);
                         subscriptions.forEach(function(item){
                             if (typeof item.guideEntryRenderer !== 'undefined') {
-                                if (!YT.isSubscribed(item.guideEntryRenderer.navigationEndpoint.browseEndpoint.browseId) &&
+                                var channel = YT.getChannel(item.guideEntryRenderer.navigationEndpoint.browseEndpoint.browseId)
+                                if (!channel.isSubscribed &&
                                         item.guideEntryRenderer.navigationEndpoint.browseEndpoint.browseId !== "FEguide_builder") {
-                                    YT.toggleSubscription(item.guideEntryRenderer.navigationEndpoint.browseEndpoint.browseId)
+                                    channel.subscribe()
                                 }
                             } else if (typeof item.guideCollapsibleEntryRenderer !== 'undefined') {
                                 item.guideCollapsibleEntryRenderer.expandableItems.forEach(function(item){
                                     if (typeof item.guideEntryRenderer !== 'undefined') {
-                                        if (!YT.isSubscribed(item.guideEntryRenderer.navigationEndpoint.browseEndpoint.browseId) &&
+                                        var channel = YT.getChannel(item.guideEntryRenderer.navigationEndpoint.browseEndpoint.browseId)
+                                        if (!channel.isSubscribed &&
                                                 item.guideEntryRenderer.navigationEndpoint.browseEndpoint.browseId !== "FEguide_builder") {
-                                            YT.toggleSubscription(item.guideEntryRenderer.navigationEndpoint.browseEndpoint.browseId)
+                                            channel.subscribe()
                                         }
                                     }
                                 });
@@ -105,7 +107,7 @@ Page {
                         });
 
                         page.importSuccessful = true
-                        YT.updateQuery()
+                        YTChannels.updateQuery()
                     }
                 };
                 xhr.send();

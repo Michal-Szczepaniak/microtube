@@ -30,9 +30,11 @@ class YTVideo;
 
 class Video : public QObject {
     Q_OBJECT
-    Q_PROPERTY(const QUrl streamUrl READ getStreamUrl NOTIFY gotStreamUrl)
-    Q_PROPERTY(const QUrl audioStreamUrl READ getAudioStreamUrl NOTIFY gotStreamUrl)
-    Q_PROPERTY(const QString viewCount READ getFormattedViewCount NOTIFY viewCountChanged)
+    Q_PROPERTY(QString streamUrl READ getStreamUrl NOTIFY gotStreamUrl)
+    Q_PROPERTY(QString audioStreamUrl READ getAudioStreamUrl NOTIFY gotStreamUrl)
+    Q_PROPERTY(QString viewCount READ getFormattedViewCount NOTIFY viewCountChanged)
+    Q_PROPERTY(QString kind READ kind NOTIFY kindChanged)
+    Q_PROPERTY(QString formattedDuration READ getFormattedDuration NOTIFY durationChanged)
 
 public:
     Video();
@@ -91,8 +93,8 @@ public:
 
     Q_INVOKABLE QString getId() const { return id; }
     void setId(const QString &value) { id = value; }
-
-    Q_INVOKABLE bool isSubscribed(const QString &value) { return YTChannel::isSubscribed(value); }
+    QString kind() const { return _kind; }
+    void setKind(const QString &value) { _kind = value; }
 
     License getLicense() const { return license; }
     void setLicense(License value) { license = value; }
@@ -104,6 +106,8 @@ signals:
     void gotStreamUrl(const QString &videoUrl, const QString &audioUrl);
     void errorStreamUrl(const QString &message);
     void viewCountChanged(int viewCount);
+    void kindChanged();
+    void durationChanged();
 
 private slots:
     void setThumbnail(const QByteArray &bytes);
@@ -130,6 +134,7 @@ private:
     QString formattedViewCount;
     License license;
     QString id;
+    QString _kind;
     int definitionCode;
 
     bool loadingThumbnail;

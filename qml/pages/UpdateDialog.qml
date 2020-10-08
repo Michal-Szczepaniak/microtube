@@ -101,6 +101,18 @@ Page {
                     text: "• " + qsTr("Added DLNA casting using Yupii")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
+
+                Label {
+                    width: parent.width
+                    text: "• " + qsTr("Added Comments")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                }
+
+                Label {
+                    width: parent.width
+                    text: "• " + qsTr("Added listing channels and channel page")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                }
             }
 
             SectionHeader {
@@ -114,18 +126,6 @@ Page {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 color: Theme.primaryColor
-            }
-
-            SectionHeader {
-                text: qsTr("Warning")
-            }
-
-            Label {
-                width: parent.width - Theme.paddingLarge*2
-                anchors.horizontalCenter: parent.horizontalCenter
-                horizontalAlignment: Text.AlignHCenter
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: qsTr("In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.")
             }
         }
     }

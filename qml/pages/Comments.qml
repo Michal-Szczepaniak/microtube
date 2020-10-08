@@ -8,6 +8,9 @@ Page {
     allowedOrientations: Orientation.All
 
     property var model: YTComments
+    property var videoId: null
+
+    onStatusChanged: if (status === PageStatus.Active) YTComments.loadComments(videoId)
 
     SilicaListView {
         id: listView

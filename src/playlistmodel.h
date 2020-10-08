@@ -23,6 +23,7 @@ $END_LICENSE */
 #define PLAYLISTMODEL_H
 
 #include <QtWidgets>
+#include "searchparams.h"
 
 class Video;
 class VideoSource;
@@ -48,6 +49,7 @@ enum ItemTypes { ItemTypeVideo = 1, ItemTypeShowMore };
 
 class PlaylistModel : public QAbstractListModel {
     Q_OBJECT
+    Q_PROPERTY(QVariant searchParams READ searchParams NOTIFY searchParamsChanged)
 
 public:
     PlaylistModel(QWidget *parent = 0);
@@ -77,15 +79,26 @@ public:
     Q_INVOKABLE int activeRow() const { return m_activeRow; } // returns -1 if there is no active row
     Q_INVOKABLE int nextRow() const;
     Q_INVOKABLE int previousRow() const;
-    void removeIndexes(QModelIndexList &indexes);
     Q_INVOKABLE bool nextRowExists();
     Q_INVOKABLE bool previousRowExists() const;
+    Q_INVOKABLE Video *qmlVideoAt(int row) const;
+    Q_INVOKABLE void findRecommended(Video *video);
+    Q_INVOKABLE void loadChannelVideos(QString channelId);
+    Q_INVOKABLE void loadAllSubscribedChannelsVideos();
+    Q_INVOKABLE void loadUnwatchedVideos();
+    Q_INVOKABLE void search(QString query);
+    Q_INVOKABLE void searchAgain();
+    void watch(SearchParams *searchParams);
+    Q_INVOKABLE void loadCategory(QString id, QString label);
+    Q_INVOKABLE void watchChannel(const QString &channelId);
+    bool safeSearch();
+
+    void removeIndexes(QModelIndexList &indexes);
     int rowForVideo(Video *video);
     QModelIndex indexForVideo(Video *video);
     void move(QModelIndexList &indexes, bool up);
 
     Video *videoAt(int row) const;
-    Q_INVOKABLE Video *qmlVideoAt(int row) const;
     Video *activeVideo() const;
     int rowForCloneVideo(const QString &videoId) const;
 
@@ -93,7 +106,6 @@ public:
     void setVideoSource(VideoSource *videoSource);
     void abortSearch();
 
-    Q_INVOKABLE void findRecommended();
 
 public slots:
     Q_INVOKABLE void searchMore();
@@ -117,6 +129,10 @@ signals:
     void activeVideoChanged(Video *video, Video *previousVideo);
     void needSelectionFor(const QVector<Video *> &videos);
     void haveSuggestions(const QStringList &suggestions);
+    void searchParamsChanged();
+
+protected:
+    QVariant searchParams();
 
 private:
     void handleFirstVideo(Video *video);

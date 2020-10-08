@@ -1,4 +1,5 @@
 #include "commentsmodel.h"
+#include <QQmlEngine>
 #include "yt3.h"
 #include "http.h"
 #include "httputils.h"
@@ -103,6 +104,8 @@ void CommentsModel::parseCommentThreads(QByteArray bytes)
             thread->getTopLevelCommentEditable().setAuthorProfileImage(authorProfileImage);
 
             thread->loadComments();
+
+            QQmlEngine::setObjectOwnership(thread, QQmlEngine::CppOwnership);
 
             _commentThreads.append(thread);
         }

@@ -113,11 +113,13 @@ SOURCES += src/microtube.cpp \
 DISTFILES += qml/microtube.qml \
     microtube-url.desktop \
     qml/cover/CoverPage.qml \
+    qml/pages/Channel.qml \
     qml/pages/Comments.qml \
     qml/pages/Filters.qml \
     qml/pages/InstallDialog.qml \
     qml/pages/SubscriptionsImport.qml \
     qml/pages/UpdateDialog.qml \
+    qml/pages/components/APIKeyDialog.qml \
     qml/pages/components/CenteredLabel.qml \
     qml/pages/components/Comment.qml \
     qml/pages/components/CommentsButton.qml \

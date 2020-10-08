@@ -26,7 +26,11 @@ $END_LICENSE */
 #include "videomimedata.h"
 #include "videosource.h"
 #include "ytsearch.h"
+#include "ytregions.h"
+#include "ytstandardfeed.h"
+#include "aggregatevideosource.h"
 #include "ytsinglevideosource.h"
+#include <QQmlEngine>
 
 namespace {
 const int maxItems = 50;
@@ -100,6 +104,7 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const {
     case ItemTypeRole:
         return ItemTypeVideo;
     case VideoRole:
+        QQmlEngine::setObjectOwnership(video, QQmlEngine::CppOwnership);
         return QVariant::fromValue(video);
     case ActiveTrackRole:
         return video == m_activeVideo;
@@ -155,22 +160,135 @@ int PlaylistModel::previousRow() const {
     return -1;
 }
 
-bool PlaylistModel::previousRowExists() const {
-    return previousRow() != -1;
-}
-
 bool PlaylistModel::nextRowExists()  {
     if(activeRow() == videos.size()-1) searchMore();
     return nextRow() != -1;
 }
 
-Video *PlaylistModel::videoAt(int row) const {
-    if (rowExists(row)) return videos.at(row);
-    return nullptr;
+bool PlaylistModel::previousRowExists() const {
+    return previousRow() != -1;
 }
 
 Video *PlaylistModel::qmlVideoAt(int row) const {
     if (rowExists(row)) return videos.at(row)->clone();
+    return nullptr;
+}
+
+void PlaylistModel::findRecommended(Video *video) {
+    if (!video) return;
+    YTSingleVideoSource *singleVideoSource = new YTSingleVideoSource();
+    singleVideoSource->setVideo(video->clone());
+    singleVideoSource->setAsyncDetails(true);
+    setVideoSource(singleVideoSource);
+}
+
+void PlaylistModel::loadChannelVideos(QString channelId)
+{
+    YTChannel *channel = YTChannel::fromId(channelId);
+    SearchParams *params = new SearchParams();
+    params->setChannelId(channel->getChannelId());
+    params->setSortBy(SearchParams::SortByNewest);
+    params->setTransient(true);
+    YTSearch *videoSource = new YTSearch(params);
+    videoSource->setAsyncDetails(true);
+    setVideoSource(videoSource);
+}
+
+void PlaylistModel::loadAllSubscribedChannelsVideos()
+{
+    AggregateVideoSource *videoSource = new AggregateVideoSource();
+    setVideoSource(videoSource);
+}
+
+void PlaylistModel::loadUnwatchedVideos()
+{
+    AggregateVideoSource *videoSource = new AggregateVideoSource();
+    videoSource->setUnwatched(true);
+    setVideoSource(videoSource);
+}
+
+void PlaylistModel::search(QString query) {
+    QString q = query.simplified();
+
+    // check for empty query
+    if (q.isEmpty()) {
+//        queryEdit->toWidget()->setFocus(Qt::OtherFocusReason);
+        return;
+    }
+
+    SearchParams *searchParams = new SearchParams();
+    searchParams->setKeywords(q);
+
+    if (safeSearch())
+        searchParams->setSafeSearch(SearchParams::Strict);
+    else
+        searchParams->setSafeSearch(SearchParams::None);
+
+    // go!
+    watch(searchParams);
+    //    emit search(searchParams);
+}
+
+void PlaylistModel::searchAgain()
+{
+    setVideoSource(getVideoSource());
+}
+
+void PlaylistModel::watch(SearchParams *searchParams) {
+    if (!searchParams->keywords().isEmpty()) {
+        if (searchParams->keywords().startsWith("http://") ||
+            searchParams->keywords().startsWith("https://")) {
+            QString videoId = YTSearch::videoIdFromUrl(searchParams->keywords());
+            if (!videoId.isEmpty()) {
+                YTSingleVideoSource *singleVideoSource = new YTSingleVideoSource(this);
+                singleVideoSource->setVideoId(videoId);
+                setVideoSource(singleVideoSource);
+                return;
+            }
+        }
+    }
+    YTSearch *ytSearch = new YTSearch(searchParams);
+    ytSearch->setAsyncDetails(true);
+    connect(ytSearch, SIGNAL(gotDetails()), this, SLOT(emitDataChanged()));
+    setVideoSource(ytSearch);
+}
+
+void PlaylistModel::loadCategory(QString id, QString label)
+{
+    QString regionId = YTRegions::currentRegionId();
+    YTStandardFeed *feed = new YTStandardFeed(this);
+    feed->setLabel(label);
+    feed->setCategory(id);
+    feed->setRegionId(regionId);
+    setVideoSource(feed);
+}
+
+void PlaylistModel::watchChannel(const QString &channelId) {
+    if (channelId.isEmpty()) {
+        return;
+    }
+
+    QString id = channelId;
+
+    // Fix old settings
+    const QLatin1String uc("UC");
+    if (!id.startsWith(uc)) id = uc + id;
+
+    SearchParams *searchParams = new SearchParams();
+    searchParams->setChannelId(id);
+    searchParams->setSortBy(SearchParams::SortByNewest);
+
+    // go!
+    watch(searchParams);
+}
+
+bool PlaylistModel::safeSearch() {
+    QSettings settings;
+    return settings.value("safeSearch", false).toBool();
+}
+
+Video *PlaylistModel::videoAt(int row) const {
+    if (rowExists(row)) return videos.at(row);
     return nullptr;
 }
 
@@ -205,6 +323,7 @@ void PlaylistModel::setVideoSource(VideoSource *videoSource) {
             },
             Qt::UniqueConnection);
 
+    emit searchParamsChanged();
     searchMore();
 }
 
@@ -546,6 +665,15 @@ void PlaylistModel::exitAuthorPressed() {
     updateHoveredRow();
 }
 
+QVariant PlaylistModel::searchParams() {
+    VideoSource *videoSource = getVideoSource();
+    if (videoSource && videoSource->metaObject()->className() == QLatin1String("YTSearch")) {
+        YTSearch *search = qobject_cast<YTSearch *>(videoSource);
+        return QVariant::fromValue(search->getSearchParams());
+    }
+    return QVariant();
+}
+
 QHash<int, QByteArray> PlaylistModel::roleNames() const {
     QHash<int, QByteArray> roles;
     roles[ItemTypeRole] = "itemType";
@@ -567,13 +695,4 @@ QHash<int, QByteArray> PlaylistModel::roleNames() const {
     roles[Qt::ForegroundRole] = "foreground";
     roles[Qt::BackgroundColorRole] = "background";
     return roles;
-}
-
-void PlaylistModel::findRecommended() {
-   Video *video = this->activeVideo();
-    if (!video) return;
-    YTSingleVideoSource *singleVideoSource = new YTSingleVideoSource();
-    singleVideoSource->setVideo(video->clone());
-    singleVideoSource->setAsyncDetails(true);
-    setVideoSource(singleVideoSource);
 }
