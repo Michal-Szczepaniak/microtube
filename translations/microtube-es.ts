@@ -2,6 +2,22 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="es_ES">
 <context>
+    <name>APIKeyDialog</name>
+    <message>
+        <source>Youtube API Key</source>
+        <translation type="unfinished">Clave API de Youtube</translation>
+    </message>
+    <message>
+        <source>API Key</source>
+        <translation type="unfinished">Clave API</translation>
+    </message>
+    <message>
+        <source>Youtube API key is required to run this application.
+To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>About</name>
     <message>
         <source>About</source>
@@ -285,14 +301,6 @@
         <translation>Donación</translation>
     </message>
     <message>
-        <source>Warning</source>
-        <translation>Aviso</translation>
-    </message>
-    <message>
-        <source>In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.</source>
-        <translation>Para evitar errores, añade tu propia clave API de YouTube cuando uses esta aplicación. Las instrucciones para añadir la clave API están en la página de ajustes. Si continuas ejecutando la aplicación sin añadir tu clave API podrías tener problemas.</translation>
-    </message>
-    <message>
         <source>Installation</source>
         <translation>Instalación</translation>
     </message>
@@ -386,10 +394,6 @@
         <translation>Después de aplicar la clave, debes reiniciar Microtube</translation>
     </message>
     <message>
-        <source>To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key</source>
-        <translation>Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; y solicita una clave &quot;YouTube Data API v3&quot;</translation>
-    </message>
-    <message>
         <source>Default category</source>
         <translation>Categoría por defecto</translation>
     </message>
@@ -404,6 +408,10 @@
     <message>
         <source>Test update</source>
         <translation>Probar actualización</translation>
+    </message>
+    <message>
+        <source>To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -492,14 +500,6 @@
     <message>
         <source>Donation</source>
         <translation>Donación</translation>
-    </message>
-    <message>
-        <source>Warning</source>
-        <translation>Aviso</translation>
-    </message>
-    <message>
-        <source>In order to avoid errors while using the app add your own YouTube API key. Instructions for adding API key are available in settings page. If you continue to run it without own API key you can expect to have problems.</source>
-        <translation>Para evitar errores, añade tu propia clave API de YouTube cuando uses esta aplicación. Las instrucciones para añadir la clave API están en la página de ajustes. Si continuas ejecutando la aplicación sin añadir tu clave API podrías tener problemas.</translation>
     </message>
     <message>
         <source>Added Comments</source>

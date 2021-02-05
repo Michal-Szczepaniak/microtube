@@ -291,7 +291,7 @@ void YTVideo::scrapeWebPage(const QByteArray &bytes) {
     webPageLoaded = true;
 
     const QString html = QString::fromUtf8(bytes);
-    qDebug() << "scrapeWebPage" << html;
+//    qDebug() << "scrapeWebPage" << html;
 
     static const QRegExp ageGateRE(JsFunctions::instance()->ageGateRE());
     if (ageGateRE.indexIn(html) != -1) {

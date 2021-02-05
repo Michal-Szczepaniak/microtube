@@ -62,8 +62,8 @@ ListView {
     pixelAligned: true
     pressDelay: 50
     flickDeceleration: Theme.flickDeceleration
-    maximumFlickVelocity: Theme.maximumFlickVelocity * 140
-    cacheBuffer: Theme.paddingLarge*64
+    maximumFlickVelocity: 2147483647
+    cacheBuffer: 0
     boundsBehavior: (pullDownMenu && pullDownMenu._activationPermitted) || (pushUpMenu && pushUpMenu._activationPermitted) ? Flickable.DragOverBounds : Flickable.StopAtBounds
 
     // On touch devices highlightMoveDuration is not in use, but with strict highlight range mode
