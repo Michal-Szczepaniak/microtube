@@ -5,16 +5,16 @@
     <name>APIKeyDialog</name>
     <message>
         <source>Youtube API Key</source>
-        <translation type="unfinished"></translation>
+        <translation>YouTube API 密钥</translation>
     </message>
     <message>
         <source>API Key</source>
-        <translation type="unfinished"></translation>
+        <translation>API 密钥</translation>
     </message>
     <message>
         <source>Youtube API key is required to run this application.
 To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key.</source>
-        <translation type="unfinished"></translation>
+        <translation>需要 YouTube API 密钥以运行此软件。你可以从此处获取 YouTube API 密钥 &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt;及获取 &quot;YouTube 数据 API v3&quot; API 密钥</translation>
     </message>
 </context>
 <context>
@@ -61,11 +61,11 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Malakay for Czech translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Malakay 提供捷克语翻译</translation>
     </message>
     <message>
         <source>mkiol for integration with Jupii.</source>
-        <translation type="unfinished"></translation>
+        <translation>mikiol 整合 Jupii</translation>
     </message>
     <message>
         <source>SponsorBlock plugin from &lt;br/&gt;&lt;a href=&quot;https://sponsor.ajay.app&quot;&gt;https://sponsor.ajay.app&lt;/a&gt;</source>
@@ -103,27 +103,27 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     <name>Channel</name>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>描述</translation>
     </message>
     <message>
         <source>Show more</source>
-        <translation type="unfinished"></translation>
+        <translation>显示更多</translation>
     </message>
     <message>
         <source>Subscribe</source>
-        <translation type="unfinished">订阅</translation>
+        <translation>订阅</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
-        <translation type="unfinished">取消订阅</translation>
+        <translation>取消订阅</translation>
     </message>
     <message>
         <source>Copy url</source>
-        <translation type="unfinished">复制 url</translation>
+        <translation>复制 url</translation>
     </message>
     <message>
         <source>Play all</source>
-        <translation type="unfinished"></translation>
+        <translation>播放全部</translation>
     </message>
 </context>
 <context>
@@ -143,21 +143,21 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     <name>Comment</name>
     <message>
         <source>%1 replies</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 条回复</translation>
     </message>
 </context>
 <context>
     <name>Comments</name>
     <message>
         <source>Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>评论</translation>
     </message>
 </context>
 <context>
     <name>CommentsModel</name>
     <message>
         <source>Show more</source>
-        <translation type="unfinished"></translation>
+        <translation>显示更多</translation>
     </message>
 </context>
 <context>
@@ -190,81 +190,81 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>%1 subscribers</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 位订阅者</translation>
     </message>
 </context>
 <context>
     <name>Filters</name>
     <message>
         <source>Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>筛选</translation>
     </message>
     <message>
         <source>Sort by</source>
-        <translation type="unfinished"></translation>
+        <translation>筛选方式</translation>
     </message>
     <message>
         <source>Relevance</source>
-        <translation type="unfinished"></translation>
+        <translation>相关</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation>日期</translation>
     </message>
     <message>
         <source>View Count</source>
-        <translation type="unfinished"></translation>
+        <translation>播放量</translation>
     </message>
     <message>
         <source>Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>评分</translation>
     </message>
     <message>
         <source>Anytime</source>
-        <translation type="unfinished"></translation>
+        <translation>任何时间</translation>
     </message>
     <message>
         <source>Today</source>
-        <translation type="unfinished"></translation>
+        <translation>今天</translation>
     </message>
     <message>
         <source>7 Days</source>
-        <translation type="unfinished"></translation>
+        <translation>7天内</translation>
     </message>
     <message>
         <source>30 Days</source>
-        <translation type="unfinished"></translation>
+        <translation>30天内</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>间隔</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>全部</translation>
     </message>
     <message>
         <source>Short</source>
-        <translation type="unfinished"></translation>
+        <translation>短</translation>
     </message>
     <message>
         <source>Medium</source>
-        <translation type="unfinished"></translation>
+        <translation>中</translation>
     </message>
     <message>
         <source>Long</source>
-        <translation type="unfinished"></translation>
+        <translation>长</translation>
     </message>
 </context>
 <context>
     <name>InstallDialog</name>
     <message>
         <source>Thank you for installing Microtube!</source>
-        <translation type="unfinished"></translation>
+        <translation>感谢安装 Microtube ！</translation>
     </message>
     <message>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>更新日志</translation>
     </message>
     <message>
         <source>Donation</source>
@@ -315,7 +315,7 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>筛选</translation>
     </message>
 </context>
 <context>
@@ -330,15 +330,15 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Show more</source>
-        <translation type="unfinished"></translation>
+        <translation>显示更多</translation>
     </message>
     <message>
         <source>API key quota exceeded.</source>
-        <translation type="unfinished"></translation>
+        <translation>已超出 API 密钥配额</translation>
     </message>
     <message>
         <source>Check internet connection.</source>
-        <translation type="unfinished"></translation>
+        <translation>检查网络连接。</translation>
     </message>
 </context>
 <context>
@@ -365,19 +365,19 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Default category</source>
-        <translation type="unfinished"></translation>
+        <translation>默认分类</translation>
     </message>
     <message>
         <source>Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>缓存器</translation>
     </message>
     <message>
         <source>Test new install</source>
-        <translation type="unfinished"></translation>
+        <translation>测试新安装</translation>
     </message>
     <message>
         <source>Test update</source>
-        <translation type="unfinished"></translation>
+        <translation测试更新></translation>
     </message>
     <message>
         <source>SponsorBlock Plugin Configuration</source>
@@ -438,57 +438,57 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     <name>Subscriptions</name>
     <message>
         <source>Mark all as watched</source>
-        <translation type="unfinished"></translation>
+        <translation>全部标记已观看</translation>
     </message>
     <message>
         <source>Import subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>导入订阅</translation>
     </message>
     <message>
         <source>Subscriptions</source>
-        <translation type="unfinished">订阅</translation>
+        <translation>订阅</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
-        <translation type="unfinished">取消订阅</translation>
+        <translation>取消订阅</translation>
     </message>
 </context>
 <context>
     <name>SubscriptionsImport</name>
     <message>
         <source>Import</source>
-        <translation type="unfinished"></translation>
+        <translation>导入</translation>
     </message>
     <message>
         <source>Import file</source>
-        <translation type="unfinished"></translation>
+        <translation>导入文件</translation>
     </message>
     <message>
         <source>Instructions</source>
-        <translation type="unfinished"></translation>
+        <translation>指导</translation>
     </message>
     <message>
         <source>Go to YouTube website on desktop and while logged in, save the page by clicking ctrl+s. Upload saved file to your device and pick it from pull down menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>登录 YouTube 桌面网页，通过电击 ctrl 及 s 键保存页面。上传已储存的文件到你的设备，然后通过下拉菜单选中。</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation type="unfinished"></translation>
+        <translation>已成功导入</translation>
     </message>
 </context>
 <context>
     <name>UpdateDialog</name>
     <message>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>更新</translation>
     </message>
     <message>
         <source>Microtube was updated to version %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Microtube 已更新到版本 %1 ！</translation>
     </message>
     <message>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>更新日志</translation>
     </message>
     <message>
         <source>Donation</source>
@@ -578,11 +578,11 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>360p</source>
-        <translation type="unfinished">720p {360p?}</translation>
+        <translation>720p {360p?}</translation>
     </message>
     <message>
         <source>Load recommended videos</source>
-        <translation type="unfinished"></translation>
+        <translation>加载推荐视频</translation>
     </message>
 </context>
 <context>
