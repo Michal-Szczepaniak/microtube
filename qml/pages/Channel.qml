@@ -96,22 +96,6 @@ Page {
 
                         text: channel.subscriberCount
                     }
-
-                    Label {
-                        width: parent.width
-                        color: Theme.secondaryColor
-                        font.pixelSize: Theme.fontSizeSmall
-
-                        text: channel.viewCount
-                    }
-
-                    Label {
-                        width: parent.width
-                        color: Theme.secondaryColor
-                        font.pixelSize: Theme.fontSizeSmall
-
-                        text: qsTr("Created at: %1-%2-%3").arg(channel.publishedAt.getDate()).arg(channel.publishedAt.getMonth()+1).arg(channel.publishedAt.getFullYear())
-                    }
                 }
             }
 

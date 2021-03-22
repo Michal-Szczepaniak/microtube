@@ -31,9 +31,13 @@ $END_LICENSE */
 #include "http.h"
 #include "httputils.h"
 
+#include "ivchannelsource.h"
+#include "videoapi.h"
+#include "ytjschannelsource.h"
+
 ChannelAggregator::ChannelAggregator(QObject *parent)
     : QObject(parent), unwatchedCount(-1), running(false), stopped(false), currentChannel(0) {
-    checkInterval = 1800;
+    checkInterval = 3600;
 
     timer = new QTimer(this);
     timer->setInterval(60000 * 5);
@@ -48,7 +52,7 @@ ChannelAggregator *ChannelAggregator::instance() {
 void ChannelAggregator::start() {
     stopped = false;
     updateUnwatchedCount();
-    QTimer::singleShot(0, this, SLOT(run()));
+    QTimer::singleShot(10000, this, SLOT(run()));
     if (!timer->isActive()) timer->start();
 }
 
@@ -98,7 +102,15 @@ void ChannelAggregator::processNextChannel() {
 
 void ChannelAggregator::checkWebPage(YTChannel *channel) {
     currentChannel = channel;
-    QString url = "https://www.youtube.com/channel/" + channel->getChannelId() + "/videos";
+
+    QString channelId = channel->getChannelId();
+    QString url;
+    if (channelId.startsWith("UC") && !channelId.contains(' ')) {
+        url = "https://www.youtube.com/channel/" + channelId + "/videos";
+    } else {
+        url = "https://www.youtube.com/user/" + channelId + "/videos";
+    }
+
     QObject *reply = HttpUtils::yt().get(url);
 
     connect(reply, SIGNAL(data(QByteArray)), SLOT(parseWebPage(QByteArray)));
@@ -111,8 +123,10 @@ void ChannelAggregator::parseWebPage(const QByteArray &bytes) {
     if (re.indexIn(bytes) != -1) {
         QString videoId = re.cap(1);
         QString latestVideoId = currentChannel->latestVideoId();
-        // qDebug() << "Comparing" << videoId << latestVideoId;
+        qDebug() << "Comparing" << videoId << latestVideoId;
         hasNewVideos = videoId != latestVideoId;
+    } else {
+        qDebug() << "Cannot capture latest video id";
     }
     if (hasNewVideos) {
         if (currentChannel) {
@@ -138,9 +152,23 @@ void ChannelAggregator::reallyProcessChannel(YTChannel *channel) {
     params->setSortBy(SearchParams::SortByNewest);
     params->setTransient(true);
     params->setPublishedAfter(channel->getChecked());
-    YTSearch *videoSource = new YTSearch(params);
-    connect(videoSource, SIGNAL(gotVideos(QVector<Video *>)), SLOT(videosLoaded(QVector<Video *>)));
-    videoSource->loadVideos(50, 1);
+
+    if (VideoAPI::impl() == VideoAPI::YT3) {
+        YTSearch *videoSource = new YTSearch(params);
+        connect(videoSource, SIGNAL(gotVideos(QVector<Video *>)),
+                SLOT(videosLoaded(QVector<Video *>)));
+        videoSource->loadVideos(50, 1);
+    } else if (VideoAPI::impl() == VideoAPI::IV) {
+        auto *videoSource = new IVChannelSource(params);
+        connect(videoSource, SIGNAL(gotVideos(QVector<Video *>)),
+                SLOT(videosLoaded(QVector<Video *>)));
+        videoSource->loadVideos(50, 1);
+    } else if (VideoAPI::impl() == VideoAPI::JS) {
+        auto *videoSource = new YTJSChannelSource(params);
+        connect(videoSource, SIGNAL(gotVideos(QVector<Video *>)),
+                SLOT(videosLoaded(QVector<Video *>)));
+        videoSource->loadVideos(50, 1);
+    }
 
     channel->updateChecked();
 }
@@ -180,8 +208,10 @@ void ChannelAggregator::videosLoaded(const QVector<Video *> &videos) {
 
     if (!videos.isEmpty()) {
         YTChannel *channel = YTChannel::forId(videos.at(0)->getChannelId());
-        channel->updateNotifyCount();
-        emit channelChanged(channel);
+        if (channel) {
+            channel->updateNotifyCount();
+            emit channelChanged(channel);
+        }
         updateUnwatchedCount();
         for (Video *video : videos)
             video->deleteLater();
@@ -297,7 +327,7 @@ void ChannelAggregator::videoWatched(Video *video) {
     if (!success) qWarning() << query.lastQuery() << query.lastError().text();
     if (query.numRowsAffected() > 0) {
         YTChannel *channel = YTChannel::forId(video->getChannelId());
-        channel->updateNotifyCount();
+        if (channel) channel->updateNotifyCount();
     }
 }
 

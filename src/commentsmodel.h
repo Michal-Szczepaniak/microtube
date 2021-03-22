@@ -37,7 +37,7 @@ protected:
 private:
     QVector<ThreadModel*> _commentThreads;
     QString _videoId;
-    QString _nextPageToken;
+    QString _continuation;
 };
 
 #endif // COMMENTSMODEL_H

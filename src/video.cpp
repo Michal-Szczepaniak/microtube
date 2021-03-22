@@ -29,7 +29,7 @@ $END_LICENSE */
 
 Video::Video()
     : duration(0), viewCount(-1), license(LicenseYouTube), definitionCode(0),
-      loadingThumbnail(false), ytVideo(nullptr) {}
+      loadingThumbnail(false), ytVideo(nullptr), ytjsVideo(nullptr) {}
 
 Video::~Video() {
     qDebug() << "Deleting" << id;
@@ -116,29 +116,52 @@ void Video::setThumbnail(const QByteArray &bytes) {
 
 void Video::streamUrlLoaded(const QString &streamUrl, const QString &audioUrl) {
     qDebug() << "Streams loaded";
-    definitionCode = ytVideo->getDefinitionCode();
     this->streamUrl = streamUrl;
     this->audioStreamUrl = audioUrl;
     emit gotStreamUrl(streamUrl, audioUrl);
-    ytVideo->deleteLater();
-    ytVideo = nullptr;
+    if (ytVideo) {
+        definitionCode = ytVideo->getDefinitionCode();
+        ytVideo->deleteLater();
+        ytVideo = nullptr;
+    }
+    if (ytjsVideo) {
+        definitionCode = ytjsVideo->getDefinitionCode();
+        ytjsVideo->deleteLater();
+        ytjsVideo = nullptr;
+    }
 }
 
 void Video::loadStreamUrl() {
-    if (ytVideo) {
+    if (ytjsVideo) {
         qDebug() << "Already loading" << id;
         return;
     }
-    ytVideo = new YTVideo(id, this);
-    connect(ytVideo, &YTVideo::gotStreamUrl, this, &Video::streamUrlLoaded);
-    connect(ytVideo, &YTVideo::gotDescription, this, &Video::setDescription);
-    connect(ytVideo, &YTVideo::errorStreamUrl, this, [this](const QString &msg) {
-        emit errorStreamUrl(msg);
-        ytVideo->deleteLater();
-        ytVideo = nullptr;
+    ytjsVideo = new YTJSVideo(id, this);
+    connect(ytjsVideo, &YTJSVideo::gotStreamUrl, this, &Video::streamUrlLoaded);
+    connect(ytjsVideo, &YTJSVideo::errorStreamUrl, this, [this](const QString &msg) {
+        qDebug() << msg;
+        ytjsVideo->deleteLater();
+        ytjsVideo = nullptr;
+//        loadStreamUrlYT();
     });
-    ytVideo->loadStreamUrl();
+    ytjsVideo->loadStreamUrl();
 }
+
+//void Video::loadStreamUrl() {
+//    if (ytVideo) {
+//        qDebug() << "Already loading" << id;
+//        return;
+//    }
+//    ytVideo = new YTVideo(id, this);
+//    connect(ytVideo, &YTVideo::gotStreamUrl, this, &Video::streamUrlLoaded);
+//    connect(ytVideo, &YTVideo::gotDescription, this, &Video::setDescription);
+//    connect(ytVideo, &YTVideo::errorStreamUrl, this, [this](const QString &msg) {
+//        emit errorStreamUrl(msg);
+//        ytVideo->deleteLater();
+//        ytVideo = nullptr;
+//    });
+//    ytVideo->loadStreamUrl();
+//}
 
 void Video::abortLoadStreamUrl() {
     if (ytVideo) {

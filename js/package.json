@@ -1,0 +1,17 @@
+{
+  "name": "microtube",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "yt-channel-info": "^1.2.2",
+    "ytdl-core": "^4.5.0",
+    "ytpl": "^2.0.5",
+    "ytsr": "^3.3.1"
+  }
+}

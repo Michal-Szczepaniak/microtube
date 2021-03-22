@@ -24,6 +24,7 @@ $END_LICENSE */
 
 #include <QtCore>
 #include <QDesktopServices>
+#include "mock/qrandomgenerator.h"
 
 class Temporary {
 

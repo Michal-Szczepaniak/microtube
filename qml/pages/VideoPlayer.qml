@@ -21,6 +21,7 @@ import QtQuick 2.6
 import Sailfish.Silica 1.0
 import QtMultimedia 5.6
 import com.verdanditeam.yt 1.0
+import com.verdanditeam.sponsorblock 1.0
 import Sailfish.Media 1.0
 import org.nemomobile.mpris 1.0
 import com.jolla.settings.system 1.0
@@ -70,6 +71,58 @@ Page {
         property double buffer: 1.0
         property string videoQuality: "360p"
         property string downloadLocation: "/home/nemo/Downloads/"
+    }
+
+    SponsorBlockPlugin {
+        id: sponsorBlockPlugin
+        property var parsedSkipSegments: ""
+        onSkipSegmentsChanged: {
+            if (skipSegments != "") {
+                parsedSkipSegments = JSON.parse(skipSegments)
+            }
+        }
+
+        function checkIfInsideSegment(timestamp) {
+            for (var i = 0; i < parsedSkipSegments.length; i++) {
+                var e = parsedSkipSegments[i];
+                if (timestamp > e.segment[0] && timestamp < e.segment[1]) {
+                    sponsorBlockPluginNotification.setSummary(e.category)
+                    return e.segment[1];
+                }
+            }
+        }
+    }
+
+    Notification {
+        id: sponsorBlockPluginNotification
+        previewSummary: "Skipped"
+
+        function setSummary(category) {
+            var summary = "";
+
+            switch (category) {
+            case "intro":
+                summary = "Intro Skipped";
+                break;
+            case "outro":
+                summary = "Outro Skipped";
+                break;
+            case "interaction":
+                summary = "Interaction Reminder Skipped";
+                break;
+            case "selfpromo":
+                summary = "Self Promotion Skipped";
+                break;
+            case "music_offtopic":
+                summary = "Offtopic music skipped";
+                break;
+            case "sponsor":
+            default:
+                summary = "Sponsor blocked";
+            }
+
+           previewSummary = summary;
+        }
     }
 
     Timer {
@@ -160,6 +213,7 @@ Page {
             pacontrol.update()
             showHideControls()
             hideControlsAutomatically.restart()
+            sponsorBlockPlugin.videoId = video.getId()
 
             if(settings.audioOnlyMode) {
                 topMenu.resolutionChange("audio")
@@ -396,7 +450,19 @@ Page {
                             }
                         }
 
-                        onPositionChanged: progressSlider.value = position
+                        onPositionChanged: {
+                            progressSlider.value = position
+                            var segment = sponsorBlockPlugin.checkIfInsideSegment(position/1000)
+                            if (segment && playbackState !== MediaPlayer.StoppedState) {
+                                sponsorBlockPluginNotification.publish()
+                                if (segment*1000 >= mediaPlayer.duration) {
+                                    seek(mediaPlayer.duration)
+                                    stop()
+                                } else {
+                                    seek(segment*1000)
+                                }
+                            }
+                        }
                     }
 
                     VideoOutput {
@@ -894,7 +960,7 @@ Page {
                     id: playlistFlickable
                     width: parent.width
                     height: playlist.height
-                    contentHeight: (page.height - videoPlayer.height) + videoTitle.height + authorViews.height + videoDescription.height + comments.height + progress.height/2 + Theme.paddingLarge
+                    contentHeight: (page.height - videoPlayer.height) + videoTitle.height + authorViews.height + videoDescription.height /*+ comments.height*/ + progress.height/2 + Theme.paddingLarge
                     clip: true
                     property int oldContentHeight: 0
                     onContentHeightChanged: {
@@ -989,13 +1055,13 @@ Page {
                             wrapMode: TextEdit.WordWrap
                         }
 
-                        CommentsButton {
-                            id: comments
-                            text: qsTr("Comments")
-                            width: parent.width - Theme.paddingLarge
+//                        CommentsButton {
+//                            id: comments
+//                            text: qsTr("Comments")
+//                            width: parent.width - Theme.paddingLarge
 
-                            onClicked: pageStack.push(Qt.resolvedUrl("Comments.qml"), {videoId: video.getId()})
-                        }
+//                            onClicked: pageStack.push(Qt.resolvedUrl("Comments.qml"), {videoId: video.getId()})
+//                        }
 
                         SilicaFastListView {
                             id: listView

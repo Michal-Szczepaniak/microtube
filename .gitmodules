@@ -1,0 +1,3 @@
+[submodule "vendor/minitube"]
+	path = vendor/minitube
+	url = https://github.com/flaviotordini/minitube/

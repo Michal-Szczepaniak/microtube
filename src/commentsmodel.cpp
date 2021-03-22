@@ -3,6 +3,7 @@
 #include "yt3.h"
 #include "http.h"
 #include "httputils.h"
+#include "invidious.h"
 
 CommentsModel::CommentsModel(QObject *parent) :
     QAbstractListModel(parent)
@@ -15,10 +16,13 @@ CommentsModel::~CommentsModel()
 
 void CommentsModel::loadComments(QString videoId)
 {
-    QUrl url = YT3::instance().method("commentThreads");
+    QUrl url = Invidious::instance().method("comments/" + videoId);
+    if (url.isEmpty()) {
+        qWarning("No baseUrl");
+        return;
+    }
+
     QUrlQuery q(url);
-    q.addQueryItem(QStringLiteral("videoId"), videoId);
-    q.addQueryItem(QStringLiteral("part"), "snippet");
     q.addQueryItem(QStringLiteral("maxResults"), "20");
     url.setQuery(q);
 
@@ -31,12 +35,14 @@ void CommentsModel::loadComments(QString videoId)
 
 void CommentsModel::loadMoreComments()
 {
-    QUrl url = YT3::instance().method("commentThreads");
+    QUrl url = YT3::instance().method("comments/" + _videoId);
+    if (url.isEmpty()) {
+        qWarning("No baseUrl");
+        return;
+    }
+
     QUrlQuery q(url);
-    q.addQueryItem(QStringLiteral("videoId"), _videoId);
-    q.addQueryItem(QStringLiteral("part"), "snippet");
-    q.addQueryItem(QStringLiteral("maxResults"), "20");
-    q.addQueryItem(QStringLiteral("pageToken"), _nextPageToken);
+    q.addQueryItem(QStringLiteral("continuation"), _continuation);
     url.setQuery(q);
 
     QObject *reply = HttpUtils::yt().get(url);
@@ -77,9 +83,9 @@ void CommentsModel::parseCommentThreads(QByteArray bytes)
 {
     QJsonDocument doc = QJsonDocument::fromJson(bytes);
     QJsonObject obj = doc.object();
-    _nextPageToken = obj["nextPageToken"].toString();
+    _continuation = obj["continuation"].toString();
 
-    QJsonValue items = obj["items"];
+    QJsonValue items = obj["comments"];
     if (items.isArray()) {
         const auto array = items.toArray();
 
@@ -89,18 +95,18 @@ void CommentsModel::parseCommentThreads(QByteArray bytes)
 
             QJsonObject item = v.toObject();
 
-            QString id = item["id"].toString();
+            QString id = item["commentId"].toString();
 
             ThreadModel* thread = new ThreadModel;
             thread->getTopLevelCommentEditable().setId(id);
 
-            QString text = item["snippet"].toObject()["topLevelComment"].toObject()["snippet"].toObject()["textDisplay"].toString();
+            QString text = item["content"].toString();
             thread->getTopLevelCommentEditable().setText(text);
 
-            QString author = item["snippet"].toObject()["topLevelComment"].toObject()["snippet"].toObject()["authorDisplayName"].toString();
+            QString author = item["author"].toString();
             thread->getTopLevelCommentEditable().setAuthor(author);
 
-            QString authorProfileImage = item["snippet"].toObject()["topLevelComment"].toObject()["snippet"].toObject()["authorProfileImageUrl"].toString();
+            QString authorProfileImage = item["authorThumbnails"].toArray().last().toObject()["url"].toString();
             thread->getTopLevelCommentEditable().setAuthorProfileImage(authorProfileImage);
 
             thread->loadComments();

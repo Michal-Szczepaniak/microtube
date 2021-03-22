@@ -42,6 +42,8 @@ class YT : public QObject
     Q_PROPERTY(QString apiKey READ apiKey WRITE setApiKey NOTIFY apiKeyChanged)
     Q_PROPERTY(int region READ region WRITE setRegion NOTIFY regionChanged)
     Q_PROPERTY(bool safeSearch READ safeSearch WRITE setSafeSearch NOTIFY safeSearchChanged)
+    Q_PROPERTY(bool sponsorBlockEnabled READ getSponsorBlockEnabled WRITE setSponsorBlockEnabled NOTIFY sponsorBlockEnabledChanged)
+    Q_PROPERTY(QStringList sponsorBlockCategories READ getSponsorBlockCategories WRITE setSponsorBlockCategories NOTIFY sponsorBlockCategoriesChanged)
 
 public:
     explicit YT(QObject *parent = nullptr);
@@ -58,6 +60,10 @@ public:
     void setRegion(int id);
     bool safeSearch();
     void setSafeSearch(bool value);
+    bool getSponsorBlockEnabled();
+    void setSponsorBlockEnabled(bool sponsorBlockEnabled);
+    QStringList getSponsorBlockCategories();
+    void setSponsorBlockCategories(QStringList sponsorBlockCategories);
 
 public slots:
     void debug(const QString&);
@@ -70,6 +76,8 @@ signals:
     void apiKeyChanged(QString apiKey);
     void regionChanged(int region);
     void safeSearchChanged(bool safeSearch);
+    void sponsorBlockEnabledChanged(bool sponsorBlockEnabled);
+    void sponsorBlockCategoriesChanged(QStringList sponsorBlockCategories);
 
 private:
     bool _stopped;

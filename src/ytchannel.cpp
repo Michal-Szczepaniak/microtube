@@ -31,6 +31,10 @@ $END_LICENSE */
 
 #include "iconutils.h"
 
+#include "ivchannel.h"
+#include "videoapi.h"
+#include "ytjschannel.h"
+
 YTChannel::YTChannel(const QString &channelId, QObject *parent)
     : QObject(parent), id(0), channelId(channelId), loadingThumbnail(false), notifyCount(0),
       checked(0), watched(0), loaded(0), loading(false) {}
@@ -112,19 +116,46 @@ void YTChannel::maybeLoadfromAPI() {
 
     uint now = QDateTime::currentDateTime().toTime_t();
     static const int refreshInterval = 60 * 60 * 24 * 10;
-    if (loaded > now - refreshInterval && !subscriberCount.isEmpty()) return;
+    if (loaded > now - refreshInterval) return;
 
     loading = true;
 
-    QUrl url = YT3::instance().method("channels");
-    QUrlQuery q(url);
-    q.addQueryItem("id", channelId);
-    q.addQueryItem("part", "snippet,statistics,brandingSettings");
-    url.setQuery(q);
+    if (VideoAPI::impl() == VideoAPI::YT3) {
+        QUrl url = YT3::instance().method("channels");
+        QUrlQuery q(url);
+        q.addQueryItem("id", channelId);
+        q.addQueryItem("part", "snippet,statistics,brandingSettings");
+        url.setQuery(q);
 
-    QObject *reply = HttpUtils::yt().get(url);
-    connect(reply, SIGNAL(data(QByteArray)), SLOT(parseResponse(QByteArray)));
-    connect(reply, SIGNAL(error(QString)), SLOT(requestError(QString)));
+        QObject *reply = HttpUtils::yt().get(url);
+        connect(reply, SIGNAL(data(QByteArray)), SLOT(parseResponse(QByteArray)));
+        connect(reply, SIGNAL(error(QString)), SLOT(requestError(QString)));
+    } else if (VideoAPI::impl() == VideoAPI::IV) {
+        auto ivChannel = new IVChannel(channelId);
+        connect(ivChannel, &IVChannel::error, this, &YTChannel::requestError);
+        connect(ivChannel, &IVChannel::loaded, this, [this, ivChannel] {
+            displayName = ivChannel->getDisplayName();
+            description = ivChannel->getDescription();
+            thumbnailUrl = ivChannel->getThumbnailUrl();
+            ivChannel->deleteLater();
+            emit infoLoaded();
+            storeInfo();
+            loading = false;
+        });
+    } else if (VideoAPI::impl() == VideoAPI::JS) {
+        auto ivChannel = new YTJSChannel(channelId);
+        connect(ivChannel, &YTJSChannel::error, this, &YTChannel::requestError);
+        connect(ivChannel, &YTJSChannel::loaded, this, [this, ivChannel] {
+            displayName = ivChannel->getDisplayName();
+            description = ivChannel->getDescription();
+            subscriberCount = ivChannel->getSubscriberCount();
+            thumbnailUrl = ivChannel->getThumbnailUrl();
+            ivChannel->deleteLater();
+            emit infoLoaded();
+            storeInfo();
+            loading = false;
+        });
+    }
 }
 
 void YTChannel::parseResponse(const QByteArray &bytes) {
@@ -293,7 +324,28 @@ QString YTChannel::getSubscriberCount() const
 
 QString YTChannel::getFormattedSubscriberCount() const
 {
-    return DataUtils::formatSubscriberCount(subscriberCount.toInt());
+    QString s;
+    int f = 1;
+    int c = subscriberCount.toInt();
+    if (c < 1) {
+        return s;
+    } else if (c < (f *= 1000)) {
+        s = QString::number(c);
+    } else if (c < (f *= 1000)) {
+        int n = c / 1000;
+        s = QString::number(n) +
+            QCoreApplication::translate("DataUtils", "K", "K as in Kilo, i.e. thousands");
+    } else if (c < (f *= 1000)) {
+        int n = c / (1000 * 1000);
+        s = QString::number(n) +
+            QCoreApplication::translate("DataUtils", "M", "M stands for Millions");
+    } else {
+        int n = c / (1000 * 1000 * 1000);
+        s = QString::number(n) +
+            QCoreApplication::translate("DataUtils", "B", "B stands for Billions");
+    }
+
+    return QCoreApplication::translate("DataUtils", "%1 subscribers").arg(s);
 }
 
 void YTChannel::subscribe(const QString &channelId) {
@@ -330,6 +382,9 @@ void YTChannel::unsubscribe(const QString &channelId) {
     query.bindValue(0, channelId);
     success = query.exec();
     if (!success) qWarning() << query.lastQuery() << query.lastError().text();
+
+    YTChannel *user = cache.take(channelId);
+    if (user) user->deleteLater();
 }
 
 bool YTChannel::isSubscribed(const QString &channelId) {

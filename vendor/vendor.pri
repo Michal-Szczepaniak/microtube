@@ -5,3 +5,8 @@ QML_IMPORT_PATH += $$PWD
 
 
 include($$PWD/fr/grecko/sortfilterproxymodel/SortFilterProxyModel.pri))
+
+include($$PWD/http/http.pri)
+include($$PWD/yt/yt.pri)
+#include($$PWD/minitube/lib/idle/idle.pri)
+include($$PWD/js/js.pri)

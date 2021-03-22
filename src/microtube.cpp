@@ -33,6 +33,10 @@ $END_LICENSE */
 #include "volume/pulseaudiocontrol.h"
 #include "channelaggregator.h"
 #include "QEasyDownloader/include/QEasyDownloader.hpp"
+#include "js.h"
+#include "constants.h"
+#include "sponsorblock.h"
+#include "userfileshelper.h"
 #include <QtQuick>
 
 int main(int argc, char *argv[])
@@ -40,17 +44,16 @@ int main(int argc, char *argv[])
     QScopedPointer<QGuiApplication> app(SailfishApp::application(argc, argv));
     QSharedPointer<QQuickView> view(SailfishApp::createView());
 
-    // Initialize api keys
-    YT3::instance();
+    UserFilesHelper userFilesHelper;
+    userFilesHelper.copyJsFiles();
+    userFilesHelper.copyDesktopFile();
 
     YT yt;
     yt.registerObjectsInQml(view->rootContext());
 
     if (argc == 2) {
         view->rootContext()->setContextProperty("startSearch", QString::fromUtf8(argv[1]).replace("invidio.us", "youtube.com"));
-    }// else {
-//        yt.loadDefaultVideos();
-//    }
+    }
 
     PulseAudioControl pacontrol;
 
@@ -58,11 +61,12 @@ int main(int argc, char *argv[])
 
     view->rootContext()->setContextProperty("ChannelAggregator", ChannelAggregator::instance());
     ChannelAggregator::instance()->run();
-    ChannelAggregator::instance()->updateUnwatchedCount();
+//    ChannelAggregator::instance()->updateUnwatchedCount();
 
     qmlRegisterType<Video>("com.verdanditeam.yt", 1, 0, "YtVideo");
     qmlRegisterType<CategoriesModel>("com.verdanditeam.yt", 1, 0, "YtCategories");
     qmlRegisterType<PlaylistModel>("com.verdanditeam.yt", 1, 0, "YtPlaylist");
+    qmlRegisterType<SponsorBlock>("com.verdanditeam.sponsorblock", 1, 0, "SponsorBlockPlugin");
 
     view->setSource(SailfishApp::pathTo("qml/microtube.qml"));
     view->show();

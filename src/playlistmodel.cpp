@@ -30,7 +30,11 @@ $END_LICENSE */
 #include "ytstandardfeed.h"
 #include "aggregatevideosource.h"
 #include "ytsinglevideosource.h"
+#include "searchvideosource.h"
+#include "ivvideolist.h"
 #include <QQmlEngine>
+#include "ytjssearch.h"
+#include "singlevideosource.h"
 
 namespace {
 const int maxItems = 50;
@@ -176,9 +180,8 @@ Video *PlaylistModel::qmlVideoAt(int row) const {
 
 void PlaylistModel::findRecommended(Video *video) {
     if (!video) return;
-    YTSingleVideoSource *singleVideoSource = new YTSingleVideoSource();
+    SingleVideoSource *singleVideoSource = new SingleVideoSource();
     singleVideoSource->setVideo(video->clone());
-    singleVideoSource->setAsyncDetails(true);
     setVideoSource(singleVideoSource);
 }
 
@@ -189,8 +192,7 @@ void PlaylistModel::loadChannelVideos(QString channelId)
     params->setChannelId(channel->getChannelId());
     params->setSortBy(SearchParams::SortByNewest);
     params->setTransient(true);
-    YTSearch *videoSource = new YTSearch(params);
-    videoSource->setAsyncDetails(true);
+    VideoSource *videoSource = new SearchVideoSource(params);
     setVideoSource(videoSource);
 }
 
@@ -210,12 +212,6 @@ void PlaylistModel::loadUnwatchedVideos()
 void PlaylistModel::search(QString query) {
     QString q = query.simplified();
 
-    // check for empty query
-    if (q.isEmpty()) {
-//        queryEdit->toWidget()->setFocus(Qt::OtherFocusReason);
-        return;
-    }
-
     SearchParams *searchParams = new SearchParams();
     searchParams->setKeywords(q);
 
@@ -224,9 +220,7 @@ void PlaylistModel::search(QString query) {
     else
         searchParams->setSafeSearch(SearchParams::None);
 
-    // go!
     watch(searchParams);
-    //    emit search(searchParams);
 }
 
 void PlaylistModel::searchAgain()
@@ -240,27 +234,46 @@ void PlaylistModel::watch(SearchParams *searchParams) {
             searchParams->keywords().startsWith("https://")) {
             QString videoId = YTSearch::videoIdFromUrl(searchParams->keywords());
             if (!videoId.isEmpty()) {
-                YTSingleVideoSource *singleVideoSource = new YTSingleVideoSource(this);
-                singleVideoSource->setVideoId(videoId);
-                setVideoSource(singleVideoSource);
+                auto source = new SingleVideoSource(this);
+                source->setVideoId(videoId);
+                setVideoSource(source);
+
                 return;
             }
         }
     }
-    YTSearch *ytSearch = new YTSearch(searchParams);
-    ytSearch->setAsyncDetails(true);
-    connect(ytSearch, SIGNAL(gotDetails()), this, SLOT(emitDataChanged()));
-    setVideoSource(ytSearch);
+
+    VideoSource *search = new SearchVideoSource(searchParams);
+    setVideoSource(search);
 }
 
-void PlaylistModel::loadCategory(QString id, QString label)
+void PlaylistModel::loadCategory(int id, QString label)
 {
     QString regionId = YTRegions::currentRegionId();
-    YTStandardFeed *feed = new YTStandardFeed(this);
-    feed->setLabel(label);
-    feed->setCategory(id);
-    feed->setRegionId(regionId);
-    setVideoSource(feed);
+    QString regionParam = "region=" + YTRegions::currentRegionId();
+    QString url;
+    switch (id) {
+    case 1:
+        url = "trending?" + regionParam;
+        break;
+    case 2:
+        url = "trending?type=music&" + regionParam;
+        break;
+    case 3:
+        url = "trending?type=news&" + regionParam;
+        break;
+    case 4:
+        url = "trending?type=movies&" + regionParam;
+        break;
+    case 5:
+        url = "trending?type=gaming&" + regionParam;
+        break;
+    default:
+        url = "popular?" + regionParam;
+        break;
+    }
+
+    setVideoSource(new IVVideoList(url, label));
 }
 
 void PlaylistModel::watchChannel(const QString &channelId) {
@@ -399,10 +412,10 @@ void PlaylistModel::handleFirstVideo(Video *video) {
 //        if (!settings.value("manualplay", false).toBool()) setActiveRow(0);
 //    }
 
-    if (videoSource->metaObject()->className() == QLatin1String("YTSearch")) {
+    if (videoSource->metaObject()->className() == QLatin1String("SearchVideoSource")) {
         static const int maxRecentElements = 10;
 
-        YTSearch *search = qobject_cast<YTSearch *>(videoSource);
+        SearchVideoSource *search = qobject_cast<SearchVideoSource *>(videoSource);
         SearchParams *searchParams = search->getSearchParams();
 
         // save keyword
@@ -667,8 +680,9 @@ void PlaylistModel::exitAuthorPressed() {
 
 QVariant PlaylistModel::searchParams() {
     VideoSource *videoSource = getVideoSource();
-    if (videoSource && videoSource->metaObject()->className() == QLatin1String("YTSearch")) {
-        YTSearch *search = qobject_cast<YTSearch *>(videoSource);
+    qDebug() << videoSource->metaObject()->className();
+    if (videoSource && videoSource->metaObject()->className() == QLatin1String("SearchVideoSource")) {
+        SearchVideoSource *search = qobject_cast<SearchVideoSource *>(videoSource);
         return QVariant::fromValue(search->getSearchParams());
     }
     return QVariant();

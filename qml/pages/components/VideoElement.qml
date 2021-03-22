@@ -125,7 +125,7 @@ ListItem {
 
                 Row {
                     Label {
-                        text: (published !== undefined ? published : "") + (video !== undefined ? "  -  " + video.viewCount : "") + " " + (video.kind === "channel" ? YT.getChannel(video.getChannelId()).subscriberCount : "")
+                        text: published + (published !== "" && video !== undefined ? "  -  " : "") + (video !== undefined ? video.viewCount : "") + " " + (video.kind === "channel" ? YT.getChannel(video.getChannelId()).subscriberCount : "")
                         font.pixelSize: Theme.fontSizeExtraSmall
                     }
                 }

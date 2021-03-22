@@ -89,7 +89,7 @@ public:
     Q_INVOKABLE void search(QString query);
     Q_INVOKABLE void searchAgain();
     void watch(SearchParams *searchParams);
-    Q_INVOKABLE void loadCategory(QString id, QString label);
+    Q_INVOKABLE void loadCategory(int id, QString label);
     Q_INVOKABLE void watchChannel(const QString &channelId);
     bool safeSearch();
 

@@ -13,13 +13,14 @@ Name:       microtube
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    µTube
-Version:    2.0
+Version:    2.1
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE
 URL:        http://example.org/
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 1.1.31.7
+Requires:   nodejs
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
@@ -60,21 +61,14 @@ rm -rf %{buildroot}
 
 desktop-file-install --delete-original       \
   --dir %{buildroot}%{_datadir}/applications             \
-   %{buildroot}%{_datadir}/applications/*.desktop
-
-%post
-su nemo -c "cp /usr/share/applications/open-url.desktop /home/nemo/.local/share/applications/open-url.desktop"
-su nemo -c "update-desktop-database /home/nemo/.local/share/applications"
-
-%postun
-su nemo -c "update-desktop-database /home/nemo/.local/share/applications"
+   %{buildroot}%{_datadir}/applications/microtube.desktop
 
 %files
 %defattr(-,root,root,-)
 %{_bindir}
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
+%{_datadir}/applications/%{name}-url.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
-/home/nemo/.local/share/applications/%{name}-url.desktop
 # >> files
 # << files

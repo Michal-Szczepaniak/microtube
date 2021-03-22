@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <QAbstractProxyModel>
-#include "ytcategories.h"
+#include <QPair>
+#include "ivvideolist.h"
 
 class CategoriesModel : public QAbstractListModel
 {
@@ -13,7 +14,7 @@ public:
     enum CategoriesRoles {
         IdRole = Qt::UserRole + 1,
         NameRole,
-        PhotoRole,
+        PhotoRole
     };
 
     CategoriesModel();
@@ -23,11 +24,10 @@ public:
     QHash<int, QByteArray> roleNames() const;
 
 public slots:
-    void onCategoriesLoaded(const QVector<YTCategory> &categories);
+//    void onCategoriesLoaded(const QVector<YTCategory> &categories);
 
 private:
-    YTCategories _ytCategories;
-    QVector<YTCategory> _categories;
+    QStringList _categories;
 };
 
 #endif // CATEGORIESMODEL_H

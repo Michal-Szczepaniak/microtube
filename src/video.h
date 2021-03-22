@@ -24,6 +24,7 @@ $END_LICENSE */
 
 #include <QtCore>
 #include <QtGui>
+#include "ytjs/ytjsvideo.h"
 #include "ytchannel.h"
 
 class YTVideo;
@@ -140,6 +141,7 @@ private:
     bool loadingThumbnail;
 
     YTVideo *ytVideo;
+    YTJSVideo *ytjsVideo;
 };
 
 // This is required in order to use QPointer<Video> as a QVariant

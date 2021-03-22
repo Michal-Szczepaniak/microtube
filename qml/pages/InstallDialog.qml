@@ -74,43 +74,31 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added subscriptions import")
+                    text: "• " + qsTr("Updated minitube backend")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added first install and update page")
+                    text: "• " + qsTr("Removed API key requirement")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added categories")
+                    text: "• " + qsTr("Removed comments (no api key no comments)")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added full description with working links")
+                    text: "• " + qsTr("Back to short description")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added DLNA casting using Yupii")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Added Comments")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Added listing channels and channel page")
+                    text: "• " + qsTr("SponsorBlock plugin integration (enable in settings)")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }

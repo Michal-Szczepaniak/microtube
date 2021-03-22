@@ -1,21 +1,8 @@
-# NOTICE:
-#
-# Application name defined in TARGET has a corresponding QML filename.
-# If name defined in TARGET is changed, the following needs to be done
-# to match new name:
-#   - corresponding QML filename must be changed
-#   - desktop icon filename must be changed
-#   - desktop filename must be changed
-#   - icon definition filename in desktop file must be changed
-#   - translation filenames have to be changed
-
-# The name of your application
 TARGET = microtube
 
-CONFIG += link_pkgconfig nemonotifications-qt5 sailfishapp c++11
+CONFIG += link_pkgconfig nemonotifications-qt5 sailfishapp c++17
 
 include(vendor/vendor.pri)
-include(src/http/http.pri)
 
 CONFIG -= debug_and_release
 CONFIG(debug, debug|release): {
@@ -26,7 +13,9 @@ CONFIG(release, debug|release): {
     DEFINES *= QT_NO_DEBUG_OUTPUT
 }
 
-INCLUDEPATH += src/QEasyDownloader/include
+INCLUDEPATH += \
+    $$PWD/src/QEasyDownloader/include \
+    $$PWD/src
 
 PKGCONFIG += \
     dbus-1 \
@@ -35,11 +24,35 @@ PKGCONFIG += \
 
 QT += sql dbus network widgets
 
+# microtube headers
 HEADERS += \
+    src/mock/qrandomgenerator.h \
     src/categoriesmodel.h \
     src/comment.h \
     src/commentsmodel.h \
+    src/sponsorblock.h \
     src/threadmodel.h \
+    src/userfileshelper.h \
+    src/yt.h \
+    src/playlistmodel.h \
+    src/channelmodel.h \
+    src/video.h \
+    src/volume/pulseaudiocontrol.h \
+    src/mediaview.h \
+    src/channelaggregator.h \
+    src/QEasyDownloader/include/QEasyDownloader.hpp
+
+# minitube
+HEADERS += \
+    src/jsfunctions.h \
+    src/temporary.h \
+    src/datautils.h \
+    src/iconutils.h \
+    src/httputils.h \
+    src/constants.h \
+    src/ytvideo.h \    
+    src/videosource.h \
+    src/mainwindow.h \
     src/ytsearch.h \
     src/ytstandardfeed.h \
     src/ytregions.h \
@@ -47,38 +60,46 @@ HEADERS += \
     src/ytsuggester.h \
     src/ytsinglevideosource.h \
     src/yt3listparser.h \
+    src/videoapi.h \
     src/ytchannel.h \
-    src/yt3.h \
-    src/ytvideo.h \
-    src/video.h \
-    src/videosource.h \
-    src/paginatedvideosource.h \
-    src/constants.h \
-    src/httputils.h \
-    src/datautils.h \
-    src/iconutils.h \
     src/searchparams.h \
-    src/suggester.h \
     src/database.h \
-    src/jsfunctions.h \
-    src/temporary.h \
     src/videodefinition.h \
-    src/yt.h \
-    src/playlistmodel.h \
     src/videomimedata.h \
-    src/channelmodel.h \
-    src/aggregatevideosource.h \
-    src/channelaggregator.h \
-    src/volume/pulseaudiocontrol.h \
-    src/QEasyDownloader/include/QEasyDownloader.hpp \
-    src/mainwindow.h \
-    src/mediaview.h
+    src/yt3.h \
+    src/suggester.h \
+    src/paginatedvideosource.h \
+    src/aggregatevideosource.h
 
-SOURCES += src/microtube.cpp \
+# microtube sources
+SOURCES += \
+    src/microtube.cpp \
+    src/mock/qrandomgenerator.cpp \
     src/categoriesmodel.cpp \
     src/comment.cpp \
     src/commentsmodel.cpp \
+    src/sponsorblock.cpp \
     src/threadmodel.cpp \
+    src/userfileshelper.cpp \
+    src/yt.cpp \
+    src/playlistmodel.cpp \
+    src/channelmodel.cpp \
+    src/video.cpp \
+    src/volume/pulseaudiocontrol.cpp \
+    src/channelaggregator.cpp \
+    src/QEasyDownloader/src/QEasyDownloader.cc
+
+# minitube
+SOURCES += \
+    src/jsfunctions.cpp \
+    src/temporary.cpp \
+    src/datautils.cpp \
+    src/iconutils.cpp \
+    src/httputils.cpp \
+    src/constants.cpp \
+    src/ytvideo.cpp \
+    src/videosource.cpp \
+    src/mainwindow.cpp \
     src/ytsearch.cpp \
     src/ytstandardfeed.cpp \
     src/ytregions.cpp \
@@ -87,36 +108,26 @@ SOURCES += src/microtube.cpp \
     src/ytsinglevideosource.cpp \
     src/yt3listparser.cpp \
     src/ytchannel.cpp \
-    src/yt3.cpp \
-    src/ytvideo.cpp \
-    src/video.cpp \
-    src/videosource.cpp \
-    src/paginatedvideosource.cpp \
-    src/constants.cpp \
-    src/httputils.cpp \
-    src/datautils.cpp \
-    src/iconutils.cpp \
     src/searchparams.cpp \
     src/database.cpp \
-    src/jsfunctions.cpp \
-    src/temporary.cpp \
     src/videodefinition.cpp \
-    src/yt.cpp \
-    src/playlistmodel.cpp \
     src/videomimedata.cpp \
-    src/channelmodel.cpp \
-    src/aggregatevideosource.cpp \
-    src/channelaggregator.cpp \
-    src/volume/pulseaudiocontrol.cpp \
-    src/QEasyDownloader/src/QEasyDownloader.cc
+    src/yt3.cpp \
+    src/paginatedvideosource.cpp \
+    src/aggregatevideosource.cpp
 
 DISTFILES += qml/microtube.qml \
+    js/channelInfo.js \
+    js/channelVideos.js \
+    js/search.js \
+    js/videoInfo.js \
     microtube-url.desktop \
     qml/cover/CoverPage.qml \
     qml/pages/Channel.qml \
     qml/pages/Comments.qml \
     qml/pages/Filters.qml \
     qml/pages/InstallDialog.qml \
+    qml/pages/SponsorBlockSettings.qml \
     qml/pages/SubscriptionsImport.qml \
     qml/pages/UpdateDialog.qml \
     qml/pages/components/APIKeyDialog.qml \
@@ -152,9 +163,19 @@ RESOURCES += \
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 172x172
 
 urlfile.files = microtube-url.desktop
-urlfile.path = /home/nemo/.local/share/applications
+urlfile.path = /usr/share/applications
 
 INSTALLS += urlfile
+
+jsfiles.files = \
+    js/channelInfo.js \
+    js/channelVideos.js \
+    js/search.js \
+    js/videoInfo.js \
+    js/package.json
+jsfiles.path = /usr/share/microtube/js/
+
+INSTALLS += jsfiles
 
 # to disable building translations every time, comment out the
 # following CONFIG line

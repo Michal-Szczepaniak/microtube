@@ -28,6 +28,7 @@ $END_LICENSE */
 #include "aggregatevideosource.h"
 #include "ytstandardfeed.h"
 #include "ytregions.h"
+#include "invidious.h"
 #include <QDebug>
 #include <QQmlEngine>
 
@@ -38,8 +39,10 @@ YT::YT(QObject *parent) : QObject(parent)
 
     _channelModel->updateQuery();
 
-    QSettings settings;
-    _apiKey = settings.value("googleApiKey").toString();
+//    QSettings settings;
+//    _apiKey = settings.value("googleApiKey").toString();
+
+    Invidious::instance().initServers();
 }
 void YT::registerObjectsInQml(QQmlContext* context) {
     context->setContextProperty("YT",this);
@@ -118,6 +121,34 @@ void YT::setSafeSearch(bool value) {
     QSettings settings;
     settings.setValue("safeSearch", value);
     emit safeSearchChanged(value);
+}
+
+bool YT::getSponsorBlockEnabled()
+{
+    QSettings settings;
+    return settings.value("sponsorBlockEnabled", false).toBool();
+}
+
+void YT::setSponsorBlockEnabled(bool sponsorBlockEnabled)
+{
+    QSettings settings;
+    settings.setValue("sponsorBlockEnabled", sponsorBlockEnabled);
+
+    emit this->sponsorBlockEnabledChanged(sponsorBlockEnabled);
+}
+
+QStringList YT::getSponsorBlockCategories()
+{
+    QSettings settings;
+    return settings.value("sponsorBlockCategories").toStringList();
+}
+
+void YT::setSponsorBlockCategories(QStringList sponsorBlockCategories)
+{
+    QSettings settings;
+    settings.setValue("sponsorBlockCategories", sponsorBlockCategories);
+
+    emit sponsorBlockCategoriesChanged(sponsorBlockCategories);
 }
 
 QString YT::apiKey()

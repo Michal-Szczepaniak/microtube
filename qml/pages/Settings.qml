@@ -1,20 +1,20 @@
 /*
     Copyright (C) 2018 Michał Szczepaniak
 
-    This file is part of Morsender.
+    This file is part of Microtube.
 
-    Morsender is free software: you can redistribute it and/or modify
+    Microtube is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Morsender is distributed in the hope that it will be useful,
+    Microtube is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Morsender.  If not, see <http://www.gnu.org/licenses/>.
+    along with Microtube.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import QtQuick 2.0
@@ -128,39 +128,6 @@ Page {
                 onCurrentItemChanged: YT.region = currentIndex
             }
 
-            TextField {
-                width: parent.width
-                text: YT.apiKey
-                label: qsTr("Youtube API Key")
-                onTextChanged: YT.apiKey = text
-                labelVisible: true
-                placeholderText: qsTr("API Key")
-            }
-
-            Text {
-                text: qsTr("After applying key, you need to restart Microtube")
-                color: Theme.secondaryHighlightColor
-                textFormat: Text.StyledText
-                font.pixelSize: Theme.fontSizeSmall
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width - Theme.paddingLarge*2
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                onLinkActivated: Qt.openUrlExternally(link)
-                linkColor: Theme.highlightColor
-            }
-
-            Text {
-                text: qsTr("To get Youtube API key go to <a href=\"https://console.cloud.google.com\">https://console.cloud.google.com</a> and get \"YouTube Data API v3\" API key.")
-                color: Theme.secondaryHighlightColor
-                textFormat: Text.StyledText
-                font.pixelSize: Theme.fontSizeSmall
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width - Theme.paddingLarge*2
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                onLinkActivated: Qt.openUrlExternally(link)
-                linkColor: Theme.highlightColor
-            }
-
             ComboBox {
                 id: defaultCategory
                 width: parent.width
@@ -178,6 +145,18 @@ Page {
                             }
                         }
                     }
+                }
+            }
+
+            BackgroundItem {
+                width: parent.width
+                onClicked: pageStack.push(Qt.resolvedUrl("SponsorBlockSettings.qml"))
+
+                Label {
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: Theme.horizontalPageMargin
+                    text: qsTr("SponsorBlock Plugin Configuration")
                 }
             }
         }

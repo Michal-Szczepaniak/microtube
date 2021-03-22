@@ -67,6 +67,37 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <source>mkiol for integration with Jupii.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>SponsorBlock plugin from &lt;br/&gt;&lt;a href=&quot;https://sponsor.ajay.app&quot;&gt;https://sponsor.ajay.app&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CategoriesModel</name>
+    <message>
+        <source>Most Popular</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trending</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>News</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gaming</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Channel</name>
@@ -89,10 +120,6 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     <message>
         <source>Copy url</source>
         <translation type="unfinished">Kopiuj url</translation>
-    </message>
-    <message>
-        <source>Created at: %1-%2-%3</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Play all</source>
@@ -147,34 +174,6 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
 <context>
     <name>DataUtils</name>
     <message>
-        <source>Just now</source>
-        <translation>Przed chwilą</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n hour(s) ago</source>
-        <translation>
-            <numerusform>%n godzin temu</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n day(s) ago</source>
-        <translation>
-            <numerusform>%n dni temu</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n month(s) ago</source>
-        <translation>
-            <numerusform>%n miesięcy temu</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n week(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
         <source>K</source>
         <comment>K as in Kilo, i.e. thousands</comment>
         <translation type="unfinished"></translation>
@@ -187,10 +186,6 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     <message>
         <source>B</source>
         <comment>B stands for Billions</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 views</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -272,26 +267,6 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added subscriptions import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Added first install and update page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Added categories</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Added full description with working links</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Added DLNA casting using Yupii</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Donation</source>
         <translation type="unfinished"></translation>
     </message>
@@ -300,11 +275,23 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added Comments</source>
+        <source>Updated minitube backend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added listing channels and channel page</source>
+        <source>Removed API key requirement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removed comments (no api key no comments)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Back to short description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SponsorBlock plugin integration (enable in settings)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -377,18 +364,6 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Youtube API Key</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>API Key</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>After applying key, you need to restart Microtube</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Default category</source>
         <translation type="unfinished"></translation>
     </message>
@@ -405,7 +380,7 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key.</source>
+        <source>SponsorBlock Plugin Configuration</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -413,6 +388,49 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     <name>SharePage</name>
     <message>
         <source>Share</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SponsorBlockSettings</name>
+    <message>
+        <source>SponsorBlock Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable SponsorBlock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sponsors</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Intermission/Intro Animation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Endcards/Credits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Interaction Reminder (Subscribe)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unpaid/Self Promotion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music: Non-Music Section</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uses SponsorBlock plugin from https://sponsor.ajay.app</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -473,35 +491,27 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added subscriptions import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Added first install and update page</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Added categories</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Added full description with working links</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Added DLNA casting using Yupii</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Donation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added Comments</source>
+        <source>Updated minitube backend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added listing channels and channel page</source>
+        <source>Removed API key requirement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removed comments (no api key no comments)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Back to short description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SponsorBlock plugin integration (enable in settings)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -567,214 +577,11 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished">Subskrybuj</translation>
     </message>
     <message>
-        <source>Comments</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>360p</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Load recommended videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>YTRegions</name>
-    <message>
-        <source>Algeria</source>
-        <translation>Algeria</translation>
-    </message>
-    <message>
-        <source>Argentina</source>
-        <translation>Argentyna</translation>
-    </message>
-    <message>
-        <source>Australia</source>
-        <translation>Australia</translation>
-    </message>
-    <message>
-        <source>Belgium</source>
-        <translation>Belgia</translation>
-    </message>
-    <message>
-        <source>Brazil</source>
-        <translation>Brazylia</translation>
-    </message>
-    <message>
-        <source>Canada</source>
-        <translation>Kanada</translation>
-    </message>
-    <message>
-        <source>Chile</source>
-        <translation>Chile</translation>
-    </message>
-    <message>
-        <source>Colombia</source>
-        <translation>Kolumbia</translation>
-    </message>
-    <message>
-        <source>Czech Republic</source>
-        <translation>Czechy</translation>
-    </message>
-    <message>
-        <source>Egypt</source>
-        <translation>Egipt</translation>
-    </message>
-    <message>
-        <source>France</source>
-        <translation>Francja</translation>
-    </message>
-    <message>
-        <source>Germany</source>
-        <translation>Niemcy</translation>
-    </message>
-    <message>
-        <source>Ghana</source>
-        <translation>Ghana</translation>
-    </message>
-    <message>
-        <source>Greece</source>
-        <translation>Grecja</translation>
-    </message>
-    <message>
-        <source>Hong Kong</source>
-        <translation>Hong Kong</translation>
-    </message>
-    <message>
-        <source>Hungary</source>
-        <translation>Węgry</translation>
-    </message>
-    <message>
-        <source>India</source>
-        <translation>Indie</translation>
-    </message>
-    <message>
-        <source>Indonesia</source>
-        <translation>Indonezja</translation>
-    </message>
-    <message>
-        <source>Ireland</source>
-        <translation>Irlandia</translation>
-    </message>
-    <message>
-        <source>Israel</source>
-        <translation>Izrael</translation>
-    </message>
-    <message>
-        <source>Italy</source>
-        <translation>Włochy</translation>
-    </message>
-    <message>
-        <source>Japan</source>
-        <translation>Japonia</translation>
-    </message>
-    <message>
-        <source>Jordan</source>
-        <translation>Jordania</translation>
-    </message>
-    <message>
-        <source>Kenya</source>
-        <translation>Kenia</translation>
-    </message>
-    <message>
-        <source>Malaysia</source>
-        <translation>Malezja</translation>
-    </message>
-    <message>
-        <source>Mexico</source>
-        <translation>Meksyk</translation>
-    </message>
-    <message>
-        <source>Morocco</source>
-        <translation>Maroko</translation>
-    </message>
-    <message>
-        <source>Netherlands</source>
-        <translation>Holandia</translation>
-    </message>
-    <message>
-        <source>New Zealand</source>
-        <translation>Nowa Zelandia</translation>
-    </message>
-    <message>
-        <source>Nigeria</source>
-        <translation>Nigeria</translation>
-    </message>
-    <message>
-        <source>Peru</source>
-        <translation>Peru</translation>
-    </message>
-    <message>
-        <source>Philippines</source>
-        <translation>Filipiny</translation>
-    </message>
-    <message>
-        <source>Poland</source>
-        <translation>Polska</translation>
-    </message>
-    <message>
-        <source>Russia</source>
-        <translation>Rosja</translation>
-    </message>
-    <message>
-        <source>Saudi Arabia</source>
-        <translation>Arabia Saudyjska</translation>
-    </message>
-    <message>
-        <source>Singapore</source>
-        <translation>Singapur</translation>
-    </message>
-    <message>
-        <source>South Africa</source>
-        <translation>Republika Południowej Afryki</translation>
-    </message>
-    <message>
-        <source>South Korea</source>
-        <translation>Korea Południowa</translation>
-    </message>
-    <message>
-        <source>Spain</source>
-        <translation>Hiszpania</translation>
-    </message>
-    <message>
-        <source>Sweden</source>
-        <translation>Szwecja</translation>
-    </message>
-    <message>
-        <source>Taiwan</source>
-        <translation>Tajwan</translation>
-    </message>
-    <message>
-        <source>Tunisia</source>
-        <translation>Tunezja</translation>
-    </message>
-    <message>
-        <source>Turkey</source>
-        <translation>Turcja</translation>
-    </message>
-    <message>
-        <source>Uganda</source>
-        <translation>Uganda</translation>
-    </message>
-    <message>
-        <source>United Arab Emirates</source>
-        <translation>Zjednoczone Emiraty Arabskie</translation>
-    </message>
-    <message>
-        <source>United Kingdom</source>
-        <translation>Wielka Brytania</translation>
-    </message>
-    <message>
-        <source>Yemen</source>
-        <translation>Jemen</translation>
-    </message>
-    <message>
-        <source>Worldwide</source>
-        <translation>Międzynarodowy</translation>
-    </message>
-    <message>
-        <source>United States</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
