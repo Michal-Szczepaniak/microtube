@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+　　<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
@@ -69,34 +69,34 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>SponsorBlock plugin from &lt;br/&gt;&lt;a href=&quot;https://sponsor.ajay.app&quot;&gt;https://sponsor.ajay.app&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>去除赞助商广告插件来自 &lt;br/&gt;&lt;a href=&quot;https://sponsor.ajay.app&quot;&gt;https://sponsor.ajay.app&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
     <name>CategoriesModel</name>
     <message>
         <source>Most Popular</source>
-        <translation type="unfinished"></translation>
+        <translation>最受欢迎</translation>
     </message>
     <message>
         <source>Trending</source>
-        <translation type="unfinished"></translation>
+        <translation>趋势</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation type="unfinished"></translation>
+        <translation>音乐</translation>
     </message>
     <message>
         <source>News</source>
-        <translation type="unfinished"></translation>
+        <translation>新闻</translation>
     </message>
     <message>
         <source>Movies</source>
-        <translation type="unfinished"></translation>
+        <translation>电影</translation>
     </message>
     <message>
         <source>Gaming</source>
-        <translation type="unfinished"></translation>
+        <translation>游戏</translation>
     </message>
 </context>
 <context>
@@ -268,31 +268,31 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Donation</source>
-        <translation type="unfinished"></translation>
+        <translation>捐赠</translation>
     </message>
     <message>
         <source>Installation</source>
-        <translation type="unfinished"></translation>
+        <translation>安装</translation>
     </message>
     <message>
         <source>Updated minitube backend</source>
-        <translation type="unfinished"></translation>
+        <translation>更新 miniube 端</translation>
     </message>
     <message>
         <source>Removed API key requirement</source>
-        <translation type="unfinished"></translation>
+        <translation>去除了 API 要求</translation>
     </message>
     <message>
         <source>Removed comments (no api key no comments)</source>
-        <translation type="unfinished"></translation>
+        <translation>去除了评论功能（没有 API 密钥就没有评论功能！）</translation>
     </message>
     <message>
         <source>Back to short description</source>
-        <translation type="unfinished"></translation>
+        <translation>回到简短描述</translation>
     </message>
     <message>
         <source>SponsorBlock plugin integration (enable in settings)</source>
-        <translation type="unfinished"></translation>
+        <translation>去除赞助商广告插件整合（在设置中开启）</translation>
     </message>
 </context>
 <context>
@@ -377,11 +377,11 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Test update</source>
-        <translation测试更新></translation>
+        <translation>测试更新</translation>
     </message>
     <message>
         <source>SponsorBlock Plugin Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>去除赞助商广告插件配置</translation>
     </message>
 </context>
 <context>
@@ -395,43 +395,43 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     <name>SponsorBlockSettings</name>
     <message>
         <source>SponsorBlock Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>去除赞助商广告设置</translation>
     </message>
     <message>
         <source>Enable SponsorBlock</source>
-        <translation type="unfinished"></translation>
+        <translation>开启去除赞助商广告</translation>
     </message>
     <message>
         <source>Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>分类</translation>
     </message>
     <message>
         <source>Sponsors</source>
-        <translation type="unfinished"></translation>
+        <translation>赞助商</translation>
     </message>
     <message>
         <source>Intermission/Intro Animation</source>
-        <translation type="unfinished"></translation>
+        <translation>插播广告／视频前广告</translation>
     </message>
     <message>
         <source>Endcards/Credits</source>
-        <translation type="unfinished"></translation>
+        <translation>末尾插画／信誉</translation>
     </message>
     <message>
         <source>Interaction Reminder (Subscribe)</source>
-        <translation type="unfinished"></translation>
+        <translation>互动提醒（订阅）</translation>
     </message>
     <message>
         <source>Unpaid/Self Promotion</source>
-        <translation type="unfinished"></translation>
+        <translation>未支付／自我推销</translation>
     </message>
     <message>
         <source>Music: Non-Music Section</source>
-        <translation type="unfinished"></translation>
+        <translation>音乐：非音乐部分</translation>
     </message>
     <message>
         <source>Uses SponsorBlock plugin from https://sponsor.ajay.app</source>
-        <translation type="unfinished"></translation>
+        <translation>使用来自 https://sponsor.ajay.app 的去除赞助商广告插件<</translation>
     </message>
 </context>
 <context>
@@ -484,7 +484,7 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Microtube was updated to version %1!</source>
-        <translation>Microtube 已更新到版本 %1 ！</translation>
+        <translation>Microtube 更新了到版本 %1 ！</translation>
     </message>
     <message>
         <source>Changelog</source>
@@ -492,27 +492,27 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Donation</source>
-        <translation type="unfinished"></translation>
+        <translation>捐赠</translation>
     </message>
     <message>
         <source>Updated minitube backend</source>
-        <translation type="unfinished"></translation>
+        <translation>更新了 minitube 端</translation>
     </message>
     <message>
         <source>Removed API key requirement</source>
-        <translation type="unfinished"></translation>
+        <translation>去除了 API 密钥要求</translation>
     </message>
     <message>
         <source>Removed comments (no api key no comments)</source>
-        <translation type="unfinished"></translation>
+        <translation>去除了评论功能（没有 api 密钥就没有评论功能）</translation>
     </message>
     <message>
         <source>Back to short description</source>
-        <translation type="unfinished"></translation>
+        <translation>返回简短描述</translation>
     </message>
     <message>
         <source>SponsorBlock plugin integration (enable in settings)</source>
-        <translation type="unfinished"></translation>
+        <translation>去除赞助商广告插件整合（在设置中开启）</translation>
     </message>
 </context>
 <context>
@@ -578,7 +578,7 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>360p</source>
-        <translation>720p {360p?}</translation>
+        <translation>360p</translation>
     </message>
     <message>
         <source>Load recommended videos</source>
