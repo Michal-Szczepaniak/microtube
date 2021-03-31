@@ -33,7 +33,7 @@ ApplicationWindow
 
     property string playing: ""
     property bool videoCover: false
-    property string version: "2.1"
+    property string version: "2.1.2"
     property alias playlistModel: playlistModel
 
     Component {

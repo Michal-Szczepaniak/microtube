@@ -30,6 +30,7 @@ import org.nemomobile.configuration 1.0
 import Nemo.Notifications 1.0
 import Nemo.KeepAlive 1.2
 import QtGraphicalEffects 1.0
+import QtSensors 5.0
 import "components"
 
 Page {
@@ -43,10 +44,20 @@ Page {
     property bool _controlsVisible: true
     property bool videoChanging: false
     property bool landscape: ( page.orientation === Orientation.Landscape || page.orientation === Orientation.LandscapeInverted )
+    property bool landscapeCover: (_orientation === OrientationReading.LeftUp || _orientation === OrientationReading.RightUp) && app.videoCover && Qt.application.state === Qt.ApplicationInactive
     property int autoBrightness: -1
     property int inactiveBrightness: -1
     property int activeBrightness: -1
     property bool fillMode: false
+    showNavigationIndicator: _controlsVisible
+    allowedOrientations: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? Orientation.Portrait : Orientation.All
+    Keys.onRightPressed: mediaPlayer.seek(mediaPlayer.position + 5000)
+    Keys.onLeftPressed: mediaPlayer.seek(mediaPlayer.position - 5000)
+    Keys.onUpPressed: mediaPlayer.prevVideo()
+    Keys.onDownPressed: mediaPlayer.nextVideo()
+    // Use easy device orientation values
+    // 0=unknown, 1=portrait, 2=portrait inverted, 3=landscape, 4=landscape inverted
+    property int _orientation: OrientationReading.TopUp
 
     DisplaySettings {
         id: displaySettings
@@ -89,6 +100,17 @@ Page {
                     sponsorBlockPluginNotification.setSummary(e.category)
                     return e.segment[1];
                 }
+            }
+        }
+    }
+
+    OrientationSensor {
+        id: orientationSensor
+        active: true
+
+        onReadingChanged: {
+            if (reading.orientation >= OrientationReading.TopUp && reading.orientation <= OrientationReading.RightUp) {
+                _orientation = reading.orientation
             }
         }
     }
@@ -230,10 +252,6 @@ Page {
         displaySettings.brightness = inactiveBrightness
     }
 
-    showNavigationIndicator: _controlsVisible
-
-    allowedOrientations: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? Orientation.Portrait : Orientation.All
-
     function changeVideo() {
         page.videoChanging = true
         mediaPlayer.stop()
@@ -310,11 +328,6 @@ Page {
         }
     }
 
-    Keys.onRightPressed: mediaPlayer.seek(mediaPlayer.position + 5000)
-    Keys.onLeftPressed: mediaPlayer.seek(mediaPlayer.position - 5000)
-    Keys.onUpPressed: mediaPlayer.prevVideo()
-    Keys.onDownPressed: mediaPlayer.nextVideo()
-
 
     SilicaFlickable {
         id: flickable
@@ -378,8 +391,10 @@ Page {
                 id: videoPlayer
                 Rectangle {
                     id: videoBackground
-                    width: page.width
-                    height: landscape ? page.height : (settings.videoQuality === "360p" ? page.width/1.74 : page.width/1.777777777777778)
+                    width : page.width
+                    height: landscapeCover
+                              ? page.width*1.6
+                              : (landscape ? page.height : (settings.videoQuality === "360p" ? page.width/1.74 : page.width/1.777777777777778))
                     color: "black"
 
                     MediaPlayer {
@@ -467,11 +482,27 @@ Page {
 
                     VideoOutput {
                         id: videoOutput
-                        width : page.width
+                        width : landscapeCover ? page.width*1.6 : page.width
                         anchors.centerIn: parent
-                        height: landscape ? (page.fillMode ? page.width : page.height) : (settings.videoQuality === "360p" ? page.width/1.74 : page.width/1.777777777777778)
+                        height: landscapeCover
+                                  ? page.width
+                                  : (landscape ? (page.fillMode ? page.width : page.height) : (settings.videoQuality === "360p" ? page.width/1.74 : page.width/1.777777777777778))
                         source: mediaPlayer
                         fillMode: page.fillMode ? VideoOutput.PreserveAspectCrop : VideoOutput.PreserveAspectFit
+                        transform: Rotation {
+                            origin.x: (page.width*1.6)/2
+                            origin.y: page.width/2
+                            angle: landscapeCover
+                                   ? (_orientation === OrientationReading.LeftUp ? -90 : 90)
+                                   : 0
+                        }
+
+                        Rectangle {
+                            anchors.fill: parent
+                            color: "red"
+                            transform: Rotation { origin.x: page.width/2; origin.y: page.height/2; angle: 90}
+                            visible: false
+                        }
 
                         Rectangle {
                             id: errorPane

@@ -23,10 +23,11 @@ void UserFilesHelper::copyJsFiles()
     }
 
     for (QString file : files) {
-        if (!QFile::exists(appDataLocation + "js/" + file))
+        if (QFile::exists(appDataLocation + "js/" + file))
         {
-            QFile::link("/usr/share/microtube/js/" + file, appDataLocation + "js/" + file);
+            QFile::remove(appDataLocation + "js/" + file);
         }
+        QFile::copy("/usr/share/microtube/js/" + file, appDataLocation + "js/" + file);
     }
 
     if (!QDir(appDataLocation + "js/node_modules").exists()) {

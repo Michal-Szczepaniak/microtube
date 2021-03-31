@@ -51,7 +51,7 @@ bool JS::isInitialized() {
 }
 
 QProcess* JS::executeNodeScript(QString name, QStringList args) {
-    QString appPath = "/usr/share/microtube/js/";
+    QString appPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/js/";
     qDebug() << appPath + name + ".js";
     QProcess* process = new QProcess();
     process->start("node", QStringList() << appPath + name + ".js" << args);

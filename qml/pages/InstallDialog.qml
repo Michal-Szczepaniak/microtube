@@ -74,31 +74,13 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Updated minitube backend")
+                    text: "• " + qsTr("Updated Translations")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Removed API key requirement")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Removed comments (no api key no comments)")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Back to short description")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("SponsorBlock plugin integration (enable in settings)")
+                    text: "• " + qsTr("Full screen video in cover on landscape")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }
@@ -111,6 +93,15 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
                 width: parent.width - Theme.paddingLarge*2
                 plainText: "If you like my work, consider donating me on PayPal https://www.paypal.me/MisterMagister"
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                color: Theme.primaryColor
+            }
+
+            LinkedLabel {
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width - Theme.paddingLarge*2
+                plainText: "…or supporting me on Patreon https://www.patreon.com/Mister_Magister"
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 horizontalAlignment: Text.AlignHCenter
                 color: Theme.primaryColor
