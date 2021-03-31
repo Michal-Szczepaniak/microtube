@@ -55,8 +55,6 @@ Page {
     Keys.onLeftPressed: mediaPlayer.seek(mediaPlayer.position - 5000)
     Keys.onUpPressed: mediaPlayer.prevVideo()
     Keys.onDownPressed: mediaPlayer.nextVideo()
-    // Use easy device orientation values
-    // 0=unknown, 1=portrait, 2=portrait inverted, 3=landscape, 4=landscape inverted
     property int _orientation: OrientationReading.TopUp
 
     DisplaySettings {
@@ -336,7 +334,7 @@ Page {
 
         PullDownMenu {
             id: topMenu
-            visible: page.orientation === Orientation.Portrait
+            visible: page.orientation === Orientation.Portrait && Qt.application.state === Qt.ApplicationActive
 
             function resolutionChange(name) {
                 if(name !== "audio") settings.videoQuality = name

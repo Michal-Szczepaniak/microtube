@@ -276,23 +276,11 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Updated minitube backend</source>
+        <source>Updated Translations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Removed API key requirement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Removed comments (no api key no comments)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Back to short description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SponsorBlock plugin integration (enable in settings)</source>
+        <source>Full screen video in cover on landscape</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -496,23 +484,11 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Updated minitube backend</source>
+        <source>Updated Translations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Removed API key requirement</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Removed comments (no api key no comments)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Back to short description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SponsorBlock plugin integration (enable in settings)</source>
+        <source>Full screen video in cover on landscape</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
