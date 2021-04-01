@@ -196,46 +196,46 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Just now</source>
-        <translation type="unfinished"></translation>
+        <translation>Ahora</translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Hace %n hora</numerusform>
+            <numerusform>Hace %n horas</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Hace %n día</numerusform>
+            <numerusform>Hace %n días</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n week(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Hace %n semana</numerusform>
+            <numerusform>Hace %n semanas</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n month(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Hace %n mes</numerusform>
+            <numerusform>Hace %n meses</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n year(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Hace %n año</numerusform>
+            <numerusform>Hace %n años</numerusform>
         </translation>
     </message>
     <message>
         <source>%1 views</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 visualizaciones</translation>
     </message>
 </context>
 <context>
@@ -325,7 +325,7 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Full screen video in cover on landscape</source>
-        <translation>Pantalla completa del vídeo en la cubierta en el modo apaisado</translation>
+        <translation>Vídeo en pantalla completa en la cubierta en modo apaisado</translation>
     </message>
 </context>
 <context>
@@ -533,7 +533,7 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Full screen video in cover on landscape</source>
-        <translation>Pantalla completa del vídeo en la cubierta en el modo apaisado</translation>
+        <translation>Vídeo en pantalla completa en la cubierta en modo apaisado</translation>
     </message>
 </context>
 <context>
@@ -610,202 +610,202 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <name>YTJSVideo</name>
     <message>
         <source>Cannot get video stream for %1</source>
-        <translation type="unfinished">No es posible obtener transmisión de vídeo %1</translation>
+        <translation>No es posible obtener transmisión de vídeo %1</translation>
     </message>
 </context>
 <context>
     <name>YTRegions</name>
     <message>
         <source>Algeria</source>
-        <translation type="unfinished"></translation>
+        <translation>Argelia</translation>
     </message>
     <message>
         <source>Argentina</source>
-        <translation type="unfinished"></translation>
+        <translation>Argentina</translation>
     </message>
     <message>
         <source>Australia</source>
-        <translation type="unfinished"></translation>
+        <translation>Australia</translation>
     </message>
     <message>
         <source>Belgium</source>
-        <translation type="unfinished"></translation>
+        <translation>Bélgica</translation>
     </message>
     <message>
         <source>Brazil</source>
-        <translation type="unfinished"></translation>
+        <translation>Brasil</translation>
     </message>
     <message>
         <source>Canada</source>
-        <translation type="unfinished"></translation>
+        <translation>Canadá</translation>
     </message>
     <message>
         <source>Chile</source>
-        <translation type="unfinished"></translation>
+        <translation>Chile</translation>
     </message>
     <message>
         <source>Colombia</source>
-        <translation type="unfinished"></translation>
+        <translation>Colombia</translation>
     </message>
     <message>
         <source>Czech Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>República Checa</translation>
     </message>
     <message>
         <source>Egypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Egipto</translation>
     </message>
     <message>
         <source>France</source>
-        <translation type="unfinished"></translation>
+        <translation>Francia</translation>
     </message>
     <message>
         <source>Germany</source>
-        <translation type="unfinished"></translation>
+        <translation>Alemania</translation>
     </message>
     <message>
         <source>Ghana</source>
-        <translation type="unfinished"></translation>
+        <translation>Ghana</translation>
     </message>
     <message>
         <source>Greece</source>
-        <translation type="unfinished"></translation>
+        <translation>Grecia</translation>
     </message>
     <message>
         <source>Hong Kong</source>
-        <translation type="unfinished"></translation>
+        <translation>Hong Kong</translation>
     </message>
     <message>
         <source>Hungary</source>
-        <translation type="unfinished"></translation>
+        <translation>Hungría</translation>
     </message>
     <message>
         <source>India</source>
-        <translation type="unfinished"></translation>
+        <translation>La india</translation>
     </message>
     <message>
         <source>Indonesia</source>
-        <translation type="unfinished"></translation>
+        <translation>Indonesia</translation>
     </message>
     <message>
         <source>Ireland</source>
-        <translation type="unfinished"></translation>
+        <translation>Irlanda</translation>
     </message>
     <message>
         <source>Israel</source>
-        <translation type="unfinished"></translation>
+        <translation>Israel</translation>
     </message>
     <message>
         <source>Italy</source>
-        <translation type="unfinished"></translation>
+        <translation>Italia</translation>
     </message>
     <message>
         <source>Japan</source>
-        <translation type="unfinished"></translation>
+        <translation>Japón</translation>
     </message>
     <message>
         <source>Jordan</source>
-        <translation type="unfinished"></translation>
+        <translation>Jordania</translation>
     </message>
     <message>
         <source>Kenya</source>
-        <translation type="unfinished"></translation>
+        <translation>Kenia</translation>
     </message>
     <message>
         <source>Malaysia</source>
-        <translation type="unfinished"></translation>
+        <translation>Malasia</translation>
     </message>
     <message>
         <source>Mexico</source>
-        <translation type="unfinished"></translation>
+        <translation>México</translation>
     </message>
     <message>
         <source>Morocco</source>
-        <translation type="unfinished"></translation>
+        <translation>Marruecos</translation>
     </message>
     <message>
         <source>Netherlands</source>
-        <translation type="unfinished"></translation>
+        <translation>Países Bajos</translation>
     </message>
     <message>
         <source>New Zealand</source>
-        <translation type="unfinished"></translation>
+        <translation>Nueva Zelanda</translation>
     </message>
     <message>
         <source>Nigeria</source>
-        <translation type="unfinished"></translation>
+        <translation>Nigeria</translation>
     </message>
     <message>
         <source>Peru</source>
-        <translation type="unfinished"></translation>
+        <translation>Perú</translation>
     </message>
     <message>
         <source>Philippines</source>
-        <translation type="unfinished"></translation>
+        <translation>Filipinas</translation>
     </message>
     <message>
         <source>Poland</source>
-        <translation type="unfinished"></translation>
+        <translation>Polonia</translation>
     </message>
     <message>
         <source>Russia</source>
-        <translation type="unfinished"></translation>
+        <translation>Rusia</translation>
     </message>
     <message>
         <source>Saudi Arabia</source>
-        <translation type="unfinished"></translation>
+        <translation>Arabia Saudí</translation>
     </message>
     <message>
         <source>Singapore</source>
-        <translation type="unfinished"></translation>
+        <translation>Singapur</translation>
     </message>
     <message>
         <source>South Africa</source>
-        <translation type="unfinished"></translation>
+        <translation>Sudáfrica</translation>
     </message>
     <message>
         <source>South Korea</source>
-        <translation type="unfinished"></translation>
+        <translation>Corea del Sur</translation>
     </message>
     <message>
         <source>Spain</source>
-        <translation type="unfinished"></translation>
+        <translation>España</translation>
     </message>
     <message>
         <source>Sweden</source>
-        <translation type="unfinished"></translation>
+        <translation>Suecia</translation>
     </message>
     <message>
         <source>Taiwan</source>
-        <translation type="unfinished"></translation>
+        <translation>Taiwán</translation>
     </message>
     <message>
         <source>Tunisia</source>
-        <translation type="unfinished"></translation>
+        <translation>Túnez</translation>
     </message>
     <message>
         <source>Turkey</source>
-        <translation type="unfinished"></translation>
+        <translation>Turkía</translation>
     </message>
     <message>
         <source>Uganda</source>
-        <translation type="unfinished"></translation>
+        <translation>Uganda</translation>
     </message>
     <message>
         <source>United Arab Emirates</source>
-        <translation type="unfinished"></translation>
+        <translation>Emiratos Árabes Unidos</translation>
     </message>
     <message>
         <source>United Kingdom</source>
-        <translation type="unfinished"></translation>
+        <translation>Reino Unido</translation>
     </message>
     <message>
         <source>Yemen</source>
-        <translation type="unfinished"></translation>
+        <translation>Yemen</translation>
     </message>
     <message>
         <source>Worldwide</source>
-        <translation type="unfinished"></translation>
+        <translation>Todo el mundo</translation>
     </message>
 </context>
 <context>
