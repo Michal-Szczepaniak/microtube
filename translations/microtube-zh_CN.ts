@@ -1,4 +1,4 @@
-　　<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1">
 <context>
@@ -192,6 +192,44 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <source>%1 subscribers</source>
         <translation>%1 位订阅者</translation>
     </message>
+    <message>
+        <source>Just now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>%n hour(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n day(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n week(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n month(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <source>%n year(s) ago</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>%1 views</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Filters</name>
@@ -276,23 +314,31 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Updated minitube backend</source>
-        <translation>更新 miniube 端</translation>
+        <translation type="vanished">更新 miniube 端</translation>
     </message>
     <message>
         <source>Removed API key requirement</source>
-        <translation>去除了 API 要求</translation>
+        <translation type="vanished">去除了 API 要求</translation>
     </message>
     <message>
         <source>Removed comments (no api key no comments)</source>
-        <translation>去除了评论功能（没有 API 密钥就没有评论功能！）</translation>
+        <translation type="vanished">去除了评论功能（没有 API 密钥就没有评论功能！）</translation>
     </message>
     <message>
         <source>Back to short description</source>
-        <translation>回到简短描述</translation>
+        <translation type="vanished">回到简短描述</translation>
     </message>
     <message>
         <source>SponsorBlock plugin integration (enable in settings)</source>
-        <translation>去除赞助商广告插件整合（在设置中开启）</translation>
+        <translation type="vanished">去除赞助商广告插件整合（在设置中开启）</translation>
+    </message>
+    <message>
+        <source>Updated Translations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full screen video in cover on landscape</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -431,7 +477,7 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Uses SponsorBlock plugin from https://sponsor.ajay.app</source>
-        <translation>使用来自 https://sponsor.ajay.app 的去除赞助商广告插件<</translation>
+        <translation>使用来自 https://sponsor.ajay.app 的去除赞助商广告插件</translation>
     </message>
 </context>
 <context>
@@ -496,23 +542,31 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Updated minitube backend</source>
-        <translation>更新了 minitube 端</translation>
+        <translation type="vanished">更新了 minitube 端</translation>
     </message>
     <message>
         <source>Removed API key requirement</source>
-        <translation>去除了 API 密钥要求</translation>
+        <translation type="vanished">去除了 API 密钥要求</translation>
     </message>
     <message>
         <source>Removed comments (no api key no comments)</source>
-        <translation>去除了评论功能（没有 api 密钥就没有评论功能）</translation>
+        <translation type="vanished">去除了评论功能（没有 api 密钥就没有评论功能）</translation>
     </message>
     <message>
         <source>Back to short description</source>
-        <translation>返回简短描述</translation>
+        <translation type="vanished">返回简短描述</translation>
     </message>
     <message>
         <source>SponsorBlock plugin integration (enable in settings)</source>
-        <translation>去除赞助商广告插件整合（在设置中开启）</translation>
+        <translation type="vanished">去除赞助商广告插件整合（在设置中开启）</translation>
+    </message>
+    <message>
+        <source>Updated Translations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full screen video in cover on landscape</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -583,6 +637,208 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     <message>
         <source>Load recommended videos</source>
         <translation>加载推荐视频</translation>
+    </message>
+</context>
+<context>
+    <name>YTJSVideo</name>
+    <message>
+        <source>Cannot get video stream for %1</source>
+        <translation type="unfinished">无法获取 %1 视频流媒体</translation>
+    </message>
+</context>
+<context>
+    <name>YTRegions</name>
+    <message>
+        <source>Algeria</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Argentina</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Australia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Belgium</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Brazil</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Canada</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Colombia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Czech Republic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Egypt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>France</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Germany</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ghana</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Greece</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hong Kong</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hungary</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>India</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Indonesia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ireland</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Israel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Italy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Japan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Jordan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kenya</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Malaysia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mexico</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Morocco</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Netherlands</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New Zealand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nigeria</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Peru</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Philippines</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Poland</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Russia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Saudi Arabia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Singapore</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>South Africa</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>South Korea</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spain</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sweden</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Taiwan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tunisia</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turkey</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uganda</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>United Arab Emirates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>United Kingdom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Yemen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Worldwide</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
