@@ -5,16 +5,17 @@
     <name>APIKeyDialog</name>
     <message>
         <source>Youtube API Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Youtube API kulcs</translation>
     </message>
     <message>
         <source>API Key</source>
-        <translation type="unfinished"></translation>
+        <translation>API kulcs</translation>
     </message>
     <message>
         <source>Youtube API key is required to run this application.
 To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; and get &quot;YouTube Data API v3&quot; API key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az alakalmazás futtatásához Youtube API kulcs szükséges.
+Youtube API kulcs megszerzéséhez menj a &lt;a href=&quot;https://console.cloud.google.com&quot;&gt;https://console.cloud.google.com&lt;/a&gt; címre és szerezd meg a &quot;YouTube Data API v3&quot; API kulcsot.</translation>
     </message>
 </context>
 <context>
@@ -61,69 +62,69 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Malakay for Czech translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Malakay-nek a cseh fordításért.</translation>
     </message>
     <message>
         <source>mkiol for integration with Jupii.</source>
-        <translation type="unfinished"></translation>
+        <translation>mkiol-nak a Jupii-val való integrálásért.</translation>
     </message>
     <message>
         <source>SponsorBlock plugin from &lt;br/&gt;&lt;a href=&quot;https://sponsor.ajay.app&quot;&gt;https://sponsor.ajay.app&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>A SponsorBlock plugin innen van &lt;br/&gt;&lt;a href=&quot;https://sponsor.ajay.app&quot;&gt;https://sponsor.ajay.app&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
     <name>CategoriesModel</name>
     <message>
         <source>Most Popular</source>
-        <translation type="unfinished"></translation>
+        <translation>Legnépszerűbb</translation>
     </message>
     <message>
         <source>Trending</source>
-        <translation type="unfinished"></translation>
+        <translation>Felkapott</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation type="unfinished"></translation>
+        <translation>Zene</translation>
     </message>
     <message>
         <source>News</source>
-        <translation type="unfinished"></translation>
+        <translation>Hírek</translation>
     </message>
     <message>
         <source>Movies</source>
-        <translation type="unfinished"></translation>
+        <translation>Filmek</translation>
     </message>
     <message>
         <source>Gaming</source>
-        <translation type="unfinished"></translation>
+        <translation>Játék</translation>
     </message>
 </context>
 <context>
     <name>Channel</name>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Leírás</translation>
     </message>
     <message>
         <source>Show more</source>
-        <translation type="unfinished"></translation>
+        <translation>Még több</translation>
     </message>
     <message>
         <source>Subscribe</source>
-        <translation type="unfinished">Feliratkozás</translation>
+        <translation>Feliratkozás</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
-        <translation type="unfinished">Leiratkozás</translation>
+        <translation>Leiratkozás</translation>
     </message>
     <message>
         <source>Copy url</source>
-        <translation type="unfinished">Url másolása</translation>
+        <translation>Url másolása</translation>
     </message>
     <message>
         <source>Play all</source>
-        <translation type="unfinished"></translation>
+        <translation>Az összes lejátszása</translation>
     </message>
 </context>
 <context>
@@ -143,21 +144,21 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     <name>Comment</name>
     <message>
         <source>%1 replies</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 válasz</translation>
     </message>
 </context>
 <context>
     <name>Comments</name>
     <message>
         <source>Comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Megjegyzések</translation>
     </message>
 </context>
 <context>
     <name>CommentsModel</name>
     <message>
         <source>Show more</source>
-        <translation type="unfinished"></translation>
+        <translation>Még több</translation>
     </message>
 </context>
 <context>
@@ -190,135 +191,125 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>%1 subscribers</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 feliratkozó</translation>
     </message>
     <message>
         <source>Just now</source>
-        <translation type="unfinished"></translation>
+        <translation>Épp most</translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation>%n órával ezelőtt</translation>
     </message>
     <message numerus="yes">
         <source>%n day(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation>%n napja</translation>
     </message>
     <message numerus="yes">
         <source>%n week(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation>%n hete</translation>
     </message>
     <message numerus="yes">
         <source>%n month(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation>%n hónapja</translation>
     </message>
     <message numerus="yes">
         <source>%n year(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
+        <translation>%n éve</translation>
     </message>
     <message>
         <source>%1 views</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 megtekintés</translation>
     </message>
 </context>
 <context>
     <name>Filters</name>
     <message>
         <source>Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Szűrők</translation>
     </message>
     <message>
         <source>Sort by</source>
-        <translation type="unfinished"></translation>
+        <translation>Rendezés alapja</translation>
     </message>
     <message>
         <source>Relevance</source>
-        <translation type="unfinished"></translation>
+        <translation>Relevancia</translation>
     </message>
     <message>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Dátum</translation>
     </message>
     <message>
         <source>View Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Nézettség</translation>
     </message>
     <message>
         <source>Rating</source>
-        <translation type="unfinished"></translation>
+        <translation>Értékelés</translation>
     </message>
     <message>
         <source>Anytime</source>
-        <translation type="unfinished"></translation>
+        <translation>Bármikor</translation>
     </message>
     <message>
         <source>Today</source>
-        <translation type="unfinished"></translation>
+        <translation>Ma</translation>
     </message>
     <message>
         <source>7 Days</source>
-        <translation type="unfinished"></translation>
+        <translation>7 nap</translation>
     </message>
     <message>
         <source>30 Days</source>
-        <translation type="unfinished"></translation>
+        <translation>30 nap</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Időtartam</translation>
     </message>
     <message>
         <source>All</source>
-        <translation type="unfinished"></translation>
+        <translation>Összes</translation>
     </message>
     <message>
         <source>Short</source>
-        <translation type="unfinished"></translation>
+        <translation>Rövid</translation>
     </message>
     <message>
         <source>Medium</source>
-        <translation type="unfinished"></translation>
+        <translation>Közepes</translation>
     </message>
     <message>
         <source>Long</source>
-        <translation type="unfinished"></translation>
+        <translation>Hosszú</translation>
     </message>
 </context>
 <context>
     <name>InstallDialog</name>
     <message>
         <source>Thank you for installing Microtube!</source>
-        <translation type="unfinished"></translation>
+        <translation>Köszönöm, hogy telepítetted a Microtube-ot!</translation>
     </message>
     <message>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Változások</translation>
     </message>
     <message>
         <source>Donation</source>
-        <translation type="unfinished"></translation>
+        <translation>Adomány</translation>
     </message>
     <message>
         <source>Installation</source>
-        <translation type="unfinished"></translation>
+        <translation>Telepítés</translation>
     </message>
     <message>
         <source>Updated Translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Frissített fordítások</translation>
     </message>
     <message>
         <source>Full screen video in cover on landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Teljes képernyős videó a fedlapon fekvő módban</translation>
     </message>
 </context>
 <context>
@@ -341,7 +332,7 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Szűrők</translation>
     </message>
 </context>
 <context>
@@ -356,15 +347,15 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Show more</source>
-        <translation type="unfinished"></translation>
+        <translation>Még több</translation>
     </message>
     <message>
         <source>API key quota exceeded.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az API kulcs kvóta meg van haladva.</translation>
     </message>
     <message>
         <source>Check internet connection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ellenőrizd az internetcsatlakozást.</translation>
     </message>
 </context>
 <context>
@@ -383,31 +374,31 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Download location</source>
-        <translation type="unfinished"></translation>
+        <translation>Letöltés helye</translation>
     </message>
     <message>
         <source>Region</source>
-        <translation type="unfinished"></translation>
+        <translation>Régió</translation>
     </message>
     <message>
         <source>Default category</source>
-        <translation type="unfinished"></translation>
+        <translation>Alapértelmezett kategória</translation>
     </message>
     <message>
         <source>Buffer</source>
-        <translation type="unfinished"></translation>
+        <translation>Puffer</translation>
     </message>
     <message>
         <source>Test new install</source>
-        <translation type="unfinished"></translation>
+        <translation>Új telepítés tesztelése</translation>
     </message>
     <message>
         <source>Test update</source>
-        <translation type="unfinished"></translation>
+        <translation>Frissítés tesztelése</translation>
     </message>
     <message>
         <source>SponsorBlock Plugin Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>SponsorBlock Plugin beállítások</translation>
     </message>
 </context>
 <context>
@@ -421,23 +412,23 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     <name>SponsorBlockSettings</name>
     <message>
         <source>SponsorBlock Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>SponsorBlock beállítások</translation>
     </message>
     <message>
         <source>Enable SponsorBlock</source>
-        <translation type="unfinished"></translation>
+        <translation>SponsorBlock engedélyezése</translation>
     </message>
     <message>
         <source>Categories</source>
-        <translation type="unfinished"></translation>
+        <translation>Kategóriák</translation>
     </message>
     <message>
         <source>Sponsors</source>
-        <translation type="unfinished"></translation>
+        <translation>Szponzorok</translation>
     </message>
     <message>
         <source>Intermission/Intro Animation</source>
-        <translation type="unfinished"></translation>
+        <translation>Szünet/Intró animáció</translation>
     </message>
     <message>
         <source>Endcards/Credits</source>
@@ -445,88 +436,88 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Interaction Reminder (Subscribe)</source>
-        <translation type="unfinished"></translation>
+        <translation>Interakció emlékeztető (Feliratkozás)</translation>
     </message>
     <message>
         <source>Unpaid/Self Promotion</source>
-        <translation type="unfinished"></translation>
+        <translation>Fizetelen/Önreklám</translation>
     </message>
     <message>
         <source>Music: Non-Music Section</source>
-        <translation type="unfinished"></translation>
+        <translation>Zene: Nem-zene rész</translation>
     </message>
     <message>
         <source>Uses SponsorBlock plugin from https://sponsor.ajay.app</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A SponsorBlock plugin-t használja a https://sponsor.ajay.app címről</translation>
     </message>
 </context>
 <context>
     <name>Subscriptions</name>
     <message>
         <source>Mark all as watched</source>
-        <translation type="unfinished"></translation>
+        <translation>Az összes megjelölése megnézettként</translation>
     </message>
     <message>
         <source>Import subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>Feliratkozások importálása</translation>
     </message>
     <message>
         <source>Subscriptions</source>
-        <translation type="unfinished">Feliratkozások</translation>
+        <translation>Feliratkozások</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
-        <translation type="unfinished">Leiratkozás</translation>
+        <translation>Leiratkozás</translation>
     </message>
 </context>
 <context>
     <name>SubscriptionsImport</name>
     <message>
         <source>Import</source>
-        <translation type="unfinished"></translation>
+        <translation>Importálás</translation>
     </message>
     <message>
         <source>Import file</source>
-        <translation type="unfinished"></translation>
+        <translation>Fájl importálása</translation>
     </message>
     <message>
         <source>Instructions</source>
-        <translation type="unfinished"></translation>
+        <translation>Utsítások</translation>
     </message>
     <message>
         <source>Go to YouTube website on desktop and while logged in, save the page by clicking ctrl+s. Upload saved file to your device and pick it from pull down menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Menj a Youtube oldalára, és mialatt be vagy jelentkezve, mentsd az oldalt a ctrl+s paranccsal. Töltsd fel a mentett fájlt a készülékedre, és válaszd ki a lehúzható menüből.</translation>
     </message>
     <message>
         <source>Import successful</source>
-        <translation type="unfinished"></translation>
+        <translation>Az importálás sikeres</translation>
     </message>
 </context>
 <context>
     <name>UpdateDialog</name>
     <message>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Frissítés</translation>
     </message>
     <message>
         <source>Microtube was updated to version %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>A Microtube frissült a %1 verzióra!</translation>
     </message>
     <message>
         <source>Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>Változások</translation>
     </message>
     <message>
         <source>Donation</source>
-        <translation type="unfinished"></translation>
+        <translation>Adomány</translation>
     </message>
     <message>
         <source>Updated Translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Frissített fordítások</translation>
     </message>
     <message>
         <source>Full screen video in cover on landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Teljes képernyős videó a fedlapon fekvő módban</translation>
     </message>
 </context>
 <context>
@@ -592,11 +583,11 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>360p</source>
-        <translation type="unfinished">720p {360p?}</translation>
+        <translation>360p</translation>
     </message>
     <message>
         <source>Load recommended videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajánlott videók betöltése</translation>
     </message>
 </context>
 <context>
@@ -610,195 +601,195 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     <name>YTRegions</name>
     <message>
         <source>Algeria</source>
-        <translation type="unfinished"></translation>
+        <translation>Algéria</translation>
     </message>
     <message>
         <source>Argentina</source>
-        <translation type="unfinished"></translation>
+        <translation>Argentína</translation>
     </message>
     <message>
         <source>Australia</source>
-        <translation type="unfinished"></translation>
+        <translation>Ausztrália</translation>
     </message>
     <message>
         <source>Belgium</source>
-        <translation type="unfinished"></translation>
+        <translation>Belgium</translation>
     </message>
     <message>
         <source>Brazil</source>
-        <translation type="unfinished"></translation>
+        <translation>Brazília</translation>
     </message>
     <message>
         <source>Canada</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanada</translation>
     </message>
     <message>
         <source>Chile</source>
-        <translation type="unfinished"></translation>
+        <translation>Chile</translation>
     </message>
     <message>
         <source>Colombia</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolumbia</translation>
     </message>
     <message>
         <source>Czech Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>Cseh Köztársaság</translation>
     </message>
     <message>
         <source>Egypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Egyiptom</translation>
     </message>
     <message>
         <source>France</source>
-        <translation type="unfinished"></translation>
+        <translation>Franciaország</translation>
     </message>
     <message>
         <source>Germany</source>
-        <translation type="unfinished"></translation>
+        <translation>Németország</translation>
     </message>
     <message>
         <source>Ghana</source>
-        <translation type="unfinished"></translation>
+        <translation>Ghána</translation>
     </message>
     <message>
         <source>Greece</source>
-        <translation type="unfinished"></translation>
+        <translation>Görögország</translation>
     </message>
     <message>
         <source>Hong Kong</source>
-        <translation type="unfinished"></translation>
+        <translation>Hong Kong</translation>
     </message>
     <message>
         <source>Hungary</source>
-        <translation type="unfinished"></translation>
+        <translation>Magyarország</translation>
     </message>
     <message>
         <source>India</source>
-        <translation type="unfinished"></translation>
+        <translation>India</translation>
     </message>
     <message>
         <source>Indonesia</source>
-        <translation type="unfinished"></translation>
+        <translation>Indonézia</translation>
     </message>
     <message>
         <source>Ireland</source>
-        <translation type="unfinished"></translation>
+        <translation>Írország</translation>
     </message>
     <message>
         <source>Israel</source>
-        <translation type="unfinished"></translation>
+        <translation>Izrael</translation>
     </message>
     <message>
         <source>Italy</source>
-        <translation type="unfinished"></translation>
+        <translation>Olaszország</translation>
     </message>
     <message>
         <source>Japan</source>
-        <translation type="unfinished"></translation>
+        <translation>Japán</translation>
     </message>
     <message>
         <source>Jordan</source>
-        <translation type="unfinished"></translation>
+        <translation>Jordánia</translation>
     </message>
     <message>
         <source>Kenya</source>
-        <translation type="unfinished"></translation>
+        <translation>Kenya</translation>
     </message>
     <message>
         <source>Malaysia</source>
-        <translation type="unfinished"></translation>
+        <translation>Malajzia</translation>
     </message>
     <message>
         <source>Mexico</source>
-        <translation type="unfinished"></translation>
+        <translation>Mexikó</translation>
     </message>
     <message>
         <source>Morocco</source>
-        <translation type="unfinished"></translation>
+        <translation>Marokkó</translation>
     </message>
     <message>
         <source>Netherlands</source>
-        <translation type="unfinished"></translation>
+        <translation>Hollandia</translation>
     </message>
     <message>
         <source>New Zealand</source>
-        <translation type="unfinished"></translation>
+        <translation>Új-Zéland</translation>
     </message>
     <message>
         <source>Nigeria</source>
-        <translation type="unfinished"></translation>
+        <translation>Nigéria</translation>
     </message>
     <message>
         <source>Peru</source>
-        <translation type="unfinished"></translation>
+        <translation>Peru</translation>
     </message>
     <message>
         <source>Philippines</source>
-        <translation type="unfinished"></translation>
+        <translation>Fülöp-szigetek</translation>
     </message>
     <message>
         <source>Poland</source>
-        <translation type="unfinished"></translation>
+        <translation>Lengyelország</translation>
     </message>
     <message>
         <source>Russia</source>
-        <translation type="unfinished"></translation>
+        <translation>Oroszország</translation>
     </message>
     <message>
         <source>Saudi Arabia</source>
-        <translation type="unfinished"></translation>
+        <translation>Szaud-Arábia</translation>
     </message>
     <message>
         <source>Singapore</source>
-        <translation type="unfinished"></translation>
+        <translation>Szingapúr</translation>
     </message>
     <message>
         <source>South Africa</source>
-        <translation type="unfinished"></translation>
+        <translation>Dél-Afrika</translation>
     </message>
     <message>
         <source>South Korea</source>
-        <translation type="unfinished"></translation>
+        <translation>Dél-Korea</translation>
     </message>
     <message>
         <source>Spain</source>
-        <translation type="unfinished"></translation>
+        <translation>Spanyolország</translation>
     </message>
     <message>
         <source>Sweden</source>
-        <translation type="unfinished"></translation>
+        <translation>Svédország</translation>
     </message>
     <message>
         <source>Taiwan</source>
-        <translation type="unfinished"></translation>
+        <translation>Tajvan</translation>
     </message>
     <message>
         <source>Tunisia</source>
-        <translation type="unfinished"></translation>
+        <translation>Tunézia</translation>
     </message>
     <message>
         <source>Turkey</source>
-        <translation type="unfinished"></translation>
+        <translation>Törökország</translation>
     </message>
     <message>
         <source>Uganda</source>
-        <translation type="unfinished"></translation>
+        <translation>Uganda</translation>
     </message>
     <message>
         <source>United Arab Emirates</source>
-        <translation type="unfinished"></translation>
+        <translation>Egyesült Arab Emirátusok</translation>
     </message>
     <message>
         <source>United Kingdom</source>
-        <translation type="unfinished"></translation>
+        <translation>Egyesült Királyság</translation>
     </message>
     <message>
         <source>Yemen</source>
-        <translation type="unfinished"></translation>
+        <translation>Jemen</translation>
     </message>
     <message>
         <source>Worldwide</source>
-        <translation type="unfinished"></translation>
+        <translation>Világszerte</translation>
     </message>
 </context>
 <context>

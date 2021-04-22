@@ -194,41 +194,41 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Just now</source>
-        <translation type="unfinished"></translation>
+        <translation>刚刚</translation>
     </message>
     <message numerus="yes">
         <source>%n hour(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n 小时前</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n day(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n 天前</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n week(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n 周前</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n month(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n 月前</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <source>%n year(s) ago</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n 年前</numerusform>
         </translation>
     </message>
     <message>
         <source>%1 views</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 查看</translation>
     </message>
 </context>
 <context>
@@ -298,7 +298,7 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     <name>InstallDialog</name>
     <message>
         <source>Thank you for installing Microtube!</source>
-        <translation>感谢安装 Microtube ！</translation>
+        <translation>感谢安装 Microtube！</translation>
     </message>
     <message>
         <source>Changelog</source>
@@ -334,11 +334,11 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Updated Translations</source>
-        <translation type="unfinished"></translation>
+        <translation>更新了翻译</translation>
     </message>
     <message>
         <source>Full screen video in cover on landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>横屏模式下封面显示全屏视频</translation>
     </message>
 </context>
 <context>
@@ -562,11 +562,11 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Updated Translations</source>
-        <translation type="unfinished"></translation>
+        <translation>更新了翻译</translation>
     </message>
     <message>
         <source>Full screen video in cover on landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>横屏模式下封面显示全屏视频</translation>
     </message>
 </context>
 <context>
@@ -643,202 +643,202 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     <name>YTJSVideo</name>
     <message>
         <source>Cannot get video stream for %1</source>
-        <translation type="unfinished">无法获取 %1 视频流媒体</translation>
+        <translation>无法获取 %1 视频流媒体</translation>
     </message>
 </context>
 <context>
     <name>YTRegions</name>
     <message>
         <source>Algeria</source>
-        <translation type="unfinished"></translation>
+        <translation>阿尔及利亚</translation>
     </message>
     <message>
         <source>Argentina</source>
-        <translation type="unfinished"></translation>
+        <translation>阿根廷</translation>
     </message>
     <message>
         <source>Australia</source>
-        <translation type="unfinished"></translation>
+        <translation>澳大利亚</translation>
     </message>
     <message>
         <source>Belgium</source>
-        <translation type="unfinished"></translation>
+        <translation>比利时</translation>
     </message>
     <message>
         <source>Brazil</source>
-        <translation type="unfinished"></translation>
+        <translation>巴西</translation>
     </message>
     <message>
         <source>Canada</source>
-        <translation type="unfinished"></translation>
+        <translation>加拿大</translation>
     </message>
     <message>
         <source>Chile</source>
-        <translation type="unfinished"></translation>
+        <translation>智利</translation>
     </message>
     <message>
         <source>Colombia</source>
-        <translation type="unfinished"></translation>
+        <translation>哥伦比亚</translation>
     </message>
     <message>
         <source>Czech Republic</source>
-        <translation type="unfinished"></translation>
+        <translation>捷克</translation>
     </message>
     <message>
         <source>Egypt</source>
-        <translation type="unfinished"></translation>
+        <translation>埃及</translation>
     </message>
     <message>
         <source>France</source>
-        <translation type="unfinished"></translation>
+        <translation>法国</translation>
     </message>
     <message>
         <source>Germany</source>
-        <translation type="unfinished"></translation>
+        <translation>德国</translation>
     </message>
     <message>
         <source>Ghana</source>
-        <translation type="unfinished"></translation>
+        <translation>加纳</translation>
     </message>
     <message>
         <source>Greece</source>
-        <translation type="unfinished"></translation>
+        <translation>希腊</translation>
     </message>
     <message>
         <source>Hong Kong</source>
-        <translation type="unfinished"></translation>
+        <translation>中国香港</translation>
     </message>
     <message>
         <source>Hungary</source>
-        <translation type="unfinished"></translation>
+        <translation>匈牙利</translation>
     </message>
     <message>
         <source>India</source>
-        <translation type="unfinished"></translation>
+        <translation>印度</translation>
     </message>
     <message>
         <source>Indonesia</source>
-        <translation type="unfinished"></translation>
+        <translation>印度尼西亚</translation>
     </message>
     <message>
         <source>Ireland</source>
-        <translation type="unfinished"></translation>
+        <translation>爱尔兰</translation>
     </message>
     <message>
         <source>Israel</source>
-        <translation type="unfinished"></translation>
+        <translation>以色列</translation>
     </message>
     <message>
         <source>Italy</source>
-        <translation type="unfinished"></translation>
+        <translation>意大利</translation>
     </message>
     <message>
         <source>Japan</source>
-        <translation type="unfinished"></translation>
+        <translation>日本</translation>
     </message>
     <message>
         <source>Jordan</source>
-        <translation type="unfinished"></translation>
+        <translation>约旦</translation>
     </message>
     <message>
         <source>Kenya</source>
-        <translation type="unfinished"></translation>
+        <translation>肯尼亚</translation>
     </message>
     <message>
         <source>Malaysia</source>
-        <translation type="unfinished"></translation>
+        <translation>马来西亚</translation>
     </message>
     <message>
         <source>Mexico</source>
-        <translation type="unfinished"></translation>
+        <translation>墨西哥</translation>
     </message>
     <message>
         <source>Morocco</source>
-        <translation type="unfinished"></translation>
+        <translation>摩洛哥</translation>
     </message>
     <message>
         <source>Netherlands</source>
-        <translation type="unfinished"></translation>
+        <translation>尼德兰</translation>
     </message>
     <message>
         <source>New Zealand</source>
-        <translation type="unfinished"></translation>
+        <translation>新西兰</translation>
     </message>
     <message>
         <source>Nigeria</source>
-        <translation type="unfinished"></translation>
+        <translation>尼日利亚</translation>
     </message>
     <message>
         <source>Peru</source>
-        <translation type="unfinished"></translation>
+        <translation>秘鲁</translation>
     </message>
     <message>
         <source>Philippines</source>
-        <translation type="unfinished"></translation>
+        <translation>菲律宾</translation>
     </message>
     <message>
         <source>Poland</source>
-        <translation type="unfinished"></translation>
+        <translation>波兰</translation>
     </message>
     <message>
         <source>Russia</source>
-        <translation type="unfinished"></translation>
+        <translation>俄罗斯</translation>
     </message>
     <message>
         <source>Saudi Arabia</source>
-        <translation type="unfinished"></translation>
+        <translation>沙特阿拉伯</translation>
     </message>
     <message>
         <source>Singapore</source>
-        <translation type="unfinished"></translation>
+        <translation>新加坡</translation>
     </message>
     <message>
         <source>South Africa</source>
-        <translation type="unfinished"></translation>
+        <translation>南非</translation>
     </message>
     <message>
         <source>South Korea</source>
-        <translation type="unfinished"></translation>
+        <translation>韩国</translation>
     </message>
     <message>
         <source>Spain</source>
-        <translation type="unfinished"></translation>
+        <translation>西班牙</translation>
     </message>
     <message>
         <source>Sweden</source>
-        <translation type="unfinished"></translation>
+        <translation>瑞典</translation>
     </message>
     <message>
         <source>Taiwan</source>
-        <translation type="unfinished"></translation>
+        <translation>中国台湾</translation>
     </message>
     <message>
         <source>Tunisia</source>
-        <translation type="unfinished"></translation>
+        <translation>突尼斯</translation>
     </message>
     <message>
         <source>Turkey</source>
-        <translation type="unfinished"></translation>
+        <translation>土耳其</translation>
     </message>
     <message>
         <source>Uganda</source>
-        <translation type="unfinished"></translation>
+        <translation>乌干达</translation>
     </message>
     <message>
         <source>United Arab Emirates</source>
-        <translation type="unfinished"></translation>
+        <translation>阿联酋</translation>
     </message>
     <message>
         <source>United Kingdom</source>
-        <translation type="unfinished"></translation>
+        <translation>英国</translation>
     </message>
     <message>
         <source>Yemen</source>
-        <translation type="unfinished"></translation>
+        <translation>也门</translation>
     </message>
     <message>
         <source>Worldwide</source>
-        <translation type="unfinished"></translation>
+        <translation>全球</translation>
     </message>
 </context>
 <context>
