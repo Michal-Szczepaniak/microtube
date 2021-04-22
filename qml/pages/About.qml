@@ -77,12 +77,6 @@ Page {
                 horizontalAlignment: Qt.AlignHCenter
             }
 
-            Separator {
-                width: parent.width
-                color: Theme.primaryColor
-                horizontalAlignment: Qt.AlignHCenter
-            }
-
             Label {
                 text: qsTr("Links")
                 font.pixelSize: Theme.fontSizeLarge

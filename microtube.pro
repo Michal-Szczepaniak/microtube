@@ -179,7 +179,7 @@ INSTALLS += jsfiles
 
 # to disable building translations every time, comment out the
 # following CONFIG line
-CONFIG += sailfishapp_i18n
+#CONFIG += sailfishapp_i18n
 
 TRANSLATIONS += translations/microtube-de.ts \
     translations/microtube-es.ts \
@@ -188,3 +188,8 @@ TRANSLATIONS += translations/microtube-de.ts \
     translations/microtube-sv.ts \
     translations/microtube-zh_CN.ts \
     translations/microtube-pl.ts
+
+qm.files = $$replace(TRANSLATIONS, \.ts, .qm)
+qm.path = /usr/share/$${TARGET}/translations
+
+INSTALLS += qm
