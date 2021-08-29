@@ -35,7 +35,7 @@ Page {
         property bool audioOnlyMode: false
         property bool developerMode: false
         property double buffer: 1.0
-        property string downloadLocation: "/home/nemo/Downloads/"
+        property string downloadLocation: StandardPaths.download
         property string version: ""
         property string categoryId: "0"
         property string categoryName: "Film & Animation"
