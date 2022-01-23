@@ -1,3 +1,6 @@
 [submodule "vendor/minitube"]
 	path = vendor/minitube
 	url = https://github.com/flaviotordini/minitube/
+[submodule "vendor/fr/grecko/sortfilterproxymodel"]
+	path = vendor/fr/grecko/sortfilterproxymodel
+	url = git@github.com:Michal-Szczepaniak/SortFilterProxyModel.git
