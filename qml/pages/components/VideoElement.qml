@@ -20,115 +20,88 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
 import com.verdanditeam.yt 1.0
+import "./helpers.js" as Helpers
 
 ListItem {
     id: listItem
-    contentHeight: isVideo ? Theme.itemSizeHuge : Theme.itemSizeMedium
+    contentHeight: Theme.itemSizeHuge
     menu: contextMenuComponent
-
-    onClicked: {
-        if (video === undefined) {
-            playlistModel.searchMore()
-            return;
-        }
-
-        if (video.kind === "channel") {
-            if (!subPage) {
-                pageStack.push(Qt.resolvedUrl("../Channel.qml"), {channel: YT.getChannel(video.getChannelId())})
-            } else {
-                pageStack.navigateBack(PageStackAction.Immediate)
-                pageStack.push(Qt.resolvedUrl("../Channel.qml"), {channel: YT.getChannel(video.getChannelId())})
-            }
-            return;
-        }
-
-        if (!subPage) {
-            if (popPage) pageStack.navigateBack(PageStackAction.Immediate)
-            pageStack.pushAttached(Qt.resolvedUrl("../VideoPlayer.qml"), {video: playlistModel.qmlVideoAt(index), model: playlistModel})
-            pageStack.navigateForward()
-        }
-
-        playlistModel.setActiveRow(index)
-    }
 
     property bool subPage: false
     property bool popPage: false
-    property bool isVideo: itemType === 1 // video type
 
-    Loader {
-        asynchronous: true
-        sourceComponent: rowComponent
-    }
+    Row {
+        width: parent.width
+        height: Theme.itemSizeHuge
 
-    Component {
-        id: rowComponent
+        Item {
+            id: left
+            height: parent.height
+            width: height*1.8
+            anchors.verticalCenter: parent.verticalCenter
 
-        Row {
-            width: parent.width
-            height: Theme.itemSizeHuge
+            Image {
+                id: thumbnailImage
+                anchors.right: parent.right
+                width: parent.width - Theme.paddingLarge
+                height: parent.height - Theme.paddingLarge
+                source: thumbnail
+                anchors.centerIn: parent
+                asynchronous: true
+                cache: true
+                antialiasing: false
+                fillMode: Image.PreserveAspectCrop
+                clip: true
 
-            Item {
-                id: left
-                width: isVideo ? listItem.width/2.3 : 0
-                height: parent.height
-                visible: isVideo
-                anchors.verticalCenter: parent.verticalCenter
-
-                Image {
+                Rectangle {
+                    color: Theme.rgba(Theme.highlightBackgroundColor, 0.7)
+                    width: durationLabel.width + Theme.paddingMedium
+                    height: durationLabel.height
                     anchors.right: parent.right
-                    width: parent.width - Theme.paddingLarge
-                    height: parent.height - Theme.paddingLarge
-                    source: thumbnail !== undefined ? thumbnail : ""
-                    anchors.centerIn: parent
-                    asynchronous: true
-                    cache: true
-                    antialiasing: false
-                    fillMode: Image.PreserveAspectFit
+                    anchors.bottom: parent.bottom
+                    anchors.margins: Theme.paddingMedium
+                    radius: 10
 
-                    Rectangle {
-                        color: Theme.rgba(Theme.highlightBackgroundColor, 0.7)
-                        width: childrenRect.width
-                        height: childrenRect.height
-                        anchors.right: parent.right
-                        anchors.bottom: parent.bottom
-                        anchors.margins: Theme.paddingMedium
-                        radius: 10
-                        visible: video.formattedDuration !== ""
-
-                        Label {
-                            id: duration
-                            text: " " + video.formattedDuration + " "
-                        }
+                    Label {
+                        id: durationLabel
+                        text: duration
+                        highlighted: false
+                        anchors.horizontalCenter: parent.horizontalCenter
                     }
                 }
             }
+        }
 
-            Column {
-                anchors.verticalCenter: parent.verticalCenter
-                width: listItem.width - left.width
-                height: this.contentHeight
-                padding: Theme.paddingLarge
+        Column {
+            anchors.verticalCenter: parent.verticalCenter
+            width: listItem.width - left.width
+            height: this.contentHeight
+            padding: Theme.paddingLarge
 
-                Label {
-                    text: display
-                    width: parent.width - Theme.paddingLarge*2
-                    truncationMode: TruncationMode.Fade
-                    horizontalAlignment: !isVideo ? Text.AlignHCenter : Text.AlignLeft
-                }
+            Label {
+                text: title
+                width: parent.width - Theme.paddingLarge*2
+                truncationMode: TruncationMode.Fade
+                horizontalAlignment: Text.AlignLeft
+            }
 
-                Label {
-                    text: author !== undefined ? author : ""
-                    width: parent.width - Theme.paddingLarge*2
-                    font.pixelSize: Theme.fontSizeExtraSmall
-                    truncationMode: TruncationMode.Fade
-                }
-
-                Row {
-                    Label {
-                        text: published + (published !== "" && video !== undefined ? "  -  " : "") + (video !== undefined ? video.viewCount : "") + " " + (video.kind === "channel" ? YT.getChannel(video.getChannelId()).subscriberCount : "")
-                        font.pixelSize: Theme.fontSizeExtraSmall
+            Label {
+                text: author.name
+                width: parent.width - Theme.paddingLarge*2
+                font.pixelSize: Theme.fontSizeExtraSmall
+                truncationMode: TruncationMode.Fade
+            }
+            Label {
+                text: {
+                    if (isUpcoming) {
+                        return "scheduled";
+                    } else if (isLive) {
+                        return "live";
+                    } else {
+                        return qsTr("%1 views - %2").arg(Helpers.parseViews(views)).arg(published)
                     }
                 }
+                font.pixelSize: Theme.fontSizeExtraSmall
             }
         }
     }
@@ -138,20 +111,23 @@ ListItem {
 
         ContextMenu {
             id: contextMenu
-            hasContent: isVideo
+
+            SubscriptionsHelper {
+                id: subscriptionsHelper
+            }
 
             MenuItem {
-                property bool subscribed: isVideo ? YT.getChannel(video.getChannelId()).isSubscribed : null
+                property bool subscribed: subscriptionsHelper.isSubscribed(author.id)
                 text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
                 onClicked: {
-                    var channel = YT.getChannel(video.getChannelId())
-                    channel.isSubscribed ? channel.unsubscribe() : channel.subscribe()
+                    subscriptionsHelper.isSubscribed(author.id) ? subscriptionsHelper.unsubscribe(author.id) : subscriptionsHelper.subscribe(author.id)
+                    subscribed = subscriptionsHelper.isSubscribed(author.id)
                 }
             }
 
             MenuItem {
                 text: qsTr("Copy url")
-                onClicked: Clipboard.text = video.getWebpage()
+                onClicked: Clipboard.text = url
             }
         }
     }

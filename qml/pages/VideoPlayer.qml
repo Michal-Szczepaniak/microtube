@@ -31,15 +31,13 @@ import Nemo.Notifications 1.0
 import Nemo.KeepAlive 1.2
 import QtGraphicalEffects 1.0
 import QtSensors 5.0
+import Sailfish.Share 1.0
 import "components"
+import "components/helpers.js" as Helpers
 
 Page {
     id: page
-    property YtVideo video: null
-    property string title: ""
-    property string description: ""
-    property string viewCount: ""
-    property string author: ""
+    property string videoIdToPlay
     property bool subscribed: false
     property bool _controlsVisible: true
     property bool videoChanging: false
@@ -49,12 +47,13 @@ Page {
     property int inactiveBrightness: -1
     property int activeBrightness: -1
     property bool fillMode: false
+    property bool playlistMode: false
     showNavigationIndicator: _controlsVisible
     allowedOrientations: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? Orientation.Portrait : Orientation.All
-    Keys.onRightPressed: mediaPlayer.seek(mediaPlayer.position + 5000)
-    Keys.onLeftPressed: mediaPlayer.seek(mediaPlayer.position - 5000)
-    Keys.onUpPressed: mediaPlayer.prevVideo()
-    Keys.onDownPressed: mediaPlayer.nextVideo()
+    Keys.onRightPressed: videoplayer.seek(videoplayer.position + 5000)
+    Keys.onLeftPressed: videoplayer.seek(videoplayer.position - 5000)
+    Keys.onUpPressed: videoplayer.prevVideo()
+    Keys.onDownPressed: videoplayer.nextVideo()
     property int _orientation: OrientationReading.TopUp
 
     DisplaySettings {
@@ -63,9 +62,6 @@ Page {
             if (inactiveBrightness === -1) {
                 inactiveBrightness = brightness
                 activeBrightness = brightness
-                autoBrightness = displaySettings.autoBrightnessEnabled
-                if ( landscape )
-                    displaySettings.autoBrightnessEnabled = false
             }
         }
     }
@@ -78,7 +74,7 @@ Page {
         property bool audioOnlyMode: false
         property bool developerMode: false
         property double buffer: 1.0
-        property string videoQuality: "360p"
+        property int maxDefinition: 1080
         property string downloadLocation: "/home/nemo/Downloads/"
     }
 
@@ -99,6 +95,23 @@ Page {
                     return e.segment[1];
                 }
             }
+        }
+    }
+
+    VideoHelper {
+        id: videoHelper
+
+        onGotVideoInfo: {
+            videoplayer.videoSource = videoHelper.videoUrl
+            videoplayer.audioSource = videoHelper.audioUrl
+            videoplayer.setAudioOnlyMode(false)
+            if (settings.audioOnlyMode) {
+                videoplayer.setAudioOnlyMode(true)
+            }
+            if (videoChanging) videoChanging = false
+            videoplayer.play()
+            sponsorBlockPlugin.videoId = videoHelper.currentVideo.id
+            currentPlaylist.loadRecommendedVideos(videoHelper.currentVideo.url)
         }
     }
 
@@ -180,7 +193,12 @@ Page {
 
          summary: "Downloaded"
          previewSummary: summary
-     }
+    }
+
+    ShareAction {
+        id: shareAction
+        resources: [ videoHelper.currentVideo.url ]
+    }
 
     function showHideControls() {
         jupii.ping()
@@ -207,11 +225,9 @@ Page {
         if ( Qt.application.state === Qt.ApplicationActive && page.status === PageStatus.Active ) {
             if (landscape) {
                 hideAnimation3.start()
-                displaySettings.autoBrightnessEnabled = false
                 displaySettings.brightness = activeBrightness
             } else {
                 showAnimation3.start()
-                displaySettings.autoBrightnessEnabled = autoBrightness
                 displaySettings.brightness = inactiveBrightness
             }
         }
@@ -221,89 +237,21 @@ Page {
         showHideControls()
     }
 
-    onTitleChanged: {
-        app.playing = title
-    }
-
     onStatusChanged: {
         if (status === PageStatus.Deactivating) {
             app.videoCover = false
-        } else if(status === PageStatus.Active && video !== null && video.streamUrl == "") {
+        } else if(status === PageStatus.Active && videoHelper.videoUrl == "") {
+            videoHelper.loadVideoUrl(videoIdToPlay, settings.maxDefinition)
             app.videoCover = true
             pacontrol.update()
             showHideControls()
             hideControlsAutomatically.restart()
-            sponsorBlockPlugin.videoId = video.getId()
-
-            if(settings.audioOnlyMode) {
-                topMenu.resolutionChange("audio")
-            } else {
-                topMenu.resolutionChange("720p")
-            }
-
         }
     }
 
     Component.onDestruction: {
         app.videoCover = false
-        displaySettings.autoBrightnessEnabled = autoBrightness
         displaySettings.brightness = inactiveBrightness
-    }
-
-    function changeVideo() {
-        page.videoChanging = true
-        mediaPlayer.stop()
-        video = app.playlistModel.qmlVideoAt(app.playlistModel.activeRow())
-        video.loadStreamUrl()
-        setVideoInfo()
-    }
-
-    function setVideoInfo() {
-        title = video.getTitle()
-        description = video.getDescription()
-        viewCount = video.viewCount
-        author = video.getChannelTitle()
-        ChannelAggregator.videoWatched(video)
-        listView.positionViewAtIndex(app.playlistModel.activeRow(), ListView.Beginning)
-        mediaPlayer.errorMsg = ""
-        errorPane.hide()
-    }
-
-    Connections {
-        target: video
-        onStreamUrlChanged: {
-            if(!settings.audioOnlyMode) {
-                if(videoChanging) videoChanging = false
-                mediaPlayer.videoPlay()
-            }
-            setVideoInfo();
-            description = video.getDescription().replace(/(\\n|\\r\\n)/g, '\n').replace(/\\u0026/, '&')
-        }
-
-        onAudioStreamUrlChanged: {
-            if(settings.audioOnlyMode) {
-                if(videoChanging) videoChanging = false
-                mediaPlayer.videoPlay()
-            }
-            setVideoInfo();
-            description = video.getDescription().replace(/(\\n|\\r\\n)/g, '\n').replace(/\\u0026/, '&')
-        }
-    }
-
-    Connections {
-        target: YT
-        onNotifyDownloaded: {
-            downloadNotification.summary = qsTr("Downloaded to") + " ~/" + video.getId() + ".mp4"
-            downloadNotification.publish()
-        }
-    }
-
-    Connections {
-        target: app.playlistModel
-
-        onActiveVideoChanged: {
-            changeVideo()
-        }
     }
 
     Connections {
@@ -317,15 +265,12 @@ Page {
         target: Qt.application
         onStateChanged: {
             if ( state === Qt.ApplicationInactive ) {
-                displaySettings.autoBrightnessEnabled = autoBrightness
                 displaySettings.brightness = inactiveBrightness
             } else if ( state === Qt.ApplicationActive && landscape ) {
-                displaySettings.autoBrightnessEnabled = false
                 displaySettings.brightness = activeBrightness
             }
         }
     }
-
 
     SilicaFlickable {
         id: flickable
@@ -336,33 +281,9 @@ Page {
             id: topMenu
             visible: page.orientation === Orientation.Portrait && Qt.application.state === Qt.ApplicationActive
 
-            function resolutionChange(name) {
-                if(name !== "audio") settings.videoQuality = name
-                videoChanging = true
-                mediaPlayer.stop()
-                YT.setDefinition(name)
-                video.loadStreamUrl()
-            }
-
-            MenuItem {
-                text: qsTr("360p")
-                enabled: !settings.audioOnlyMode
-                onClicked: {
-                    topMenu.resolutionChange("360p")
-                }
-            }
-
-            MenuItem {
-                text: qsTr("720p")
-                enabled: !settings.audioOnlyMode
-                onClicked: {
-                    topMenu.resolutionChange("720p")
-                }
-            }
-
             MenuItem {
                 text: qsTr("Download")
-                enabled: video.streamUrl.toString() !== ""
+                enabled: videoHelper.videoUrl.toString() !== ""
                 onClicked: {
                     console.log(video.streamUrl)
                     YT.download(video.getId(), settings.audioOnlyMode ? video.audioStreamUrl : video.streamUrl, settings.downloadLocation)
@@ -370,16 +291,8 @@ Page {
             }
 
             MenuItem {
-                text: qsTr("Load recommended videos")
-                onClicked: {
-                    app.playlistModel.findRecommended(video)
-                    app.playlistModel.setActiveRow(0, false)
-                }
-            }
-
-            MenuItem {
                 text: qsTr("Copy url")
-                onClicked: Clipboard.text = video.getWebpage()
+                onClicked: Clipboard.text = videoHelper.currentVideo.url
             }
         }
 
@@ -395,104 +308,67 @@ Page {
                               : (landscape ? page.height : (settings.videoQuality === "360p" ? page.width/1.74 : page.width/1.777777777777778))
                     color: "black"
 
-                    MediaPlayer {
-                        id: mediaPlayer
-                        source: settings.audioOnlyMode ? video.audioStreamUrl : video.streamUrl
-
-                        function videoPlay() {
-                            videoPlaying = true
-                            if (mediaPlayer.bufferProgress == 1 || (settings.developerMode && mediaPlayer.bufferProgress > settings.buffer) || settings.audioOnlyMode) {
-                                mediaPlayer.play()
-                            }
-                        }
-
-                        function videoPause() {
-                            videoPlaying = false
-                            mediaPlayer.pause()
-                        }
-
-                        property bool videoPlaying: false
-                        property string errorMsg: ""
-
-                        function nextVideo() {
-                            if (!app.playlistModel.nextRowExists()) return
-                            videoChanging = true
-                            mediaPlayer.stop()
-                            app.playlistModel.setActiveRow(app.playlistModel.nextRow())
-                        }
-
-                        function prevVideo() {
-                            if (!app.playlistModel.previousRowExists()) return
-                            videoChanging = true
-                            mediaPlayer.stop()
-                            app.playlistModel.setActiveRow(app.playlistModel.previousRow())
-                        }
-
-                        onPlaybackStateChanged: {
-                            if (mediaPlayer.playbackState == MediaPlayer.StoppedState) {
-                                app.playing = ""
-                                if ( settings.autoPlay && video.streamUrl !== "" && videoChanging === false )
-                                    nextVideo()
-                            }
-
-                            mprisPlayer.playbackState = mediaPlayer.playbackState === MediaPlayer.PlayingState ?
-                                        Mpris.Playing : mediaPlayer.playbackState === MediaPlayer.PausedState ?
-                                            Mpris.Paused : Mpris.Stopped
-                        }
-
-                        onError: {
-                            if ( error === MediaPlayer.ResourceError ) errorMsg = qsTr("Error: Problem with allocating resources")
-                            else if ( error === MediaPlayer.ServiceMissing ) errorMsg = qsTr("Error: Media service error")
-                            else if ( error === MediaPlayer.FormatError ) errorMsg = qsTr("Error: Video or Audio format is not supported")
-                            else if ( error === MediaPlayer.AccessDenied ) errorMsg = qsTr("Error: Access denied to the video")
-                            else if ( error === MediaPlayer.NetworkError ) errorMsg = qsTr("Error: Network error")
-                            nextVideo()
-                        }
-
-                        onErrorMsgChanged: errorPane.show()
-
-                        onBufferProgressChanged: {
-                            if (videoPlaying && mediaPlayer.bufferProgress == 1
-                                    || (videoPlaying && settings.developerMode && mediaPlayer.bufferProgress > settings.buffer)
-                                    || videoPlaying && settings.audioOnlyMode) {
-                                mediaPlayer.play();
-                            }
-
-                            if (mediaPlayer.bufferProgress == 0 && !settings.audioOnlyMode) {
-                                mediaPlayer.pause();
-                            }
-                        }
-
-                        onPositionChanged: {
-                            progressSlider.value = position
-                            var segment = sponsorBlockPlugin.checkIfInsideSegment(position/1000)
-                            if (segment && playbackState !== MediaPlayer.StoppedState) {
-                                sponsorBlockPluginNotification.publish()
-                                if (segment*1000 >= mediaPlayer.duration) {
-                                    seek(mediaPlayer.duration)
-                                    stop()
-                                } else {
-                                    seek(segment*1000)
-                                }
-                            }
-                        }
-                    }
-
-                    VideoOutput {
-                        id: videoOutput
+                    VideoPlayer {
+                        id: videoplayer
                         width : landscapeCover ? page.width*1.6 : page.width
                         anchors.centerIn: parent
                         height: landscapeCover
                                   ? page.width
                                   : (landscape ? (page.fillMode ? page.width : page.height) : (settings.videoQuality === "360p" ? page.width/1.74 : page.width/1.777777777777778))
-                        source: mediaPlayer
-                        fillMode: page.fillMode ? VideoOutput.PreserveAspectCrop : VideoOutput.PreserveAspectFit
                         transform: Rotation {
                             origin.x: (page.width*1.6)/2
                             origin.y: page.width/2
                             angle: landscapeCover
                                    ? (_orientation === OrientationReading.LeftUp ? -90 : 90)
                                    : 0
+                        }
+
+                        Behavior on width { PropertyAnimation { duration: pinchArea.pinching ? 250 : 0 } }
+                        Behavior on height { PropertyAnimation { duration: pinchArea.pinching ? 250 : 0 } }
+
+                        onStateChanged: {
+                            if (state === VideoPlayer.StateStopped) {
+                                app.playing = ""
+                                if ( settings.autoPlay && videoHelper.currentVideoStreamUrl !== "" && videoChanging === false )
+                                    nextVideo()
+                            } else if (state === VideoPlayer.StatePlaying) {
+                                showHideControls()
+                            }
+
+                            mprisPlayer.playbackState = state === VideoPlayer.StatePlaying ?
+                                        Mpris.Playing : state === VideoPlayer.StatePaused ?
+                                            Mpris.Paused : Mpris.Stopped
+                        }
+
+                        onPositionChanged: {
+                            progressSlider.value = position
+                            var segment = sponsorBlockPlugin.checkIfInsideSegment(position/1000)
+                            if (segment && state !== VideoPlayer.StateStopped) {
+                                sponsorBlockPluginNotification.publish()
+                                if (segment*1000 >= videoplayer.duration) {
+                                    seek(videoplayer.duration)
+                                    stop()
+                                } else {
+                                    seek(segment*1000)
+                                }
+                            }
+                        }
+
+                        function nextVideo() {
+                            videoChanging = true
+                            videoplayer.stop()
+                            if (playlistMode) {
+                                app.playlistModel.nextVideo();
+                            } else {
+
+                            }
+                        }
+
+                        function prevVideo() {
+                            if (!app.playlistModel.previousRowExists()) return
+                            videoChanging = true
+                            videoplayer.stop()
+                            app.playlistModel.setActiveRow(app.playlistModel.previousVideo())
                         }
 
                         Rectangle {
@@ -510,7 +386,7 @@ Page {
                             Behavior on colorOpacity {
                                 NumberAnimation {}
                             }
-                            visible: true//mediaPlayer.errorMsg !== ""
+                            visible: true//videoplayer.errorMsg !== ""
 
                             function show() {
                                 colorOpacity = 0.5
@@ -522,7 +398,7 @@ Page {
 
                             Label {
                                 id: errorText
-                                text: mediaPlayer.errorMsg
+//                                text: videoplayer.errorMsg
                                 visible: parent.visible
                                 anchors.centerIn: parent
                                 font.pointSize: Theme.fontSizeExtraLarge
@@ -533,63 +409,32 @@ Page {
                         BusyIndicator {
                             size: BusyIndicatorSize.Large
                             anchors.centerIn: parent
-                            running: (!settings.developerMode && mediaPlayer.bufferProgress != 1) || (settings.developerMode && mediaPlayer.bufferProgress < settings.buffer)
+                            running: videoplayer.state === VideoPlayer.StateBuffering
                         }
 
                         Image {
                             id: thumbnail
                             anchors.fill: parent
-                            source: video.getThumbnailUrl()
+                            source: videoHelper.currentVideo.bigThumbnail
                             asynchronous: true
                             fillMode: Image.PreserveAspectCrop
                             visible: settings.audioOnlyMode
                         }
 
-                        SilicaFlickable {
-                            id: videoOptions
-                            anchors.fill: videoOutput
-                            flickableDirection: Flickable.HorizontalAndVerticalFlick
-                            interactive: !landscape
-                            contentHeight: this.height + Theme.itemSizeMedium
-                            contentY: 0
-                            clip: true
-
-                            onMovementEnded: {
-                                if (videoOptions.contentY > 0) {
-                                    if (videoOptions.contentY === Theme.itemSizeMedium) {
-                                        videoChanging = true
-                                        mediaPlayer.stop()
-                                        settings.audioOnlyMode = !settings.audioOnlyMode
-                                        var quality = settings.audioOnlyMode ? "audio" : settings.videoQuality
-                                        topMenu.resolutionChange(quality)
-                                    }
-
-                                    videoOptions.contentY = 0
+                        PinchArea {
+                            id: pinchArea
+                            anchors.fill: parent
+                            enabled: true
+                            property bool pinching: false
+                            onPinchUpdated: {
+                                if (pinch.scale < 0.8) {
+                                    page.fillMode = false
+                                } else if (pinch.scale > 2) {
+                                    page.fillMode = true
                                 }
                             }
-
-                            Rectangle {
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-                                anchors.bottom: parent.bottom
-                                height: Theme.itemSizeMedium
-                                gradient: Gradient {
-                                    GradientStop { position: 0.0; color: Theme.rgba(Theme.highlightBackgroundColor, 0.0) }
-                                    GradientStop { position: 1.0; color: Theme.rgba(Theme.highlightBackgroundColor, 0.7) }
-                                }
-                            }
-
-                            Image {
-                                id: audioOnlyIcon
-                                width: Theme.itemSizeMedium
-                                height: Theme.itemSizeMedium
-                                fillMode: Image.PreserveAspectFit
-                                anchors.bottom: parent.bottom
-                                anchors.bottomMargin: (Theme.itemSizeLarge - Theme.itemSizeMedium)
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                source: settings.audioOnlyMode ? "qrc:///images/icon-m-audio-only-disable.svg" : "qrc:///images/icon-m-audio-only-enable.svg"
-                            }
-
+                            onPinchStarted: pinching = true
+                            onPinchFinished: pinching = false
                             MouseArea {
                                 id: mousearea
                                 anchors.fill: parent
@@ -607,6 +452,7 @@ Page {
                                     id: doubleClickTimer
                                     interval: 200
                                 }
+
 
                                 function calculateStep(mouse) {
                                     return Math.round((offsetHeight - (mouse.y-offset)) / step)
@@ -637,17 +483,17 @@ Page {
                                     if ( landscape ) {
                                         var newPos = null
                                         if(mouse.x < mousearea.width/2 ) {
-                                            newPos = mediaPlayer.position - 5000
+                                            newPos = videoplayer.position - 5000
                                             if(newPos < 0) newPos = 0
-                                            mediaPlayer.seek(newPos)
+                                            videoplayer.seek(newPos)
                                             backwardIndicator.visible = true
                                         } else if (mouse.x > mousearea.width/2) {
-                                            newPos = mediaPlayer.position + 5000
-                                            if(newPos > mediaPlayer.duration) {
-                                                mediaPlayer.nextVideo()
+                                            newPos = videoplayer.position + 5000
+                                            if(newPos > videoplayer.duration) {
+                                                videoplayer.nextVideo()
                                                 return
                                             }
-                                            mediaPlayer.seek(newPos)
+                                            videoplayer.seek(newPos)
                                             forwardIndicator.visible = true
                                         }
                                     }
@@ -697,7 +543,7 @@ Page {
                     }
 
                     DisplayBlanking {
-                        preventBlanking: mediaPlayer.playbackState == MediaPlayer.PlayingState
+                        preventBlanking: videoplayer.state === VideoPlayer.StatePlaying
                     }
 
                     Row {
@@ -817,14 +663,14 @@ Page {
 
                     NumberAnimation {
                         id: showAnimation
-                        targets: [progress, duration, playButton, prevButton, nextButton, fillModeButton, castButton]
+                        targets: [progress, duration, playButton, prevButton, nextButton, castButton]
                         properties: "opacity"
                         to: 1
                         duration: 100
                     }
                     NumberAnimation {
                         id: hideAnimation
-                        targets: [progress, duration, playButton, prevButton, nextButton, fillModeButton, castButton]
+                        targets: [progress, duration, playButton, prevButton, nextButton, castButton]
                         properties: "opacity"
                         to: 0
                         duration: 100
@@ -833,29 +679,29 @@ Page {
                     IconButton {
                         id: playButton
                         visible: opacity != 0
-                        icon.source: mediaPlayer.playbackState == MediaPlayer.PlayingState ? "image://theme/icon-m-pause" : "image://theme/icon-m-play"
+                        icon.source: videoplayer.state === VideoPlayer.StatePlaying ? "image://theme/icon-m-pause" : "image://theme/icon-m-play"
                         anchors.centerIn: parent
-                        onClicked: mediaPlayer.playbackState == MediaPlayer.PlayingState ? mediaPlayer.videoPause() : mediaPlayer.videoPlay()
+                        onClicked: videoplayer.state === VideoPlayer.StatePlaying ? videoplayer.pause() : videoplayer.play()
                     }
 
                     IconButton {
                         id: nextButton
-                        visible: opacity != 0
+                        visible: opacity != 0 && playlistMode
                         icon.source: "image://theme/icon-m-next"
                         anchors.top: playButton.top
                         anchors.left: playButton.right
                         anchors.leftMargin: page.width/4 - playButton.width/2
-                        onClicked: mediaPlayer.nextVideo()
+                        onClicked: videoplayer.nextVideo()
                     }
 
                     IconButton {
                         id: prevButton
-                        visible: opacity != 0
+                        visible: opacity != 0 && playlistMode
                         icon.source: "image://theme/icon-m-previous"
                         anchors.top: playButton.top
                         anchors.right: playButton.left
                         anchors.rightMargin: page.width/4 - playButton.width/2
-                        onClicked: mediaPlayer.prevVideo()
+                        onClicked: videoplayer.prevVideo()
                     }
 
                     IconButton {
@@ -864,26 +710,12 @@ Page {
                         icon.source: "qrc:///images/icon-m-cast.svg"
                         width: Theme.itemSizeExtraSmall
                         height: width
-                        anchors.right: fillModeButton.left
-                        anchors.top: parent.top
-                        anchors.margins: Theme.paddingMedium
-                        icon.width: width
-                        icon.height: width
-                        onClicked: jupii.addUrlOnceAndPlay(video.streamUrl.toString(), video.getWebpage(), title, author, (settings.audioOnlyMode ? 1 : 2), "microtube", "/usr/share/icons/hicolor/172x172/apps/microtube.png")
-                    }
-
-                    IconButton {
-                        id: fillModeButton
-                        visible: opacity != 0 && landscape
-                        icon.source: page.fillMode ? "qrc:///images/icon-m-scale-to-16-9.svg" : "qrc:///images/icon-m-scale-to-21-9.svg"
-                        width: Theme.itemSizeExtraSmall
-                        height: width
                         anchors.right: parent.right
                         anchors.top: parent.top
                         anchors.margins: Theme.paddingMedium
                         icon.width: width
                         icon.height: width
-                        onClicked: page.fillMode = !page.fillMode
+                        onClicked: jupii.addUrlOnceAndPlay(video.streamUrl.toString(), video.getWebpage(), title, author, (settings.audioOnlyMode ? 1 : 2), "microtube", "/usr/share/icons/hicolor/172x172/apps/microtube.png")
                     }
 
                     Slider {
@@ -924,7 +756,7 @@ Page {
                         anchors.left: parent.left
                         anchors.bottom: parent.bottom
                         anchors.margins: Theme.paddingLarge
-                        text: Format.formatDuration(Math.round(mediaPlayer.position/1000), ((mediaPlayer.duration/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort))
+                        text: Format.formatDuration(Math.round(videoplayer.position/1000), ((videoplayer.duration/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort))
                     }
 
                     Label {
@@ -932,15 +764,15 @@ Page {
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
                         anchors.margins: Theme.paddingLarge
-                        text: Format.formatDuration(Math.round(mediaPlayer.duration/1000), ((mediaPlayer.duration/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort))
+                        text: Format.formatDuration(Math.round(videoplayer.duration/1000), ((videoplayer.duration/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort))
                     }
 
                     Slider {
                         id: progressSlider
-                        value: mediaPlayer.position
+                        value: videoplayer.position
                         valueText: down ? Format.formatDuration(Math.round(value/1000), ((value/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort)) : ""
                         minimumValue: 0
-                        maximumValue: mediaPlayer.duration
+                        maximumValue: videoplayer.duration
                         anchors.bottom: if (landscape && opacity == 0) videoBackground.top; else videoBackground.bottom
                         x: landscape ? progress.width : - Theme.paddingLarge * 4
                         width: landscape ? parent.width - progress.width - duration.width : parent.width + Theme.paddingLarge * 8
@@ -959,14 +791,14 @@ Page {
                             duration: 100
                         }
 
-                        onReleased: mediaPlayer.seek(progressSlider.value)
+                        onReleased: videoplayer.seek(progressSlider.value)
                     }
                 }
             }
 
             TextArea {
                 id: videoCoverTitle
-                text: title
+                text: videoHelper.currentVideo.title
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.margins: Theme.paddingLarge
@@ -1008,7 +840,7 @@ Page {
                         visible: !(app.videoCover && Qt.application.state === Qt.ApplicationInactive)
                         Label {
                             id: videoTitle
-                            text: title
+                            text: videoHelper.currentVideo.title
                             width: page.width - Theme.paddingLarge*2
                             font.pixelSize: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? Theme.fontSizeHuge : Theme.fontSizeLarge
                             color: Theme.highlightColor
@@ -1027,8 +859,9 @@ Page {
                                 id: authorViews
                                 width: parent.width/2
                                 spacing: Theme.paddingSmall
+                                anchors.verticalCenter: parent.verticalCenter
                                 Label {
-                                    text: author
+                                    text: videoHelper.currentVideo.author.name
                                     width: parent.width
                                     font.pixelSize: Theme.fontSizeMedium
                                     truncationMode: TruncationMode.Fade
@@ -1038,13 +871,13 @@ Page {
                                         anchors.fill: parent
                                         onClicked: {
                                             pageStack.navigateBack(PageStackAction.Immediate)
-                                            pageStack.push(Qt.resolvedUrl("Channel.qml"), {channel: YT.getChannel(video.getChannelId())})
+                                            pageStack.push(Qt.resolvedUrl("Channel.qml"))
                                         }
                                     }
                                 }
 
                                 Label {
-                                    text: video.viewCount
+                                    text: qsTr("%1 views").arg(Helpers.parseViews(videoHelper.currentVideo.viewCount))
                                     font.pixelSize: Theme.fontSizeMedium
                                     truncationMode: TruncationMode.Fade
                                     color: Theme.secondaryColor
@@ -1052,25 +885,31 @@ Page {
                                 }
                             }
 
+                            SubscriptionsHelper {
+                                id: subscriptionsHelper
+                            }
+
                             Row {
                                 width: parent.width/2
                                 rightPadding: Theme.paddingLarge*2
                                 layoutDirection: Qt.RightToLeft
+                                anchors.verticalCenter: parent.verticalCenter
 
                                 Button {
                                     id: subscribeButton
                                     preferredWidth: Theme.itemSizeHuge
-                                    property bool subscribed: YT.getChannel(video.getChannelId()).isSubscribed
+                                    property bool subscribed: subscriptionsHelper.isSubscribed(videoHelper.currentVideo.author.id)
                                     text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
                                     onClicked: {
-                                        var channel = YT.getChannel(video.getChannelId())
-                                        channel.isSubscribed ? channel.unsubscribe() : channel.subscribe()
+                                        var authorId = videoHelper.currentVideo.author.id
+                                        subscriptionsHelper.isSubscribed(authorId) ? subscriptionsHelper.unsubscribe(authorId) : subscriptionsHelper.subscribe(authorId)
+                                        subscribed = subscriptionsHelper.isSubscribed(authorId)
                                     }
                                 }
 
                                 IconButton {
                                     icon.source: "image://theme/icon-m-share"
-                                    onClicked: pageStack.push(Qt.resolvedUrl("components/SharePage.qml"), {videoUrl: video.getWebpage(), videoTitle: title})
+                                    onClicked: shareAction.trigger()
                                 }
                             }
                         }
@@ -1078,7 +917,7 @@ Page {
 
                         LinkedLabel {
                             id: videoDescription
-                            plainText: description
+                            plainText: videoHelper.currentVideo.description
                             width: page.width - Theme.paddingLarge*2
                             color: palette.secondaryColor
                             wrapMode: TextEdit.WordWrap
@@ -1092,18 +931,26 @@ Page {
 //                            onClicked: pageStack.push(Qt.resolvedUrl("Comments.qml"), {videoId: video.getId()})
 //                        }
 
+                        YtPlaylist {
+                            id: currentPlaylist
+                        }
+
                         SilicaFastListView {
                             id: listView
                             width: parent.width - Theme.paddingLarge
                             height: page.height - videoPlayer.height
                             maximumFlickVelocity: 9999
                             spacing: Theme.paddingMedium
-                            model: app.playlistModel
+                            model: currentPlaylist
                             clip: true
                             interactive: playlistFlickable.contentY >= parseInt(playlistFlickable.contentHeight - (page.height - videoPlayer.height))
                             delegate: VideoElement {
                                 id: delegate
-                                subPage: true
+
+                                onClicked: {
+                                    videoplayer.stop()
+                                    videoHelper.loadVideoUrl(id, settings.maxDefinition)
+                                }
                             }
                         }
                     }
@@ -1118,19 +965,19 @@ Page {
 
     CoverActionList {
         id: coverAction
-        enabled: mediaPlayer.playbackState !== MediaPlayer.StoppedState
+        enabled: videoplayer.playbackState !== videoplayer.StoppedState
 
         CoverAction {
-            iconSource: mediaPlayer.playbackState == MediaPlayer.PlayingState ? "image://theme/icon-cover-pause" : "image://theme/icon-cover-play"
+            iconSource: videoplayer.playbackState == videoplayer.PlayingState ? "image://theme/icon-cover-pause" : "image://theme/icon-cover-play"
             onTriggered: {
-                mediaPlayer.playbackState == MediaPlayer.PlayingState ? mediaPlayer.videoPause() : mediaPlayer.videoPlay()
+                videoplayer.playbackState == videoplayer.PlayingState ? videoplayer.videoPause() : videoplayer.videoPlay()
             }
         }
 
         CoverAction {
             iconSource: "image://theme/icon-cover-next-song"
             onTriggered: {
-                mediaPlayer.nextVideo()
+                videoplayer.nextVideo()
             }
         }
     }
@@ -1139,8 +986,8 @@ Page {
         id: mprisPlayer
 
         serviceName: "microtube"
-        property string artist: author
-        property string song: title
+        property string artist: videoHelper.currentVideo.author.name
+        property string song: videoHelper.currentVideo.title
         property var playbackState: Mpris.Playing
 
         onArtistChanged: {
@@ -1176,31 +1023,31 @@ Page {
         volume: 1
 
         onPauseRequested: {
-            mediaPlayer.videoPause()
+            videoplayer.videoPause()
         }
 
         onPlayRequested: {
-            mediaPlayer.videoPlay()
+            videoplayer.videoPlay()
         }
 
         onPlayPauseRequested: {
-            mediaPlayer.playbackState == MediaPlayer.PlayingState ? mediaPlayer.videoPause() : mediaPlayer.videoPlay()
+            videoplayer.playbackState == videoplayer.PlayingState ? videoplayer.videoPause() : videoplayer.videoPlay()
         }
 
         onStopRequested: {
-            mediaPlayer.stop()
+            videoplayer.stop()
         }
 
         onNextRequested: {
-            mediaPlayer.nextVideo()
+            videoplayer.nextVideo()
         }
 
         onPreviousRequested: {
-            mediaPlayer.prevVideo()
+            videoplayer.prevVideo()
         }
 
         onSeekRequested: {
-            mediaPlayer.seek(offset)
+            videoplayer.seek(offset)
         }
     }
 }

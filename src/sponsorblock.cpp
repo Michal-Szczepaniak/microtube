@@ -1,20 +1,29 @@
 #include "sponsorblock.h"
 #include <QUrl>
 #include <QUrlQuery>
-#include "httputils.h"
-#include "http.h"
 #include <QCryptographicHash>
+#include <QDebug>
+#include <QJsonDocument>
+#include <QJsonArray>
+#include <QJsonObject>
+#include <QNetworkRequest>
+#include <QSettings>
 
 const QString SponsorBlock::API_URL = "https://sponsor.ajay.app/api";
 
-SponsorBlock::SponsorBlock(QObject *parent) : QObject(parent)
+SponsorBlock::SponsorBlock(QObject *parent) : QObject(parent), _manager(new QNetworkAccessManager(this))
 {
+    connect(_manager, &QNetworkAccessManager::finished, this, &SponsorBlock::requestFinished);
+}
 
+SponsorBlock::~SponsorBlock()
+{
+    delete _manager;
 }
 
 QString SponsorBlock::getSkipSegments()
 {
-    if (!QSettings().value("sponsorBlockEnabled", false).toBool()) return "";
+    if (!QSettings().value("sponsorBlockEnabled").toBool()) return "";
     if (_skipSegments != "") {
         return _skipSegments;
     } else {
@@ -23,7 +32,6 @@ QString SponsorBlock::getSkipSegments()
 
         QUrl url(API_URL + "/skipSegments/" + QCryptographicHash::hash(_videoId.toUtf8(), QCryptographicHash::Sha256).toHex().left(4));
 
-
         QUrlQuery q(url);
 
         QJsonArray categories = QJsonArray::fromStringList(QSettings().value("sponsorBlockCategories").toStringList());
@@ -31,8 +39,9 @@ QString SponsorBlock::getSkipSegments()
         q.addQueryItem(QStringLiteral("categories"), QJsonDocument(categories).toJson(QJsonDocument::JsonFormat::Compact));
 
         url.setQuery(q);
-        QObject *reply = HttpUtils::cached().get(url);
-        connect(reply, SIGNAL(data(QByteArray)), SLOT(parseSkipSegments(QByteArray)));
+
+        _manager->get(QNetworkRequest(url));
+
         return "";
     }
 }
@@ -49,6 +58,11 @@ void SponsorBlock::parseSkipSegments(QByteArray bytes)
     }
 }
 
+void SponsorBlock::requestFinished(QNetworkReply *reply)
+{
+    if (!reply->error()) parseSkipSegments(reply->readAll());
+}
+
 void SponsorBlock::setVideoId(QString videoId)
 {
     bool idChanged = false;
@@ -63,4 +77,30 @@ void SponsorBlock::setVideoId(QString videoId)
         _skipSegments = "";
         emit skipSegmentsChanged();
     }
+}
+
+QStringList SponsorBlock::getCategories() const
+{
+    return QSettings().value("sponsorBlockCategories").toStringList();
+}
+
+void SponsorBlock::setCategories(QStringList categories)
+{
+    QSettings settings;
+
+    settings.setValue("sponsorBlockCategories", categories);
+
+    emit categoriesChanged();
+}
+
+bool SponsorBlock::getEnabled() const
+{
+    return QSettings().value("sponsorBlockEnabled", false).toBool();
+}
+
+void SponsorBlock::setEnabled(bool enabled)
+{
+    QSettings().setValue("sponsorBlockEnabled", enabled);
+
+    emit enabledChanged();
 }

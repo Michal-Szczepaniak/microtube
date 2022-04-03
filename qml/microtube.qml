@@ -28,13 +28,13 @@ ApplicationWindow
     id: app
     initialPage: settings.version === version ? mainPage : (settings.version === "" ? installPage : updatePage)
     cover: !videoCover ? Qt.resolvedUrl("cover/CoverPage.qml") : null
+    property alias playlistModel: playlistModel
 
     allowedOrientations: defaultAllowedOrientations
 
     property string playing: ""
     property bool videoCover: false
     property string version: "2.1.2"
-    property alias playlistModel: playlistModel
 
     Component {
         id: updatePage
@@ -53,11 +53,11 @@ ApplicationWindow
 
     YtPlaylist {
         id: playlistModel
+    }
 
-        Component.onCompleted: {
-            if (typeof startSearch !== "undefined") search(startSearch)
-            else loadCategory(settings.categoryId, settings.categoryName)
-        }
+    Component.onCompleted: {
+        if (typeof startSearch !== "undefined") search(startSearch)
+        else playlistModel.loadCategory(settings.categoryName, settings.currentRegion)
     }
 
     ConfigurationGroup {
@@ -67,5 +67,6 @@ ApplicationWindow
         property string version: ""
         property string categoryId: "0"
         property string categoryName: "Film & Animation"
+        property string currentRegion: ""
     }
 }

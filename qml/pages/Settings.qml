@@ -39,11 +39,14 @@ Page {
         property string version: ""
         property string categoryId: "0"
         property string categoryName: "Film & Animation"
+        property int maxDefinition: 1080
+        property int currentRegionId: 0
+        property string currentRegion: ""
     }
 
-    YtCategories {
-        id: categories
-    }
+//    YtCategories {
+//        id: categories
+//    }
 
     SilicaFlickable {
         anchors.fill: parent
@@ -63,10 +66,10 @@ Page {
             anchors.right: parent.right
 
             TextSwitch {
-               checked: YT.safeSearch
+               checked: playlistModel.safeSearch
                width: parent.width
                text: qsTr("Restricted mode (safe for kids)")
-               onClicked: YT.safeSearch = checked
+               onClicked: playlistModel.safeSearch = checked
             }
 
             TextSwitch {
@@ -118,14 +121,83 @@ Page {
                 id: regions
                 width: parent.width
                 label: qsTr("Region")
-                currentIndex: YT.region
+                currentIndex: settings.currentRegionId
                 menu: ContextMenu {
                     Repeater {
-                        model: YT.getRegions();
+                        model: [qsTr("Default"),qsTr("Algeria"),qsTr("Argentina"),qsTr("Australia"),qsTr("Belgium"),qsTr("Brazil"),qsTr("Canada"),qsTr("Chile"),qsTr("Colombia"),qsTr("Czech Republic"),qsTr("Egypt"),qsTr("France"),qsTr("Germany"),qsTr("Ghana"),qsTr("Greece"),qsTr("Hong Kong"),qsTr("Hungary"),qsTr("India"),qsTr("Indonesia"),qsTr("Ireland"),qsTr("Israel"),qsTr("Italy"),qsTr("Japan"),qsTr("Jordan"),qsTr("Kenya"),qsTr("Malaysia"),qsTr("Mexico"),qsTr("Morocco"),qsTr("Netherlands"),qsTr("New Zealand"),qsTr("Nigeria"),qsTr("Peru"),qsTr("Philippines"),qsTr("Poland"),qsTr("Russia"),qsTr("Saudi Arabia"),qsTr("Singapore"),qsTr("South Africa"),qsTr("South Korea"),qsTr("Spain"),qsTr("Sweden"),qsTr("Taiwan"),qsTr("Tunisia"),qsTr("Turkey"),qsTr("Uganda"),qsTr("United Arab Emirates"),qsTr("United Kingdom"),qsTr("Yemen"),]
                         delegate: MenuItem { text: modelData }
                     }
                 }
-                onCurrentItemChanged: YT.region = currentIndex
+                onCurrentItemChanged: {
+                    var countries = ["","DZ","AR","AU","BE","BR","CA","CL","CO","CZ","EG","FR","DE","GH","GR","HK","HU","IN","ID","IE","IL","IT","JP","JO","KE","MY","MX","MA","NL","NZ","NG","PE","PH","PL","RU","SA","SG","ZA","KR","ES","SE","TW","TN","TR","UG","AE","GB","YE"];
+                    settings.currentRegion = countries[currentIndex]
+                    settings.currentRegionId = currentIndex
+                }
+            }
+
+            ComboBox {
+                id: maximumResolution
+                width: parent.width
+                label: qsTr("Maximum resolution")
+                currentIndex: -1
+                onCurrentIndexChanged: {
+                    settings.maxDefinition = indexToResolution(currentIndex)
+                    settings.audioOnlyMode = settings.maxDefinition === 0
+                }
+                Component.onCompleted: currentIndex = resolutionToIndex(settings.maxDefinition)
+
+                menu: ContextMenu {
+                    MenuItem { text: "2160p" }
+                    MenuItem { text: "1440p" }
+                    MenuItem { text: "1080p" }
+                    MenuItem { text: "720p" }
+                    MenuItem { text: "480p" }
+                    MenuItem { text: "360p" }
+                    MenuItem { text: "240p" }
+                    MenuItem { text: qsTr("Audio only") }
+                }
+
+                function indexToResolution(value) {
+                    switch (value) {
+                    case 0:
+                        return 2160;
+                    case 1:
+                        return 1440;
+                    case 2:
+                        return 1080;
+                    case 3:
+                        return 720;
+                    case 4:
+                        return 480;
+                    case 5:
+                        return 360;
+                    case 6:
+                        return 240;
+                    case 7:
+                        return 0;
+                    }
+                }
+
+                function resolutionToIndex(value) {
+                    switch (value) {
+                    case 2160:
+                        return 0;
+                    case 1440:
+                        return 1;
+                    case 1080:
+                        return 2;
+                    case 720:
+                        return 3;
+                    case 480:
+                        return 4;
+                    case 360:
+                        return 5;
+                    case 240:
+                        return 6;
+                    case 0:
+                        return 7;
+                    }
+                }
             }
 
             ComboBox {
@@ -136,15 +208,15 @@ Page {
                 currentIndex: -1
                 menu: ContextMenu {
                     Repeater {
-                        model: categories
+                        model: [qsTr("Trending"),qsTr("Music"),qsTr("Gaming"),qsTr("Movies")]
                         delegate: MenuItem {
-                            text: name
-                            onClicked: {
-                                settings.categoryId = id
-                                settings.categoryName = name
-                            }
+                            text: modelData
                         }
                     }
+                }
+                onCurrentItemChanged: {
+                    settings.categoryId = currentIndex
+                    settings.categoryName = currentItem.text
                 }
             }
 

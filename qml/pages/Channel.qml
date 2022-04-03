@@ -10,10 +10,6 @@ Page {
 
     onStatusChanged: if (status === PageStatus.Active) playlistModel.loadChannelVideos(channel.channelId)
 
-    YtPlaylist {
-        id: playlistModel
-    }
-
     Label {
         id: dummyDescription
         maximumLineCount: 1
