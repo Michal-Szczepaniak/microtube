@@ -326,6 +326,8 @@ Page {
                         Behavior on width { PropertyAnimation { duration: pinchArea.pinching ? 250 : 0 } }
                         Behavior on height { PropertyAnimation { duration: pinchArea.pinching ? 250 : 0 } }
 
+                        onSubtitleChanged: if (subtitle !== "") subtitleTimeoutTimer.start()
+
                         onStateChanged: {
                             if (state === VideoPlayer.StateStopped) {
                                 app.playing = ""
@@ -369,6 +371,22 @@ Page {
                             videoChanging = true
                             videoplayer.stop()
                             app.playlistModel.setActiveRow(app.playlistModel.previousVideo())
+                        }
+
+                        Label {
+                            id: subtitles
+                            text: videoplayer.subtitle
+                            width: videoPlayer.width - Theme.paddingLarge*2
+                            anchors.bottom: videoplayer.bottom
+                            anchors.bottomMargin: Theme.paddingMedium
+                            anchors.horizontalCenter: videoplayer.horizontalCenter
+                        }
+
+                        Timer {
+                            id: subtitleTimeoutTimer
+                            interval: 2000
+                            repeat: false
+                            onTriggered: videoplayer.subtitle = ""
                         }
 
                         Rectangle {
