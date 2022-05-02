@@ -19,6 +19,7 @@ public:
         TitleRole,
         DurationRole,
         ThumbnailRole,
+        AlternativeThumbnailRole,
         DescriptionRole,
         AuthorRole,
         IsUpcomingRole,
@@ -34,6 +35,7 @@ public:
     Q_INVOKABLE void search(QString query);
     Q_INVOKABLE void loadRecommendedVideos(QString query);
     Q_INVOKABLE void loadCategory(QString category, QString country);
+    Q_INVOKABLE QString getIdAt(int index);
     bool getSafeSearch() const;
     void setSafeSearch(bool safeSearch);
 

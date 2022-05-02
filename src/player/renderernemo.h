@@ -1,7 +1,6 @@
 #ifndef RENDERER_MEEGO_H
 #define RENDERER_MEEGO_H
 
-#include "renderer.h"
 #include <QImage>
 #include <QMutex>
 #include <QMatrix4x4>
@@ -13,7 +12,7 @@
 class QGLShaderProgram;
 class QOpenGLExtension_OES_EGL_image;
 
-class QtCamViewfinderRendererNemo : public QtCamViewfinderRenderer {
+class QtCamViewfinderRendererNemo : public QObject {
     Q_OBJECT
 
 public:
@@ -30,6 +29,11 @@ public:
     QSizeF videoResolution();
 
     bool needsNativePainting();
+
+signals:
+    void updateRequested();
+    void renderAreaChanged();
+    void videoResolutionChanged();
 
 private slots:
     void setVideoSize(const QSizeF& size);

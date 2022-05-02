@@ -7,5 +7,6 @@
         <file>images/icon-m-scale-to-16-9.svg</file>
         <file>images/icon-m-scale-to-21-9.svg</file>
         <file>images/icon-m-cast.svg</file>
+        <file>images/icon-m-closed-captions-text.svg</file>
     </qresource>
 </RCC>

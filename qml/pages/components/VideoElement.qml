@@ -53,6 +53,8 @@ ListItem {
                 fillMode: Image.PreserveAspectCrop
                 clip: true
 
+                onStatusChanged: if (status === Image.Error) source = altThumbnail
+
                 Rectangle {
                     color: Theme.rgba(Theme.highlightBackgroundColor, 0.7)
                     width: durationLabel.width + Theme.paddingMedium

@@ -1,7 +1,6 @@
 #ifndef VIDEOSPARSER_H
 #define VIDEOSPARSER_H
 
-#include <QVector>
 #include <memory>
 #include <vector>
 #include "../entities/video.h"

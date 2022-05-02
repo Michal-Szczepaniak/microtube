@@ -1,7 +1,7 @@
 Name:       microtube
 
 Summary:    µTube
-Version:    2.1.2
+Version:    2.1.3
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE

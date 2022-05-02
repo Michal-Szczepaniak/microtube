@@ -19,7 +19,7 @@ void UserFilesHelper::copyJsFiles()
 
     if (!QDir(appDataLocation + "js").exists())
     {
-        QDir().mkdir(appDataLocation + "js");
+        QDir().mkpath(appDataLocation + "js");
     }
 
     for (QString file : files) {

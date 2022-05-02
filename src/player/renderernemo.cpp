@@ -59,7 +59,7 @@ static const QString VERTEX_SHADER = ""
     "";
 
 QtCamViewfinderRendererNemo::QtCamViewfinderRendererNemo(QObject *parent) :
-    QtCamViewfinderRenderer(parent),
+    QObject(parent),
     m_sink(0),
     m_queuedBuffer(nullptr),
     m_currentBuffer(nullptr),
@@ -493,6 +493,7 @@ void QtCamViewfinderRendererNemo::cleanup() {
     }
 
     g_object_remove_toggle_ref(G_OBJECT(m_sink), (GToggleNotify)sink_notify, this);
+    g_object_unref(m_sink);
     m_sink = 0;
 }
 

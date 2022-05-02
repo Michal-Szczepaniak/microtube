@@ -6,9 +6,17 @@ import "components"
 Page {
     id: page
     allowedOrientations: Orientation.All
-    property var channel: null
+    property var channelId: null
 
-    onStatusChanged: if (status === PageStatus.Active) playlistModel.loadChannelVideos(channel.channelId)
+    onStatusChanged: {
+        if (status === PageStatus.Active) {
+            channelHelper.loadChannelInfo(channelId)
+        }
+    }
+
+    ChannelHelper {
+        id: channelHelper
+    }
 
     Label {
         id: dummyDescription

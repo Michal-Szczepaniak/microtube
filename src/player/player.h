@@ -5,6 +5,7 @@
 #include <AudioResourceQt>
 #include <gst/gst.h>
 #include <QTimer>
+#include "renderernemo.h"
 
 class QtCamViewfinderRenderer;
 
@@ -17,6 +18,7 @@ class VideoPlayer : public QQuickPaintedItem {
     Q_PROPERTY(qint64 position READ getPosition WRITE setPosition NOTIFY positionChanged);
     Q_PROPERTY(State state READ getState NOTIFY stateChanged);
     Q_PROPERTY(QString subtitle READ getSubtitle WRITE setSubtitle NOTIFY subtitleChanged);
+    Q_PROPERTY(QString displaySubtitle READ getDisplaySubtitle WRITE setDisplaySubtitle NOTIFY displaySubtitleChanged);
     Q_ENUMS(State);
 
 public:
@@ -37,6 +39,8 @@ public:
     void setPosition(qint64 position);
     QString getSubtitle() const;
     void setSubtitle(QString subtitle);
+    QString getDisplaySubtitle() const;
+    void setDisplaySubtitle(QString subtitle);
 
     Q_INVOKABLE bool pause();
     Q_INVOKABLE bool play();
@@ -61,12 +65,14 @@ signals:
     void error(const QString& message, int code, const QString& debug);
     void stateChanged();
     void subtitleChanged();
+    void displaySubtitleChanged();
 
 protected:
     void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
 
 private slots:
     void updateRequested();
+    void updateBufferingState(int percent, QString name);
 
 private:
     static gboolean bus_call(GstBus *bus, GstMessage *msg, gpointer data);
@@ -76,20 +82,27 @@ private:
 
     bool setState(const State& state);
 
-    QtCamViewfinderRenderer *_renderer;
-    AudioResourceQt::AudioResource _audio_resource;
+    QtCamViewfinderRendererNemo *_renderer;
+    AudioResourceQt::AudioResource _audioResource;
     QUrl _videoUrl;
     QUrl _audioUrl;
 
     GstElement *_pipeline;
     GstElement *_videoSource;
     GstElement *_audioSource;
+    GstElement *_pulsesink;
+    GstElement *_subParse;
+    GstElement *_appSink;
+    GstElement *_subSource;
     State _state;
     QTimer *_timer;
     qint64 _pos;
     bool _created;
     bool _audioOnlyMode = false;
+    QString _currentSubtitle;
     QString _subtitle;
+    quint64 _subtitleEnd;
+    QHash<QString, int> _bufferingProgress;
 };
 
 #endif /* VIDEO_PLAYER_H */

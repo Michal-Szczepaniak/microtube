@@ -50,10 +50,10 @@ Page {
     property bool playlistMode: false
     showNavigationIndicator: _controlsVisible
     allowedOrientations: app.videoCover && Qt.application.state === Qt.ApplicationInactive ? Orientation.Portrait : Orientation.All
-    Keys.onRightPressed: videoplayer.seek(videoplayer.position + 5000)
-    Keys.onLeftPressed: videoplayer.seek(videoplayer.position - 5000)
-    Keys.onUpPressed: videoplayer.prevVideo()
-    Keys.onDownPressed: videoplayer.nextVideo()
+    Keys.onRightPressed: videoPlayer.seek(videoPlayer.position + 5000)
+    Keys.onLeftPressed: videoPlayer.seek(videoPlayer.position - 5000)
+    Keys.onUpPressed: videoPlayer.prevVideo()
+    Keys.onDownPressed: videoPlayer.nextVideo()
     property int _orientation: OrientationReading.TopUp
 
     DisplaySettings {
@@ -98,18 +98,35 @@ Page {
         }
     }
 
+    ChannelHelper {
+        id: channelHelper
+
+        onChannelInfoChanged: {
+            console.log(channelInfo.id)
+        }
+    }
+
     VideoHelper {
         id: videoHelper
 
+        onSubtitleChanged: {
+            var playing = videoPlayer.state === VideoPlayer.StatePlaying
+            if (playing) videoPlayer.pause()
+            videoPlayer.subtitle = videoHelper.subtitle
+            if (playing) videoPlayer.play()
+        }
+
+        onSubtitlesLabelsChanged: console.log(videoHelper.subtitlesLabels)
+
         onGotVideoInfo: {
-            videoplayer.videoSource = videoHelper.videoUrl
-            videoplayer.audioSource = videoHelper.audioUrl
-            videoplayer.setAudioOnlyMode(false)
+            videoPlayer.videoSource = videoHelper.videoUrl
+            videoPlayer.audioSource = videoHelper.audioUrl
+            videoPlayer.setAudioOnlyMode(false)
             if (settings.audioOnlyMode) {
-                videoplayer.setAudioOnlyMode(true)
+                videoPlayer.setAudioOnlyMode(true)
             }
             if (videoChanging) videoChanging = false
-            videoplayer.play()
+            videoPlayer.play()
             sponsorBlockPlugin.videoId = videoHelper.currentVideo.id
             currentPlaylist.loadRecommendedVideos(videoHelper.currentVideo.url)
         }
@@ -282,6 +299,11 @@ Page {
             visible: page.orientation === Orientation.Portrait && Qt.application.state === Qt.ApplicationActive
 
             MenuItem {
+                text: qsTr("Subtitles")
+                onClicked: pageStack.push(Qt.resolvedUrl("components/SubtitlesDialog.qml"), {videoHelper: videoHelper})
+            }
+
+            MenuItem {
                 text: qsTr("Download")
                 enabled: videoHelper.videoUrl.toString() !== ""
                 onClicked: {
@@ -299,7 +321,7 @@ Page {
         Column {
             anchors.fill: parent
             Row {
-                id: videoPlayer
+                id: videoPlayerRow
                 Rectangle {
                     id: videoBackground
                     width : page.width
@@ -309,12 +331,14 @@ Page {
                     color: "black"
 
                     VideoPlayer {
-                        id: videoplayer
+                        id: videoPlayer
                         width : landscapeCover ? page.width*1.6 : page.width
                         anchors.centerIn: parent
                         height: landscapeCover
                                   ? page.width
                                   : (landscape ? (page.fillMode ? page.width : page.height) : (settings.videoQuality === "360p" ? page.width/1.74 : page.width/1.777777777777778))
+
+
                         transform: Rotation {
                             origin.x: (page.width*1.6)/2
                             origin.y: page.width/2
@@ -325,8 +349,6 @@ Page {
 
                         Behavior on width { PropertyAnimation { duration: pinchArea.pinching ? 250 : 0 } }
                         Behavior on height { PropertyAnimation { duration: pinchArea.pinching ? 250 : 0 } }
-
-                        onSubtitleChanged: if (subtitle !== "") subtitleTimeoutTimer.start()
 
                         onStateChanged: {
                             if (state === VideoPlayer.StateStopped) {
@@ -347,8 +369,8 @@ Page {
                             var segment = sponsorBlockPlugin.checkIfInsideSegment(position/1000)
                             if (segment && state !== VideoPlayer.StateStopped) {
                                 sponsorBlockPluginNotification.publish()
-                                if (segment*1000 >= videoplayer.duration) {
-                                    seek(videoplayer.duration)
+                                if (segment*1000 >= videoPlayer.duration) {
+                                    seek(videoPlayer.duration)
                                     stop()
                                 } else {
                                     seek(segment*1000)
@@ -358,35 +380,35 @@ Page {
 
                         function nextVideo() {
                             videoChanging = true
-                            videoplayer.stop()
+                            videoPlayer.stop()
                             if (playlistMode) {
                                 app.playlistModel.nextVideo();
                             } else {
-
+                                videoHelper.loadVideoUrl(currentPlaylist.getIdAt(0), settings.maxDefinition)
                             }
                         }
 
                         function prevVideo() {
                             if (!app.playlistModel.previousRowExists()) return
                             videoChanging = true
-                            videoplayer.stop()
+                            videoPlayer.stop()
                             app.playlistModel.setActiveRow(app.playlistModel.previousVideo())
                         }
 
                         Label {
                             id: subtitles
-                            text: videoplayer.subtitle
-                            width: videoPlayer.width - Theme.paddingLarge*2
-                            anchors.bottom: videoplayer.bottom
-                            anchors.bottomMargin: Theme.paddingMedium
-                            anchors.horizontalCenter: videoplayer.horizontalCenter
-                        }
-
-                        Timer {
-                            id: subtitleTimeoutTimer
-                            interval: 2000
-                            repeat: false
-                            onTriggered: videoplayer.subtitle = ""
+                            text: videoPlayer.displaySubtitle
+                            width: videoPlayerRow.width - Theme.paddingLarge*2
+                            horizontalAlignment: Text.AlignHCenter
+                            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                            font.weight: Font.Bold
+                            color: "white"
+                            visible: videoPlayer.subtitle !== ""
+                            style: Text.Outline
+                            styleColor: "black"
+                            anchors.bottom: videoPlayer.bottom
+                            anchors.bottomMargin: Theme.paddingMedium + (landscape ? (videoPlayer.height - Screen.width)/2 : 0)
+                            anchors.horizontalCenter: videoPlayer.horizontalCenter
                         }
 
                         Rectangle {
@@ -404,7 +426,7 @@ Page {
                             Behavior on colorOpacity {
                                 NumberAnimation {}
                             }
-                            visible: true//videoplayer.errorMsg !== ""
+                            visible: true//videoPlayer.errorMsg !== ""
 
                             function show() {
                                 colorOpacity = 0.5
@@ -416,7 +438,7 @@ Page {
 
                             Label {
                                 id: errorText
-//                                text: videoplayer.errorMsg
+//                                text: videoPlayer.errorMsg
                                 visible: parent.visible
                                 anchors.centerIn: parent
                                 font.pointSize: Theme.fontSizeExtraLarge
@@ -427,7 +449,7 @@ Page {
                         BusyIndicator {
                             size: BusyIndicatorSize.Large
                             anchors.centerIn: parent
-                            running: videoplayer.state === VideoPlayer.StateBuffering
+                            running: videoPlayer.state === VideoPlayer.StateBuffering
                         }
 
                         Image {
@@ -445,9 +467,9 @@ Page {
                             enabled: true
                             property bool pinching: false
                             onPinchUpdated: {
-                                if (pinch.scale < 0.8) {
+                                if (pinch.scale < 0.9) {
                                     page.fillMode = false
-                                } else if (pinch.scale > 2) {
+                                } else if (pinch.scale > 1.5) {
                                     page.fillMode = true
                                 }
                             }
@@ -501,17 +523,17 @@ Page {
                                     if ( landscape ) {
                                         var newPos = null
                                         if(mouse.x < mousearea.width/2 ) {
-                                            newPos = videoplayer.position - 5000
+                                            newPos = videoPlayer.position - 5000
                                             if(newPos < 0) newPos = 0
-                                            videoplayer.seek(newPos)
+                                            videoPlayer.seek(newPos)
                                             backwardIndicator.visible = true
                                         } else if (mouse.x > mousearea.width/2) {
-                                            newPos = videoplayer.position + 5000
-                                            if(newPos > videoplayer.duration) {
-                                                videoplayer.nextVideo()
+                                            newPos = videoPlayer.position + 5000
+                                            if(newPos > videoPlayer.duration) {
+                                                videoPlayer.nextVideo()
                                                 return
                                             }
-                                            videoplayer.seek(newPos)
+                                            videoPlayer.seek(newPos)
                                             forwardIndicator.visible = true
                                         }
                                     }
@@ -561,7 +583,7 @@ Page {
                     }
 
                     DisplayBlanking {
-                        preventBlanking: videoplayer.state === VideoPlayer.StatePlaying
+                        preventBlanking: videoPlayer.state === VideoPlayer.StatePlaying
                     }
 
                     Row {
@@ -681,14 +703,14 @@ Page {
 
                     NumberAnimation {
                         id: showAnimation
-                        targets: [progress, duration, playButton, prevButton, nextButton, castButton]
+                        targets: [progress, duration, playButton, prevButton, nextButton, castButton, subsButton]
                         properties: "opacity"
                         to: 1
                         duration: 100
                     }
                     NumberAnimation {
                         id: hideAnimation
-                        targets: [progress, duration, playButton, prevButton, nextButton, castButton]
+                        targets: [progress, duration, playButton, prevButton, nextButton, castButton, subsButton]
                         properties: "opacity"
                         to: 0
                         duration: 100
@@ -697,9 +719,9 @@ Page {
                     IconButton {
                         id: playButton
                         visible: opacity != 0
-                        icon.source: videoplayer.state === VideoPlayer.StatePlaying ? "image://theme/icon-m-pause" : "image://theme/icon-m-play"
+                        icon.source: videoPlayer.state === VideoPlayer.StatePlaying ? "image://theme/icon-m-pause" : "image://theme/icon-m-play"
                         anchors.centerIn: parent
-                        onClicked: videoplayer.state === VideoPlayer.StatePlaying ? videoplayer.pause() : videoplayer.play()
+                        onClicked: videoPlayer.state === VideoPlayer.StatePlaying ? videoPlayer.pause() : videoPlayer.play()
                     }
 
                     IconButton {
@@ -709,7 +731,7 @@ Page {
                         anchors.top: playButton.top
                         anchors.left: playButton.right
                         anchors.leftMargin: page.width/4 - playButton.width/2
-                        onClicked: videoplayer.nextVideo()
+                        onClicked: videoPlayer.nextVideo()
                     }
 
                     IconButton {
@@ -719,7 +741,7 @@ Page {
                         anchors.top: playButton.top
                         anchors.right: playButton.left
                         anchors.rightMargin: page.width/4 - playButton.width/2
-                        onClicked: videoplayer.prevVideo()
+                        onClicked: videoPlayer.prevVideo()
                     }
 
                     IconButton {
@@ -728,12 +750,26 @@ Page {
                         icon.source: "qrc:///images/icon-m-cast.svg"
                         width: Theme.itemSizeExtraSmall
                         height: width
-                        anchors.right: parent.right
+                        anchors.right: subsButton.left
                         anchors.top: parent.top
                         anchors.margins: Theme.paddingMedium
                         icon.width: width
                         icon.height: width
                         onClicked: jupii.addUrlOnceAndPlay(video.streamUrl.toString(), video.getWebpage(), title, author, (settings.audioOnlyMode ? 1 : 2), "microtube", "/usr/share/icons/hicolor/172x172/apps/microtube.png")
+                    }
+
+                    IconButton {
+                        id: subsButton
+                        visible: opacity != 0 && landscape
+                        icon.source: "qrc:///images/icon-m-closed-captions-text.svg"
+                        width: Theme.itemSizeExtraSmall
+                        height: width
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.margins: Theme.paddingMedium
+                        icon.width: width
+                        icon.height: width
+                        onClicked: pageStack.push(Qt.resolvedUrl("components/SubtitlesDialog.qml"), {videoHelper: videoHelper})
                     }
 
                     Slider {
@@ -774,7 +810,7 @@ Page {
                         anchors.left: parent.left
                         anchors.bottom: parent.bottom
                         anchors.margins: Theme.paddingLarge
-                        text: Format.formatDuration(Math.round(videoplayer.position/1000), ((videoplayer.duration/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort))
+                        text: Format.formatDuration(Math.round(videoPlayer.position/1000), ((videoPlayer.duration/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort))
                     }
 
                     Label {
@@ -782,15 +818,15 @@ Page {
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
                         anchors.margins: Theme.paddingLarge
-                        text: Format.formatDuration(Math.round(videoplayer.duration/1000), ((videoplayer.duration/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort))
+                        text: Format.formatDuration(Math.round(videoPlayer.duration/1000), ((videoPlayer.duration/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort))
                     }
 
                     Slider {
                         id: progressSlider
-                        value: videoplayer.position
+                        value: videoPlayer.position
                         valueText: down ? Format.formatDuration(Math.round(value/1000), ((value/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort)) : ""
                         minimumValue: 0
-                        maximumValue: videoplayer.duration
+                        maximumValue: videoPlayer.duration
                         anchors.bottom: if (landscape && opacity == 0) videoBackground.top; else videoBackground.bottom
                         x: landscape ? progress.width : - Theme.paddingLarge * 4
                         width: landscape ? parent.width - progress.width - duration.width : parent.width + Theme.paddingLarge * 8
@@ -809,7 +845,7 @@ Page {
                             duration: 100
                         }
 
-                        onReleased: videoplayer.seek(progressSlider.value)
+                        onReleased: videoPlayer.seek(progressSlider.value)
                     }
                 }
             }
@@ -833,17 +869,17 @@ Page {
             Row {
                 id: playlist
                 width: parent.width
-                height: parent.height - videoPlayer.height
+                height: parent.height - videoPlayerRow.height
                 NumberAnimation { id: anim; target: listView; property: "contentY"; duration: 500 }
                 SilicaFlickable {
                     id: playlistFlickable
                     width: parent.width
                     height: playlist.height
-                    contentHeight: (page.height - videoPlayer.height) + videoTitle.height + authorViews.height + videoDescription.height /*+ comments.height*/ + progress.height/2 + Theme.paddingLarge
+                    contentHeight: (page.height - videoPlayerRow.height) + videoTitle.height + authorViews.height + videoDescription.height /*+ comments.height*/ + progress.height/2 + Theme.paddingLarge
                     clip: true
                     property int oldContentHeight: 0
                     onContentHeightChanged: {
-                        if (oldContentHeight !== 0 && contentY >= parseInt(oldContentHeight - (page.height - videoPlayer.height))) {
+                        if (oldContentHeight !== 0 && contentY >= parseInt(oldContentHeight - (page.height - videoPlayerRow.height))) {
                             var diff = contentHeight - oldContentHeight
                             playlistFlickable.contentY += diff
                             oldContentHeight = JSON.parse(JSON.stringify(contentHeight));
@@ -889,7 +925,7 @@ Page {
                                         anchors.fill: parent
                                         onClicked: {
                                             pageStack.navigateBack(PageStackAction.Immediate)
-                                            pageStack.push(Qt.resolvedUrl("Channel.qml"))
+                                            pageStack.push(Qt.resolvedUrl("Channel.qml"), {channelId: videoHelper.currentVideo.author.id })
                                         }
                                     }
                                 }
@@ -903,10 +939,6 @@ Page {
                                 }
                             }
 
-                            SubscriptionsHelper {
-                                id: subscriptionsHelper
-                            }
-
                             Row {
                                 width: parent.width/2
                                 rightPadding: Theme.paddingLarge*2
@@ -916,12 +948,12 @@ Page {
                                 Button {
                                     id: subscribeButton
                                     preferredWidth: Theme.itemSizeHuge
-                                    property bool subscribed: subscriptionsHelper.isSubscribed(videoHelper.currentVideo.author.id)
+                                    property bool subscribed: channelHelper.isSubscribed(videoHelper.currentVideo.author.id)
                                     text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
                                     onClicked: {
                                         var authorId = videoHelper.currentVideo.author.id
-                                        subscriptionsHelper.isSubscribed(authorId) ? subscriptionsHelper.unsubscribe(authorId) : subscriptionsHelper.subscribe(authorId)
-                                        subscribed = subscriptionsHelper.isSubscribed(authorId)
+                                        channelHelper.isSubscribed(authorId) ? channelHelper.unsubscribe(authorId) : channelHelper.subscribe(authorId)
+                                        subscribed = channelHelper.isSubscribed(authorId)
                                     }
                                 }
 
@@ -956,17 +988,17 @@ Page {
                         SilicaFastListView {
                             id: listView
                             width: parent.width - Theme.paddingLarge
-                            height: page.height - videoPlayer.height
+                            height: page.height - videoPlayerRow.height
                             maximumFlickVelocity: 9999
                             spacing: Theme.paddingMedium
                             model: currentPlaylist
                             clip: true
-                            interactive: playlistFlickable.contentY >= parseInt(playlistFlickable.contentHeight - (page.height - videoPlayer.height))
+                            interactive: playlistFlickable.contentY >= parseInt(playlistFlickable.contentHeight - (page.height - videoPlayerRow.height))
                             delegate: VideoElement {
                                 id: delegate
 
                                 onClicked: {
-                                    videoplayer.stop()
+                                    videoPlayer.stop()
                                     videoHelper.loadVideoUrl(id, settings.maxDefinition)
                                 }
                             }
@@ -983,19 +1015,19 @@ Page {
 
     CoverActionList {
         id: coverAction
-        enabled: videoplayer.playbackState !== videoplayer.StoppedState
+        enabled: videoPlayer.playbackState !== videoPlayer.StoppedState
 
         CoverAction {
-            iconSource: videoplayer.playbackState == videoplayer.PlayingState ? "image://theme/icon-cover-pause" : "image://theme/icon-cover-play"
+            iconSource: videoPlayer.playbackState == videoPlayer.PlayingState ? "image://theme/icon-cover-pause" : "image://theme/icon-cover-play"
             onTriggered: {
-                videoplayer.playbackState == videoplayer.PlayingState ? videoplayer.videoPause() : videoplayer.videoPlay()
+                videoPlayer.playbackState == videoPlayer.PlayingState ? videoPlayer.videoPause() : videoPlayer.videoPlay()
             }
         }
 
         CoverAction {
             iconSource: "image://theme/icon-cover-next-song"
             onTriggered: {
-                videoplayer.nextVideo()
+                videoPlayer.nextVideo()
             }
         }
     }
@@ -1041,31 +1073,31 @@ Page {
         volume: 1
 
         onPauseRequested: {
-            videoplayer.videoPause()
+            videoPlayer.videoPause()
         }
 
         onPlayRequested: {
-            videoplayer.videoPlay()
+            videoPlayer.videoPlay()
         }
 
         onPlayPauseRequested: {
-            videoplayer.playbackState == videoplayer.PlayingState ? videoplayer.videoPause() : videoplayer.videoPlay()
+            videoPlayer.playbackState == videoPlayer.PlayingState ? videoPlayer.videoPause() : videoPlayer.videoPlay()
         }
 
         onStopRequested: {
-            videoplayer.stop()
+            videoPlayer.stop()
         }
 
         onNextRequested: {
-            videoplayer.nextVideo()
+            videoPlayer.nextVideo()
         }
 
         onPreviousRequested: {
-            videoplayer.prevVideo()
+            videoPlayer.prevVideo()
         }
 
         onSeekRequested: {
-            videoplayer.seek(offset)
+            videoPlayer.seek(offset)
         }
     }
 }

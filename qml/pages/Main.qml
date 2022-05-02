@@ -159,6 +159,8 @@ Page {
                     model: playlistModel
                     delegate: VideoElement {
                         onClicked: {
+                            if (pageStack.nextPage(page))
+                                pageStack.popAttached(page, PageStackAction.Immediate)
                             pageStack.pushAttached(Qt.resolvedUrl("VideoPlayer.qml"), {videoIdToPlay: id})
                             pageStack.navigateForward()
                         }

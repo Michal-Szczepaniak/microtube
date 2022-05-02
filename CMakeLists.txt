@@ -1,7 +1,7 @@
 project(microtube CXX)
 cmake_minimum_required(VERSION 3.5)
 
-find_package(Qt5 COMPONENTS Core Network Qml Gui Quick DBus OpenGL OpenGLExtensions REQUIRED)
+find_package(Qt5 COMPONENTS Core Network Qml Gui Quick DBus Sql OpenGL OpenGLExtensions REQUIRED)
 find_package(DBus1 REQUIRED)
 find_package(PkgConfig)
 
@@ -19,7 +19,7 @@ pkg_search_module(NEMO_GSTREAMER_INTERFACES nemo-gstreamer-interfaces-1.0 REQUIR
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set (CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 20)
 
 file( GLOB_RECURSE SOURCES src/*.cpp )
 file( GLOB_RECURSE HEADERS src/*.h )
@@ -46,6 +46,7 @@ target_include_directories(microtube PRIVATE
 target_link_libraries(microtube
     Qt5::Quick
     Qt5::DBus
+    Qt5::Sql
     Qt5::OpenGL
     Qt5::OpenGLExtensions
     ${DBus1_LDFLAGS}
@@ -63,6 +64,8 @@ target_link_libraries(microtube
 target_compile_options(microtube PUBLIC
     ${EGL_CFLAGS_OTHER}
 )
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
 
 install(TARGETS microtube
     RUNTIME DESTINATION bin
@@ -94,6 +97,7 @@ install(FILES icons/172x172/microtube.png
 )
 
 FILE(GLOB TsFiles "translations/*.ts")
+file(GLOB_RECURSE QML_FILES qml/*.qml)
 add_custom_target(distfiles
     SOURCES
         microtube.desktop
@@ -104,38 +108,8 @@ add_custom_target(distfiles
         js/trending.js
         js/videoInfo.js
         microtube-url.desktop
-        qml/cover/CoverPage.qml
-        qml/pages/Channel.qml
-        qml/pages/Comments.qml
-        qml/pages/Filters.qml
-        qml/pages/InstallDialog.qml
-        qml/pages/SponsorBlockSettings.qml
-        qml/pages/SubscriptionsImport.qml
-        qml/pages/UpdateDialog.qml
-        qml/pages/components/APIKeyDialog.qml
-        qml/pages/components/CenteredLabel.qml
-        qml/pages/components/Comment.qml
-        qml/pages/components/CommentsButton.qml
-        qml/pages/components/Jupii.qml
-        qml/pages/components/VideoElement_copy.qml
-        qml/pages/About.qml
-        qml/pages/Main.qml
-        qml/pages/Subscriptions.qml
-        qml/pages/SubscriptionsImport.qml
-        qml/pages/Settings.qml
-        qml/pages/VideoPlayer.qml
-        qml/pages/components/VideoElement.qml
-        qml/pages/components/CategoryElement.qml
-        qml/pages/components/SilicaFastListView.qml
-        qml/pages/components/helpers.js
-        qml/pages/components/private/BoundsBehavior.qml
-        qml/pages/components/private/FastScrollAnimation.js
-        qml/pages/components/private/FastScrollAnimation.qml
-        qml/pages/components/private/QuickScroll.qml
-        qml/pages/components/private/QuickScrollArea.qml
-        qml/pages/components/private/QuickScrollButton.qml
-        qml/pages/components/private/HighlightImage.qml
         rpm/microtube.spec
+        ${QML_FILES}
         ${TsFiles})
 
 file(WRITE "${CMAKE_BINARY_DIR}/QtCreatorDeployment.txt"

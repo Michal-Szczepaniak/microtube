@@ -5,6 +5,7 @@
 VideoHelper::VideoHelper(QObject *parent) : QObject(parent)
 {
     connect(&_jsProcessHelper, &JSProcessHelper::gotVideoInfo, this, &VideoHelper::gotFormats);
+    connect(&_converter, &XmlToSrtConverter::gotSrt, this, &VideoHelper::gotSubtitles);
 }
 
 void VideoHelper::loadVideoUrl(QString videoId, int maxDefinition)
@@ -14,6 +15,19 @@ void VideoHelper::loadVideoUrl(QString videoId, int maxDefinition)
     _audioUrl = "";
 
     _jsProcessHelper.asyncGetVideoInfo(videoId);
+}
+
+void VideoHelper::loadSubtitle(int index)
+{
+    if (!_currentVideo || _currentVideo->subtitles.empty()) return;
+
+    if (index == -1) {
+        _currentSubtitle = "";
+        emit subtitleChanged();
+        return;
+    }
+
+    _converter.convertFromUrl(_currentVideo->subtitles.at(index).baseUrl);
 }
 
 QString VideoHelper::getVideoUrl() const
@@ -31,9 +45,27 @@ QString VideoHelper::getDescription() const
     return _description;
 }
 
+QString VideoHelper::getSubtitle() const
+{
+    return _currentSubtitle;
+}
+
 Video *VideoHelper::getCurrentVideo() const
 {
     return _currentVideo.get();
+}
+
+QStringList VideoHelper::getSubtitlesLabels() const
+{
+    QStringList list;
+    list.append(tr("Off"));
+
+    if (_currentVideo) {
+        for (Caption c : _currentVideo->subtitles)
+            list.append(c.label);
+    }
+
+    return list;
 }
 
 void VideoHelper::gotFormats(QHash<int, QString> formats)
@@ -60,6 +92,7 @@ void VideoHelper::gotFormats(QHash<int, QString> formats)
 
     _currentVideo = _jsProcessHelper.getVideoInfo();
     emit gotVideoInfo();
+    emit subtitlesChanged();
 }
 
 
@@ -68,4 +101,11 @@ void VideoHelper::gotDescription(QString description)
     _description = description;
 
     emit gotVideoInfo();
+}
+
+void VideoHelper::gotSubtitles(QString srt)
+{
+    _currentSubtitle = srt;
+
+    emit subtitleChanged();
 }

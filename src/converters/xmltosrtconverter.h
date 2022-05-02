@@ -15,6 +15,7 @@ public:
     void convertFromUrl(QUrl url);
 
 signals:
+    void gotSrt(QString text);
 
 protected slots:
     void requestFinished(QNetworkReply *reply);

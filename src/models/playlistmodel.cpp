@@ -1,6 +1,7 @@
 #include "playlistmodel.h"
 #include <QDebug>
 #include <QSettings>
+#include <src/repositories/videorepository.h>
 
 PlaylistModel::PlaylistModel(QObject *parent) : QAbstractListModel(parent)
 {
@@ -24,7 +25,7 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const
     Video* video = _items.at(index.row()).get();
     switch (role) {
     case IdRole:
-        return video->id;
+        return video->videoId;
     case TitleRole:
         return video->title;
     case DurationRole:
@@ -34,6 +35,8 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const
             return video->thumbnails[Thumbnail::HD].url;
         else
             return video->thumbnails[Thumbnail::SD].url;
+    case AlternativeThumbnailRole:
+        return video->thumbnails[Thumbnail::SD].url;
     case DescriptionRole:
         return video->description;
     case AuthorRole:
@@ -47,7 +50,7 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const
     case PublishedRole:
         return video->uploadedAt;
     case UrlRole:
-        return video->getUrl();
+        return video->url;
     default:
         return QVariant();
     }
@@ -70,6 +73,13 @@ void PlaylistModel::loadRecommendedVideos(QString query)
 void PlaylistModel::loadCategory(QString category, QString country)
 {
     _jsProcessHelper.asyncScrapeTrending(category, country);
+}
+
+QString PlaylistModel::getIdAt(int index)
+{
+    Q_ASSERT(_items.at(index));
+
+    return _items.at(index)->videoId;
 }
 
 bool PlaylistModel::getSafeSearch() const
@@ -118,6 +128,7 @@ QHash<int, QByteArray> PlaylistModel::roleNames() const
     roles[TitleRole] = "title";
     roles[DurationRole] = "duration";
     roles[ThumbnailRole] = "thumbnail";
+    roles[AlternativeThumbnailRole] = "altThumbnail";
     roles[DescriptionRole] = "description";
     roles[AuthorRole] = "author";
     roles[IsUpcomingRole] = "isUpcoming";

@@ -1,4 +1,4 @@
-#include "jsprocesshelper.h"
+﻿#include "jsprocesshelper.h"
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -8,11 +8,11 @@
 #include <QIODevice>
 #include <QEvent>
 #include "../parsers/videosparser.h"
+#include "../parsers/channelparser.h"
 #include "../factories/videofactory.h"
 
-JSProcessHelper::JSProcessHelper() : QObject(), _searchProcess(nullptr), _trendingScrapeProcess(nullptr), _getUrlProcess(nullptr)
+JSProcessHelper::JSProcessHelper() : QObject(), _searchProcess(nullptr), _trendingScrapeProcess(nullptr), _getUrlProcess(nullptr), _getChannelInfoProcess(nullptr)
 {
-
 }
 
 void JSProcessHelper::asyncSearch(Search* query)
@@ -59,6 +59,13 @@ void JSProcessHelper::asyncScrapeTrending(QString category, QString country)
     connect(_trendingScrapeProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessHelper::trendingScrapeDone);
 }
 
+void JSProcessHelper::asyncGetChannelInfo(QString channelId)
+{
+    if (_getChannelInfoProcess != nullptr) return;
+    _getChannelInfoProcess = execute("channelInfo", {channelId});
+    connect(_getChannelInfoProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessHelper::gotChannelInfoJson);
+}
+
 std::vector<std::unique_ptr<Video> > JSProcessHelper::getTrendingVideos()
 {
     return move(_trendingVideos);
@@ -72,6 +79,11 @@ std::vector<std::unique_ptr<Video> > JSProcessHelper::getRecommendedVideos()
 std::unique_ptr<Video> JSProcessHelper::getVideoInfo()
 {
     return move(_videoInfo);
+}
+
+Author JSProcessHelper::getChannelInfo()
+{
+    return _channelInfo;
 }
 
 QProcess* JSProcessHelper::execute(QString script, QStringList args)
@@ -131,8 +143,7 @@ void JSProcessHelper::gotVideoInfoJson(int exitStatus)
     }
 
     auto obj = response.object();
-    _converter.convertFromUrl(response.object()["player_response"].toObject()["captions"].toObject()["playerCaptionsTracklistRenderer"].toObject()["captionTracks"].toArray().first().toObject()["baseUrl"].toString());
-    _videoInfo = VideoFactory::fromJson(response.object()["videoDetails"].toObject());
+    _videoInfo = VideoFactory::fromVideoInfoJson(response.object());
     emit gotVideoInfo(formats);
 
     QProcess* process = _getUrlProcess;
@@ -165,4 +176,16 @@ void JSProcessHelper::trendingScrapeDone(int exitStatus)
     QProcess* process = _trendingScrapeProcess;
     _trendingScrapeProcess = nullptr;
     process->deleteLater();
+}
+
+void JSProcessHelper::gotChannelInfoJson(int exitStatus)
+{
+    QJsonDocument response = QJsonDocument::fromJson(_getChannelInfoProcess->readAll());
+    _channelInfo = ChannelParser::parseAuthorInfo(response.object());
+
+    emit gotChannelInfo();
+
+    QProcess* p = _getChannelInfoProcess;
+    _getChannelInfoProcess = nullptr;
+    p->deleteLater();
 }

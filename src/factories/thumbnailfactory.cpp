@@ -1,6 +1,5 @@
 #include "thumbnailfactory.h"
 
-
 Thumbnail ThumbnailFactory::fromJson(QJsonObject json)
 {
     Thumbnail thumbnail{};
