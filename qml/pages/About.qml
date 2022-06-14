@@ -57,7 +57,7 @@ Page {
             }
 
             Label {
-                text: qsTr("Made by Michał Szczepaniak. Based on minitube.")
+                text: qsTr("Made by Michał Szczepaniak.")
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
                 wrapMode: Text.WordWrap

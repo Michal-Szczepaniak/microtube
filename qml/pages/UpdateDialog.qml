@@ -74,13 +74,13 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Updated Translations")
+                    text: "• " + qsTr("Rewritten everything, no longer based on minitube.")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Full screen video in cover on landscape")
+                    text: "• " + qsTr("Added login, 1080p+, likes, comments")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }

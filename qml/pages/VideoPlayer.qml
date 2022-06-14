@@ -934,52 +934,79 @@ Page {
                         }
 
                         Row {
+                            height: Theme.itemSizeLarge
                             width: parent.width
 
-                            IconButton {
-                                id: likeIcon
+                            Column {
+                                id: likeColumn
+                                width: Math.max(likeLabel.width, likeIcon.width)
+                                height: parent.height
                                 anchors.verticalCenter: parent.verticalCenter
-                                icon.source: googleOAuthHelper.rating == "like" ? "image://theme/icon-m-like" : "image://theme/icon-m-outline-like"
-                                enabled: googleOAuthHelper.linked
-                                onClicked: {
-                                    if (googleOAuthHelper.rating == "like") {
-                                        googleOAuthHelper.rate(videoHelper.currentVideo.videoId, "none")
-                                    } else {
-                                        googleOAuthHelper.rate(videoHelper.currentVideo.videoId, "like")
+
+                                IconButton {
+                                    id: likeIcon
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    icon.source: googleOAuthHelper.rating == "like" ? "image://theme/icon-m-like" : "image://theme/icon-m-outline-like"
+                                    enabled: googleOAuthHelper.linked
+                                    onClicked: {
+                                        if (googleOAuthHelper.rating == "like") {
+                                            googleOAuthHelper.rate(videoHelper.currentVideo.videoId, "none")
+                                        } else {
+                                            googleOAuthHelper.rate(videoHelper.currentVideo.videoId, "like")
+                                        }
                                     }
                                 }
-                            }
 
-                            Label {
-                                id: likeLabel
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: Helpers.parseViews(videoHelper.currentVideo.likes)
-                            }
-
-                            IconButton {
-                                id: dislikeIcon
-                                anchors.verticalCenter: parent.verticalCenter
-                                icon.rotation: 180
-                                icon.source: googleOAuthHelper.rating == "dislike" ? "image://theme/icon-m-like" : "image://theme/icon-m-outline-like"
-                                enabled: googleOAuthHelper.linked
-                                onClicked: {
-                                    if (googleOAuthHelper.rating == "dislike") {
-                                        googleOAuthHelper.rate(videoHelper.currentVideo.videoId, "none")
-                                    } else {
-                                        googleOAuthHelper.rate(videoHelper.currentVideo.videoId, "dislike")
-                                    }
+                                Label {
+                                    id: likeLabel
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    text: Helpers.parseViews(videoHelper.currentVideo.likes)
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    truncationMode: TruncationMode.Fade
+                                    color: Theme.secondaryColor
                                 }
-                            }
-
-                            Label {
-                                id: dislikeLabel
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: qsTr("Dislike");
                             }
 
                             Item {
                                 height: 1
-                                width: parent.width - likeIcon.width - likeLabel.width - dislikeIcon.width - dislikeLabel.width - shareButton.width - subscribeButton.width - Theme.paddingLarge*2
+                                width: Theme.paddingMedium
+                            }
+
+
+                            Column {
+                                id: dislikeColumn
+                                width: Math.max(dislikeLabel.width, dislikeIcon.width)
+                                height: parent.height
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                IconButton {
+                                    id: dislikeIcon
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    icon.rotation: 180
+                                    icon.source: googleOAuthHelper.rating == "dislike" ? "image://theme/icon-m-like" : "image://theme/icon-m-outline-like"
+                                    enabled: googleOAuthHelper.linked
+                                    onClicked: {
+                                        if (googleOAuthHelper.rating == "dislike") {
+                                            googleOAuthHelper.rate(videoHelper.currentVideo.videoId, "none")
+                                        } else {
+                                            googleOAuthHelper.rate(videoHelper.currentVideo.videoId, "dislike")
+                                        }
+                                    }
+                                }
+
+                                Label {
+                                    id: dislikeLabel
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    text: qsTr("Dislike");
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    truncationMode: TruncationMode.Fade
+                                    color: Theme.secondaryColor
+                                }
+                            }
+
+                            Item {
+                                height: 1
+                                width: parent.width - likeColumn.width - dislikeColumn.width - shareButton.width - subscribeButton.width - Theme.paddingLarge*2
                             }
 
                             IconButton {

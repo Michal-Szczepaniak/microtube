@@ -36,7 +36,8 @@ int main(int argc, char *argv[])
     QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/";
     auto db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(appDataLocation + "db.sqlite");
-    Q_ASSERT(db.open());
+    bool opened = db.open();
+    Q_ASSERT(opened);
 
     VideoRepository::initTable();
     AuthorRepository::initTable();
@@ -54,6 +55,7 @@ int main(int argc, char *argv[])
     view->rootContext()->setContextProperty("subscriptionsAggregator", &subscriptionsAggregator);
     view->rootContext()->setContextProperty("googleOAuthHelper", &oauthHelper);
     view->rootContext()->setContextProperty("videoDownloader", &downloader);
+    view->rootContext()->setContextProperty("userFilesHelper", &userFilesHelper);
     qRegisterMetaType<Author>();
     qRegisterMetaType<Caption>();
     qRegisterMetaType<Thumbnail>();

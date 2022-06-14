@@ -85,6 +85,14 @@ ApplicationWindow
         }
     }
 
+    Connections {
+        target: userFilesHelper
+        onUpdateFinished: {
+            if (typeof startSearch !== "undefined") search(startSearch)
+            else playlistModel.loadCategory(settings.categoryName, settings.currentRegion)
+        }
+    }
+
     Component.onCompleted: {
         if (typeof startSearch !== "undefined") search(startSearch)
         else playlistModel.loadCategory(settings.categoryName, settings.currentRegion)

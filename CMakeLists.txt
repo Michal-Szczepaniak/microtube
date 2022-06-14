@@ -1,7 +1,7 @@
 project(microtube CXX)
 cmake_minimum_required(VERSION 3.5)
 
-find_package(Qt5 COMPONENTS Core Network Qml Gui Quick DBus Sql OpenGL OpenGLExtensions SystemInfo REQUIRED)
+find_package(Qt5 COMPONENTS Core Network Qml Gui Quick DBus Sql OpenGL OpenGLExtensions SystemInfo LinguistTools REQUIRED)
 find_package(DBus1 REQUIRED)
 find_package(PkgConfig)
 
@@ -59,6 +59,11 @@ set( o2_HEADERS
     ${o2_SOURCE}/o2googledevice.h
 )
 
+file(GLOB TsFiles "translations/*.ts")
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/translations)
+set_source_files_properties(${TsFiles} PROPERTIES OUTPUT_LOCATION "translations/")
+qt5_create_translation(QM_FILES ${TsFiles})
+
 file( GLOB_RECURSE SOURCES src/*.cpp )
 file( GLOB_RECURSE HEADERS src/*.h )
 add_executable(microtube
@@ -68,6 +73,7 @@ add_executable(microtube
     ${o2_SOURCES}
     ${o2_HEADERS}
     qml/resources/resources.qrc
+    ${QM_FILES}
     )
 target_compile_definitions(microtube PRIVATE
     $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>
@@ -120,7 +126,7 @@ install(DIRECTORY qml
 install(DIRECTORY js
     DESTINATION share/microtube
 )
-install(DIRECTORY translations
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/translations
     DESTINATION share/microtube
     FILES_MATCHING PATTERN "*.qm"
 )
@@ -140,8 +146,8 @@ install(FILES icons/172x172/microtube.png
     DESTINATION share/icons/hicolor/172x172/apps
 )
 
-FILE(GLOB TsFiles "translations/*.ts")
 file(GLOB_RECURSE QML_FILES qml/*.qml)
+
 add_custom_target(distfiles
     SOURCES
         microtube.desktop

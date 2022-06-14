@@ -30,14 +30,15 @@ void UserFilesHelper::copyJsFiles()
         QFile::copy("/usr/share/microtube/js/" + file, appDataLocation + "js/" + file);
     }
 
+    QProcess* process = new QProcess();
+    process->setWorkingDirectory(appDataLocation + "js/");
+    connect(process, static_cast<void (QProcess::*)(int)>(&QProcess::finished), [process, this](int exitStatus) { process->deleteLater(); emit updateFinished(); });
+
     if (!QDir(appDataLocation + "js/node_modules").exists()) {
-        QProcess* process = new QProcess();
-        process->setWorkingDirectory(appDataLocation + "js/");
         process->start("npm18", QStringList() << "install");
         process->waitForFinished();
+        emit updateFinished();
     } else {
-        QProcess* process = new QProcess();
-        process->setWorkingDirectory(appDataLocation + "js/");
         process->start("npm18", QStringList() << "update");
     }
 }
