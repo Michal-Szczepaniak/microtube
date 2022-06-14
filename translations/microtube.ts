@@ -553,6 +553,10 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <source>OAuth2 Client Secret</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>In oder to allow login you need to provide your own OAuth2 Client Id and Secret. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>

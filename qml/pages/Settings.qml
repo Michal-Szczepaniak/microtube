@@ -251,7 +251,7 @@ Page {
             }
 
             Text {
-                text: "In oder to allow login you need to provide your own OAuth2 Client Id and Secret. <a href=\"https://developers.google.com/youtube/registering_an_application\">https://developers.google.com/youtube/registering_an_application</a>"
+                text: qsTr("In oder to allow login you need to provide your own OAuth2 Client Id and Secret. <a href=\"https://developers.google.com/youtube/registering_an_application\">https://developers.google.com/youtube/registering_an_application</a>")
                 color: "white"
                 textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall

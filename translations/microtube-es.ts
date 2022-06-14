@@ -566,6 +566,10 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <source>OAuth2 Client Secret</source>
         <translation>Secreto de cliente OAuth2</translation>
     </message>
+    <message>
+        <source>In oder to allow login you need to provide your own OAuth2 Client Id and Secret. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</source>
+        <translation>Para poder acceder necesitas tu propia id y secreto de cliente OAuth2 &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>

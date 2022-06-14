@@ -121,19 +121,6 @@ Page {
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
-            Text {
-                text: "<a href=\"https://github.com/flaviotordini/minitube\">flaviotordini/minitube</a>"
-                color: "white"
-                textFormat: Text.StyledText
-                font.pixelSize: Theme.fontSizeSmall
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width - Theme.paddingLarge*2
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                horizontalAlignment: Text.AlignHCenter
-                linkColor: Theme.highlightColor
-                onLinkActivated: Qt.openUrlExternally(link)
-            }
-
             Label {
                 text: qsTr("SponsorBlock plugin from <br/><a href=\"https://sponsor.ajay.app\">https://sponsor.ajay.app</a>")
                 font.pixelSize: Theme.fontSizeSmall
