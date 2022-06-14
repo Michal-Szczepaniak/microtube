@@ -74,7 +74,7 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Made by Michał Szczepaniak.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hecho por Michał Szczepaniak.</translation>
     </message>
 </context>
 <context>
@@ -243,11 +243,11 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Rewritten everything, no longer based on minitube.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha reescrito todo, ya no está basado en minitube.</translation>
     </message>
     <message>
         <source>Added login, 1080p+, likes, comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha añadido acceso a YouTube, 1080p+, me gusta, comentarios</translation>
     </message>
 </context>
 <context>
@@ -687,11 +687,11 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Rewritten everything, no longer based on minitube.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha reescrito todo, ya no está basado en minitube.</translation>
     </message>
     <message>
         <source>Added login, 1080p+, likes, comments</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha añadido acceso a YouTube, 1080p+, me gusta, comentarios</translation>
     </message>
 </context>
 <context>
