@@ -26,7 +26,7 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Made by Michał Szczepaniak. Based on minitube.</source>
-        <translation>Hecho por Michał Szczepaniak. Basado en minitube.</translation>
+        <translation type="vanished">Hecho por Michał Szczepaniak. Basado en minitube.</translation>
     </message>
     <message>
         <source>Licensed under GPLv3</source>
@@ -71,6 +71,10 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <message>
         <source>Donate</source>
         <translation>Donar</translation>
+    </message>
+    <message>
+        <source>Made by Michał Szczepaniak.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -227,15 +231,23 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Updated Translations</source>
-        <translation>Traducciones actualizadas</translation>
+        <translation type="vanished">Traducciones actualizadas</translation>
     </message>
     <message>
         <source>Full screen video in cover on landscape</source>
-        <translation>Pantalla completa en portada con la orientación apaisada</translation>
+        <translation type="vanished">Pantalla completa en portada con la orientación apaisada</translation>
     </message>
     <message>
         <source>Donation</source>
         <translation>Donación</translation>
+    </message>
+    <message>
+        <source>Rewritten everything, no longer based on minitube.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added login, 1080p+, likes, comments</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -663,15 +675,23 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Updated Translations</source>
-        <translation>Traducciones actualizadas</translation>
+        <translation type="vanished">Traducciones actualizadas</translation>
     </message>
     <message>
         <source>Full screen video in cover on landscape</source>
-        <translation>Pantalla completa en portada con la orientación apaisada</translation>
+        <translation type="vanished">Pantalla completa en portada con la orientación apaisada</translation>
     </message>
     <message>
         <source>Donation</source>
         <translation>Donación</translation>
+    </message>
+    <message>
+        <source>Rewritten everything, no longer based on minitube.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added login, 1080p+, likes, comments</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
