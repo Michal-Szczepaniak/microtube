@@ -84,7 +84,7 @@ target_include_directories(microtube PRIVATE
     ${GSTREAMER_PLAYER_INCLUDE_DIRS}
     ${GSTREAMER_VIDEO_INCLUDE_DIRS}
     ${EGL_INCLUDE_DIRS}
-    ${o2_SOURCE_DIR}/src
+    ${o2_SOURCE}
 >)
 target_link_libraries(microtube
     Qt5::Quick
