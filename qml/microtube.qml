@@ -21,6 +21,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
 import com.verdanditeam.yt 1.0
+import Nemo.Notifications 1.0
 import "pages"
 
 ApplicationWindow
@@ -34,7 +35,7 @@ ApplicationWindow
 
     property string playing: ""
     property bool videoCover: false
-    property string version: "2.1.2"
+    property string version: "2.1.4"
 
     Component {
         id: updatePage
@@ -55,9 +56,43 @@ ApplicationWindow
         id: playlistModel
     }
 
+    Notification {
+         id: downloadNotification
+
+         summary: qsTr("Microtube download")
+         replacesId: 1
+    }
+
+    Connections {
+        target: videoDownloader
+        onDownloadStarted: {
+            downloadNotification.body = qsTr("Downloading " + filename)
+            downloadNotification.publish();
+        }
+
+        onDownloadStatusChanged: {
+            if (videoDownloader.downloadStatus === VideoDownloader.Failed) {
+                downloadNotification.body = qsTr("Download failed")
+                downloadNotification.publish()
+            } else if (videoDownloader.downloadStatus === VideoDownloader.Finished) {
+                downloadNotification.body = qsTr("Download complete")
+                downloadNotification.publish()
+            }
+        }
+        onDownloadProgressChanged: {
+            downloadNotification.progress = videoDownloader.downloadProgress
+            downloadNotification.publish()
+        }
+    }
+
     Component.onCompleted: {
         if (typeof startSearch !== "undefined") search(startSearch)
         else playlistModel.loadCategory(settings.categoryName, settings.currentRegion)
+    }
+
+    Connections {
+        target: googleOAuthHelper
+        onOpenBrowser: Qt.openUrlExternally(url)
     }
 
     ConfigurationGroup {

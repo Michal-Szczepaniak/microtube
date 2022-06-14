@@ -13,7 +13,7 @@ UserFilesHelper::UserFilesHelper()
 
 void UserFilesHelper::copyJsFiles()
 {
-    QStringList files = { "channelInfo.js", "channelVideos.js", "package.json", "search.js", "trending.js", "videoInfo.js" };
+    QStringList files = { "channelInfo.js", "channelVideos.js", "package.json", "search.js", "trending.js", "videoInfo.js", "basicVideoInfo.js", "comments.js", "commentReplies.js" };
 
     QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/";
 
@@ -33,12 +33,12 @@ void UserFilesHelper::copyJsFiles()
     if (!QDir(appDataLocation + "js/node_modules").exists()) {
         QProcess* process = new QProcess();
         process->setWorkingDirectory(appDataLocation + "js/");
-        process->start("npm", QStringList() << "install");
+        process->start("npm18", QStringList() << "install");
         process->waitForFinished();
     } else {
         QProcess* process = new QProcess();
         process->setWorkingDirectory(appDataLocation + "js/");
-        process->start("npm", QStringList() << "update");
+        process->start("npm18", QStringList() << "update");
     }
 }
 

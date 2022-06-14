@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <memory>
-#include "../entities/video.h"
+#include "src/repositories/videorepository.h"
+#include "src/entities/video.h"
 #include "jsprocesshelper.h"
 
 Q_DECLARE_METATYPE(QList<Caption>);
@@ -21,6 +22,7 @@ public:
 
     Q_INVOKABLE void loadVideoUrl(QString videoId, int maxDefinition);
     Q_INVOKABLE void loadSubtitle(int index);
+    Q_INVOKABLE void markAsWatched();
     QString getVideoUrl() const;
     QString getAudioUrl() const;
     QString getDescription() const;
@@ -47,6 +49,7 @@ private:
     int _maxDefinition;
     std::unique_ptr<Video> _currentVideo{};
     QString _currentSubtitle;
+    VideoRepository _videoRepository;
 };
 
 #endif // VIDEOHELPER_H

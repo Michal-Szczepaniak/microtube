@@ -10,6 +10,7 @@ public:
     VideoDefinition() = delete;
 
     static const QMap<quint32, QVector<int>> videoDefinitions;
+    static const QMap<quint32, QVector<int>> liveVideoDefinitions;
     static const QVector<int> audioDefinitions;
 };
 
@@ -28,6 +29,14 @@ const QMap<quint32, QVector<int>> VideoDefinition::videoDefinitions = {
     { 480,  { 244 } },
     { 360,  { 243 } },
     { 240,  { 242 } }
+};
+
+const QMap<quint32, QVector<int>> VideoDefinition::liveVideoDefinitions = {
+    { 1080, { 301, 96 } },
+    { 720,  { 300, 95 } },
+    { 480,  { 94 } },
+    { 360,  { 93 } },
+    { 240,  { 92 } }
 };
 
 const QVector<int> VideoDefinition::audioDefinitions = {

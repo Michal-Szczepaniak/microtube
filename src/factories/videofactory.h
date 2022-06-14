@@ -14,6 +14,11 @@ public:
     static std::unique_ptr<Video> fromRecommendedJson(QJsonObject video);
     static std::unique_ptr<Video> fromVideoInfoJson(QJsonObject video);
     static Video* fromSqlRecord(QSqlRecord record);
+    static std::unique_ptr<Video> fromChannelVideosJson(QJsonObject video);
+
+private:
+    static uint parseTimestamp(QString timestamp);
+    static QString formatDuration(QTime duration);
 };
 
 #endif // VIDEOFACTORY_H

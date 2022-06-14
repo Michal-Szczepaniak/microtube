@@ -12,6 +12,9 @@ struct Author {
     Q_PROPERTY(QString description MEMBER description)
     Q_PROPERTY(QString url MEMBER url)
     Q_PROPERTY(bool verified MEMBER verified)
+    Q_PROPERTY(Thumbnail banner MEMBER bestBanner)
+    Q_PROPERTY(Thumbnail avatar MEMBER bestAvatar)
+    Q_PROPERTY(int subscriberCount MEMBER subscriberCount)
 public:
     QVector<Thumbnail> avatars;
     Thumbnail bestAvatar{};
@@ -24,7 +27,9 @@ public:
     //QString<Badge> badges;
     QString url;
     bool verified;
+    int subscriberCount;
     bool subscribed = false;
+    int unwatchedVideosCount = 0;
 };
 
 #endif // AUTHOR_H

@@ -114,16 +114,16 @@ ListItem {
         ContextMenu {
             id: contextMenu
 
-            SubscriptionsHelper {
-                id: subscriptionsHelper
+            ChannelHelper {
+                id: channelHelper
             }
 
             MenuItem {
-                property bool subscribed: subscriptionsHelper.isSubscribed(author.id)
+                property bool subscribed: channelHelper.isSubscribed(author.id)
                 text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
                 onClicked: {
-                    subscriptionsHelper.isSubscribed(author.id) ? subscriptionsHelper.unsubscribe(author.id) : subscriptionsHelper.subscribe(author.id)
-                    subscribed = subscriptionsHelper.isSubscribed(author.id)
+                    channelHelper.isSubscribed(author.id) ? channelHelper.unsubscribe(author.id) : channelHelper.subscribe(author.id)
+                    subscribed = channelHelper.isSubscribed(author.id)
                 }
             }
 

@@ -1,4 +1,4 @@
-const ytrend = require("yt-trending-scraper")
+const ytrend = require("@freetube/yt-trending-scraper")
 
 let parameters = JSON.parse(process.argv[2]);
 

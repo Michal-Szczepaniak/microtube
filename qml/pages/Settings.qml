@@ -44,14 +44,10 @@ Page {
         property string currentRegion: ""
     }
 
-//    YtCategories {
-//        id: categories
-//    }
-
     SilicaFlickable {
         anchors.fill: parent
         flickableDirection: Flickable.VerticalFlick
-        contentHeight: column.height + header.height
+        contentHeight: column.height + header.height + Theme.paddingLarge
 
         PageHeader {
             id: header
@@ -65,56 +61,15 @@ Page {
             anchors.left: parent.left
             anchors.right: parent.right
 
+            SectionHeader {
+                text: qsTr("Search options")
+            }
+
             TextSwitch {
                checked: playlistModel.safeSearch
                width: parent.width
                text: qsTr("Restricted mode (safe for kids)")
                onClicked: playlistModel.safeSearch = checked
-            }
-
-            TextSwitch {
-               checked: settings.autoPlay
-               width: parent.width
-               text: qsTr("Automatic change to next video")
-               onClicked: {
-                   settings.autoPlay = checked
-               }
-            }
-
-            Slider {
-                id: bufferSlider
-                width: parent.width
-                minimumValue: 0
-                maximumValue: 1
-                stepSize: 0.1
-                value: settings.buffer
-                visible: settings.developerMode
-
-                onValueChanged: settings.buffer = value
-                label: qsTr("Buffer")
-            }
-
-            Button {
-                id: testNewInstall
-                anchors.horizontalCenter: parent.horizontalCenter
-                visible: settings.developerMode
-                onClicked: settings.version = ""
-                text: qsTr("Test new install")
-            }
-
-            Button {
-                id: testUpdate
-                anchors.horizontalCenter: parent.horizontalCenter
-                visible: settings.developerMode
-                onClicked: settings.version = "1"
-                text: qsTr("Test update")
-            }
-
-            TextField {
-                width: parent.width
-                text: settings.downloadLocation
-                label: qsTr("Download location")
-                onTextChanged: settings.downloadLocation = text
             }
 
             ComboBox {
@@ -133,6 +88,39 @@ Page {
                     settings.currentRegion = countries[currentIndex]
                     settings.currentRegionId = currentIndex
                 }
+            }
+
+            ComboBox {
+                id: defaultCategory
+                width: parent.width
+                label: qsTr("Default category")
+                value: settings.categoryName
+                currentIndex: -1
+                menu: ContextMenu {
+                    Repeater {
+                        model: [qsTr("Trending"),qsTr("Music"),qsTr("Gaming"),qsTr("Movies")]
+                        delegate: MenuItem {
+                            text: modelData
+                        }
+                    }
+                }
+                onCurrentItemChanged: {
+                    settings.categoryId = currentIndex
+                    settings.categoryName = currentItem.text
+                }
+            }
+
+            SectionHeader {
+                text: qsTr("Playback options")
+            }
+
+            TextSwitch {
+               checked: settings.autoPlay
+               width: parent.width
+               text: qsTr("Automatic change to next video")
+               onClicked: {
+                   settings.autoPlay = checked
+               }
             }
 
             ComboBox {
@@ -175,6 +163,8 @@ Page {
                         return 240;
                     case 7:
                         return 0;
+                    default:
+                        return 1080;
                     }
                 }
 
@@ -200,24 +190,44 @@ Page {
                 }
             }
 
-            ComboBox {
-                id: defaultCategory
+            SectionHeader {
+                text: qsTr("Other options")
+            }
+
+            Slider {
+                id: bufferSlider
                 width: parent.width
-                label: qsTr("Default category")
-                value: settings.categoryName
-                currentIndex: -1
-                menu: ContextMenu {
-                    Repeater {
-                        model: [qsTr("Trending"),qsTr("Music"),qsTr("Gaming"),qsTr("Movies")]
-                        delegate: MenuItem {
-                            text: modelData
-                        }
-                    }
-                }
-                onCurrentItemChanged: {
-                    settings.categoryId = currentIndex
-                    settings.categoryName = currentItem.text
-                }
+                minimumValue: 0
+                maximumValue: 1
+                stepSize: 0.1
+                value: settings.buffer
+                visible: settings.developerMode
+
+                onValueChanged: settings.buffer = value
+                label: qsTr("Buffer")
+            }
+
+            Button {
+                id: testNewInstall
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: settings.developerMode
+                onClicked: settings.version = ""
+                text: qsTr("Test new install")
+            }
+
+            Button {
+                id: testUpdate
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: settings.developerMode
+                onClicked: settings.version = "1"
+                text: qsTr("Test update")
+            }
+
+            TextField {
+                width: parent.width
+                text: settings.downloadLocation
+                label: qsTr("Download location")
+                onTextChanged: settings.downloadLocation = text
             }
 
             BackgroundItem {
@@ -230,6 +240,46 @@ Page {
                     anchors.leftMargin: Theme.horizontalPageMargin
                     text: qsTr("SponsorBlock Plugin Configuration")
                 }
+            }
+
+            Button {
+                id: login
+                anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: googleOAuthHelper.linked ? googleOAuthHelper.unlink() : googleOAuthHelper.link()
+                enabled: (clientId.text !== "" && clientSecret.text !== "") || googleOAuthHelper.linked
+                text: googleOAuthHelper.linked ? qsTr("Logout from YouTube") : qsTr("Login to YouTube")
+            }
+
+            Text {
+                text: "In oder to allow login you need to provide your own OAuth2 Client Id and Secret. <a href=\"https://developers.google.com/youtube/registering_an_application\">https://developers.google.com/youtube/registering_an_application</a>"
+                color: "white"
+                textFormat: Text.StyledText
+                font.pixelSize: Theme.fontSizeSmall
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width - Theme.paddingLarge*2
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                onLinkActivated: Qt.openUrlExternally(link)
+                linkColor: Theme.highlightColor
+            }
+
+
+            TextField {
+                id: clientId
+                width: parent.width
+                label: qsTr("OAuth2 Client ID")
+                enabled: !googleOAuthHelper.linked
+                onTextChanged: googleOAuthHelper.setClientId(text)
+                onFocusChanged: if (!focus) googleOAuthHelper.setClientId(text)
+            }
+
+            TextField {
+                id: clientSecret
+                width: parent.width
+                label: qsTr("OAuth2 Client Secret")
+                enabled: !googleOAuthHelper.linked
+                onTextChanged: googleOAuthHelper.setClientSecret(text)
+                onFocusChanged: if (!focus) googleOAuthHelper.setClientSecret(text)
             }
         }
         VerticalScrollDecorator {}

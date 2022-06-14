@@ -55,19 +55,13 @@ void VideoPlayer::classBegin() {
     _videoSource = gst_element_factory_make ("uridecodebin", "VideoSource");
     Q_ASSERT(_videoSource);
     g_object_set(_videoSource, "buffer-duration", 1800000000000, NULL);
-
-    _audioSource = gst_element_factory_make ("uridecodebin", "AudioSource");
-    Q_ASSERT(_audioSource);
-    g_object_set(_audioSource, "buffer-duration", 20000000000, NULL);
 //    g_object_set(_audioSource, "download", true, NULL);
 
     _pulsesink = gst_element_factory_make("pulsesink", "PulseSink");
     Q_ASSERT(_pulsesink);
 
-    gst_bin_add_many(GST_BIN(_pipeline), _videoSource, _audioSource, _pulsesink, _subSource, _subParse, _appSink, NULL);
-    g_signal_connect (_audioSource, "pad-added", G_CALLBACK (cbNewPad), this);
+    gst_bin_add_many(GST_BIN(_pipeline), _videoSource, _pulsesink, _subSource, _subParse, _appSink, NULL);
     g_signal_connect (_videoSource, "pad-added", G_CALLBACK (cbNewVideoPad), this);
-    gst_element_link_many(_subSource, _subParse, _appSink, NULL);
 
     GstBus *bus = gst_element_get_bus(_pipeline);
     gst_bus_add_watch(bus, bus_call, this);
@@ -96,7 +90,26 @@ void VideoPlayer::setAudioSource(const QUrl& audioSource) {
     if (_audioUrl != audioSource) {
         _audioUrl = audioSource;
 
-        g_object_set(_audioSource, "uri", _audioUrl.toString().toUtf8().constData(), NULL);
+        if (_audioSource != nullptr) {
+            gst_object_ref(_audioSource);
+            if (gst_bin_remove(GST_BIN(_pipeline), _audioSource) == false) {
+                gst_element_set_state(_audioSource, GST_STATE_NULL);
+                gst_object_unref(_audioSource);
+                _audioSource = nullptr;
+            }
+        }
+
+        if (audioSource.toString() != "") {
+            _audioSource = gst_element_factory_make ("uridecodebin", "AudioSource");
+            Q_ASSERT(_audioSource);
+            g_object_set(_audioSource, "buffer-duration", 20000000000, NULL);
+
+            gst_bin_add(GST_BIN(_pipeline), _audioSource);
+
+            g_signal_connect(_audioSource, "pad-added", G_CALLBACK (cbNewPad), this);
+
+            g_object_set(_audioSource, "uri", _audioUrl.toString().toUtf8().constData(), NULL);
+        }
 
         emit audioSourceChanged();
     }
@@ -185,7 +198,6 @@ void VideoPlayer::setSubtitle(QString subtitle)
 
     g_object_set(_appSink, "emit-signals", true, NULL);
     g_signal_connect(_appSink, "new-sample", G_CALLBACK (cbNewSample), this);
-
 
     g_object_set(_subSource, "uri", ("data:text/plain;base64," + subtitle.toUtf8().toBase64()).constData(), NULL);
     gst_bin_add_many(GST_BIN(_pipeline), _subSource, _subParse, _appSink, NULL);
@@ -419,7 +431,7 @@ gboolean VideoPlayer::bus_call(GstBus *bus, GstMessage *msg, gpointer data) {
     }
             break;
     case GST_MESSAGE_EOS:
-        that->stop();
+//        that->stop();
         break;
 
     case GST_MESSAGE_ERROR:
@@ -478,6 +490,10 @@ void VideoPlayer::cbNewVideoPad(GstElement *element, GstPad *pad, gpointer data)
             gst_element_get_name(element),
             gst_element_get_name(other->_renderer->sinkElement()));
     gst_element_link(element, other->_renderer->sinkElement());
+
+    if (other->_audioUrl.toString() == "") {
+        gst_element_link(element, other->_pulsesink);
+    }
 }
 
 GstFlowReturn VideoPlayer::cbNewSample(GstElement *sink, gpointer *data)

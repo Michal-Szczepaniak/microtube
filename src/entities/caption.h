@@ -10,6 +10,7 @@ struct Caption {
     Q_PROPERTY(QString id MEMBER id)
     Q_PROPERTY(bool translatable MEMBER translatable)
     Q_PROPERTY(QString baseUrl MEMBER baseUrl)
+
 public:
     QString label;
     QString code;

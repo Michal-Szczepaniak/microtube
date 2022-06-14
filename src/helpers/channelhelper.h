@@ -3,7 +3,8 @@
 
 #include <QObject>
 #include <memory>
-#include <src/repositories/authorrepository.h>
+#include "src/repositories/authorrepository.h"
+#include "src/services/subscriptionsaggregator.h"
 #include "src/helpers/jsprocesshelper.h"
 
 class ChannelHelper : public QObject
@@ -30,11 +31,6 @@ private:
     JSProcessHelper _jsProcessHelper;
     Author _channelInfo;
     AuthorRepository _authorRepository;
-
-    struct {
-        QString channelId{};
-        bool subscribe;
-    } _pendingAction;
 };
 
 #endif // CHANNELHELPER_H

@@ -1,13 +1,13 @@
 #include "playlistmodel.h"
 #include <QDebug>
 #include <QSettings>
-#include <src/repositories/videorepository.h>
 
 PlaylistModel::PlaylistModel(QObject *parent) : QAbstractListModel(parent)
 {
     connect(&_jsProcessHelper, &JSProcessHelper::searchFinished, this, &PlaylistModel::searchDone);
     connect(&_jsProcessHelper, &JSProcessHelper::gotTrendingVideos, this, &PlaylistModel::gotTrendingVideos);
     connect(&_jsProcessHelper, &JSProcessHelper::gotRecommendedVideos, this, &PlaylistModel::gotRecommendedVideos);
+    connect(&_jsProcessHelper, &JSProcessHelper::gotChannelVideos, this, &PlaylistModel::gotChannelVideos);
 }
 
 
@@ -75,11 +75,30 @@ void PlaylistModel::loadCategory(QString category, QString country)
     _jsProcessHelper.asyncScrapeTrending(category, country);
 }
 
+void PlaylistModel::loadChannelVideos(QString channelId)
+{
+    _jsProcessHelper.asyncLoadChannelVideos(channelId);
+}
+
 QString PlaylistModel::getIdAt(int index)
 {
     Q_ASSERT(_items.at(index));
 
     return _items.at(index)->videoId;
+}
+
+void PlaylistModel::loadSubscriptions()
+{
+    beginResetModel();
+    _items = _videoRepository.getSubscriptions();
+    endResetModel();
+}
+
+void PlaylistModel::loadUnwatchedSubscriptions()
+{
+    beginResetModel();
+    _items = _videoRepository.getUnwatchedSubscriptions();
+    endResetModel();
 }
 
 bool PlaylistModel::getSafeSearch() const
@@ -119,6 +138,20 @@ void PlaylistModel::gotRecommendedVideos()
     beginResetModel();
     _items = _jsProcessHelper.getRecommendedVideos();
     endResetModel();
+}
+
+void PlaylistModel::gotChannelVideos(bool continuation)
+{
+    std::vector<std::unique_ptr<Video>> videos = _jsProcessHelper.getChannelVideos();
+    if (continuation) {
+        beginInsertRows(QModelIndex(), rowCount(), rowCount() + videos.size()-1);
+        std::move(videos.begin(), videos.end(), std::back_inserter(videos));
+        endInsertRows();
+    } else {
+        beginResetModel();
+        _items = move(videos);
+        endResetModel();
+    }
 }
 
 QHash<int, QByteArray> PlaylistModel::roleNames() const

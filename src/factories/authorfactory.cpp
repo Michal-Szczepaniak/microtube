@@ -9,8 +9,12 @@ Author AuthorFactory::fromJson(QJsonObject json)
     Author author{};
     for (const QJsonValue &avatar : json["thumbnails"].toArray())
         author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
-    author.bestAvatar = ThumbnailFactory::fromJson(json["bestAvatar"].toObject());
-    author.authorId = json["id"].toString();
+    if (json.contains("bestAvatar")) {
+        author.bestAvatar = ThumbnailFactory::fromJson(json["bestAvatar"].toObject());
+    } else {
+        author.bestAvatar = author.avatars.last();
+    }
+    author.authorId = json.contains("id") ? json["id"].toString() : json["channelID"].toString();
     author.name = json["name"].toString();
     author.url = json["channel_url"].toString();
     author.verified = json["verified"].toBool();
@@ -29,16 +33,91 @@ Author AuthorFactory::fromTrendingJson(QJsonObject json)
     return author;
 }
 
-Author *AuthorFactory::fromSqlRecord(QSqlRecord record)
+Author AuthorFactory::fromSqlRecord(QSqlRecord record)
 {
-    Author *author = new Author;
+    Author author{};
 
-    author->id = record.value("id").toInt();
-    author->authorId = record.value("authorId").toString();
-    author->name = record.value("name").toString();
-    author->bestAvatar.url = record.value("avatar").toString();
-    author->url = record.value("url").toString();
-    author->subscribed = record.value("subscribed").toBool();
+    author.id = record.value("id").toInt();
+    author.authorId = record.value("authorId").toString();
+    author.name = record.value("name").toString();
+    author.bestAvatar.url = record.value("avatar").toString();
+    author.url = record.value("url").toString();
+    author.subscribed = record.value("subscribed").toBool();
+
+    if (record.contains("unwatchedCount"))
+        author.unwatchedVideosCount = record.value("unwatchedCount").toInt();
+
+    return author;
+}
+
+Author AuthorFactory::fromChannelVideosJson(QJsonObject json)
+{
+    Author author{};
+
+    author.authorId = json["authorId"].toString();
+    author.name = json["author"].toString();
+    author.url = "https://www.youtube.com" + json["authorUrl"].toString();
+
+    return author;
+}
+
+Author AuthorFactory::fromChannelInfoJson(QJsonObject json)
+{
+    Author author{};
+    author.description = json["description"].toString();
+    author.authorId = json["authorId"].toString();
+    author.name = json["author"].toString();
+    author.url = json["authorUrl"].toString();
+    author.verified = json["isVerified"].toBool();
+    author.subscriberCount = json["subscriberCount"].toInt();
+
+    if (json.contains("authorThumbnails") && !json["authorThumbnails"].isNull()) {
+        for (const QJsonValue &avatar : json["authorThumbnails"].toArray())
+            author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
+        author.bestAvatar = author.avatars.last();
+    }
+
+    if (json.contains("authorBanners") && !json["authorBanners"].isNull()) {
+        for (const QJsonValue &banner : json["authorBanners"].toArray())
+            author.banners.append(ThumbnailFactory::fromJson(banner.toObject()));
+        author.bestBanner = author.banners.last();
+    }
+
+    return author;
+}
+
+Author AuthorFactory::fromSubscriptionsJson(QJsonObject json)
+{
+    Author author{};
+    author.description = json["description"].toString();
+    author.authorId = json["channelId"].toString();
+    author.name = json["title"].toString();
+    author.url = json["authorUrl"].toString();
+    author.verified = json["isVerified"].toBool();
+    author.subscriberCount = json["subscriberCount"].toInt();
+
+    for (const QJsonValue &avatar : json["authorThumbnails"].toArray())
+        author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
+    author.bestAvatar = author.avatars.last();
+
+    for (const QJsonValue &banner : json["authorBanners"].toArray())
+        author.banners.append(ThumbnailFactory::fromJson(banner.toObject()));
+    author.bestBanner = author.banners.last();
+
+    return author;
+}
+
+Author AuthorFactory::fromCommentsJson(QJsonObject json)
+{
+    Author author{};
+
+    author.authorId = json["authorId"].toString();
+    author.name = json["author"].toString();
+    author.url = "https://www.youtube.com" + json["authorUrl"].toString();
+
+    for (const QJsonValue &avatar : json["authorThumb"].toArray())
+        author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
+    author.bestAvatar = author.avatars.last();
 
     return author;
 }

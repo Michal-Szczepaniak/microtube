@@ -24,9 +24,9 @@ void ChannelHelper::unsubscribe(QString channelId)
 
 bool ChannelHelper::isSubscribed(QString channelId)
 {
-    Author *a = _authorRepository.getOneByChannelId(channelId);
-    if (a != nullptr) {
-        return a->subscribed;
+    Author a = _authorRepository.getOneByChannelId(channelId);
+    if (a.id != -1) {
+        return a.subscribed;
     } else {
         return false;
     }
@@ -39,15 +39,14 @@ Author ChannelHelper::getChannelInfo()
 
 void ChannelHelper::setSubscribe(QString channelId, bool subscribed)
 {
-    Author *a = _authorRepository.getOneByChannelId(channelId);
-    if (a == nullptr) {
-        _jsProcessHelper.asyncGetChannelInfo(channelId);
-
-        _pendingAction.channelId = channelId;
-        _pendingAction.subscribe = subscribed;
+    Author a = _authorRepository.getOneByChannelId(channelId);
+    if (a.id == -1) {
+        a =_jsProcessHelper.fetchChannelInfo(channelId);
+        a.subscribed = subscribed;
+        _authorRepository.put(a);
     } else {
-        a->subscribed = subscribed;
-        _authorRepository.update(a->id);
+        a.subscribed = subscribed;
+        _authorRepository.update(a);
     }
 }
 
@@ -55,14 +54,7 @@ void ChannelHelper::gotChannelInfo()
 {
     Author a = _jsProcessHelper.getChannelInfo();
 
-    if (_pendingAction.channelId != "") {
-        a.subscribed = _pendingAction.subscribe;
-        _authorRepository.put(&a);
+    _channelInfo = a;
 
-        _pendingAction.channelId = "";
-    } else {
-        _channelInfo = a;
-
-        emit channelInfoChanged();
-    }
+    emit channelInfoChanged();
 }

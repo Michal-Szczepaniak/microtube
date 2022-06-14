@@ -5,7 +5,8 @@
 #include <QObject>
 #include <memory>
 #include <vector>
-#include "../helpers/jsprocesshelper.h"
+#include "src/repositories/videorepository.h"
+#include "src/helpers/jsprocesshelper.h"
 
 class PlaylistModel : public QAbstractListModel
 {
@@ -29,13 +30,16 @@ public:
         UrlRole
     };
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
 
     Q_INVOKABLE void search(QString query);
     Q_INVOKABLE void loadRecommendedVideos(QString query);
     Q_INVOKABLE void loadCategory(QString category, QString country);
+    Q_INVOKABLE void loadChannelVideos(QString channelId);
     Q_INVOKABLE QString getIdAt(int index);
+    Q_INVOKABLE void loadSubscriptions();
+    Q_INVOKABLE void loadUnwatchedSubscriptions();
     bool getSafeSearch() const;
     void setSafeSearch(bool safeSearch);
 
@@ -49,9 +53,10 @@ public slots:
     void searchDone(bool continuation);
     void gotTrendingVideos();
     void gotRecommendedVideos();
+    void gotChannelVideos(bool continuation);
 
 protected:
-    QHash<int, QByteArray> roleNames() const;
+    QHash<int, QByteArray> roleNames() const override;
     bool canFetchMore(const QModelIndex &parent) const override;
     void fetchMore(const QModelIndex &parent) override;
 
@@ -60,6 +65,7 @@ private:
     std::vector<std::unique_ptr<Video>> _items;
     JSProcessHelper _jsProcessHelper;
     quint32 _maxDefinition;
+    VideoRepository _videoRepository;
 };
 
 #endif // PLAYLISTMODEL_H

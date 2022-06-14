@@ -18,9 +18,11 @@ public:
 
     CategoriesModel();
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data(const QModelIndex &index, int role = IdRole) const;
-    QHash<int, QByteArray> roleNames() const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex &index, int role = IdRole) const override;
+
+protected:
+    QHash<int, QByteArray> roleNames() const override;
 
 private:
     QStringList _categories;

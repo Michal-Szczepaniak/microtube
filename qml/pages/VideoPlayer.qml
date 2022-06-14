@@ -75,7 +75,7 @@ Page {
         property bool developerMode: false
         property double buffer: 1.0
         property int maxDefinition: 1080
-        property string downloadLocation: "/home/nemo/Downloads/"
+        property string downloadLocation: StandardPaths.download
     }
 
     SponsorBlockPlugin {
@@ -100,10 +100,6 @@ Page {
 
     ChannelHelper {
         id: channelHelper
-
-        onChannelInfoChanged: {
-            console.log(channelInfo.id)
-        }
     }
 
     VideoHelper {
@@ -116,8 +112,6 @@ Page {
             if (playing) videoPlayer.play()
         }
 
-        onSubtitlesLabelsChanged: console.log(videoHelper.subtitlesLabels)
-
         onGotVideoInfo: {
             videoPlayer.videoSource = videoHelper.videoUrl
             videoPlayer.audioSource = videoHelper.audioUrl
@@ -127,8 +121,13 @@ Page {
             }
             if (videoChanging) videoChanging = false
             videoPlayer.play()
-            sponsorBlockPlugin.videoId = videoHelper.currentVideo.id
+            sponsorBlockPlugin.videoId = videoHelper.currentVideo.videoId
             currentPlaylist.loadRecommendedVideos(videoHelper.currentVideo.url)
+            videoHelper.markAsWatched()
+
+            if (googleOAuthHelper.linked) {
+                googleOAuthHelper.getRating(videoHelper.currentVideo.videoId)
+            }
         }
     }
 
@@ -205,13 +204,6 @@ Page {
         }
     }
 
-    Notification {
-         id: downloadNotification
-
-         summary: "Downloaded"
-         previewSummary: summary
-    }
-
     ShareAction {
         id: shareAction
         resources: [ videoHelper.currentVideo.url ]
@@ -223,10 +215,10 @@ Page {
         if (_controlsVisible) {
             showAnimation.start()
             hideControlsAutomatically.restart()
-            errorPane.show()
+            dimPane.show()
         } else {
             hideAnimation.start()
-            errorPane.hide()
+            dimPane.hide()
         }
 
         if ((_controlsVisible && page.landscape) || page.orientation === Orientation.Portrait) {
@@ -299,16 +291,17 @@ Page {
             visible: page.orientation === Orientation.Portrait && Qt.application.state === Qt.ApplicationActive
 
             MenuItem {
-                text: qsTr("Subtitles")
-                onClicked: pageStack.push(Qt.resolvedUrl("components/SubtitlesDialog.qml"), {videoHelper: videoHelper})
-            }
-
-            MenuItem {
                 text: qsTr("Download")
-                enabled: videoHelper.videoUrl.toString() !== ""
+                enabled: videoHelper.currentVideo.url !== ""
                 onClicked: {
-                    console.log(video.streamUrl)
-                    YT.download(video.getId(), settings.audioOnlyMode ? video.audioStreamUrl : video.streamUrl, settings.downloadLocation)
+                    var endsWithXml = /\/$/;
+                    var path = settings.downloadLocation;
+                    if (!endsWithXml.test(path)) path += '/';
+                    var PATTERN = /[a-zA-Z\s]/;
+                    var filename = videoHelper.currentVideo.title.replace(/\W/g, '')
+                    if (filename === "") filename = "download"
+                    path += '.mp4';
+                    videoDownloader.download(videoHelper.currentVideo.url, path)
                 }
             }
 
@@ -379,6 +372,7 @@ Page {
                         }
 
                         function nextVideo() {
+                            return;
                             videoChanging = true
                             videoPlayer.stop()
                             if (playlistMode) {
@@ -419,14 +413,14 @@ Page {
                         }
 
                         Rectangle {
-                            id: errorPane
+                            id: dimPane
                             anchors.fill: parent
                             property double colorOpacity: 0
                             color: Theme.rgba("black", colorOpacity)
                             Behavior on colorOpacity {
                                 NumberAnimation {}
                             }
-                            visible: true//videoPlayer.errorMsg !== ""
+                            visible: true
 
                             function show() {
                                 colorOpacity = 0.5
@@ -438,7 +432,6 @@ Page {
 
                             Label {
                                 id: errorText
-//                                text: videoPlayer.errorMsg
                                 visible: parent.visible
                                 anchors.centerIn: parent
                                 font.pointSize: Theme.fontSizeExtraLarge
@@ -875,7 +868,7 @@ Page {
                     id: playlistFlickable
                     width: parent.width
                     height: playlist.height
-                    contentHeight: (page.height - videoPlayerRow.height) + videoTitle.height + authorViews.height + videoDescription.height /*+ comments.height*/ + progress.height/2 + Theme.paddingLarge
+                    contentHeight: (page.height - videoPlayerRow.height) + videoTitle.height + authorViews.height + videoDescription.height + comments.height + progress.height/2 + Theme.paddingLarge
                     clip: true
                     property int oldContentHeight: 0
                     onContentHeightChanged: {
@@ -911,7 +904,7 @@ Page {
                             width: parent.width
                             Column {
                                 id: authorViews
-                                width: parent.width/2
+                                width: parent.width
                                 spacing: Theme.paddingSmall
                                 anchors.verticalCenter: parent.verticalCenter
                                 Label {
@@ -938,32 +931,82 @@ Page {
                                     bottomPadding: Theme.paddingLarge
                                 }
                             }
+                        }
 
-                            Row {
-                                width: parent.width/2
-                                rightPadding: Theme.paddingLarge*2
-                                layoutDirection: Qt.RightToLeft
+                        Row {
+                            width: parent.width
+
+                            IconButton {
+                                id: likeIcon
                                 anchors.verticalCenter: parent.verticalCenter
-
-                                Button {
-                                    id: subscribeButton
-                                    preferredWidth: Theme.itemSizeHuge
-                                    property bool subscribed: channelHelper.isSubscribed(videoHelper.currentVideo.author.id)
-                                    text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
-                                    onClicked: {
-                                        var authorId = videoHelper.currentVideo.author.id
-                                        channelHelper.isSubscribed(authorId) ? channelHelper.unsubscribe(authorId) : channelHelper.subscribe(authorId)
-                                        subscribed = channelHelper.isSubscribed(authorId)
+                                icon.source: googleOAuthHelper.rating == "like" ? "image://theme/icon-m-like" : "image://theme/icon-m-outline-like"
+                                enabled: googleOAuthHelper.linked
+                                onClicked: {
+                                    if (googleOAuthHelper.rating == "like") {
+                                        googleOAuthHelper.rate(videoHelper.currentVideo.videoId, "none")
+                                    } else {
+                                        googleOAuthHelper.rate(videoHelper.currentVideo.videoId, "like")
                                     }
                                 }
+                            }
 
-                                IconButton {
-                                    icon.source: "image://theme/icon-m-share"
-                                    onClicked: shareAction.trigger()
+                            Label {
+                                id: likeLabel
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: Helpers.parseViews(videoHelper.currentVideo.likes)
+                            }
+
+                            IconButton {
+                                id: dislikeIcon
+                                anchors.verticalCenter: parent.verticalCenter
+                                icon.rotation: 180
+                                icon.source: googleOAuthHelper.rating == "dislike" ? "image://theme/icon-m-like" : "image://theme/icon-m-outline-like"
+                                enabled: googleOAuthHelper.linked
+                                onClicked: {
+                                    if (googleOAuthHelper.rating == "dislike") {
+                                        googleOAuthHelper.rate(videoHelper.currentVideo.videoId, "none")
+                                    } else {
+                                        googleOAuthHelper.rate(videoHelper.currentVideo.videoId, "dislike")
+                                    }
+                                }
+                            }
+
+                            Label {
+                                id: dislikeLabel
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: qsTr("Dislike");
+                            }
+
+                            Item {
+                                height: 1
+                                width: parent.width - likeIcon.width - likeLabel.width - dislikeIcon.width - dislikeLabel.width - shareButton.width - subscribeButton.width - Theme.paddingLarge*2
+                            }
+
+                            IconButton {
+                                id: shareButton
+                                anchors.verticalCenter: parent.verticalCenter
+                                icon.source: "image://theme/icon-m-share"
+                                onClicked: shareAction.trigger()
+                            }
+
+                            Button {
+                                id: subscribeButton
+                                anchors.verticalCenter: parent.verticalCenter
+                                preferredWidth: Theme.itemSizeHuge
+                                property bool subscribed: channelHelper.isSubscribed(videoHelper.currentVideo.author.id)
+                                text: subscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
+                                onClicked: {
+                                    var authorId = videoHelper.currentVideo.author.id
+                                    channelHelper.isSubscribed(authorId) ? channelHelper.unsubscribe(authorId) : channelHelper.subscribe(authorId)
+                                    subscribed = channelHelper.isSubscribed(authorId)
                                 }
                             }
                         }
 
+                        Item {
+                            height: Theme.paddingLarge
+                            width: 1
+                        }
 
                         LinkedLabel {
                             id: videoDescription
@@ -973,13 +1016,13 @@ Page {
                             wrapMode: TextEdit.WordWrap
                         }
 
-//                        CommentsButton {
-//                            id: comments
-//                            text: qsTr("Comments")
-//                            width: parent.width - Theme.paddingLarge
+                        CommentsButton {
+                            id: comments
+                            text: qsTr("Comments")
+                            width: parent.width - Theme.paddingLarge
 
-//                            onClicked: pageStack.push(Qt.resolvedUrl("Comments.qml"), {videoId: video.getId()})
-//                        }
+                            onClicked: pageStack.push(Qt.resolvedUrl("Comments.qml"), {videoId: videoHelper.currentVideo.videoId})
+                        }
 
                         YtPlaylist {
                             id: currentPlaylist

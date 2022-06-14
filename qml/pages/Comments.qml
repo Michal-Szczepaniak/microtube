@@ -7,10 +7,13 @@ Page {
     id: page
     allowedOrientations: Orientation.All
 
-    property var model: YTComments
     property var videoId: null
 
-    onStatusChanged: if (status === PageStatus.Active) YTComments.loadComments(videoId)
+    CommentsModel {
+        id: commentsModel
+    }
+
+    onStatusChanged: if (status === PageStatus.Active) commentsModel.loadCommentsForVideo(videoId)
 
     SilicaListView {
         id: listView
@@ -21,7 +24,7 @@ Page {
             title: qsTr("Comments")
         }
 
-        model: page.model
+        model: commentsModel
 
         delegate: Comment { }
     }

@@ -49,6 +49,10 @@ Page {
         id: categories
     }
 
+    ChannelHelper {
+        id: channelHelper
+    }
+
     SilicaFlickable {
         anchors.fill: parent
         flickableDirection: Flickable.VerticalFlick
@@ -60,22 +64,26 @@ Page {
                     pageStack.push(Qt.resolvedUrl("About.qml"))
                 }
             }
+
             MenuItem {
                 text: qsTr("Settings")
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("Settings.qml"))
                 }
             }
+
             MenuItem {
                 text: qsTr("Subscriptions")
                 onClicked: {
-                    YTChannels.updateQuery()
+                    subscriptionsAggregator.updateSubscriptions()
                     pageStack.push(Qt.resolvedUrl("Subscriptions.qml"), {playlistModel: app.playlistModel})
                 }
             }
+
             MenuItem {
                 text: qsTr("Filters")
-                enabled: typeof app.playlistModel.searchParams !== "undefined"
+                enabled: typeof playlistModel.searchParams !== "undefined"
+                visible: false
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("Filters.qml"), {playlistModel: app.playlistModel})
                 }
