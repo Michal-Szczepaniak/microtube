@@ -300,6 +300,7 @@ Page {
                     var PATTERN = /[a-zA-Z\s]/;
                     var filename = videoHelper.currentVideo.title.replace(/\W/g, '')
                     if (filename === "") filename = "download"
+                    path += filename;
                     path += '.mp4';
                     videoDownloader.download(videoHelper.currentVideo.url, path)
                 }
