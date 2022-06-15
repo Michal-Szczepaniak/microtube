@@ -1,6 +1,6 @@
-[submodule "vendor/minitube"]
-	path = vendor/minitube
-	url = https://github.com/flaviotordini/minitube/
-[submodule "vendor/fr/grecko/sortfilterproxymodel"]
-	path = vendor/fr/grecko/sortfilterproxymodel
-	url = git@github.com:Michal-Szczepaniak/SortFilterProxyModel.git
+[submodule "vendor/SortFilterProxyModel"]
+	path = vendor/SortFilterProxyModel
+	url = https://github.com/Michal-Szczepaniak/SortFilterProxyModel
+[submodule "vendor/o2"]
+	path = vendor/o2
+	url = https://github.com/pipacs/o2

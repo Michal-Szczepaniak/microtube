@@ -7,10 +7,8 @@ ListItem {
     contentHeight: height
 
     onClicked: {
-        if (id === -1) {
-            YTComments.loadMoreComments()
-        } else if (subCommentsModel.rowCount() > 0){
-            pageStack.push(Qt.resolvedUrl("../Comments.qml"), {model: subCommentsModel})
+        if (repliesCount > 0){
+            pageStack.push(Qt.resolvedUrl("../Replies.qml"), {videoId: videoId, replyToken: replyToken})
         }
     }
 
@@ -23,7 +21,7 @@ ListItem {
         verticalAlignment: Image.AlignVCenter
         horizontalAlignment: Image.AlignHCenter
         fillMode: Image.PreserveAspectFit
-        source: authorProfileImageUrl
+        source: photo
         asynchronous: true
         width: Theme.itemSizeSmall
         height: Theme.itemSizeSmall
@@ -52,7 +50,7 @@ ListItem {
         anchors.topMargin: Theme.paddingLarge
         anchors.right: parent.right
         font.pixelSize: Theme.fontSizeMedium
-        horizontalAlignment: received ? Text.AlignLeft : Text.AlignRight
+        horizontalAlignment: Text.AlignLeft
         color: Theme.highlightColor
     }
 
@@ -75,8 +73,9 @@ ListItem {
         anchors.top: commentLabel.bottom
         anchors.topMargin: Theme.paddingSmall
         anchors.right: parent.right
+        color: Theme.secondaryColor
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        visible: typeof subCommentsModel === "undefined" ? false : subCommentsModel.rowCount()
-        text: qsTr("%1 replies").arg(subCommentsModel.rowCount())
+        visible: repliesCount > 0
+        text: qsTr("%1 replies").arg(repliesCount)
     }
 }

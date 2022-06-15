@@ -36,14 +36,34 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: qsTr("Mark all as watched")
+                text: qsTr("Import subscriptions from YouTube")
+                visible: googleOAuthHelper.linked
                 onClicked: {
-                    ChannelAggregator.markAllAsWatched()
+                    pageStack.push(Qt.resolvedUrl("SubscriptionsImport.qml"))
                 }
             }
+
             MenuItem {
-                text: qsTr("Import subscriptions")
-                onClicked: pageStack.push(Qt.resolvedUrl("SubscriptionsImport.qml"))
+                text: qsTr("Mark all as watched")
+                onClicked: {
+                    subscriptionsModel.markAllAsWatched()
+                }
+            }
+
+            MenuItem {
+                text: qsTr("Load unwatched videos")
+                onClicked: {
+                    playlistModel.loadUnwatchedSubscriptions()
+                    pageStack.pop()
+                }
+            }
+
+            MenuItem {
+                text: qsTr("Load all videos")
+                onClicked: {
+                    playlistModel.loadSubscriptions()
+                    pageStack.pop()
+                }
             }
         }
 
@@ -52,12 +72,30 @@ Page {
             title: qsTr("Subscriptions")
         }
 
+        ChannelHelper {
+            id: channelHelper
+        }
+
+        SubscriptionsModel {
+            id: subscriptionsModel
+
+            Component.onCompleted: subscriptionsModel.loadSubscriptionsList()
+        }
+
         SortFilterProxyModel {
             id: channelsProxyModel
-            sourceModel: YTChannels
+            sourceModel: subscriptionsModel
             sorters: [
-                RoleSorter { roleName: "notifyCount"; sortOrder: Qt.DescendingOrder}
+                RoleSorter { roleName: "unwatchedCount"; sortOrder: Qt.DescendingOrder}
             ]
+        }
+
+        Label {
+            id: importLabel
+            anchors.top: header.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: qsTr("Updating subscriptions: (%1/%2)").arg(subscriptionsAggregator.subscriptionsUpdateProgress).arg(subscriptionsAggregator.subscriptionsCount)
+            visible: subscriptionsAggregator.subscriptionsCount != subscriptionsAggregator.subscriptionsUpdateProgress
         }
 
         SilicaGridView {
@@ -65,7 +103,8 @@ Page {
 
             readonly property int columnWidth: page.orientation === Orientation.Portrait ? listView.width/3 : listView.width/5
 
-            anchors.top: header.bottom
+            anchors.top: importLabel.visible ? importLabel.bottom : header.bottom
+            anchors.topMargin: importLabel.visible ? Theme.paddingLarge : 0
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
@@ -84,22 +123,12 @@ Page {
                 contentHeight: listView.columnWidth + contextMenu.height
 
                 onClicked: {
-                    switch(index) {
-                    case 0:
-                        playlistModel.loadAllSubscribedChannelsVideos();
-                        break;
-                    case 1:
-                        playlistModel.loadUnwatchedVideos();
-                        break;
-                    default:
-                        playlistModel.loadChannelVideos(channel.channelId)
-                    }
-
-                    pageStack.navigateBack()
+                    playlistModel.loadChannelVideos(authorId)
+                    pageStack.pop()
                 }
 
                 Rectangle {
-                    visible: index > 0 && ( ( index === 1 && ChannelAggregator.unwatchedCount > 0 ) || ( index > 1 && channel.notifyCount > 0 ) )
+                    visible: unwatchedCount > 0
                     anchors.right: picture.right
                     anchors.top: picture.top
                     anchors.topMargin: -height/2
@@ -114,7 +143,7 @@ Page {
                         anchors.margins: Theme.paddingSmall/2
                         anchors.fill: parent
                         color: Theme.primaryColor
-                        text: index > 1 ? channel.notifyCount : ChannelAggregator.unwatchedCount
+                        text: unwatchedCount
                         font.pixelSize: Theme.fontSizeMedium
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
@@ -132,32 +161,28 @@ Page {
                     anchors.top: parent.top
                     width: Theme.itemSizeExtraLarge
                     height: Theme.itemSizeExtraLarge
-                    source: thumbnail
+                    source: avatar
                     fillMode: Image.PreserveAspectFit
                 }
                 Label {
-                    text: username
+                    text: name
                     anchors.top: picture.bottom
-                    anchors.leftMargin: Theme.paddingSmall
-                    anchors.rightMargin: Theme.paddingSmall
                     anchors.topMargin: Theme.paddingSmall
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    width: parent.width
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    width: Math.min(implicitWidth, parent.width - Theme.paddingLarge*2)
                     truncationMode: TruncationMode.Fade
                     font.pixelSize: Theme.fontSizeExtraSmall
-                    horizontalAlignment: Text.AlignHCenter
+                    horizontalAlignment: Text.AlignLeft
                 }
 
                 menu: ContextMenu {
                     id: contextMenu
-                    hasContent: index >= 2
                     width: page.width
                     MenuItem {
                         text: qsTr("Unsubscribe")
                         onClicked: {
-                            YTChannels.unsubscribe(channelsProxyModel.mapToSource(index));
-                            YTChannels.updateQuery()
+                            channelHelper.unsubscribe(authorId)
+                            subscriptionsModel.loadSubscriptionsList()
                         }
                     }
                 }

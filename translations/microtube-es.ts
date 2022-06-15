@@ -26,7 +26,7 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Made by Michał Szczepaniak. Based on minitube.</source>
-        <translation>Hecho por Michał Szczepaniak. Basado en minitube.</translation>
+        <translation type="vanished">Hecho por Michał Szczepaniak. Basado en minitube.</translation>
     </message>
     <message>
         <source>Licensed under GPLv3</source>
@@ -41,8 +41,8 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Gracias a</translation>
     </message>
     <message>
-        <source>Donate</source>
-        <translation>Donar</translation>
+        <source>SponsorBlock plugin from &lt;br/&gt;&lt;a href=&quot;https://sponsor.ajay.app&quot;&gt;https://sponsor.ajay.app&lt;/a&gt;</source>
+        <translation>Complemento SponsorBlock de &lt;br/&gt;&lt;a href=&quot;https://sponsor.ajay.app&quot;&gt;https://sponsor.ajay.app&lt;/a&gt;</translation>
     </message>
     <message>
         <source>jgibbon for german translation and help.</source>
@@ -53,10 +53,6 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>carmenfdezb por la traducción al español.</translation>
     </message>
     <message>
-        <source>DylanVanAssche for help.</source>
-        <translation>DylanVanAssche por su ayuda.</translation>
-    </message>
-    <message>
         <source>1Zgp for hungarian translation.</source>
         <translation>1Zgp por la traducción al húngaro.</translation>
     </message>
@@ -65,20 +61,24 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Malakay por la traducción al checo.</translation>
     </message>
     <message>
+        <source>DylanVanAssche for help.</source>
+        <translation>DylanVanAssche por su ayuda.</translation>
+    </message>
+    <message>
         <source>mkiol for integration with Jupii.</source>
         <translation>mkiol por la integración con Jupii.</translation>
     </message>
     <message>
-        <source>SponsorBlock plugin from &lt;br/&gt;&lt;a href=&quot;https://sponsor.ajay.app&quot;&gt;https://sponsor.ajay.app&lt;/a&gt;</source>
-        <translation>Complemento SponsorBlock de &lt;br/&gt;&lt;a href=&quot;https://sponsor.ajay.app&quot;&gt;https://sponsor.ajay.app&lt;/a&gt;</translation>
+        <source>Donate</source>
+        <translation>Donar</translation>
+    </message>
+    <message>
+        <source>Made by Michał Szczepaniak.</source>
+        <translation>Hecho por Michał Szczepaniak.</translation>
     </message>
 </context>
 <context>
     <name>CategoriesModel</name>
-    <message>
-        <source>Most Popular</source>
-        <translation>Más popular</translation>
-    </message>
     <message>
         <source>Trending</source>
         <translation>Tendencias</translation>
@@ -88,16 +88,12 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Música</translation>
     </message>
     <message>
-        <source>News</source>
-        <translation>Noticias</translation>
+        <source>Gaming</source>
+        <translation>Videojuegos</translation>
     </message>
     <message>
         <source>Movies</source>
         <translation>Películas</translation>
-    </message>
-    <message>
-        <source>Gaming</source>
-        <translation>Videojuegos</translation>
     </message>
 </context>
 <context>
@@ -119,26 +115,16 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Reproducir todo</translation>
     </message>
     <message>
+        <source>%1 subscribers</source>
+        <translation>%1 suscriptores</translation>
+    </message>
+    <message>
         <source>Description</source>
         <translation>Descripción</translation>
     </message>
     <message>
         <source>Show more</source>
         <translation>Mostrar más</translation>
-    </message>
-</context>
-<context>
-    <name>ChannelAggregator</name>
-    <message>
-        <source>By %1</source>
-        <translation>Por %1</translation>
-    </message>
-    <message numerus="yes">
-        <source>You have %n new video(s)</source>
-        <translation>
-            <numerusform>Tienes %n vídeo nuevo</numerusform>
-            <numerusform>Tienes %n vídeos nuevos</numerusform>
-        </translation>
     </message>
 </context>
 <context>
@@ -156,13 +142,6 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
 </context>
 <context>
-    <name>CommentsModel</name>
-    <message>
-        <source>Show more</source>
-        <translation>Mostrar más</translation>
-    </message>
-</context>
-<context>
     <name>CoverPage</name>
     <message>
         <source>µtube</source>
@@ -171,71 +150,6 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <message>
         <source>Playing:</source>
         <translation>Reproduciendo:</translation>
-    </message>
-</context>
-<context>
-    <name>DataUtils</name>
-    <message>
-        <source>K</source>
-        <comment>K as in Kilo, i.e. thousands</comment>
-        <translation>K</translation>
-    </message>
-    <message>
-        <source>M</source>
-        <comment>M stands for Millions</comment>
-        <translation>M</translation>
-    </message>
-    <message>
-        <source>B</source>
-        <comment>B stands for Billions</comment>
-        <translation>B</translation>
-    </message>
-    <message>
-        <source>%1 subscribers</source>
-        <translation>%1 suscriptores</translation>
-    </message>
-    <message>
-        <source>Just now</source>
-        <translation>Ahora</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n hour(s) ago</source>
-        <translation>
-            <numerusform>Hace %n hora</numerusform>
-            <numerusform>Hace %n horas</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n day(s) ago</source>
-        <translation>
-            <numerusform>Hace %n día</numerusform>
-            <numerusform>Hace %n días</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n week(s) ago</source>
-        <translation>
-            <numerusform>Hace %n semana</numerusform>
-            <numerusform>Hace %n semanas</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n month(s) ago</source>
-        <translation>
-            <numerusform>Hace %n mes</numerusform>
-            <numerusform>Hace %n meses</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n year(s) ago</source>
-        <translation>
-            <numerusform>Hace %n año</numerusform>
-            <numerusform>Hace %n años</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>%1 views</source>
-        <translation>%1 visualizaciones</translation>
     </message>
 </context>
 <context>
@@ -304,6 +218,10 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
 <context>
     <name>InstallDialog</name>
     <message>
+        <source>Installation</source>
+        <translation>Instalación</translation>
+    </message>
+    <message>
         <source>Thank you for installing Microtube!</source>
         <translation>¡Gracias por instalar Microtube!</translation>
     </message>
@@ -312,32 +230,28 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Registro de cambios</translation>
     </message>
     <message>
+        <source>Updated Translations</source>
+        <translation type="vanished">Traducciones actualizadas</translation>
+    </message>
+    <message>
+        <source>Full screen video in cover on landscape</source>
+        <translation type="vanished">Pantalla completa en portada con la orientación apaisada</translation>
+    </message>
+    <message>
         <source>Donation</source>
         <translation>Donación</translation>
     </message>
     <message>
-        <source>Installation</source>
-        <translation>Instalación</translation>
+        <source>Rewritten everything, no longer based on minitube.</source>
+        <translation>Se ha reescrito todo, ya no está basado en minitube.</translation>
     </message>
     <message>
-        <source>Updated Translations</source>
-        <translation>Traducciones actualizadas</translation>
-    </message>
-    <message>
-        <source>Full screen video in cover on landscape</source>
-        <translation>Vídeo en pantalla completa en la cubierta en modo apaisado</translation>
+        <source>Added login, 1080p+, likes, comments</source>
+        <translation>Se ha añadido acceso a YouTube, 1080p+, me gusta, comentarios</translation>
     </message>
 </context>
 <context>
     <name>Main</name>
-    <message>
-        <source>Subscriptions</source>
-        <translation>Suscripciones</translation>
-    </message>
-    <message>
-        <source>Search</source>
-        <translation>Buscar</translation>
-    </message>
     <message>
         <source>About</source>
         <translation>Acerca de</translation>
@@ -347,31 +261,23 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Ajustes</translation>
     </message>
     <message>
+        <source>Subscriptions</source>
+        <translation>Suscripciones</translation>
+    </message>
+    <message>
         <source>Filters</source>
         <translation>Filtros</translation>
     </message>
+    <message>
+        <source>Search</source>
+        <translation>Buscar</translation>
+    </message>
 </context>
 <context>
-    <name>PlaylistModel</name>
+    <name>Replies</name>
     <message>
-        <source>No videos</source>
-        <translation>No hay vídeos</translation>
-    </message>
-    <message>
-        <source>No more videos</source>
-        <translation>No hay más vídeos</translation>
-    </message>
-    <message>
-        <source>Check internet connection.</source>
-        <translation>Comprueba la conexión a internet.</translation>
-    </message>
-    <message>
-        <source>Show more</source>
-        <translation>Mostrar más</translation>
-    </message>
-    <message>
-        <source>API key quota exceeded.</source>
-        <translation>Límite excedido para clave API.</translation>
+        <source>Replies</source>
+        <translation>Respuestas</translation>
     </message>
 </context>
 <context>
@@ -381,240 +287,21 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Ajustes</translation>
     </message>
     <message>
-        <source>Restricted mode (safe for kids)</source>
-        <translation>Modo restringido (seguro para niños)</translation>
+        <source>Search options</source>
+        <translation>Opciones de búsqueda</translation>
     </message>
     <message>
-        <source>Automatic change to next video</source>
-        <translation>Reproducción automática</translation>
+        <source>Restricted mode (safe for kids)</source>
+        <translation>Modo restringido (seguro para niños)</translation>
     </message>
     <message>
         <source>Region</source>
         <translation>Región</translation>
     </message>
     <message>
-        <source>Download location</source>
-        <translation>Ubicación de descargas</translation>
+        <source>Default</source>
+        <translation>Por defecto</translation>
     </message>
-    <message>
-        <source>Default category</source>
-        <translation>Categoría por defecto</translation>
-    </message>
-    <message>
-        <source>Buffer</source>
-        <translation>Búfer</translation>
-    </message>
-    <message>
-        <source>Test new install</source>
-        <translation>Probar nueva instalación</translation>
-    </message>
-    <message>
-        <source>Test update</source>
-        <translation>Probar actualización</translation>
-    </message>
-    <message>
-        <source>SponsorBlock Plugin Configuration</source>
-        <translation>Configuración de SponsorBlock</translation>
-    </message>
-</context>
-<context>
-    <name>SharePage</name>
-    <message>
-        <source>Share</source>
-        <translation>Compartir</translation>
-    </message>
-</context>
-<context>
-    <name>SponsorBlockSettings</name>
-    <message>
-        <source>SponsorBlock Settings</source>
-        <translation>Ajustes de SponsorBlock</translation>
-    </message>
-    <message>
-        <source>Enable SponsorBlock</source>
-        <translation>Activar SponsorBlock</translation>
-    </message>
-    <message>
-        <source>Categories</source>
-        <translation>Categorías</translation>
-    </message>
-    <message>
-        <source>Sponsors</source>
-        <translation>Patrocinadores</translation>
-    </message>
-    <message>
-        <source>Intermission/Intro Animation</source>
-        <translation>Intermisión/Intro animación</translation>
-    </message>
-    <message>
-        <source>Endcards/Credits</source>
-        <translation>Pantallas finales/Créditos</translation>
-    </message>
-    <message>
-        <source>Interaction Reminder (Subscribe)</source>
-        <translation>Recordatorio de interacción (Suscribir)</translation>
-    </message>
-    <message>
-        <source>Unpaid/Self Promotion</source>
-        <translation>No remunerado/Autopromoción</translation>
-    </message>
-    <message>
-        <source>Music: Non-Music Section</source>
-        <translation>Música: sección sin música</translation>
-    </message>
-    <message>
-        <source>Uses SponsorBlock plugin from https://sponsor.ajay.app</source>
-        <translation>Usa el complemento SponsorBlock de https://sponsor.ajay.app</translation>
-    </message>
-</context>
-<context>
-    <name>Subscriptions</name>
-    <message>
-        <source>Mark all as watched</source>
-        <translation>Marcar todo como visto</translation>
-    </message>
-    <message>
-        <source>Import subscriptions</source>
-        <translation>Importar suscripciones</translation>
-    </message>
-    <message>
-        <source>Subscriptions</source>
-        <translation>Suscripciones</translation>
-    </message>
-    <message>
-        <source>Unsubscribe</source>
-        <translation>Borrar suscripción</translation>
-    </message>
-</context>
-<context>
-    <name>SubscriptionsImport</name>
-    <message>
-        <source>Import</source>
-        <translation>Importar</translation>
-    </message>
-    <message>
-        <source>Import file</source>
-        <translation>Importar archivo</translation>
-    </message>
-    <message>
-        <source>Instructions</source>
-        <translation>Instrucciones</translation>
-    </message>
-    <message>
-        <source>Go to YouTube website on desktop and while logged in, save the page by clicking ctrl+s. Upload saved file to your device and pick it from pull down menu.</source>
-        <translation>Visita el sitio web de YouTube desde un ordenador, y cuando accedas con tu usuario, guarda la página pulsando ctrl+s. Copia el archivo guardado en tu dispositivo y selecciónalo en el menú deslizante.</translation>
-    </message>
-    <message>
-        <source>Import successful</source>
-        <translation>Importación correcta</translation>
-    </message>
-</context>
-<context>
-    <name>UpdateDialog</name>
-    <message>
-        <source>Update</source>
-        <translation>Actualizar</translation>
-    </message>
-    <message>
-        <source>Microtube was updated to version %1!</source>
-        <translation>¡Microtube se ha actualizado a la versión %1!</translation>
-    </message>
-    <message>
-        <source>Changelog</source>
-        <translation>Registro de cambios</translation>
-    </message>
-    <message>
-        <source>Donation</source>
-        <translation>Donación</translation>
-    </message>
-    <message>
-        <source>Updated Translations</source>
-        <translation>Traducciones actualizadas</translation>
-    </message>
-    <message>
-        <source>Full screen video in cover on landscape</source>
-        <translation>Vídeo en pantalla completa en la cubierta en modo apaisado</translation>
-    </message>
-</context>
-<context>
-    <name>VideoElement</name>
-    <message>
-        <source>Unsubscribe</source>
-        <translation>Borrar suscripción</translation>
-    </message>
-    <message>
-        <source>Subscribe</source>
-        <translation>Suscribirse</translation>
-    </message>
-    <message>
-        <source>Copy url</source>
-        <translation>Copiar url</translation>
-    </message>
-</context>
-<context>
-    <name>VideoPlayer</name>
-    <message>
-        <source>Downloaded to</source>
-        <translation>Descargado en</translation>
-    </message>
-    <message>
-        <source>720p</source>
-        <translation>720p</translation>
-    </message>
-    <message>
-        <source>Download</source>
-        <translation>Descargar</translation>
-    </message>
-    <message>
-        <source>Copy url</source>
-        <translation>Copiar url</translation>
-    </message>
-    <message>
-        <source>Error: Problem with allocating resources</source>
-        <translation>Error: problema con asignación de recursos</translation>
-    </message>
-    <message>
-        <source>Error: Media service error</source>
-        <translation>Error: error en servicio multimedia</translation>
-    </message>
-    <message>
-        <source>Error: Video or Audio format is not supported</source>
-        <translation>Error: formato de vídeo o audio no soportado</translation>
-    </message>
-    <message>
-        <source>Error: Access denied to the video</source>
-        <translation>Error: acceso al vídeo denegado</translation>
-    </message>
-    <message>
-        <source>Error: Network error</source>
-        <translation>Error: error de conexión</translation>
-    </message>
-    <message>
-        <source>Unsubscribe</source>
-        <translation>Dejar suscripción</translation>
-    </message>
-    <message>
-        <source>Subscribe</source>
-        <translation>Suscribirse</translation>
-    </message>
-    <message>
-        <source>360p</source>
-        <translation>360p</translation>
-    </message>
-    <message>
-        <source>Load recommended videos</source>
-        <translation>Cargar vídeos recomendados</translation>
-    </message>
-</context>
-<context>
-    <name>YTJSVideo</name>
-    <message>
-        <source>Cannot get video stream for %1</source>
-        <translation>No es posible obtener transmisión de vídeo %1</translation>
-    </message>
-</context>
-<context>
-    <name>YTRegions</name>
     <message>
         <source>Algeria</source>
         <translation>Argelia</translation>
@@ -804,15 +491,294 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Yemen</translation>
     </message>
     <message>
-        <source>Worldwide</source>
-        <translation>Todo el mundo</translation>
+        <source>Default category</source>
+        <translation>Categoría por defecto</translation>
+    </message>
+    <message>
+        <source>Trending</source>
+        <translation>Tendencias</translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation>Música</translation>
+    </message>
+    <message>
+        <source>Gaming</source>
+        <translation>Videojuegos</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation>Películas</translation>
+    </message>
+    <message>
+        <source>Playback options</source>
+        <translation>Opciones de reproducción</translation>
+    </message>
+    <message>
+        <source>Automatic change to next video</source>
+        <translation>Reproducción automática</translation>
+    </message>
+    <message>
+        <source>Maximum resolution</source>
+        <translation>Resolución máxima</translation>
+    </message>
+    <message>
+        <source>Audio only</source>
+        <translation>Sólo audio</translation>
+    </message>
+    <message>
+        <source>Other options</source>
+        <translation>Otras opciones</translation>
+    </message>
+    <message>
+        <source>Buffer</source>
+        <translation>Búfer</translation>
+    </message>
+    <message>
+        <source>Test new install</source>
+        <translation>Probar instalación nueva</translation>
+    </message>
+    <message>
+        <source>Test update</source>
+        <translation>Probar actualización</translation>
+    </message>
+    <message>
+        <source>Download location</source>
+        <translation>Ruta de descargas</translation>
+    </message>
+    <message>
+        <source>SponsorBlock Plugin Configuration</source>
+        <translation>Configuración de SponsorBlock</translation>
+    </message>
+    <message>
+        <source>Logout from YouTube</source>
+        <translation>Cerrar sesión en YouTube</translation>
+    </message>
+    <message>
+        <source>Login to YouTube</source>
+        <translation>Acceder a YouTube</translation>
+    </message>
+    <message>
+        <source>OAuth2 Client ID</source>
+        <translation>Id de cliente OAuth2</translation>
+    </message>
+    <message>
+        <source>OAuth2 Client Secret</source>
+        <translation>Secreto de cliente OAuth2</translation>
+    </message>
+    <message>
+        <source>In oder to allow login you need to provide your own OAuth2 Client Id and Secret. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</source>
+        <translation>Para poder acceder necesitas tu propia id y secreto de cliente OAuth2 &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
-    <name>YTVideo</name>
+    <name>SharePage</name>
     <message>
-        <source>Cannot get video stream for %1</source>
-        <translation>No es posible obtener transmisión de vídeo %1</translation>
+        <source>Share</source>
+        <translation>Compartir</translation>
+    </message>
+</context>
+<context>
+    <name>SponsorBlockSettings</name>
+    <message>
+        <source>SponsorBlock Settings</source>
+        <translation>Ajustes de SponsorBlock</translation>
+    </message>
+    <message>
+        <source>Enable SponsorBlock</source>
+        <translation>Activar SponsorBlock</translation>
+    </message>
+    <message>
+        <source>Uses SponsorBlock plugin from https://sponsor.ajay.app</source>
+        <translation>Usa el complemento SponsorBlock de https://sponsor.ajay.app</translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <translation>Categorías</translation>
+    </message>
+    <message>
+        <source>Sponsors</source>
+        <translation>Patrocinadores</translation>
+    </message>
+    <message>
+        <source>Intermission/Intro Animation</source>
+        <translation>Intermisión/Intro animación</translation>
+    </message>
+    <message>
+        <source>Endcards/Credits</source>
+        <translation>Pantallas finales/Créditos</translation>
+    </message>
+    <message>
+        <source>Interaction Reminder (Subscribe)</source>
+        <translation>Recordatorio de interacción (Suscribir)</translation>
+    </message>
+    <message>
+        <source>Unpaid/Self Promotion</source>
+        <translation>No remunerado/Autopromoción</translation>
+    </message>
+    <message>
+        <source>Music: Non-Music Section</source>
+        <translation>Música: sección sin música</translation>
+    </message>
+</context>
+<context>
+    <name>Subscriptions</name>
+    <message>
+        <source>Import subscriptions from YouTube</source>
+        <translation>Importar suscripciones de YouTube</translation>
+    </message>
+    <message>
+        <source>Mark all as watched</source>
+        <translation>Marcar todo como visto</translation>
+    </message>
+    <message>
+        <source>Load unwatched videos</source>
+        <translation>Cargar vídeos sin visualizar</translation>
+    </message>
+    <message>
+        <source>Load all videos</source>
+        <translation>Cargar todos los vídeos</translation>
+    </message>
+    <message>
+        <source>Subscriptions</source>
+        <translation>Suscripciones</translation>
+    </message>
+    <message>
+        <source>Updating subscriptions: (%1/%2)</source>
+        <translation>Actualizando suscripciones: (%1/%2)</translation>
+    </message>
+    <message>
+        <source>Unsubscribe</source>
+        <translation>Borrar suscripción</translation>
+    </message>
+</context>
+<context>
+    <name>SubscriptionsImport</name>
+    <message>
+        <source>Import</source>
+        <translation>Importar</translation>
+    </message>
+    <message>
+        <source>Importing (%1/%2)</source>
+        <translation>Importando (%1/%2)</translation>
+    </message>
+</context>
+<context>
+    <name>UpdateDialog</name>
+    <message>
+        <source>Update</source>
+        <translation>Actualizar</translation>
+    </message>
+    <message>
+        <source>Microtube was updated to version %1!</source>
+        <translation>¡Microtube se ha actualizado a la versión %1!</translation>
+    </message>
+    <message>
+        <source>Changelog</source>
+        <translation>Registro de cambios</translation>
+    </message>
+    <message>
+        <source>Updated Translations</source>
+        <translation type="vanished">Traducciones actualizadas</translation>
+    </message>
+    <message>
+        <source>Full screen video in cover on landscape</source>
+        <translation type="vanished">Pantalla completa en portada con la orientación apaisada</translation>
+    </message>
+    <message>
+        <source>Donation</source>
+        <translation>Donación</translation>
+    </message>
+    <message>
+        <source>Rewritten everything, no longer based on minitube.</source>
+        <translation>Se ha reescrito todo, ya no está basado en minitube.</translation>
+    </message>
+    <message>
+        <source>Added login, 1080p+, likes, comments</source>
+        <translation>Se ha añadido acceso a YouTube, 1080p+, me gusta, comentarios</translation>
+    </message>
+</context>
+<context>
+    <name>VideoElement</name>
+    <message>
+        <source>%1 views - %2</source>
+        <translation>%1 visualizaciones - %2</translation>
+    </message>
+    <message>
+        <source>Unsubscribe</source>
+        <translation>Borrar suscripción</translation>
+    </message>
+    <message>
+        <source>Subscribe</source>
+        <translation>Suscribirse</translation>
+    </message>
+    <message>
+        <source>Copy url</source>
+        <translation>Copiar url</translation>
+    </message>
+</context>
+<context>
+    <name>VideoHelper</name>
+    <message>
+        <source>Off</source>
+        <translation>Apagado</translation>
+    </message>
+</context>
+<context>
+    <name>VideoPlayer</name>
+    <message>
+        <source>Download</source>
+        <translation>Descargar</translation>
+    </message>
+    <message>
+        <source>Copy url</source>
+        <translation>Copiar url</translation>
+    </message>
+    <message>
+        <source>%1 views</source>
+        <translation>%1 visualizaciones</translation>
+    </message>
+    <message>
+        <source>Dislike</source>
+        <translation>No me gusta</translation>
+    </message>
+    <message>
+        <source>Unsubscribe</source>
+        <translation>Borrar suscripción</translation>
+    </message>
+    <message>
+        <source>Subscribe</source>
+        <translation>Suscribirse</translation>
+    </message>
+    <message>
+        <source>Comments</source>
+        <translation>Comentarios</translation>
+    </message>
+</context>
+<context>
+    <name>helpers</name>
+    <message>
+        <source>%1K</source>
+        <translation>%1K</translation>
+    </message>
+    <message>
+        <source>%1M</source>
+        <translation>%1M</translation>
+    </message>
+</context>
+<context>
+    <name>microtube</name>
+    <message>
+        <source>Microtube download</source>
+        <translation>Descarga de microtube</translation>
+    </message>
+    <message>
+        <source>Download failed</source>
+        <translation>Error en descarga</translation>
+    </message>
+    <message>
+        <source>Download complete</source>
+        <translation>Descarga completa</translation>
     </message>
 </context>
 </TS>

@@ -57,7 +57,7 @@ Page {
             }
 
             Label {
-                text: qsTr("Made by Michał Szczepaniak. Based on minitube.")
+                text: qsTr("Made by Michał Szczepaniak.")
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
                 wrapMode: Text.WordWrap
@@ -119,19 +119,6 @@ Page {
                 text: qsTr("Thanks to")
                 font.pixelSize: Theme.fontSizeLarge
                 anchors.horizontalCenter: parent.horizontalCenter
-            }
-
-            Text {
-                text: "<a href=\"https://github.com/flaviotordini/minitube\">flaviotordini/minitube</a>"
-                color: "white"
-                textFormat: Text.StyledText
-                font.pixelSize: Theme.fontSizeSmall
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width - Theme.paddingLarge*2
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                horizontalAlignment: Text.AlignHCenter
-                linkColor: Theme.highlightColor
-                onLinkActivated: Qt.openUrlExternally(link)
             }
 
             Label {

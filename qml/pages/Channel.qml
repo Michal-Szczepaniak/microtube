@@ -2,22 +2,31 @@ import QtQuick 2.5
 import Sailfish.Silica 1.0
 import com.verdanditeam.yt 1.0
 import "components"
+import "components/helpers.js" as Helpers
 
 Page {
     id: page
     allowedOrientations: Orientation.All
-    property var channel: null
+    property var channelId: null
 
-    onStatusChanged: if (status === PageStatus.Active) playlistModel.loadChannelVideos(channel.channelId)
+    onStatusChanged: {
+        if (status === PageStatus.Active) {
+            channelHelper.loadChannelInfo(channelId)
+        }
+    }
 
-    YtPlaylist {
-        id: playlistModel
+    ChannelHelper {
+        id: channelHelper
+
+        onChannelInfoChanged: channelVideos.loadChannelVideos(channelId)
+
+        Component.onCompleted: channelHelper.loadChannelInfo(channelId)
     }
 
     Label {
         id: dummyDescription
         maximumLineCount: 1
-        text: channel.description
+        text: channelHelper.channelInfo.description
         visible: false
     }
 
@@ -28,19 +37,19 @@ Page {
 
         PullDownMenu {
             MenuItem {
-                text: channel.isSubscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
-                onClicked: channel.isSubscribed ? channel.unsubscribe() : channel.subscribe()
+                text: channelHelper.isSubscribed(channelId) ? qsTr("Unsubscribe") : qsTr("Subscribe")
+                onClicked: channelHelper.isSubscribed(channelId) ? channelHelper.unsubscribe(channelId) : channelHelper.subscribe(channelId)
             }
 
             MenuItem {
                 text: qsTr("Copy url")
-                onClicked: Clipboard.text = channel.webpage
+                onClicked: Clipboard.text = channelHelper.channelInfo.webpage
             }
 
             MenuItem {
                 text: qsTr("Play all")
                 onClicked: {
-                    app.playlistModel.loadChannelVideos(channel.channelId)
+                    app.playlistModel.loadChannelVideos(channelId)
                     pageStack.navigateBack()
                 }
             }
@@ -55,7 +64,7 @@ Page {
             Image {
                 width: parent.width
                 height: width * (sourceSize.height / sourceSize.width)
-                source: channel.bannerMobileImageUrl
+                source: channelHelper.channelInfo.banner.url
                 asynchronous: true
                 fillMode: Image.PreserveAspectFit
             }
@@ -69,7 +78,7 @@ Page {
                     id: profilePhoto
                     width: height
                     height: parent.height
-                    source: channel.thumbnailUrl
+                    source: channelHelper.channelInfo.avatar.url
                     asynchronous: true
                 }
 
@@ -78,8 +87,8 @@ Page {
                     width: parent.width - profilePhoto.width - Theme.horizontalPageMargin*2
 
                     Label {
-                        id: videoTitle
-                        text: channel.displayName
+                        id: channelName
+                        text: channelHelper.channelInfo.name
                         width: parent.width
                         height: Theme.itemSizeExtraSmall
                         font.pixelSize: Theme.fontSizeLarge
@@ -94,7 +103,7 @@ Page {
                         color: Theme.secondaryColor
                         font.pixelSize: Theme.fontSizeSmall
 
-                        text: channel.subscriberCount
+                        text: qsTr("%1 subscribers").arg(Helpers.parseViews(channelHelper.channelInfo.subscriberCount))
                     }
                 }
             }
@@ -109,7 +118,7 @@ Page {
                 width: parent.width - Theme.horizontalPageMargin*2
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 maximumLineCount: expanded ? Number.MAX_VALUE : 1
-                text: channel.description
+                text: channelHelper.channelInfo.description
 
                 property bool expanded: false
             }
@@ -141,6 +150,10 @@ Page {
             }
         }
 
+        YtPlaylist {
+            id: channelVideos
+        }
+
         SilicaFastListView {
             id: videosList
             anchors.top: column.bottom
@@ -150,7 +163,7 @@ Page {
             height: page.height
             maximumFlickVelocity: 9999
             spacing: Theme.paddingMedium
-            model: playlistModel
+            model: channelVideos
             clip: true
             interactive: flickable.contentY == Math.round(column.height)
             delegate: VideoElement {

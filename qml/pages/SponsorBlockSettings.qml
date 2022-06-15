@@ -20,7 +20,7 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
-import com.verdanditeam.yt 1.0
+import com.verdanditeam.sponsorblock 1.0
 
 Page {
     id: settingsPage
@@ -41,8 +41,8 @@ Page {
         property string categoryName: "Film & Animation"
     }
 
-    YtCategories {
-        id: categories
+    SponsorBlockPlugin {
+        id: sponsorBlockPlugin
     }
 
     SilicaFlickable {
@@ -63,21 +63,21 @@ Page {
             anchors.right: parent.right
 
             function switchCategory(category) {
-                var categories = YT.sponsorBlockCategories
-                if (YT.sponsorBlockCategories.indexOf(category) !== -1) {
+                var categories = sponsorBlockPlugin.categories
+                if (categories.indexOf(category) !== -1) {
                     categories.splice(categories.indexOf(category), 1)
                 } else {
                     categories.push(category)
                 }
-                YT.sponsorBlockCategories = categories
-                console.log(YT.sponsorBlockCategories)
+                sponsorBlockPlugin.categories = categories
+                console.log(sponsorBlockPlugin.categories)
             }
 
             TextSwitch {
-               checked: YT.sponsorBlockEnabled
+               checked: sponsorBlockPlugin.enabled
                width: parent.width
                text: qsTr("Enable SponsorBlock")
-               onClicked: YT.sponsorBlockEnabled = checked
+               onClicked: sponsorBlockPlugin.enabled = checked
                description: qsTr("Uses SponsorBlock plugin from https://sponsor.ajay.app")
             }
 
@@ -86,42 +86,42 @@ Page {
             }
 
             TextSwitch {
-                checked: YT.sponsorBlockCategories.indexOf("sponsor") !== -1
+                checked: sponsorBlockPlugin.categories.indexOf("sponsor") !== -1
                 width: parent.width
                 text: qsTr("Sponsors")
                 onClicked: column.switchCategory("sponsor")
             }
 
             TextSwitch {
-                checked: YT.sponsorBlockCategories.indexOf("intro") !== -1
+                checked: sponsorBlockPlugin.categories.indexOf("intro") !== -1
                 width: parent.width
                 text: qsTr("Intermission/Intro Animation")
                 onClicked: column.switchCategory("intro")
             }
 
             TextSwitch {
-                checked: YT.sponsorBlockCategories.indexOf("outro") !== -1
+                checked: sponsorBlockPlugin.categories.indexOf("outro") !== -1
                 width: parent.width
                 text: qsTr("Endcards/Credits")
                 onClicked: column.switchCategory("outro")
             }
 
             TextSwitch {
-                checked: YT.sponsorBlockCategories.indexOf("interaction") !== -1
+                checked: sponsorBlockPlugin.categories.indexOf("interaction") !== -1
                 width: parent.width
                 text: qsTr("Interaction Reminder (Subscribe)")
                 onClicked: column.switchCategory("interaction")
             }
 
             TextSwitch {
-                checked: YT.sponsorBlockCategories.indexOf("selfpromo") !== -1
+                checked: sponsorBlockPlugin.categories.indexOf("selfpromo") !== -1
                 width: parent.width
                 text: qsTr("Unpaid/Self Promotion")
                 onClicked: column.switchCategory("selfpromo")
             }
 
             TextSwitch {
-                checked: YT.sponsorBlockCategories.indexOf("music_offtopic") !== -1
+                checked: sponsorBlockPlugin.categories.indexOf("music_offtopic") !== -1
                 width: parent.width
                 text: qsTr("Music: Non-Music Section")
                 onClicked: column.switchCategory("music_offtopic")

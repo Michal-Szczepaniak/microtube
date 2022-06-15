@@ -39,10 +39,18 @@ Page {
         property double buffer: 1.0
         property string categoryId: "0"
         property string categoryName: "Film & Animation"
+        property int maxDefinition: 1080
+        property int currentRegionId: 0
+        property string currentRegion: ""
     }
+
 
     YtCategories {
         id: categories
+    }
+
+    ChannelHelper {
+        id: channelHelper
     }
 
     SilicaFlickable {
@@ -56,22 +64,26 @@ Page {
                     pageStack.push(Qt.resolvedUrl("About.qml"))
                 }
             }
+
             MenuItem {
                 text: qsTr("Settings")
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("Settings.qml"))
                 }
             }
+
             MenuItem {
                 text: qsTr("Subscriptions")
                 onClicked: {
-                    YTChannels.updateQuery()
+                    subscriptionsAggregator.updateSubscriptions()
                     pageStack.push(Qt.resolvedUrl("Subscriptions.qml"), {playlistModel: app.playlistModel})
                 }
             }
+
             MenuItem {
                 text: qsTr("Filters")
-                enabled: typeof app.playlistModel.searchParams !== "undefined"
+                enabled: typeof playlistModel.searchParams !== "undefined"
+                visible: false
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("Filters.qml"), {playlistModel: app.playlistModel})
                 }
@@ -91,7 +103,7 @@ Page {
             Keys.onReturnPressed: {
                 if(searchField.text.length != 0) {
                     if(searchField.text == "21379111488") settings.developerMode = !settings.developerMode
-                    app.playlistModel.search(searchField.text)
+                    playlistModel.search(searchField.text)
                 }
             }
         }
@@ -116,6 +128,8 @@ Page {
 
             contentX: width
 
+            Behavior on contentX { PropertyAnimation {} }
+
             model: ListModel {
                 id: listModel
 
@@ -137,8 +151,8 @@ Page {
 
                     delegate: CategoryElement {
                         onClicked: {
-                            app.playlistModel.loadCategory(id, name)
-                            swipeView.positionViewAtEnd()
+                            playlistModel.loadCategory(name, settings.currentRegion)
+                            swipeView.contentX = -page.width
                         }
                     }
                 }
@@ -150,8 +164,15 @@ Page {
                     clip: true
                     spacing: Theme.paddingMedium
                     visible: index === 1
-                    model: app.playlistModel
-                    delegate: VideoElement {}
+                    model: playlistModel
+                    delegate: VideoElement {
+                        onClicked: {
+                            if (pageStack.nextPage(page))
+                                pageStack.popAttached(page, PageStackAction.Immediate)
+                            pageStack.pushAttached(Qt.resolvedUrl("VideoPlayer.qml"), {videoIdToPlay: id})
+                            pageStack.navigateForward()
+                        }
+                    }
                 }
             }
         }

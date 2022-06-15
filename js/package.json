@@ -9,9 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "yt-channel-info": "^1.2.2",
-    "ytdl-core": "^4.5.0",
-    "ytpl": "^2.0.5",
-    "ytsr": "^3.3.1"
+    "@freetube/yt-comment-scraper": "^6.1.0",
+    "@freetube/yt-trending-scraper": "^2.0.1",
+    "yt-channel-info": "^3.0.0",
+    "ytdl-core": "^4.11.0",
+    "ytpl": "^2.3.0",
+    "ytsr": "^3.8.0"
   }
 }

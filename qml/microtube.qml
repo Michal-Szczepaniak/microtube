@@ -21,6 +21,7 @@ import QtQuick 2.0
 import Sailfish.Silica 1.0
 import org.nemomobile.configuration 1.0
 import com.verdanditeam.yt 1.0
+import Nemo.Notifications 1.0
 import "pages"
 
 ApplicationWindow
@@ -28,13 +29,13 @@ ApplicationWindow
     id: app
     initialPage: settings.version === version ? mainPage : (settings.version === "" ? installPage : updatePage)
     cover: !videoCover ? Qt.resolvedUrl("cover/CoverPage.qml") : null
+    property alias playlistModel: playlistModel
 
     allowedOrientations: defaultAllowedOrientations
 
     property string playing: ""
     property bool videoCover: false
-    property string version: "2.1.2"
-    property alias playlistModel: playlistModel
+    property string version: "3.0.0"
 
     Component {
         id: updatePage
@@ -53,11 +54,53 @@ ApplicationWindow
 
     YtPlaylist {
         id: playlistModel
+    }
 
-        Component.onCompleted: {
-            if (typeof startSearch !== "undefined") search(startSearch)
-            else loadCategory(settings.categoryId, settings.categoryName)
+    Notification {
+         id: downloadNotification
+
+         summary: qsTr("Microtube download")
+         replacesId: 1
+    }
+
+    Connections {
+        target: videoDownloader
+        onDownloadStarted: {
+            downloadNotification.body = qsTr("Downloading " + filename)
+            downloadNotification.publish();
         }
+
+        onDownloadStatusChanged: {
+            if (videoDownloader.downloadStatus === VideoDownloader.Failed) {
+                downloadNotification.body = qsTr("Download failed")
+                downloadNotification.publish()
+            } else if (videoDownloader.downloadStatus === VideoDownloader.Finished) {
+                downloadNotification.body = qsTr("Download complete")
+                downloadNotification.publish()
+            }
+        }
+        onDownloadProgressChanged: {
+            downloadNotification.progress = videoDownloader.downloadProgress
+            downloadNotification.publish()
+        }
+    }
+
+    Connections {
+        target: userFilesHelper
+        onUpdateFinished: {
+            if (typeof startSearch !== "undefined") search(startSearch)
+            else playlistModel.loadCategory(settings.categoryName, settings.currentRegion)
+        }
+    }
+
+    Component.onCompleted: {
+        if (typeof startSearch !== "undefined") search(startSearch)
+        else playlistModel.loadCategory(settings.categoryName, settings.currentRegion)
+    }
+
+    Connections {
+        target: googleOAuthHelper
+        onOpenBrowser: Qt.openUrlExternally(url)
     }
 
     ConfigurationGroup {
@@ -67,5 +110,6 @@ ApplicationWindow
         property string version: ""
         property string categoryId: "0"
         property string categoryName: "Film & Animation"
+        property string currentRegion: ""
     }
 }
