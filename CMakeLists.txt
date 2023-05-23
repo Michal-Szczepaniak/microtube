@@ -130,7 +130,7 @@ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/translations
     DESTINATION share/microtube
     FILES_MATCHING PATTERN "*.qm"
 )
-install(FILES microtube.desktop
+install(FILES microtube.desktop microtube-url.desktop
     DESTINATION share/applications
 )
 install(FILES icons/86x86/microtube.png

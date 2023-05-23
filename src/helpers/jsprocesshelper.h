@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QProcess>
+#include <QJsonObject>
 #include "entities/comment.h"
 #include "entities/search.h"
 #include "converters/xmltosrtconverter.h"
@@ -23,7 +24,7 @@ public:
     void asyncContinueChannelVideos();
     void asyncGetComments(QString videoId);
     void asyncGetCommentsContinuation();
-    void asyncGetCommentReplies(QString videoId, QString replyToken);
+    void asyncGetCommentReplies(QJsonObject continuationData);
     std::vector<std::unique_ptr<Video>> loadChannelVideos(QString channelId);
     std::unique_ptr<Video> getBasicVideoInfo(QString url);
     Author fetchChannelInfo(QString channelId);
@@ -43,7 +44,7 @@ signals:
     void gotChannelInfo();
     void gotChannelVideos(bool isContinuation);
     void gotComments(bool canContinue, bool isContinuation);
-    void gotCommentReplies(QString continuation);
+    void gotCommentReplies(QJsonObject continuation);
 
 private slots:
     static QProcess* execute(QString script, QStringList args);
@@ -67,9 +68,10 @@ private:
     QProcess* _getChannelVideosProcess;
     QProcess* _getCommentsProcess;
     QProcess* _getCommentRepliesProcess;
-    QJsonArray _channelVideosContinuation{};
-    QString _commentsContinuation{};
+    QJsonObject _channelVideosContinuation{};
+    QJsonObject _commentsContinuation{};
     QString _commentRepliesContinuation{};
+    QString _loadChannelVideosLastAuthorId{};
 
     std::vector<std::unique_ptr<Video>> _trendingVideos{};
     std::vector<std::unique_ptr<Video>> _recommendedVideos{};

@@ -1,9 +1,13 @@
 #include "subscriptionsaggregator.h"
+#include <QSettings>
 #include <QThread>
 
 void SubscriptionsAggregator::updateSubscriptions()
 {
-    if (_worker != nullptr) return;
+
+    if (_worker != nullptr || QDateTime::currentMSecsSinceEpoch() - QSettings().value("lastSubscriptionsUpdate", 0).toLongLong() < 600000) return;
+
+    QSettings().setValue("lastSubscriptionsUpdate", QDateTime::currentMSecsSinceEpoch());
 
     QThread *thread = new QThread;
     _worker = new SubscriptionsAggregatorWorker;

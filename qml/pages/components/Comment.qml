@@ -8,7 +8,7 @@ ListItem {
 
     onClicked: {
         if (repliesCount > 0){
-            pageStack.push(Qt.resolvedUrl("../Replies.qml"), {videoId: videoId, replyToken: replyToken})
+            pageStack.push(Qt.resolvedUrl("../Replies.qml"), {repliesContinuation: repliesContinuation})
         }
     }
 

@@ -28,7 +28,7 @@ std::vector<std::unique_ptr<Video>> VideosParser::parseTrending(const QJsonArray
     for (const QJsonValue &item : videos) {
         if (item.isUndefined()) break;
         QJsonObject jsonVideo = item.toObject();
-        QString type = jsonVideo["type"].toString();
+        QString type = jsonVideo["type"].toString().toLower();
         if (type == "video") {
             result.push_back(VideoFactory::fromTrendingJson(jsonVideo));
         } else {
@@ -52,14 +52,14 @@ std::vector<std::unique_ptr<Video> > VideosParser::parseRecommended(const QJsonA
     return result;
 }
 
-std::vector<std::unique_ptr<Video> > VideosParser::parseChanelVideos(const QJsonArray videos)
+std::vector<std::unique_ptr<Video>> VideosParser::parseChanelVideos(const QJsonArray videos)
 {
     std::vector<std::unique_ptr<Video>> result;
 
     for (const QJsonValue &item : videos) {
         if (item.isUndefined()) break;
         QJsonObject jsonVideo = item.toObject();
-        QString type = jsonVideo["type"].toString();
+        QString type = jsonVideo["type"].toString().toLower();
         if (type == "video") {
             result.push_back(VideoFactory::fromChannelVideosJson(jsonVideo));
         } else {

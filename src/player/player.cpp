@@ -17,14 +17,16 @@ VideoPlayer::VideoPlayer(QQuickItem *parent) :
     _subParse(nullptr),
     _appSink(nullptr),
     _subSource(nullptr),
+    _scaletempo(nullptr),
     _state(VideoPlayer::StateStopped),
     _timer(new QTimer((QObject*)this)),
     _pos(0),
+    _playbackSpeed(1.0),
     _created(false),
     _subtitleEnd(0) {
 
     _timer->setSingleShot(false);
-    _timer->setInterval(500);
+    _timer->setInterval(100);
     connect(_timer, &QTimer::timeout, this, &VideoPlayer::positionChanged);
 
     setRenderTarget(QQuickPaintedItem::FramebufferObject);
@@ -52,16 +54,15 @@ void VideoPlayer::classBegin() {
     _pipeline = gst_pipeline_new ("video-player");
     Q_ASSERT(_pipeline);
 
-    _videoSource = gst_element_factory_make ("uridecodebin", "VideoSource");
-    Q_ASSERT(_videoSource);
-    g_object_set(_videoSource, "buffer-duration", 1800000000000, NULL);
-//    g_object_set(_audioSource, "download", true, NULL);
-
     _pulsesink = gst_element_factory_make("pulsesink", "PulseSink");
     Q_ASSERT(_pulsesink);
 
-    gst_bin_add_many(GST_BIN(_pipeline), _videoSource, _pulsesink, _subSource, _subParse, _appSink, NULL);
-    g_signal_connect (_videoSource, "pad-added", G_CALLBACK (cbNewVideoPad), this);
+    _scaletempo = gst_element_factory_make("scaletempo", "Scaletempo");
+    Q_ASSERT(_scaletempo);
+
+    gst_bin_add_many(GST_BIN(_pipeline), _scaletempo, _pulsesink, NULL);
+
+    gst_element_link(_scaletempo, _pulsesink);
 
     GstBus *bus = gst_element_get_bus(_pipeline);
     gst_bus_add_watch(bus, bus_call, this);
@@ -76,7 +77,24 @@ void VideoPlayer::setVideoSource(const QUrl& videoSource) {
     if (_videoUrl != videoSource) {
         _videoUrl = videoSource;
 
-        g_object_set(_videoSource, "uri", _videoUrl.toString().toUtf8().constData(), NULL);
+        if (_videoSource != nullptr) {
+            gst_object_ref(_videoSource);
+            if (gst_bin_remove(GST_BIN(_pipeline), _videoSource) == false) {
+                gst_element_set_state(_videoSource, GST_STATE_NULL);
+                gst_object_unref(_videoSource);
+                _videoSource = nullptr;
+            }
+        }
+
+        if (!_audioOnlyMode) {
+            _videoSource = gst_element_factory_make ("uridecodebin", "VideoSource");
+            Q_ASSERT(_videoSource);
+//            g_object_set(_videoSource, "buffer-duration", 1800000000000, NULL);
+            g_object_set(_videoSource, "uri", _videoUrl.toString().toUtf8().constData(), NULL);
+
+            gst_bin_add(GST_BIN(_pipeline), _videoSource);
+            g_signal_connect (_videoSource, "pad-added", G_CALLBACK (cbNewVideoPad), this);
+        }
 
         emit videoSourceChanged();
     }
@@ -102,7 +120,7 @@ void VideoPlayer::setAudioSource(const QUrl& audioSource) {
         if (audioSource.toString() != "") {
             _audioSource = gst_element_factory_make ("uridecodebin", "AudioSource");
             Q_ASSERT(_audioSource);
-            g_object_set(_audioSource, "buffer-duration", 20000000000, NULL);
+//            g_object_set(_audioSource, "buffer-duration", 20000000000, NULL);
 
             gst_bin_add(GST_BIN(_pipeline), _audioSource);
 
@@ -158,22 +176,28 @@ QString VideoPlayer::getSubtitle() const
 
 void VideoPlayer::setSubtitle(QString subtitle)
 {
-    gst_object_ref(_subSource);
-    if (gst_bin_remove(GST_BIN(_pipeline), _subSource) == false) {
-        gst_element_set_state(_subSource, GST_STATE_NULL);
-        gst_object_unref(_subSource);
+    if (_subSource) {
+        gst_object_ref(_subSource);
+        if (gst_bin_remove(GST_BIN(_pipeline), _subSource) == false) {
+            gst_element_set_state(_subSource, GST_STATE_NULL);
+            gst_object_unref(_subSource);
+        }
     }
 
-    gst_object_ref(_subParse);
-    if (gst_bin_remove(GST_BIN(_pipeline), _subParse) == false) {
-        gst_element_set_state(_subParse, GST_STATE_NULL);
-        gst_object_unref(_subParse);
+    if (_subParse) {
+        gst_object_ref(_subParse);
+        if (gst_bin_remove(GST_BIN(_pipeline), _subParse) == false) {
+            gst_element_set_state(_subParse, GST_STATE_NULL);
+            gst_object_unref(_subParse);
+        }
     }
 
-    gst_object_ref(_appSink);
-    if (gst_bin_remove(GST_BIN(_pipeline), _appSink) == false) {
-        gst_element_set_state(_appSink, GST_STATE_NULL);
-        gst_object_unref(_appSink);
+    if (_appSink) {
+        gst_object_ref(_appSink);
+        if (gst_bin_remove(GST_BIN(_pipeline), _appSink) == false) {
+            gst_element_set_state(_appSink, GST_STATE_NULL);
+            gst_object_unref(_appSink);
+        }
     }
 
     _subSource = nullptr;
@@ -200,9 +224,17 @@ void VideoPlayer::setSubtitle(QString subtitle)
     g_signal_connect(_appSink, "new-sample", G_CALLBACK (cbNewSample), this);
 
     g_object_set(_subSource, "uri", ("data:text/plain;base64," + subtitle.toUtf8().toBase64()).constData(), NULL);
+
+    gint64 pos = 0;
+    if (!gst_element_query_position(_pipeline, GST_FORMAT_TIME, &pos)) {
+        return;
+    }
+
     gst_bin_add_many(GST_BIN(_pipeline), _subSource, _subParse, _appSink, NULL);
     gst_element_link_many(_subSource, _subParse, _appSink, NULL);
     emit subtitleChanged();
+
+    seek(pos);
 }
 
 QString VideoPlayer::getDisplaySubtitle() const
@@ -225,18 +257,20 @@ bool VideoPlayer::pause() {
 }
 
 bool VideoPlayer::play() {
-    if (!_renderer) {
-        _renderer = new QtCamViewfinderRendererNemo(this);
+    if (!_audioOnlyMode) {
         if (!_renderer) {
-            qmlInfo(this) << "Failed to create viewfinder renderer";
-            return false;
+            _renderer = new QtCamViewfinderRendererNemo(this);
+            if (!_renderer) {
+                qmlInfo(this) << "Failed to create viewfinder renderer";
+                return false;
+            }
+
+            QObject::connect(_renderer, SIGNAL(updateRequested()), this, SLOT(updateRequested()));
+            gst_bin_add(GST_BIN(_pipeline), _renderer->sinkElement());
         }
 
-        QObject::connect(_renderer, SIGNAL(updateRequested()), this, SLOT(updateRequested()));
-        gst_bin_add(GST_BIN(_pipeline), _renderer->sinkElement());
+        _renderer->resize(QSizeF(width(), height()));
     }
-
-    _renderer->resize(QSizeF(width(), height()));
 
     if (!_pipeline) {
         qmlInfo(this) << "no playbin";
@@ -258,9 +292,19 @@ bool VideoPlayer::seek(qint64 offset) {
 
     offset *= 1000000;
 
-    GstSeekFlags flags = (GstSeekFlags)(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_ACCURATE);
-    gboolean ret = gst_element_seek_simple (_pipeline, GST_FORMAT_TIME,
-                                            flags, offset);
+    gint64 dur = 0;
+    if (!gst_element_query_duration(_pipeline, GST_FORMAT_TIME, &dur)) {
+        return false;
+    }
+
+    if (offset > dur) {
+        offset = dur;
+        stop();
+    }
+
+    bool ret = gst_element_seek(
+        _pipeline, _playbackSpeed, GST_FORMAT_TIME, (GstSeekFlags) (GST_SEEK_FLAG_FLUSH|GST_SEEK_FLAG_TRICKMODE|GST_SEEK_FLAG_ACCURATE), GST_SEEK_TYPE_SET, offset, GST_SEEK_TYPE_NONE, -1
+    );
 
     if (ret) {
         _pos = pos;
@@ -278,6 +322,30 @@ bool VideoPlayer::stop() {
 void VideoPlayer::setAudioOnlyMode(bool audioOnlyMode)
 {
     _audioOnlyMode = audioOnlyMode;
+}
+
+bool VideoPlayer::setPlaybackSpeed(double speed)
+{
+    gint64 position;
+
+    if (speed == _playbackSpeed) return false;
+
+    if (!gst_element_query_position(_pipeline, GST_FORMAT_TIME, &position)) {
+        g_printerr("Unable to retrieve current position.\n");
+        return false;
+    }
+
+    bool ret = gst_element_seek(
+        _pipeline, speed, GST_FORMAT_TIME, (GstSeekFlags) (GST_SEEK_FLAG_FLUSH|GST_SEEK_FLAG_TRICKMODE|GST_SEEK_FLAG_ACCURATE), GST_SEEK_TYPE_SET, position, GST_SEEK_TYPE_NONE, 0
+    );
+
+    if (!ret) {
+        qDebug() << "Failed to change playback speed";
+    }
+
+    _playbackSpeed = speed;
+
+    return true;
 }
 
 void VideoPlayer::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
@@ -351,7 +419,6 @@ bool VideoPlayer::setState(const VideoPlayer::State& state) {
             }
         }
 
-//        _audio_resource.release();
         _state = state;
         emit stateChanged();
 
@@ -400,7 +467,7 @@ bool VideoPlayer::setState(const VideoPlayer::State& state) {
             }
         }
 
-//        _audio_resource.release();
+        _playbackSpeed = 1.0;
         _state = state;
         emit stateChanged();
 
@@ -426,12 +493,11 @@ gboolean VideoPlayer::bus_call(GstBus *bus, GstMessage *msg, gpointer data) {
     {
             gint percent = 0;
             gst_message_parse_buffering (msg, &percent);
-//            qDebug() << "buffering " << GST_MESSAGE_SRC_NAME(msg) << " " << percent;
             that->updateBufferingState(percent, QString::fromUtf8(GST_MESSAGE_SRC_NAME(msg)));
     }
             break;
     case GST_MESSAGE_EOS:
-//        that->stop();
+        that->stop();
         break;
 
     case GST_MESSAGE_ERROR:
@@ -439,7 +505,7 @@ gboolean VideoPlayer::bus_call(GstBus *bus, GstMessage *msg, gpointer data) {
         gchar *debug = NULL;
         GError *err = NULL;
         gst_message_parse_error (msg, &err, &debug);
-        qWarning() << "Error" << err->message;
+        qCritical() << "Error" << err->message;
 
         emit that->error(err->message, err->code, debug);
         that->stop();
@@ -452,6 +518,46 @@ gboolean VideoPlayer::bus_call(GstBus *bus, GstMessage *msg, gpointer data) {
             g_free (debug);
         }
 
+    }
+        break;
+    case GST_MESSAGE_WARNING:
+    {
+
+        gchar *debug = NULL;
+        GError *err = NULL;
+        gst_message_parse_warning(msg, &err, &debug);
+        qWarning() << "Warning" << err->message;
+
+        emit that->error(err->message, err->code, debug);
+        that->stop();
+
+        if (err) {
+            g_error_free (err);
+        }
+
+        if (debug) {
+            g_free (debug);
+        }
+    }
+        break;
+    case GST_MESSAGE_INFO:
+    {
+
+        gchar *debug = NULL;
+        GError *err = NULL;
+        gst_message_parse_info(msg, &err, &debug);
+        qInfo() << "Info" << err->message;
+
+        emit that->error(err->message, err->code, debug);
+        that->stop();
+
+        if (err) {
+            g_error_free (err);
+        }
+
+        if (debug) {
+            g_free (debug);
+        }
     }
         break;
     default:
@@ -472,8 +578,8 @@ void VideoPlayer::cbNewPad(GstElement *element, GstPad *pad, gpointer data)
 
     g_print ("element %s will be linked to %s\n",
             gst_element_get_name(element),
-            gst_element_get_name(other->_pulsesink));
-    gst_element_link(element, other->_pulsesink);
+            gst_element_get_name(other->_scaletempo));
+    gst_element_link(element, other->_scaletempo);
 }
 
 void VideoPlayer::cbNewVideoPad(GstElement *element, GstPad *pad, gpointer data)

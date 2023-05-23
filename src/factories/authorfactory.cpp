@@ -11,7 +11,7 @@ Author AuthorFactory::fromJson(QJsonObject json)
         author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
     if (json.contains("bestAvatar")) {
         author.bestAvatar = ThumbnailFactory::fromJson(json["bestAvatar"].toObject());
-    } else {
+    } else if (!author.avatars.empty()) {
         author.bestAvatar = author.avatars.last();
     }
     author.authorId = json.contains("id") ? json["id"].toString() : json["channelID"].toString();
@@ -26,9 +26,11 @@ Author AuthorFactory::fromTrendingJson(QJsonObject json)
 {
     Author author{};
 
-    author.authorId = json["authorId"].toString();
-    author.name = json["author"].toString();
-    author.url = "https://www.youtube.com" + json["authorUrl"].toString();
+    author.authorId = json["id"].toString();
+    author.name = json["name"].toString();
+    author.url = json["url"].toString();
+    author.verified = json["is_verified"].toBool();
+    author.bestAvatar = ThumbnailFactory::fromJson(json["thumbnails"].toArray().first().toObject());
 
     return author;
 }
@@ -63,24 +65,27 @@ Author AuthorFactory::fromChannelVideosJson(QJsonObject json)
 
 Author AuthorFactory::fromChannelInfoJson(QJsonObject json)
 {
-    Author author{};
-    author.description = json["description"].toString();
-    author.authorId = json["authorId"].toString();
-    author.name = json["author"].toString();
-    author.url = json["authorUrl"].toString();
-    author.verified = json["isVerified"].toBool();
-    author.subscriberCount = json["subscriberCount"].toInt();
+    auto metadata = json["metadata"].toObject();
+    auto header = json["header"].toObject();
+    auto authorJson = header["author"].toObject();
 
-    if (json.contains("authorThumbnails") && !json["authorThumbnails"].isNull()) {
-        for (const QJsonValue &avatar : json["authorThumbnails"].toArray())
+    Author author{};
+    author.description = metadata["description"].toString();
+    author.authorId = authorJson["id"].toString();
+    author.name = authorJson["name"].toString();
+    author.url = authorJson["url"].toString();
+    author.subscriberCount = parseAmount(header["subscribers"].toObject()["text"].toString());
+
+    if (authorJson.contains("thumbnails") && !authorJson["thumbnails"].toArray().empty()) {
+        for (const QJsonValue &avatar : authorJson["thumbnails"].toArray())
             author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
-        author.bestAvatar = author.avatars.last();
+        author.bestAvatar = author.avatars.first();
     }
 
-    if (json.contains("authorBanners") && !json["authorBanners"].isNull()) {
-        for (const QJsonValue &banner : json["authorBanners"].toArray())
+    if (header.contains("banner") && !header["banner"].toArray().empty()) {
+        for (const QJsonValue &banner : header["banner"].toArray())
             author.banners.append(ThumbnailFactory::fromJson(banner.toObject()));
-        author.bestBanner = author.banners.last();
+        author.bestBanner = author.banners.first();
     }
 
     return author;
@@ -111,13 +116,32 @@ Author AuthorFactory::fromCommentsJson(QJsonObject json)
 {
     Author author{};
 
-    author.authorId = json["authorId"].toString();
-    author.name = json["author"].toString();
-    author.url = "https://www.youtube.com" + json["authorUrl"].toString();
+    author.authorId = json["id"].toString();
+    author.name = json["name"].toString();
+    author.url = json["url"].toString();
 
-    for (const QJsonValue &avatar : json["authorThumb"].toArray())
+    for (const QJsonValue &avatar : json["thumbnails"].toArray())
         author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
     author.bestAvatar = author.avatars.last();
 
     return author;
+}
+
+int AuthorFactory::parseAmount(QString amount)
+{
+    QString numberWithSuffix = amount.split(" ").first().replace(",", "");
+    QChar suffix = numberWithSuffix.right(1).toLower()[0];
+    QString n = numberWithSuffix.left(numberWithSuffix.length()-1);
+    double number = numberWithSuffix.left(numberWithSuffix.length()-1).toDouble();
+
+    switch (suffix.toLatin1()) {
+    case 'm':
+        number *= 1000000;
+        break;
+    case 'k':
+        number *= 1000;
+        break;
+    }
+
+    return number;
 }

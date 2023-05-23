@@ -1,18 +1,33 @@
-const ytch = require('yt-channel-info')
+import { Innertube, YTNodes } from 'youtubei.js';
 
-let channelId = process.argv[2];
-let sortBy = process.argv[3];
-let continuation = process.argv[4];
+const yt = await Innertube.create({
+    lang: 'en',
+    location: 'US',
+});
 
-if (continuation) {
-    const payload = {
-        continuation: continuation,
-    }
-    ytch.getChannelVideosMore(payload).then(d => console.log(JSON.stringify(d, null, 2)), e => console.error(JSON.stringify(e, null, 2)));
+const channelId = process.argv[2];
+const continuation = JSON.parse(process.argv[3])
+
+let videos = null
+let continuationData = null
+if (Object.keys(continuation).length) {
+    const response = await yt.actions.execute(continuation.endpoint.metadata.api_url, {
+        ...continuation.endpoint.payload,
+        parse: true
+    });
+
+    videos = response.on_response_received_actions_memo.getType(YTNodes.Video)
+    continuationData = response.on_response_received_actions_memo.getType(YTNodes.ContinuationItem).at(0)
 } else {
-    const payload = {
-        channelId: channelId,
-	sortBy: sortBy,
-    }
-    ytch.getChannelVideos(payload).then(d => console.log(JSON.stringify(d, null, 2)), e => console.error(JSON.stringify(e, null, 2)));
+    const channel = await yt.getChannel(channelId)
+    const channelVideos = await channel.getVideos()
+    continuationData = channelVideos.memo.getType(YTNodes.ContinuationItem).at(0)
+    videos = channelVideos.memo.getType(YTNodes.Video)
 }
+
+const result = {
+    items: videos,
+    continuation: continuationData
+}
+
+console.log(JSON.stringify(result, null, 2))

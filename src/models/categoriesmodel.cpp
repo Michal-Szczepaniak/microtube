@@ -5,7 +5,7 @@
 CategoriesModel::CategoriesModel()
 {
     beginInsertRows(QModelIndex(), 0, 5);
-    _categories.append(tr("Trending"));
+    _categories.append(tr("Now"));
     _categories.append(tr("Music"));
     _categories.append(tr("Gaming"));
     _categories.append(tr("Movies"));

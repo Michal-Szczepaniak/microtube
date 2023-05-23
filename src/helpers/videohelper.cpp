@@ -8,11 +8,12 @@ VideoHelper::VideoHelper(QObject *parent) : QObject(parent)
     connect(&_converter, &XmlToSrtConverter::gotSrt, this, &VideoHelper::gotSubtitles);
 }
 
-void VideoHelper::loadVideoUrl(QString videoId, int maxDefinition)
+void VideoHelper::loadVideoUrl(QString videoId, int maxDefinition, bool combined)
 {
     _maxDefinition = maxDefinition;
     _videoUrl = "";
     _audioUrl = "";
+    _combined = combined;
 
     _jsProcessHelper.asyncGetVideoInfo(videoId);
 }
@@ -90,6 +91,18 @@ void VideoHelper::gotFormats(QHash<int, QString> formats)
         _audioUrl = "";
 
         for (QMap<quint32, QVector<int>>::const_iterator definitions = VideoDefinition::liveVideoDefinitions.constEnd(); definitions-- != VideoDefinition::liveVideoDefinitions.constBegin(); ) {
+            if (definitions.key() > _maxDefinition || _videoUrl != "") continue;
+            qDebug() << "Definition: " << definitions.key() << " max definition: " << _maxDefinition;
+            for (int definition : definitions.value()) {
+                if (formats.contains(definition)) {
+                    _videoUrl = formats[definition];
+                    qDebug() << "Selecting video format: " << definition;
+                    break;
+                }
+            }
+        }
+    } else if (_combined) {
+        for (QMap<quint32, QVector<int>>::const_iterator definitions = VideoDefinition::videoDefinitionsCombined.constEnd(); definitions-- != VideoDefinition::videoDefinitionsCombined.constBegin(); ) {
             if (definitions.key() > _maxDefinition || _videoUrl != "") continue;
             qDebug() << "Definition: " << definitions.key() << " max definition: " << _maxDefinition;
             for (int definition : definitions.value()) {

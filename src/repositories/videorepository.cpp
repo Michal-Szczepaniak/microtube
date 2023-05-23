@@ -148,6 +148,23 @@ std::vector<std::unique_ptr<Video> > VideoRepository::getUnwatchedSubscriptions(
     return result;
 }
 
+std::vector<std::unique_ptr<Video> > VideoRepository::getChannelVideos(int authorId)
+{
+    QSqlQuery q;
+    q.prepare("SELECT video.* FROM video JOIN author ON author.id = video.author WHERE subscribed = true AND video.author = ? ORDER BY timestamp desc");
+    q.addBindValue(QVariant::fromValue(authorId));
+    q.exec();
+
+    Q_ASSERT_X(!q.lastError().isValid(), "VideoRepository::getChannelVideos", q.lastError().text().toLatin1());
+
+    std::vector<std::unique_ptr<Video>> result;
+    while (q.next()) {
+        result.push_back(std::unique_ptr<Video>(VideoFactory::fromSqlRecord(q.record())));
+    }
+
+    return result;
+}
+
 void VideoRepository::setAllWatchedStatus(bool watched)
 {
     QSqlQuery q;

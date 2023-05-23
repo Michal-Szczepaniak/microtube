@@ -7,14 +7,13 @@ Page {
     id: page
     allowedOrientations: Orientation.All
 
-    property var videoId: null
-    property var replyToken: null
+    property var repliesContinuation: null
 
     CommentsModel {
         id: commentsModel
     }
 
-    onStatusChanged: if (status === PageStatus.Active) commentsModel.loadRepliesForComment(videoId, replyToken)
+    onStatusChanged: if (status === PageStatus.Active) commentsModel.loadRepliesForComment(repliesContinuation)
 
     SilicaListView {
         id: listView

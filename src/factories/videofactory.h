@@ -15,6 +15,7 @@ public:
     static std::unique_ptr<Video> fromVideoInfoJson(QJsonObject video);
     static Video* fromSqlRecord(QSqlRecord record);
     static std::unique_ptr<Video> fromChannelVideosJson(QJsonObject video);
+    static int parseAmount(QString amount);
 
 private:
     static uint parseTimestamp(QString timestamp);

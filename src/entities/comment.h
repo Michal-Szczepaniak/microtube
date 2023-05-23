@@ -1,6 +1,7 @@
 #ifndef COMMENT_H
 #define COMMENT_H
 
+#include <QJsonObject>
 #include <QObject>
 #include <QVector>
 #include "thumbnail.h"
@@ -9,7 +10,6 @@
 struct Comment {
     Q_GADGET
     Q_PROPERTY(QString commentId MEMBER commentId)
-//    Q_PROPERTY(Author author MEMBER author)
     Q_PROPERTY(bool edited MEMBER edited)
     Q_PROPERTY(QString text MEMBER text)
     Q_PROPERTY(QString likes MEMBER likes)
@@ -23,7 +23,7 @@ struct Comment {
     Q_PROPERTY(bool hasOwnerReplied MEMBER hasOwnerReplied)
     Q_PROPERTY(bool isMember MEMBER isMember)
     Q_PROPERTY(QString memberIconUrl MEMBER memberIconUrl)
-    Q_PROPERTY(QString replyToken MEMBER replyToken)
+    Q_PROPERTY(QJsonObject repliesContinuation MEMBER repliesContinuation)
 
 public:
     QString commentId;
@@ -41,7 +41,7 @@ public:
     bool hasOwnerReplied = false;
     bool isMember = false;
     QString memberIconUrl;
-    QString replyToken;
+    QJsonObject repliesContinuation;
 };
 
 #endif // COMMENT_H

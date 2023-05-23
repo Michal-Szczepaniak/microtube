@@ -1,4 +1,4 @@
-const ytsr = require('ytsr');
+import ytsr from 'ytsr';
 
 let query = process.argv[2];
 let options = JSON.parse(process.argv[3]);

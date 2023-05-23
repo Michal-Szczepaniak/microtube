@@ -12,6 +12,7 @@
 #include "src/factories/videofactory.h"
 #include "src/factories/authorfactory.h"
 #include "factories/commentfactory.h"
+#include <repositories/authorrepository.h>
 
 JSProcessHelper::JSProcessHelper() :
     QObject(),
@@ -62,8 +63,9 @@ void JSProcessHelper::asyncScrapeTrending(QString category, QString country)
     if (_trendingScrapeProcess != nullptr) return;
 
     QJsonObject options;
-    options["geoLocation"] = country;
-    options["page"] = category.toLower();
+    options["location"] = country;
+    options["lang"] = "en";
+    options["page"] = category;
     QJsonDocument optionsDoc(options);
     _trendingScrapeProcess = execute("trending", {optionsDoc.toJson(QJsonDocument::Compact)});
     connect(_trendingScrapeProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessHelper::trendingScrapeDone);
@@ -79,46 +81,58 @@ void JSProcessHelper::asyncGetChannelInfo(QString channelId)
 void JSProcessHelper::asyncLoadChannelVideos(QString channelId)
 {
     if (_getChannelVideosProcess != nullptr) return;
-    _getChannelVideosProcess = execute("channelVideos", {channelId});
+    _getChannelVideosProcess = execute("channelVideos", {channelId, "{}"});
     _channelVideosContinuation = {};
+    _loadChannelVideosLastAuthorId = channelId;
     connect(_getChannelVideosProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessHelper::gotChannelVideosJson);
 }
 
 void JSProcessHelper::asyncContinueChannelVideos()
 {
-    if (_getChannelVideosProcess == nullptr && _channelVideosContinuation.empty()) return;
+    if (_getChannelVideosProcess != nullptr || _channelVideosContinuation.empty()) return;
 
     QJsonDocument d(_channelVideosContinuation);
-    _getChannelVideosProcess = execute("channelVideos", {"", "", d.toJson(QJsonDocument::Compact)});
+    _getChannelVideosProcess = execute("channelVideos", {"", d.toJson(QJsonDocument::Compact)});
     connect(_getChannelVideosProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessHelper::gotChannelVideosJson);
 }
 
 void JSProcessHelper::asyncGetComments(QString videoId)
 {
     if (_getCommentsProcess != nullptr) return;
-    _getCommentsProcess = execute("comments", {videoId});
-    _commentsContinuation.clear();
+    _getCommentsProcess = execute("comments", {videoId, "{}"});
+    _commentsContinuation = {};
     connect(_getCommentsProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessHelper::gotCommentsJson);
 }
 
 void JSProcessHelper::asyncGetCommentsContinuation()
 {
-    if (_getCommentsProcess != nullptr && _commentsContinuation.length() != 0) return;
+    if (_getCommentsProcess != nullptr || _commentsContinuation.empty()) return;
 
-    _getCommentsProcess = execute("comments", {"", _commentsContinuation});
+    QJsonDocument d(_commentsContinuation);
+    _getCommentsProcess = execute("comments", {"", d.toJson(QJsonDocument::Compact)});
     connect(_getCommentsProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessHelper::gotCommentsJson);
 }
 
-void JSProcessHelper::asyncGetCommentReplies(QString videoId, QString replyToken)
+void JSProcessHelper::asyncGetCommentReplies(QJsonObject continuationData)
 {
     if (_getCommentRepliesProcess != nullptr) return;
-    _getCommentRepliesProcess = execute("commentReplies", {videoId, replyToken});
+
+    QString continuationJSON;
+    if (continuationData.contains("button")) {
+        QJsonDocument d(continuationData["button"].toObject());
+        continuationJSON = d.toJson(QJsonDocument::Compact);
+    } else {
+        QJsonDocument d(continuationData);
+        continuationJSON = d.toJson(QJsonDocument::Compact);
+    }
+
+    _getCommentRepliesProcess = execute("commentReplies", {continuationJSON});
     connect(_getCommentRepliesProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessHelper::gotCommentRepliesJson);
 }
 
 std::vector<std::unique_ptr<Video>> JSProcessHelper::loadChannelVideos(QString channelId)
 {
-    QProcess* process = execute("channelVideos", {channelId});
+    QProcess* process = execute("channelVideos", {channelId, "{}"});
     process->waitForFinished();
 
     QJsonDocument response = QJsonDocument::fromJson(process->readAll());
@@ -290,8 +304,15 @@ void JSProcessHelper::gotChannelVideosJson(int exitStatus)
 {
     QJsonDocument response = QJsonDocument::fromJson(_getChannelVideosProcess->readAll());
     bool isContinuation = !_channelVideosContinuation.empty();
-    _channelVideosContinuation = response.object()["continuation"].toArray();
+    _channelVideosContinuation = response.object()["continuation"].toObject();
     _channelVideos = VideosParser::parseChanelVideos(response.object()["items"].toArray());
+
+    AuthorRepository authorRepository;
+    Author author = authorRepository.getOneByChannelId(_loadChannelVideosLastAuthorId);
+
+    for (std::unique_ptr<Video> &video : _channelVideos) {
+        video->author = author;
+    }
 
     emit gotChannelVideos(isContinuation);
 
@@ -305,8 +326,8 @@ void JSProcessHelper::gotCommentsJson(int exitStatus)
     QJsonDocument response = QJsonDocument::fromJson(_getCommentsProcess->readAll());
     QJsonObject resp = response.object();
     bool isContinuation = _commentsContinuation.length() != 0;
-    _commentsContinuation = response.object()["continuation"].toString();
-    QJsonArray comments = response.object()["comments"].toArray();
+    _commentsContinuation = response.object()["continuation"].toObject();
+    QJsonArray comments = response.object()["items"].toArray();
 
     _comments.clear();
     for (const QJsonValue &item : comments) {
@@ -326,14 +347,14 @@ void JSProcessHelper::gotCommentRepliesJson(int exitStatus)
 {
     QJsonDocument response = QJsonDocument::fromJson(_getCommentRepliesProcess->readAll());
     QJsonObject resp = response.object();
-    QString continuation = response.object()["continuation"].toString();
-    QJsonArray comments = response.object()["comments"].toArray();
+    QJsonObject continuation = response.object()["continuation"].toObject();
+    QJsonArray comments = response.object()["items"].toArray();
 
     _commentReplies.clear();
     for (const QJsonValue &item : comments) {
         if (item.isUndefined()) break;
         QJsonObject jsonComment = item.toObject();
-        _commentReplies.push_back(CommentFactory::fromJson(jsonComment));
+        _commentReplies.push_back(CommentFactory::fromReplyJson(jsonComment));
     }
 
     emit gotCommentReplies(continuation);

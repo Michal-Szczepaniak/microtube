@@ -1,16 +1,17 @@
 Name:       microtube
 
 Summary:    µTube
-Version:    3.0.0
-Release:    1
+Version:    3.1.0
+Release:    6
 Group:      Qt/Qt
-License:    LICENSE
+License:    GPLv3
 URL:        http://example.org/
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 1.1.31.7
 Requires:   nodejs18
 Requires:   npm18
 Requires:   libaudioresource-qt
+Requires:   mpris-qt5-qml-plugin
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2
 BuildRequires:  pkgconfig(Qt5Core)
 BuildRequires:  pkgconfig(Qt5Qml)
@@ -55,4 +56,5 @@ desktop-file-install --delete-original       \
 %{_bindir}
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
+%{_datadir}/applications/%{name}-url.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png

@@ -20,7 +20,7 @@ class VideoHelper : public QObject
 public:
     explicit VideoHelper(QObject *parent = nullptr);
 
-    Q_INVOKABLE void loadVideoUrl(QString videoId, int maxDefinition);
+    Q_INVOKABLE void loadVideoUrl(QString videoId, int maxDefinition, bool combined = false);
     Q_INVOKABLE void loadSubtitle(int index);
     Q_INVOKABLE void markAsWatched();
     QString getVideoUrl() const;
@@ -47,6 +47,7 @@ private:
     QString _audioUrl;
     QString _description;
     int _maxDefinition;
+    bool _combined;
     std::unique_ptr<Video> _currentVideo{};
     QString _currentSubtitle;
     VideoRepository _videoRepository;

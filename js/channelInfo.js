@@ -1,8 +1,11 @@
-const ytch = require('yt-channel-info')
+import { Innertube } from 'youtubei.js';
 
-let channelId = process.argv[2];
-const payload = {
-   channelId: channelId,
-}
+const youtube = await Innertube.create({
+    lang: 'en',
+    location: 'US',
+});
 
-ytch.getChannelInfo(payload).then(d => console.log(JSON.stringify(d, null, 2)), e => console.error(JSON.stringify(e, null, 2)));
+const channelId = process.argv[2];
+const channel = await youtube.getChannel(channelId)
+
+console.log(JSON.stringify(channel, null, 2))

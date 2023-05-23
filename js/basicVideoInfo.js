@@ -1,4 +1,4 @@
-const ytdl = require('ytdl-core');
+import ytdl from 'ytdl-core';
 
 let query = process.argv[2];
 

@@ -21,24 +21,53 @@ import QtQuick 2.0
 import Nemo.DBus 2.0
 
 Item {
-    property bool found: false
+    property bool connected: false
+    property bool running: false
+    readonly property string _serviceName: "org.mkiol.jupii"
 
     onVisibleChanged: ping()
 
     function ping() {
-        found = (jupiiPlayer.getProperty('canControl') === true)
+        connected = running ? (jupiiPlayer.getProperty('canControl') === true) : false
     }
 
-    function addUrlOnceAndPlay(url, origUrl, title, author, type, app, icon) {
+    function addUrlOnceAndPlay(url, origUrl, title, author, description, type, app, icon) {
         jupiiPlayer.call('add', [url, origUrl, title, author, "", type, app, icon, true, true])
 
+    }
+
+    function _updateSatatus() {
+        dbus.call("NameHasOwner", _serviceName, function(result) {
+            running = result
+            ping()
+        },
+        function(error, message) {
+            console.log("updateSatatus error:", error, message)
+            running = false
+            ping()
+        })
     }
 
     DBusInterface {
         id: jupiiPlayer
 
-        service: 'org.jupii'
+        service: running ? _serviceName : ''
         iface: 'org.jupii.Player'
         path: '/'
+    }
+
+    DBusInterface {
+        id: dbus
+
+        service: "org.freedesktop.DBus"
+        iface: "org.freedesktop.DBus"
+        path: "/org/freedesktop/DBus"
+        signalsEnabled: true
+
+        function nameOwnerChanged(name, oldOwner, newOwner) {
+            if (name === _serviceName) {
+                _updateSatatus()
+            }
+        }
     }
 }

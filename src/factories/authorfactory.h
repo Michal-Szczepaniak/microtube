@@ -15,6 +15,9 @@ public:
     static Author fromChannelInfoJson(QJsonObject json);
     static Author fromSubscriptionsJson(QJsonObject json);
     static Author fromCommentsJson(QJsonObject json);
+
+private:
+    static int parseAmount(QString amount);
 };
 
 #endif // AUTHORFACTORY_H

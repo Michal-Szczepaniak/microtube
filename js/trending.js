@@ -1,7 +1,11 @@
-const ytrend = require("@freetube/yt-trending-scraper")
+import { Innertube } from 'youtubei.js';
+const parameters = JSON.parse(process.argv[2]);
+const youtube = await Innertube.create({
+    lang: parameters.lang,
+    location: parameters.location,
+});
 
-let parameters = JSON.parse(process.argv[2]);
+const trending = await youtube.getTrending()
+const trendingTab = await trending.getTabByName(parameters.page)
 
-ytrend.scrape_trending_page(parameters).then(data => {
-    console.log(JSON.stringify(data, null, 2));
-})
+console.log(JSON.stringify(trendingTab.videos, null, 2))

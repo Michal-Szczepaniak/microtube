@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@freetube/yt-comment-scraper": "^6.1.0",
-    "@freetube/yt-trending-scraper": "^2.0.1",
-    "yt-channel-info": "^3.0.0",
-    "ytdl-core": "^4.11.0",
+    "youtubei.js": "^4.2.0",
+    "yt-channel-info": "^3.2.1",
+    "ytdl-core": "^4.11.2",
     "ytpl": "^2.3.0",
     "ytsr": "^3.8.0"
   }

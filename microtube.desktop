@@ -11,6 +11,5 @@ Name=µTube
 # a different app name in German locale (de).
 Name[de]=µTube
 
-
 [X-Sailjail]
 Sandboxing=Disabled

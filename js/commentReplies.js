@@ -1,11 +1,32 @@
-const ytcm = require("@freetube/yt-comment-scraper");
+import { Innertube, YTNodes } from 'youtubei.js';
 
-let query = process.argv[2];
-let replyToken = process.argv[3];
+const yt = await Innertube.create({
+    lang: 'en',
+    location: 'US',
+});
 
-const payload = {
-  videoId: query,
-  replyToken: replyToken,
+const continuation = JSON.parse(process.argv[2]);
+
+const response = await yt.actions.execute(continuation.endpoint.metadata.api_url, {
+    ...continuation.endpoint.payload,
+    parse: true
+});
+
+
+let comments = []
+let continuationData = null
+response.on_response_received_endpoints[0].contents.forEach(element => {
+                                                    if (element.type === "Comment") {
+                                                        comments.push(element)
+                                                    } else if (element.type === "ContinuationItem") {
+                                                        continuationData = element
+                                                    }
+                                                })
+
+
+const result = {
+    items: comments,
+    continuation: continuationData
 }
 
-ytcm.getCommentReplies(payload).then(d => console.log(JSON.stringify(d, null, 2)), e => console.error(JSON.stringify(e, null, 2)));
+console.log(JSON.stringify(result, null, 2))

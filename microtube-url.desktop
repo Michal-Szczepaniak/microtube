@@ -4,6 +4,9 @@ X-Nemo-Application-Type=silica-qt5
 Icon=microtube
 Exec=microtube %U
 Name=µTube
-NotShowIn=X-MeeGo;
-MimeType=x-scheme-handler/http;x-scheme-handler/https;
-Hidden=true;
+NotShowIn=X-MeeGo
+MimeType=x-url-handler/youtube.com
+Hidden=true
+
+[X-Sailjail]
+Sandboxing=Disabled

@@ -103,6 +103,14 @@ Page {
     }
 
     VideoHelper {
+        id: videoHelperYupii
+
+        onGotVideoInfo: {
+            jupii.addUrlOnceAndPlay(videoHelperYupii.videoUrl, videoHelperYupii.currentVideo.url, videoHelperYupii.currentVideo.title, videoHelperYupii.currentVideo.author.name, videoHelperYupii.currentVideo.description, 4, "microtube", "/usr/share/icons/hicolor/172x172/apps/microtube.png")
+        }
+    }
+
+    VideoHelper {
         id: videoHelper
 
         onSubtitleChanged: {
@@ -113,12 +121,9 @@ Page {
         }
 
         onGotVideoInfo: {
+            videoPlayer.setAudioOnlyMode(settings.audioOnlyMode)
             videoPlayer.videoSource = videoHelper.videoUrl
             videoPlayer.audioSource = videoHelper.audioUrl
-            videoPlayer.setAudioOnlyMode(false)
-            if (settings.audioOnlyMode) {
-                videoPlayer.setAudioOnlyMode(true)
-            }
             if (videoChanging) videoChanging = false
             videoPlayer.play()
             sponsorBlockPlugin.videoId = videoHelper.currentVideo.videoId
@@ -345,11 +350,15 @@ Page {
                         Behavior on height { PropertyAnimation { duration: pinchArea.pinching ? 250 : 0 } }
 
                         onStateChanged: {
-                            if (state === VideoPlayer.StateStopped) {
+                            if (state === VideoPlayer.StatePaused) {
+                                console.log("Video paused", settings.autoPlay, videoHelper.videoUrl !== "", videoChanging === false)
+                            } else if (state === VideoPlayer.StateStopped) {
                                 app.playing = ""
-                                if ( settings.autoPlay && videoHelper.currentVideoStreamUrl !== "" && videoChanging === false )
+                                console.log("Video stopped", settings.autoPlay, videoHelper.videoUrl !== "", videoChanging === false)
+                                if (settings.autoPlay && videoHelper.videoUrl !== "" && videoChanging === false)
                                     nextVideo()
                             } else if (state === VideoPlayer.StatePlaying) {
+                                videoPlayer.setPlaybackSpeed(playbackSpeedSlider.value)
                                 showHideControls()
                             }
 
@@ -361,19 +370,20 @@ Page {
                         onPositionChanged: {
                             progressSlider.value = position
                             var segment = sponsorBlockPlugin.checkIfInsideSegment(position/1000)
-                            if (segment && state !== VideoPlayer.StateStopped) {
+                            if (segment && state !== VideoPlayer.StateStopped && !sponsorBlockTimeout.running) {
                                 sponsorBlockPluginNotification.publish()
-                                if (segment*1000 >= videoPlayer.duration) {
-                                    seek(videoPlayer.duration)
-                                    stop()
-                                } else {
-                                    seek(segment*1000)
-                                }
+                                seek((segment+1.000)*1000.0)
+                                sponsorBlockTimeout.start()
                             }
                         }
 
+                        Timer {
+                            id: sponsorBlockTimeout
+                            interval: 500
+                            repeat: false
+                        }
+
                         function nextVideo() {
-                            return;
                             videoChanging = true
                             videoPlayer.stop()
                             if (playlistMode) {
@@ -697,14 +707,14 @@ Page {
 
                     NumberAnimation {
                         id: showAnimation
-                        targets: [progress, duration, playButton, prevButton, nextButton, castButton, subsButton]
+                        targets: [progress, duration, playButton, prevButton, nextButton, castButton, subsButton, playbackSpeedButton]
                         properties: "opacity"
                         to: 1
                         duration: 100
                     }
                     NumberAnimation {
                         id: hideAnimation
-                        targets: [progress, duration, playButton, prevButton, nextButton, castButton, subsButton]
+                        targets: [progress, duration, playButton, prevButton, nextButton, castButton, subsButton, playbackSpeedButton, playbackSpeedSlider]
                         properties: "opacity"
                         to: 0
                         duration: 100
@@ -740,7 +750,7 @@ Page {
 
                     IconButton {
                         id: castButton
-                        visible: opacity != 0 && landscape && jupii.found
+                        visible: opacity != 0 && landscape && jupii.connected
                         icon.source: "qrc:///images/icon-m-cast.svg"
                         width: Theme.itemSizeExtraSmall
                         height: width
@@ -749,7 +759,7 @@ Page {
                         anchors.margins: Theme.paddingMedium
                         icon.width: width
                         icon.height: width
-                        onClicked: jupii.addUrlOnceAndPlay(video.streamUrl.toString(), video.getWebpage(), title, author, (settings.audioOnlyMode ? 1 : 2), "microtube", "/usr/share/icons/hicolor/172x172/apps/microtube.png")
+                        onClicked: videoHelperYupii.loadVideoUrl(videoHelper.currentVideo.videoId, "720", true)
                     }
 
                     IconButton {
@@ -758,12 +768,73 @@ Page {
                         icon.source: "qrc:///images/icon-m-closed-captions-text.svg"
                         width: Theme.itemSizeExtraSmall
                         height: width
-                        anchors.right: parent.right
+                        anchors.right: playbackSpeedButton.left
                         anchors.top: parent.top
                         anchors.margins: Theme.paddingMedium
                         icon.width: width
                         icon.height: width
                         onClicked: pageStack.push(Qt.resolvedUrl("components/SubtitlesDialog.qml"), {videoHelper: videoHelper})
+                    }
+
+                    IconButton {
+                        id: playbackSpeedButton
+                        visible: opacity != 0 && landscape && !playbackSpeedSlider.visible
+                        icon.source: "image://theme/icon-m-timer"
+                        width: Theme.itemSizeExtraSmall
+                        height: width
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.margins: Theme.paddingMedium
+                        icon.width: width
+                        icon.height: width
+                        onClicked: {
+                            playbackSpeedSlider.opacity = 1.0
+                            playbackSpeedSliderTimer.start()
+                        }
+
+                        Timer {
+                            id: playbackSpeedSliderTimer
+                            interval: 3000
+                            repeat: false
+                            onTriggered: playbackSpeedSlider.opacity = 0
+                        }
+                    }
+
+                    Slider {
+                        id: playbackSpeedSlider
+                        visible: opacity !== 0
+                        opacity: 0
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.topMargin: width - height + Theme.paddingMedium*2
+                        anchors.rightMargin: -(width) + height + Theme.paddingMedium
+                        width: Theme.itemSizeHuge*2
+                        value: 1.0
+                        minimumValue: 0.25
+                        maximumValue: 2.0
+                        stepSize: 0.25
+                        transform: Rotation { angle: -90 }
+                        enabled: visible
+                        onDownChanged: if (down) {
+                                           playbackSpeedSliderTimer.stop()
+                                       } else {
+                                           playbackSpeedSliderTimer.start()
+                                           videoPlayer.setPlaybackSpeed(value)
+                                       }
+
+                        Behavior on opacity {
+                            PropertyAction {}
+                        }
+                    }
+
+                    Label {
+                        anchors.top: parent.top
+                        anchors.topMargin: playbackSpeedSlider.width - playbackSpeedSlider.height - Theme.paddingMedium*2
+                        anchors.left: playbackSpeedSlider.left
+                        anchors.leftMargin: playbackSpeedSlider.height/2 - width/2
+                        text: playbackSpeedSlider.value
+                        opacity: playbackSpeedSlider.opacity
+                        visible: opacity !== 0
                     }
 
                     Slider {
@@ -869,7 +940,7 @@ Page {
                     id: playlistFlickable
                     width: parent.width
                     height: playlist.height
-                    contentHeight: (page.height - videoPlayerRow.height) + videoTitle.height + authorViews.height + videoDescription.height + comments.height + progress.height/2 + Theme.paddingLarge
+                    contentHeight: (page.height - videoPlayerRow.height) + videoTitle.height + authorViews.height + videoDescription.height + comments.height + progress.height/2 + interactionRow.height + Theme.paddingLarge*2
                     clip: true
                     property int oldContentHeight: 0
                     onContentHeightChanged: {
@@ -935,6 +1006,7 @@ Page {
                         }
 
                         Row {
+                            id: interactionRow
                             height: Theme.itemSizeLarge
                             width: parent.width
 

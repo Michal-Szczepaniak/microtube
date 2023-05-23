@@ -35,7 +35,7 @@ ApplicationWindow
 
     property string playing: ""
     property bool videoCover: false
-    property string version: "3.0.0"
+    property string version: "3.1.0"
 
     Component {
         id: updatePage
@@ -88,14 +88,15 @@ ApplicationWindow
     Connections {
         target: userFilesHelper
         onUpdateFinished: {
-            if (typeof startSearch !== "undefined") search(startSearch)
-            else playlistModel.loadCategory(settings.categoryName, settings.currentRegion)
+            if (playlistModel.rowCount() === 0 && Qt.application.arguments.length !== 2)
+                playlistModel.loadCategory(settings.categoryName, settings.currentRegion)
         }
     }
 
     Component.onCompleted: {
-        if (typeof startSearch !== "undefined") search(startSearch)
-        else playlistModel.loadCategory(settings.categoryName, settings.currentRegion)
+        if (Qt.application.arguments.length !== 2) {
+            playlistModel.loadCategory(settings.categoryName, settings.currentRegion)
+        }
     }
 
     Connections {

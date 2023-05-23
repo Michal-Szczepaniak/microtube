@@ -11,10 +11,10 @@ void CommentsModel::loadCommentsForVideo(QString videoId)
     _jsProcessHelper.asyncGetComments(videoId);
 }
 
-void CommentsModel::loadRepliesForComment(QString videoId, QString replyToken)
+void CommentsModel::loadRepliesForComment(QJsonObject continuation)
 {
-    _repliesContinuation = "";
-    _jsProcessHelper.asyncGetCommentReplies(videoId, replyToken);
+    _repliesContinuation = {};
+    _jsProcessHelper.asyncGetCommentReplies(continuation);
 }
 
 int CommentsModel::rowCount(const QModelIndex &parent) const
@@ -39,8 +39,8 @@ QVariant CommentsModel::data(const QModelIndex &index, int role) const
         return comment.text;
     case CommentsRoles::RepliesCountRole:
         return comment.numReplies;
-    case CommentsRoles::ReplyTokenRole:
-        return comment.replyToken;
+    case CommentsRoles::RepliesContinuationRole:
+        return comment.repliesContinuation;
     default:
         return QVariant();
     }
@@ -49,6 +49,8 @@ QVariant CommentsModel::data(const QModelIndex &index, int role) const
 void CommentsModel::gotComments(bool canContinue, bool isContinuation)
 {
     std::vector<Comment> comments = _jsProcessHelper.getComments();
+    _canContinue = canContinue;
+
     if (isContinuation) {
         beginInsertRows(QModelIndex(), rowCount(), rowCount() + comments.size()-1);
         std::move(comments.begin(), comments.end(), std::back_inserter(_comments));
@@ -58,14 +60,12 @@ void CommentsModel::gotComments(bool canContinue, bool isContinuation)
         _comments = move(comments);
         endResetModel();
     }
-
-    _canContinue = canContinue;
 }
 
-void CommentsModel::gotCommentReplies(QString continuation)
+void CommentsModel::gotCommentReplies(QJsonObject continuation)
 {
     std::vector<Comment> comments = _jsProcessHelper.getCommentReplies();
-    if (_repliesContinuation != "") {
+    if (!_repliesContinuation.empty()) {
         beginInsertRows(QModelIndex(), rowCount(), rowCount() + comments.size()-1);
         std::move(comments.begin(), comments.end(), std::back_inserter(_comments));
         endInsertRows();
@@ -86,20 +86,20 @@ QHash<int, QByteArray> CommentsModel::roleNames() const
     roles[PhotoRole] = "photo";
     roles[TextRole] = "commentText";
     roles[RepliesCountRole] = "repliesCount";
-    roles[ReplyTokenRole] = "replyToken";
+    roles[RepliesContinuationRole] = "repliesContinuation";
     return roles;
 }
 
 bool CommentsModel::canFetchMore(const QModelIndex &parent) const
 {
-    return _repliesContinuation != "" || _canContinue;
+    return !_repliesContinuation.empty() || _canContinue;
 }
 
 void CommentsModel::fetchMore(const QModelIndex &parent)
 {
     if (_canContinue) {
         _jsProcessHelper.asyncGetCommentsContinuation();
-    } else if (_repliesContinuation != "") {
-        _jsProcessHelper.asyncGetCommentReplies(_videoId, _repliesContinuation);
+    } else if (!_repliesContinuation.empty()) {
+        _jsProcessHelper.asyncGetCommentReplies(_repliesContinuation);
     }
 }

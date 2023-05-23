@@ -10,6 +10,7 @@ class CommentFactory
 {
 public:
     static Comment fromJson(QJsonObject json);
+    static Comment fromReplyJson(QJsonObject json);
 
 private:
     AuthorFactory _authorFactory;

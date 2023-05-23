@@ -166,6 +166,8 @@ Page {
             model: channelVideos
             clip: true
             interactive: flickable.contentY == Math.round(column.height)
+            onContentYChanged: if (contentY === contentHeight - videosList.height) channelVideos.continueChannelVideos()
+
             delegate: VideoElement {
                 id: delegate
                 popPage: true

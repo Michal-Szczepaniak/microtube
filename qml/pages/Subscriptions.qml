@@ -123,7 +123,7 @@ Page {
                 contentHeight: listView.columnWidth + contextMenu.height
 
                 onClicked: {
-                    playlistModel.loadChannelVideos(authorId)
+                    playlistModel.loadSubscriberVideos(authorId)
                     pageStack.pop()
                 }
 

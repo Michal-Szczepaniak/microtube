@@ -37,6 +37,8 @@ public:
     Q_INVOKABLE void loadRecommendedVideos(QString query);
     Q_INVOKABLE void loadCategory(QString category, QString country);
     Q_INVOKABLE void loadChannelVideos(QString channelId);
+    Q_INVOKABLE void loadSubscriberVideos(QString channelId);
+    Q_INVOKABLE void continueChannelVideos();
     Q_INVOKABLE QString getIdAt(int index);
     Q_INVOKABLE void loadSubscriptions();
     Q_INVOKABLE void loadUnwatchedSubscriptions();

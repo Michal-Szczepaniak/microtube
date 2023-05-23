@@ -106,6 +106,12 @@ Page {
                     playlistModel.search(searchField.text)
                 }
             }
+            Component.onCompleted: {
+                if (Qt.application.arguments.length === 2) {
+                    playlistModel.search(Qt.application.arguments[1])
+                    searchField.text = Qt.application.arguments[1]
+                }
+            }
         }
 
 

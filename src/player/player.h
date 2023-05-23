@@ -47,6 +47,7 @@ public:
     Q_INVOKABLE bool seek(qint64 offset);
     Q_INVOKABLE bool stop();
     Q_INVOKABLE void setAudioOnlyMode(bool audioOnlyMode);
+    Q_INVOKABLE bool setPlaybackSpeed(double speed);
 
     typedef enum {
         StateStopped,
@@ -94,9 +95,11 @@ private:
     GstElement *_subParse;
     GstElement *_appSink;
     GstElement *_subSource;
+    GstElement *_scaletempo;
     State _state;
     QTimer *_timer;
     qint64 _pos;
+    double _playbackSpeed;
     bool _created;
     bool _audioOnlyMode = false;
     QString _currentSubtitle;

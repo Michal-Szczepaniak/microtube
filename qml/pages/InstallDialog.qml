@@ -74,13 +74,31 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Rewritten everything, no longer based on minitube.")
+                    text: "• " + qsTr("Improved stability.")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added login, 1080p+, likes, comments")
+                    text: "• " + qsTr("Improved sponsorblock skipping")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                }
+
+                Label {
+                    width: parent.width
+                    text: "• " + qsTr("Improved seeking")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                }
+
+                Label {
+                    width: parent.width
+                    text: "• " + qsTr("Added playback speed (temporary icon)")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                }
+
+                Label {
+                    width: parent.width
+                    text: "• " + qsTr("Changed FreeTube modules to YouTube.js")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }

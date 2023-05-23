@@ -16,6 +16,7 @@ public:
     Video *getOneByVideoId(QString videoId);
     static std::vector<std::unique_ptr<Video>> getSubscriptions();
     static std::vector<std::unique_ptr<Video>> getUnwatchedSubscriptions();
+    static std::vector<std::unique_ptr<Video>> getChannelVideos(int authorId);
     void setAllWatchedStatus(bool watched);
 
     static void initTable();

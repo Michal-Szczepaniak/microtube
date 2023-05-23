@@ -58,6 +58,17 @@ static const QString VERTEX_SHADER = ""
         "}"
     "";
 
+static const QString VERTEX_3D_SHADER = ""
+        "uniform highp mat4 matrix;"
+        "attribute highp vec3 vertices;"
+        "attribute highp vec2 textureCoord;"
+        "varying highp vec2 coords;"
+        "void main() {"
+        "    gl_Position = matrix * vec4(vertices, 1.0);"
+        "    coords = textureCoord;"
+        "}"
+    "";
+
 QtCamViewfinderRendererNemo::QtCamViewfinderRendererNemo(QObject *parent) :
     QObject(parent),
     m_sink(0),
@@ -493,7 +504,6 @@ void QtCamViewfinderRendererNemo::cleanup() {
     }
 
     g_object_remove_toggle_ref(G_OBJECT(m_sink), (GToggleNotify)sink_notify, this);
-    g_object_unref(m_sink);
     m_sink = 0;
 }
 

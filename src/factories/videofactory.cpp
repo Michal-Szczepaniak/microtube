@@ -5,6 +5,7 @@
 #include <QJsonArray>
 #include <QDebug>
 #include <QDateTime>
+#include <QRegularExpression>
 #include <src/repositories/authorrepository.h>
 
 std::unique_ptr<Video> VideoFactory::fromJson(QJsonObject video)
@@ -35,20 +36,23 @@ std::unique_ptr<Video> VideoFactory::fromJson(QJsonObject video)
 std::unique_ptr<Video> VideoFactory::fromTrendingJson(QJsonObject video)
 {
     std::unique_ptr<Video> parsed(new Video());
-    parsed->author = AuthorFactory::fromTrendingJson(video);
-    parsed->description = video["description"].toString();
-    parsed->duration = video["timeText"].toString();
-    parsed->videoId = video["videoId"].toString();
-    parsed->isLive = video["liveNow"].toBool();
-    parsed->isUpcoming = video["isUpcoming"].toBool();
-    parsed->title = video["title"].toString();
-    parsed->upcoming = video["upcoming"].toInt();
-    parsed->uploadedAt = video["publishedText"].toString();
-    parsed->timestamp = parseTimestamp(video["publishedText"].toString());
+    parsed->author = AuthorFactory::fromTrendingJson(video["author"].toObject());
+    parsed->description = video["description_snippet"].toObject()["text"].toString();
+    parsed->duration = video["duration"].toObject()["text"].toString();
+    parsed->videoId = video["id"].toString();
+    parsed->isLive = false;
+    parsed->isUpcoming = false;//video["isUpcoming"].toBool();
+    parsed->title = video["title"].toObject()["text"].toString();
+    //parsed->upcoming = video["upcoming"].toInt();
+    parsed->uploadedAt = video["published"].toObject()["text"].toString();
+    parsed->timestamp = parseTimestamp(parsed->uploadedAt);
     parsed->url = "https://www.youtube.com/watch?v=" + parsed->videoId;
-    parsed->views = video["viewCount"].toInt();
 
-    QJsonArray thumbnails = video["videoThumbnails"].toArray();
+    const QRegularExpression re("[0-9]+");
+    auto matched = re.match(video["view_count"].toObject()["text"].toString().replace(",", ""));
+    parsed->views = matched.captured().toInt();
+
+    QJsonArray thumbnails = video["thumbnails"].toArray();
     for (const QJsonValue &jsonThumbnail : thumbnails) {
         Thumbnail thumbnail = ThumbnailFactory::fromTrendingJson(jsonThumbnail.toObject());
         parsed->thumbnails[thumbnail.size] = thumbnail;
@@ -148,18 +152,19 @@ Video* VideoFactory::fromSqlRecord(QSqlRecord record)
 std::unique_ptr<Video> VideoFactory::fromChannelVideosJson(QJsonObject video)
 {
     std::unique_ptr<Video> parsed(new Video());
-    parsed->author = AuthorFactory::fromChannelVideosJson(video);
-    parsed->duration = video["durationText"].toString();
-    parsed->videoId = video["videoId"].toString();
-    parsed->isLive = video["liveNow"].toBool();
+    parsed->author = AuthorFactory::fromChannelVideosJson(video["author"].toObject());
+    parsed->duration = video["duration"].toObject()["text"].toString();
+    parsed->description = video["description_snippet"].toObject()["text"].toString();
+    parsed->videoId = video["id"].toString();
+    parsed->isLive = false;
     parsed->isUpcoming = false;
-    parsed->title = video["title"].toString();
-    parsed->uploadedAt = video["publishedText"].toString();
-    parsed->timestamp = parseTimestamp(video["publishedText"].toString());
+    parsed->title = video["title"].toObject()["text"].toString();
+    parsed->uploadedAt = video["published"].toObject()["text"].toString();
+    parsed->timestamp = parseTimestamp(parsed->uploadedAt);
     parsed->url = "https://www.youtube.com/watch?v=" + parsed->videoId;
-    parsed->views = video["viewCount"].toInt();
+    parsed->views = parseAmount(video["view_count"].toObject()["text"].toString());
 
-    QJsonArray thumbnails = video["videoThumbnails"].toArray();
+    QJsonArray thumbnails = video["thumbnails"].toArray();
     for (const QJsonValue &jsonThumbnail : thumbnails) {
         Thumbnail thumbnail = ThumbnailFactory::fromJson(jsonThumbnail.toObject());
         parsed->thumbnails[thumbnail.size] = thumbnail;
@@ -204,3 +209,29 @@ QString VideoFactory::formatDuration(QTime duration)
 
     return result;
 }
+
+int VideoFactory::parseAmount(QString amount)
+{
+    QString numberWithSuffix = amount.split(" ").first().replace(",", "");
+    QChar suffix = numberWithSuffix.right(1).toLower()[0];
+    double number;
+
+    if (suffix != 'm' && suffix != 'k') {
+        number = numberWithSuffix.left(numberWithSuffix.length()).toDouble();
+        suffix = ' ';
+    } else {
+        number = numberWithSuffix.left(numberWithSuffix.length()-1).toDouble();
+    }
+
+    switch (suffix.toLatin1()) {
+    case 'm':
+        number *= 1000000;
+        break;
+    case 'k':
+        number *= 1000;
+        break;
+    }
+
+    return number;
+}
+

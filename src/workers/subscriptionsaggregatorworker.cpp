@@ -19,6 +19,7 @@ void SubscriptionsAggregatorWorker::execute()
                 *v = *video;
                 _videoRepository.update(v->id);
             } else {
+                video->author = subscription;
                 _videoRepository.put(video.get());
             }
         }

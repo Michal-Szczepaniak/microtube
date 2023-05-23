@@ -1,6 +1,7 @@
 #include "playlistmodel.h"
 #include <QDebug>
 #include <QSettings>
+#include <repositories/authorrepository.h>
 
 PlaylistModel::PlaylistModel(QObject *parent) : QAbstractListModel(parent)
 {
@@ -9,7 +10,6 @@ PlaylistModel::PlaylistModel(QObject *parent) : QAbstractListModel(parent)
     connect(&_jsProcessHelper, &JSProcessHelper::gotRecommendedVideos, this, &PlaylistModel::gotRecommendedVideos);
     connect(&_jsProcessHelper, &JSProcessHelper::gotChannelVideos, this, &PlaylistModel::gotChannelVideos);
 }
-
 
 int PlaylistModel::rowCount(const QModelIndex &parent) const
 {
@@ -80,6 +80,20 @@ void PlaylistModel::loadChannelVideos(QString channelId)
     _jsProcessHelper.asyncLoadChannelVideos(channelId);
 }
 
+void PlaylistModel::loadSubscriberVideos(QString channelId)
+{
+    beginResetModel();
+    AuthorRepository authorRepository;
+    Author author = authorRepository.getOneByChannelId(channelId);
+    _items = _videoRepository.getChannelVideos(author.id);
+    endResetModel();
+}
+
+void PlaylistModel::continueChannelVideos()
+{
+    _jsProcessHelper.asyncContinueChannelVideos();
+}
+
 QString PlaylistModel::getIdAt(int index)
 {
     Q_ASSERT(_items.at(index));
@@ -145,7 +159,7 @@ void PlaylistModel::gotChannelVideos(bool continuation)
     std::vector<std::unique_ptr<Video>> videos = _jsProcessHelper.getChannelVideos();
     if (continuation) {
         beginInsertRows(QModelIndex(), rowCount(), rowCount() + videos.size()-1);
-        std::move(videos.begin(), videos.end(), std::back_inserter(videos));
+        std::move(videos.begin(), videos.end(), std::back_inserter(_items));
         endInsertRows();
     } else {
         beginResetModel();
