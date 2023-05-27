@@ -20,6 +20,7 @@ public:
 private:
     static uint parseTimestamp(QString timestamp);
     static QString formatDuration(QTime duration);
+    static uint getLikeCount(QJsonObject video);
 };
 
 #endif // VIDEOFACTORY_H

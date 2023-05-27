@@ -12,7 +12,7 @@
   "dependencies": {
     "youtubei.js": "^4.2.0",
     "yt-channel-info": "^3.2.1",
-    "ytdl-core": "^4.11.2",
+    "ytdl-core": "https://github.com:khlevon/node-ytdl-core.git#v4.11.4-patch.2",
     "ytpl": "^2.3.0",
     "ytsr": "^3.8.0"
   }

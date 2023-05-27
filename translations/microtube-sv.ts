@@ -77,7 +77,7 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     <name>CategoriesModel</name>
     <message>
         <source>Trending</source>
-        <translation>Trend</translation>
+        <translation type="vanished">Trend</translation>
     </message>
     <message>
         <source>Music</source>
@@ -90,6 +90,10 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     <message>
         <source>Movies</source>
         <translation>Filmer</translation>
+    </message>
+    <message>
+        <source>Now</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -231,11 +235,31 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Rewritten everything, no longer based on minitube.</source>
-        <translation>Allt omskrivet, inte längre baserat på minitube.</translation>
+        <translation type="vanished">Allt omskrivet, inte längre baserat på minitube.</translation>
     </message>
     <message>
         <source>Added login, 1080p+, likes, comments</source>
-        <translation>Lade till inloggning, 1080p+, gilla och kommentarer</translation>
+        <translation type="vanished">Lade till inloggning, 1080p+, gilla och kommentarer</translation>
+    </message>
+    <message>
+        <source>Improved stability.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Improved sponsorblock skipping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Improved seeking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added playback speed (temporary icon)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changed FreeTube modules to YouTube.js</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -671,11 +695,31 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Rewritten everything, no longer based on minitube.</source>
-        <translation>Allt omskrivet, inte längre baserat på minitube.</translation>
+        <translation type="vanished">Allt omskrivet, inte längre baserat på minitube.</translation>
     </message>
     <message>
         <source>Added login, 1080p+, likes, comments</source>
-        <translation>Lade till inloggning, 1080p+, gilla och kommentarer</translation>
+        <translation type="vanished">Lade till inloggning, 1080p+, gilla och kommentarer</translation>
+    </message>
+    <message>
+        <source>Improved stability.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Improved sponsorblock skipping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Improved seeking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added playback speed (temporary icon)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changed FreeTube modules to YouTube.js</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

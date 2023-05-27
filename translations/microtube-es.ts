@@ -81,7 +81,7 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <name>CategoriesModel</name>
     <message>
         <source>Trending</source>
-        <translation>Tendencias</translation>
+        <translation type="vanished">Tendencias</translation>
     </message>
     <message>
         <source>Music</source>
@@ -94,6 +94,10 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <message>
         <source>Movies</source>
         <translation>Películas</translation>
+    </message>
+    <message>
+        <source>Now</source>
+        <translation>Ahora</translation>
     </message>
 </context>
 <context>
@@ -243,11 +247,31 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Rewritten everything, no longer based on minitube.</source>
-        <translation>Se ha reescrito todo, ya no está basado en minitube.</translation>
+        <translation type="vanished">Se ha reescrito todo, ya no está basado en minitube.</translation>
     </message>
     <message>
         <source>Added login, 1080p+, likes, comments</source>
-        <translation>Se ha añadido acceso a YouTube, 1080p+, me gusta, comentarios</translation>
+        <translation type="vanished">Se ha añadido acceso a YouTube, 1080p+, me gusta, comentarios</translation>
+    </message>
+    <message>
+        <source>Improved stability.</source>
+        <translation>Mejoras en estabilidad.</translation>
+    </message>
+    <message>
+        <source>Improved sponsorblock skipping</source>
+        <translation>Mejoras en bloqueo de anuncios</translation>
+    </message>
+    <message>
+        <source>Improved seeking</source>
+        <translation>Mejoras en las búsquedas</translation>
+    </message>
+    <message>
+        <source>Added playback speed (temporary icon)</source>
+        <translation>Opción de velocidad de reproducción añadida (icono del tiempo)</translation>
+    </message>
+    <message>
+        <source>Changed FreeTube modules to YouTube.js</source>
+        <translation>Se sustituyen los módulos de FreeTube por los de js de Youtube</translation>
     </message>
 </context>
 <context>
@@ -691,11 +715,31 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Rewritten everything, no longer based on minitube.</source>
-        <translation>Se ha reescrito todo, ya no está basado en minitube.</translation>
+        <translation type="vanished">Se ha reescrito todo, ya no está basado en minitube.</translation>
     </message>
     <message>
         <source>Added login, 1080p+, likes, comments</source>
-        <translation>Se ha añadido acceso a YouTube, 1080p+, me gusta, comentarios</translation>
+        <translation type="vanished">Se ha añadido acceso a YouTube, 1080p+, me gusta, comentarios</translation>
+    </message>
+    <message>
+        <source>Improved stability.</source>
+        <translation>Mejoras en estabilidad.</translation>
+    </message>
+    <message>
+        <source>Improved sponsorblock skipping</source>
+        <translation>Mejoras en bloqueo de anuncios</translation>
+    </message>
+    <message>
+        <source>Improved seeking</source>
+        <translation>Mejoras en las búsquedas</translation>
+    </message>
+    <message>
+        <source>Added playback speed (temporary icon)</source>
+        <translation>Opción de velocidad de reproducción añadida (icono del tiempo)</translation>
+    </message>
+    <message>
+        <source>Changed FreeTube modules to YouTube.js</source>
+        <translation>Se sustituyen los módulos de FreeTube por los de js de Youtube</translation>
     </message>
 </context>
 <context>

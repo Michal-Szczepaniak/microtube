@@ -100,7 +100,7 @@ std::unique_ptr<Video> VideoFactory::fromVideoInfoJson(QJsonObject video)
     parsed->uploadedAt = videoDetails["uploadDate"].toString();
     parsed->url = videoDetails["video_url"].toString();
     parsed->views = videoDetails["viewCount"].toString().toInt();
-    parsed->likes = videoDetails["likes"].toInt();
+    parsed->likes = getLikeCount(video);
 
     QJsonArray thumbnails = videoDetails["thumbnails"].toArray();
     for (const QJsonValue &jsonThumbnail : thumbnails) {
@@ -173,6 +173,31 @@ std::unique_ptr<Video> VideoFactory::fromChannelVideosJson(QJsonObject video)
     return parsed;
 }
 
+int VideoFactory::parseAmount(QString amount)
+{
+    QString numberWithSuffix = amount.split(" ").first().replace(",", "").replace(".", "");
+    QChar suffix = numberWithSuffix.right(1).toLower()[0];
+    double number;
+
+    if (suffix != 'm' && suffix != 'k') {
+        number = numberWithSuffix.left(numberWithSuffix.length()).toDouble();
+        suffix = ' ';
+    } else {
+        number = numberWithSuffix.left(numberWithSuffix.length()-1).toDouble();
+    }
+
+    switch (suffix.toLatin1()) {
+    case 'm':
+        number *= 1000000;
+        break;
+    case 'k':
+        number *= 1000;
+        break;
+    }
+
+    return number;
+}
+
 uint VideoFactory::parseTimestamp(QString timestamp)
 {
     int num = 0;
@@ -210,28 +235,59 @@ QString VideoFactory::formatDuration(QTime duration)
     return result;
 }
 
-int VideoFactory::parseAmount(QString amount)
+uint VideoFactory::getLikeCount(QJsonObject video)
 {
-    QString numberWithSuffix = amount.split(" ").first().replace(",", "");
-    QChar suffix = numberWithSuffix.right(1).toLower()[0];
-    double number;
+    QJsonObject currentObject;
+    QJsonArray currentArray;
 
-    if (suffix != 'm' && suffix != 'k') {
-        number = numberWithSuffix.left(numberWithSuffix.length()).toDouble();
-        suffix = ' ';
-    } else {
-        number = numberWithSuffix.left(numberWithSuffix.length()-1).toDouble();
-    }
+    currentObject  = video["response"].toObject();
+    if (currentObject.empty()) return 0;
 
-    switch (suffix.toLatin1()) {
-    case 'm':
-        number *= 1000000;
-        break;
-    case 'k':
-        number *= 1000;
-        break;
-    }
+    currentObject = currentObject["contents"].toObject();
+    if (currentObject.empty()) return 0;
 
-    return number;
+    currentObject = currentObject["twoColumnWatchNextResults"].toObject();
+    if (currentObject.empty()) return 0;
+
+    currentObject = currentObject["results"].toObject();
+    if (currentObject.empty()) return 0;
+
+    currentObject = currentObject["results"].toObject();
+    if (currentObject.empty()) return 0;
+
+    currentArray = currentObject["contents"].toArray();
+    if (currentArray.empty()) return 0;
+
+    currentObject = currentArray.first().toObject();
+    if (currentObject.empty()) return 0;
+
+    currentObject = currentObject["videoPrimaryInfoRenderer"].toObject();
+    if (currentObject.empty()) return 0;
+
+    currentObject = currentObject["videoActions"].toObject();
+    if (currentObject.empty()) return 0;
+
+    currentObject = currentObject["menuRenderer"].toObject();
+    if (currentObject.empty()) return 0;
+
+    currentArray = currentObject["topLevelButtons"].toArray();
+    if (currentArray.empty()) return 0;
+
+    currentObject = currentArray.first().toObject();
+    if (currentObject.empty()) return 0;
+
+    currentObject = currentObject["segmentedLikeDislikeButtonRenderer"].toObject();
+    if (currentObject.empty()) return 0;
+
+    currentObject = currentObject["likeButton"].toObject();
+    if (currentObject.empty()) return 0;
+
+    currentObject = currentObject["toggleButtonRenderer"].toObject();
+    if (currentObject.empty()) return 0;
+
+    currentObject = currentObject["defaultText"].toObject();
+    if (currentObject.empty()) return 0;
+
+    if (!currentObject.contains("simpleText")) return 0;
+    return parseAmount(currentObject["simpleText"].toString());
 }
-

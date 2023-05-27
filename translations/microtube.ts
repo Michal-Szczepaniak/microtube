@@ -75,10 +75,6 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
 <context>
     <name>CategoriesModel</name>
     <message>
-        <source>Trending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Music</source>
         <translation type="unfinished"></translation>
     </message>
@@ -88,6 +84,10 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Movies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Now</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -229,11 +229,23 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Rewritten everything, no longer based on minitube.</source>
+        <source>Improved stability.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added login, 1080p+, likes, comments</source>
+        <source>Improved sponsorblock skipping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Improved seeking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added playback speed (temporary icon)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changed FreeTube modules to YouTube.js</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -669,11 +681,23 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Rewritten everything, no longer based on minitube.</source>
+        <source>Improved stability.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added login, 1080p+, likes, comments</source>
+        <source>Improved sponsorblock skipping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Improved seeking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added playback speed (temporary icon)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changed FreeTube modules to YouTube.js</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
