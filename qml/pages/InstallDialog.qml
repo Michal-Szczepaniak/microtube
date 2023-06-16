@@ -101,6 +101,12 @@ Page {
                     text: "• " + qsTr("Changed FreeTube modules to YouTube.js")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
+
+                Label {
+                    width: parent.width
+                    text: "• " + qsTr("Added diagnostics page")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                }
             }
 
             SectionHeader {

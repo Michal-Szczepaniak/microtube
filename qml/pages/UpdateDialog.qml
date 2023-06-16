@@ -74,31 +74,7 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Improved stability.")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Improved sponsorblock skipping")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Improved seeking")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Added playback speed (temporary icon)")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Changed FreeTube modules to YouTube.js")
+                    text: "• " + qsTr("Added diagnostics page")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }

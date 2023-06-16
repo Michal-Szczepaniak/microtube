@@ -1,7 +1,7 @@
 Name:       microtube
 
 Summary:    µTube
-Version:    3.1.0
+Version:    3.2.0
 Release:    0
 Group:      Qt/Qt
 License:    GPLv3
@@ -10,6 +10,7 @@ Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 1.1.31.7
 Requires:   nodejs18
 Requires:   npm18
+Requires:   git
 Requires:   libaudioresource-qt
 Requires:   mpris-qt5-qml-plugin
 BuildRequires:  pkgconfig(sailfishapp) >= 1.0.2

@@ -22,6 +22,7 @@
 #include "services/videodownloader.h"
 #include <execinfo.h>
 #include <unistd.h>
+#include <services/jsdiagnostics.h>
 
 void handler(int sig) {
     void *array[10];
@@ -84,6 +85,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<SubscriptionsModel>("com.verdanditeam.yt", 1, 0, "SubscriptionsModel");
     qmlRegisterType<CommentsModel>("com.verdanditeam.yt", 1, 0, "CommentsModel");
     qmlRegisterType<VideoDownloader>("com.verdanditeam.yt", 1, 0, "VideoDownloader");
+    qmlRegisterType<JsDiagnostics>("com.verdanditeam.yt", 1, 0, "JsDiagnostics");
 
     view->setSource(SailfishApp::pathTo("qml/microtube.qml"));
     view->show();
