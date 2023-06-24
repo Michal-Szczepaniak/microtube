@@ -74,37 +74,37 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Improved stability.")
+                    text: "• " + qsTr("Added channels in search results")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Improved sponsorblock skipping")
+                    text: "• " + qsTr("Added text when search results are empty")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Improved seeking")
+                    text: "• " + qsTr("Improved first launch experience")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added playback speed (temporary icon)")
+                    text: "• " + qsTr("Fixed default category")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Changed FreeTube modules to YouTube.js")
+                    text: "• " + qsTr("Fixed Main category in settings")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added diagnostics page")
+                    text: "• " + qsTr("Added playback speed button")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }
