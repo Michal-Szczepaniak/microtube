@@ -46,7 +46,7 @@ private:
     QString _videoUrl;
     QString _audioUrl;
     QString _description;
-    int _maxDefinition;
+    quint32 _maxDefinition;
     bool _combined;
     std::unique_ptr<Video> _currentVideo{};
     QString _currentSubtitle;

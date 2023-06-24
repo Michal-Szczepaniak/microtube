@@ -7,6 +7,7 @@
 #include "entities/comment.h"
 #include "entities/search.h"
 #include "converters/xmltosrtconverter.h"
+#include "src/parsers/videosparser.h"
 
 class JSProcessHelper : public QObject
 {
@@ -25,12 +26,12 @@ public:
     void asyncGetComments(QString videoId);
     void asyncGetCommentsContinuation();
     void asyncGetCommentReplies(QJsonObject continuationData);
-    std::vector<std::unique_ptr<Video>> loadChannelVideos(QString channelId);
+    SearchResults loadChannelVideos(QString channelId);
     std::unique_ptr<Video> getBasicVideoInfo(QString url);
     Author fetchChannelInfo(QString channelId);
-    std::vector<std::unique_ptr<Video>> getTrendingVideos();
-    std::vector<std::unique_ptr<Video>> getRecommendedVideos();
-    std::vector<std::unique_ptr<Video>> getChannelVideos();
+    SearchResults getTrendingVideos();
+    SearchResults getRecommendedVideos();
+    SearchResults getChannelVideos();
     std::vector<Comment> getComments();
     std::vector<Comment> getCommentReplies();
     std::unique_ptr<Video> getVideoInfo();
@@ -73,9 +74,9 @@ private:
     QString _commentRepliesContinuation{};
     QString _loadChannelVideosLastAuthorId{};
 
-    std::vector<std::unique_ptr<Video>> _trendingVideos{};
-    std::vector<std::unique_ptr<Video>> _recommendedVideos{};
-    std::vector<std::unique_ptr<Video>> _channelVideos{};
+    SearchResults _trendingVideos{};
+    SearchResults _recommendedVideos{};
+    SearchResults _channelVideos{};
     std::vector<Comment> _comments{};
     std::vector<Comment> _commentReplies{};
     std::unique_ptr<Video> _videoInfo{};

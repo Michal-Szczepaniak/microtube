@@ -779,7 +779,7 @@ Page {
                     IconButton {
                         id: playbackSpeedButton
                         visible: opacity != 0 && landscape && !playbackSpeedSlider.visible
-                        icon.source: "image://theme/icon-m-timer"
+                        icon.source: "qrc:///images/icon-m-playback-speed.svg"
                         width: Theme.itemSizeExtraSmall
                         height: width
                         anchors.right: parent.right

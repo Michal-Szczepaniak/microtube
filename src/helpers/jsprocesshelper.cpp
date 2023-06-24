@@ -8,7 +8,6 @@
 #include <QIODevice>
 #include <QEvent>
 #include <QFile>
-#include "src/parsers/videosparser.h"
 #include "src/factories/videofactory.h"
 #include "src/factories/authorfactory.h"
 #include "factories/commentfactory.h"
@@ -130,7 +129,7 @@ void JSProcessHelper::asyncGetCommentReplies(QJsonObject continuationData)
     connect(_getCommentRepliesProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessHelper::gotCommentRepliesJson);
 }
 
-std::vector<std::unique_ptr<Video>> JSProcessHelper::loadChannelVideos(QString channelId)
+SearchResults JSProcessHelper::loadChannelVideos(QString channelId)
 {
     QProcess* process = execute("channelVideos", {channelId, "{}"});
     process->waitForFinished();
@@ -160,17 +159,17 @@ Author JSProcessHelper::fetchChannelInfo(QString channelId)
     return AuthorFactory::fromChannelInfoJson(response.object());
 }
 
-std::vector<std::unique_ptr<Video> > JSProcessHelper::getTrendingVideos()
+SearchResults JSProcessHelper::getTrendingVideos()
 {
     return move(_trendingVideos);
 }
 
-std::vector<std::unique_ptr<Video> > JSProcessHelper::getRecommendedVideos()
+SearchResults JSProcessHelper::getRecommendedVideos()
 {
     return move(_recommendedVideos);
 }
 
-std::vector<std::unique_ptr<Video> > JSProcessHelper::getChannelVideos()
+SearchResults JSProcessHelper::getChannelVideos()
 {
     return move(_channelVideos);
 }
@@ -310,8 +309,8 @@ void JSProcessHelper::gotChannelVideosJson(int exitStatus)
     AuthorRepository authorRepository;
     Author author = authorRepository.getOneByChannelId(_loadChannelVideosLastAuthorId);
 
-    for (std::unique_ptr<Video> &video : _channelVideos) {
-        video->author = author;
+    for (SearchResult &video : _channelVideos) {
+        std::get<std::unique_ptr<Video>>(video)->author = author;
     }
 
     emit gotChannelVideos(isContinuation);

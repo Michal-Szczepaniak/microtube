@@ -153,6 +153,17 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
 </context>
 <context>
+    <name>Diagnostics</name>
+    <message>
+        <source>Diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Run diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Filters</name>
     <message>
         <source>Filters</source>
@@ -261,6 +272,53 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <source>Changed FreeTube modules to YouTube.js</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Added diagnostics page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>JsDiagnostics</name>
+    <message>
+        <source>Success</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not running</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is readable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is writable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is executable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if node is executable and correct version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No problems found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Main</name>
@@ -283,6 +341,10 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     <message>
         <source>Search</source>
         <translation>Sök</translation>
+    </message>
+    <message>
+        <source>Select category by swiping to the left or search for videos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -508,7 +570,7 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Trending</source>
-        <translation>Trendar</translation>
+        <translation type="vanished">Trendar</translation>
     </message>
     <message>
         <source>Music</source>
@@ -581,6 +643,14 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     <message>
         <source>In oder to allow login you need to provide your own OAuth2 Client Id and Secret. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</source>
         <translation>För att tillåta inloggning måste du ange ditt eget OAuth2-klient-ID och hemlighet. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Now</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -702,23 +772,7 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <translation type="vanished">Lade till inloggning, 1080p+, gilla och kommentarer</translation>
     </message>
     <message>
-        <source>Improved stability.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Improved sponsorblock skipping</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Improved seeking</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Added playback speed (temporary icon)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Changed FreeTube modules to YouTube.js</source>
+        <source>Added diagnostics page</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

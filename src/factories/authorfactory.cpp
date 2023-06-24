@@ -127,6 +127,22 @@ Author AuthorFactory::fromCommentsJson(QJsonObject json)
     return author;
 }
 
+Author AuthorFactory::fromSearchJson(QJsonObject json)
+{
+    Author author{};
+    author.authorId = json["channelID"].toString();
+    author.description = json["descriptionShort"].toString();
+    author.name = json["name"].toString();
+    author.url = json["url"].toString();
+    author.verified = json["verified"].toBool();
+
+    for (const QJsonValue &avatar : json["avatars"].toArray())
+        author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
+    author.bestAvatar = author.avatars.first();
+
+    return author;
+}
+
 int AuthorFactory::parseAmount(QString amount)
 {
     QString numberWithSuffix = amount.split(" ").first().replace(",", "");

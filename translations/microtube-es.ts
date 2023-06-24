@@ -157,6 +157,17 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
 </context>
 <context>
+    <name>Diagnostics</name>
+    <message>
+        <source>Diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Run diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Filters</name>
     <message>
         <source>Filters</source>
@@ -273,6 +284,53 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <source>Changed FreeTube modules to YouTube.js</source>
         <translation>Se sustituyen los módulos de FreeTube por los de js de Youtube</translation>
     </message>
+    <message>
+        <source>Added diagnostics page</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>JsDiagnostics</name>
+    <message>
+        <source>Success</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not running</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is readable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is writable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is executable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if node is executable and correct version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No problems found</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Main</name>
@@ -295,6 +353,10 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <message>
         <source>Search</source>
         <translation>Buscar</translation>
+    </message>
+    <message>
+        <source>Select category by swiping to the left or search for videos</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -520,7 +582,7 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Trending</source>
-        <translation>Tendencias</translation>
+        <translation type="vanished">Tendencias</translation>
     </message>
     <message>
         <source>Music</source>
@@ -593,6 +655,14 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <message>
         <source>In oder to allow login you need to provide your own OAuth2 Client Id and Secret. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</source>
         <translation>Para poder acceder necesitas tu propia id y secreto de cliente OAuth2 &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Now</source>
+        <translation type="unfinished">Ahora</translation>
     </message>
 </context>
 <context>
@@ -723,23 +793,27 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Improved stability.</source>
-        <translation>Mejoras en estabilidad.</translation>
+        <translation type="vanished">Mejoras en estabilidad.</translation>
     </message>
     <message>
         <source>Improved sponsorblock skipping</source>
-        <translation>Mejoras en bloqueo de anuncios</translation>
+        <translation type="vanished">Mejoras en bloqueo de anuncios</translation>
     </message>
     <message>
         <source>Improved seeking</source>
-        <translation>Mejoras en las búsquedas</translation>
+        <translation type="vanished">Mejoras en las búsquedas</translation>
     </message>
     <message>
         <source>Added playback speed (temporary icon)</source>
-        <translation>Opción de velocidad de reproducción añadida (icono del tiempo)</translation>
+        <translation type="vanished">Opción de velocidad de reproducción añadida (icono del tiempo)</translation>
     </message>
     <message>
         <source>Changed FreeTube modules to YouTube.js</source>
-        <translation>Se sustituyen los módulos de FreeTube por los de js de Youtube</translation>
+        <translation type="vanished">Se sustituyen los módulos de FreeTube por los de js de Youtube</translation>
+    </message>
+    <message>
+        <source>Added diagnostics page</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -147,7 +147,7 @@ void GoogleOAuthHelper::processSubscriptionsRequest(QString data)
     _progressEnd += count;
     emit importEndChanged();
 
-    if (count == 50) {
+    if (count == 50 && _pendingRequests[RequestType::Subscriptions].nextPage != "") {
         importSubscriptions();
     } else {
         if (_importWorker == nullptr) {

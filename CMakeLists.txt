@@ -1,20 +1,34 @@
 project(microtube CXX)
 cmake_minimum_required(VERSION 3.5)
+include(CMakeDependentOption)
 
-find_package(Qt5 COMPONENTS Core Network Qml Gui Quick DBus Sql OpenGL OpenGLExtensions SystemInfo LinguistTools REQUIRED)
-find_package(DBus1 REQUIRED)
 find_package(PkgConfig)
 
-pkg_search_module(SAILFISH sailfishapp REQUIRED)
+pkg_search_module(SAILFISH sailfishapp)
+cmake_dependent_option(TARGET_SAILFISH "Is target SailfishOS" ON "SAILFISH_FOUND" OFF)
+if (TARGET_SAILFISH)
+    message(STATUS "Building for SailfishOS")
+else()
+    message(STATUS "Building for linux")
+endif()
+
+find_package(Qt5 COMPONENTS Core Network Qml Gui Quick DBus Sql OpenGL OpenGLExtensions LinguistTools REQUIRED)
+find_package(DBus1 REQUIRED)
+
 pkg_search_module(GLIB glib-2.0 REQUIRED)
 pkg_search_module(DBUSGLIB dbus-glib-1 REQUIRED)
-pkg_search_module(AUDIORESOURCE audioresource-qt REQUIRED)
 pkg_search_module(GSTREAMER gstreamer-1.0 REQUIRED)
 pkg_search_module(GSTREAMER_PLAYER gstreamer-player-1.0 REQUIRED)
 pkg_search_module(GSTREAMER_VIDEO gstreamer-video-1.0 REQUIRED)
 pkg_search_module(EGL egl REQUIRED)
 pkg_search_module(OPENGL_EXTENSIONS Qt5OpenGLExtensions REQUIRED)
-pkg_search_module(NEMO_GSTREAMER_INTERFACES nemo-gstreamer-interfaces-1.0 REQUIRED)
+
+if (TARGET_SAILFISH)
+    find_package(Qt5 COMPONENTS SystemInfo REQUIRED)
+
+    pkg_search_module(AUDIORESOURCE audioresource-qt REQUIRED)
+    pkg_search_module(NEMO_GSTREAMER_INTERFACES nemo-gstreamer-interfaces-1.0 REQUIRED)
+endif()
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -91,14 +105,14 @@ target_include_directories(microtube PRIVATE
     ${GSTREAMER_VIDEO_INCLUDE_DIRS}
     ${EGL_INCLUDE_DIRS}
     ${o2_SOURCE}
->)
+    >)
 target_link_libraries(microtube
     Qt5::Quick
     Qt5::DBus
     Qt5::Sql
     Qt5::OpenGL
     Qt5::OpenGLExtensions
-    Qt5::SystemInfo
+    $<$<BOOL:TARGET_SAILFISH>:Qt5::SystemInfo>
     ${DBus1_LDFLAGS}
     ${GLIB_LDFLAGS}
     ${DBUSGLIB_LDFLAGS}

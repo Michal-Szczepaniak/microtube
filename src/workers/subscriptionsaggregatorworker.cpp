@@ -12,15 +12,15 @@ void SubscriptionsAggregatorWorker::execute()
     int progress = 0;
 
     for (Author subscription : subscriptions) {
-        std::vector<std::unique_ptr<Video>> videos = _jsProcessHelper.loadChannelVideos(subscription.authorId);
-        for (std::unique_ptr<Video> &video : videos) {
-            Video* v = _videoRepository.getOneByVideoId(video->videoId);
+        SearchResults videos = _jsProcessHelper.loadChannelVideos(subscription.authorId);
+        for (SearchResult &video : videos) {
+            Video* v = _videoRepository.getOneByVideoId(std::get<std::unique_ptr<Video>>(video)->videoId);
             if (v != nullptr) {
-                *v = *video;
+                *v = *std::get<std::unique_ptr<Video>>(video);
                 _videoRepository.update(v->id);
             } else {
-                video->author = subscription;
-                _videoRepository.put(video.get());
+                std::get<std::unique_ptr<Video>>(video)->author = subscription;
+                _videoRepository.put(std::get<std::unique_ptr<Video>>(video).get());
             }
         }
         progress++;

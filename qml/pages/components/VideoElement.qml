@@ -20,6 +20,7 @@
 import QtQuick 2.6
 import Sailfish.Silica 1.0
 import com.verdanditeam.yt 1.0
+import QtGraphicalEffects 1.0
 import "./helpers.js" as Helpers
 
 ListItem {
@@ -43,7 +44,7 @@ ListItem {
             Image {
                 id: thumbnailImage
                 anchors.right: parent.right
-                width: parent.width - Theme.paddingLarge
+                width: elementType === YtPlaylist.ChannelType ? height : (parent.width - Theme.paddingLarge)
                 height: parent.height - Theme.paddingLarge
                 source: thumbnail
                 anchors.centerIn: parent
@@ -53,7 +54,20 @@ ListItem {
                 fillMode: Image.PreserveAspectCrop
                 clip: true
 
+                layer.enabled: elementType === YtPlaylist.ChannelType
+                layer.effect: OpacityMask {
+                    maskSource: mask
+                }
+
                 onStatusChanged: if (status === Image.Error) source = altThumbnail
+
+                Rectangle {
+                    id: mask
+                    width: parent.height - Theme.paddingLarge
+                    height: parent.height - Theme.paddingLarge
+                    radius: (parent.height - Theme.paddingLarge)/2
+                    visible: false
+                }
 
                 Rectangle {
                     color: Theme.rgba(Theme.highlightBackgroundColor, 0.7)
@@ -99,6 +113,8 @@ ListItem {
                         return "scheduled";
                     } else if (isLive) {
                         return "live";
+                    } else if (elementType === YtPlaylist.ChannelType) {
+                        return description;
                     } else {
                         return qsTr("%1 views - %2").arg(Helpers.parseViews(views)).arg(published)
                     }

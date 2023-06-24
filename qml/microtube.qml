@@ -110,7 +110,7 @@ ApplicationWindow
 
         property string version: ""
         property string categoryId: "0"
-        property string categoryName: "Film & Animation"
+        property string categoryName: "Now"
         property string currentRegion: ""
     }
 }

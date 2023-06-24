@@ -8,5 +8,6 @@
         <file>images/icon-m-scale-to-21-9.svg</file>
         <file>images/icon-m-cast.svg</file>
         <file>images/icon-m-closed-captions-text.svg</file>
+        <file>images/icon-m-playback-speed.svg</file>
     </qresource>
 </RCC>

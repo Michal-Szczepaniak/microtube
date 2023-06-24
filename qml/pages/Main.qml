@@ -171,12 +171,26 @@ Page {
                     spacing: Theme.paddingMedium
                     visible: index === 1
                     model: playlistModel
+
+                    Label {
+                        anchors.centerIn: parent
+                        width: parent.width/2
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        horizontalAlignment: Text.AlignHCenter
+                        text: qsTr("Select category by swiping to the left or search for videos")
+                        visible: !searchList.count
+                    }
+
                     delegate: VideoElement {
                         onClicked: {
-                            if (pageStack.nextPage(page))
-                                pageStack.popAttached(page, PageStackAction.Immediate)
-                            pageStack.pushAttached(Qt.resolvedUrl("VideoPlayer.qml"), {videoIdToPlay: id})
-                            pageStack.navigateForward()
+                            if (elementType === YtPlaylist.ChannelType) {
+                                pageStack.push(Qt.resolvedUrl("Channel.qml"), {channelId: id })
+                            } else {
+                                if (pageStack.nextPage(page))
+                                    pageStack.popAttached(page, PageStackAction.Immediate)
+                                pageStack.pushAttached(Qt.resolvedUrl("VideoPlayer.qml"), {videoIdToPlay: id})
+                                pageStack.navigateForward()
+                            }
                         }
                     }
                 }

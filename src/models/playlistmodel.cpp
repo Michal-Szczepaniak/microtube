@@ -22,36 +22,63 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const
 {
     if (rowCount() <= 0 || index.row() < 0 || index.row() >= rowCount()) return QVariant();
 
-    Video* video = _items.at(index.row()).get();
-    switch (role) {
-    case IdRole:
-        return video->videoId;
-    case TitleRole:
-        return video->title;
-    case DurationRole:
-        return video->duration;
-    case ThumbnailRole:
-        if (video->thumbnails.contains(Thumbnail::HD))
-            return video->thumbnails[Thumbnail::HD].url;
-        else
+    const SearchResult &result = _items.at(index.row());
+    if (std::holds_alternative<std::unique_ptr<Video>>(result)) {
+        Video *video = std::get<std::unique_ptr<Video>>(result).get();
+        switch (role) {
+        case IdRole:
+            return video->videoId;
+        case TypeRole:
+            return VideoType;
+        case TitleRole:
+            return video->title;
+        case DurationRole:
+            return video->duration;
+        case ThumbnailRole:
+            if (video->thumbnails.contains(Thumbnail::HD))
+                return video->thumbnails[Thumbnail::HD].url;
+            else
+                return video->thumbnails[Thumbnail::SD].url;
+        case AlternativeThumbnailRole:
             return video->thumbnails[Thumbnail::SD].url;
-    case AlternativeThumbnailRole:
-        return video->thumbnails[Thumbnail::SD].url;
-    case DescriptionRole:
-        return video->description;
-    case AuthorRole:
-        return QVariant::fromValue(video->author);
-    case IsUpcomingRole:
-        return video->isUpcoming;
-    case IsLiveRole:
-        return video->isLive;
-    case ViewsRole:
-        return video->views;
-    case PublishedRole:
-        return video->uploadedAt;
-    case UrlRole:
-        return video->url;
-    default:
+        case DescriptionRole:
+            return video->description;
+        case AuthorRole:
+            return QVariant::fromValue(video->author);
+        case IsUpcomingRole:
+            return video->isUpcoming;
+        case IsLiveRole:
+            return video->isLive;
+        case ViewsRole:
+            return video->views;
+        case PublishedRole:
+            return video->uploadedAt;
+        case UrlRole:
+            return video->url;
+        default:
+            return QVariant();
+        }
+    } else if (std::holds_alternative<Author>(result)) {
+        Author author = std::get<Author>(result);
+        switch (role) {
+        case IdRole:
+            return author.authorId;
+        case TypeRole:
+            return ChannelType;
+        case TitleRole:
+            return author.name;
+        case ThumbnailRole:
+            return author.bestAvatar.url;
+        case DescriptionRole:
+            return author.description;
+        case UrlRole:
+            return author.url;
+        case AuthorRole:
+            return QVariant::fromValue(author);
+        default:
+            return QVariant();
+        }
+    } else {
         return QVariant();
     }
 }
@@ -85,7 +112,8 @@ void PlaylistModel::loadSubscriberVideos(QString channelId)
     beginResetModel();
     AuthorRepository authorRepository;
     Author author = authorRepository.getOneByChannelId(channelId);
-    _items = _videoRepository.getChannelVideos(author.id);
+    auto videos = _videoRepository.getChannelVideos(author.id);
+    std::move(videos.begin(), videos.end(), std::back_inserter(_items));
     endResetModel();
 }
 
@@ -96,22 +124,25 @@ void PlaylistModel::continueChannelVideos()
 
 QString PlaylistModel::getIdAt(int index)
 {
-    Q_ASSERT(_items.at(index));
+    Q_ASSERT(std::holds_alternative<std::unique_ptr<Video>>(_items.at(index)));
+    Q_ASSERT(std::get<std::unique_ptr<Video>>(_items.at(index)));
 
-    return _items.at(index)->videoId;
+    return std::get<std::unique_ptr<Video>>(_items.at(index))->videoId;
 }
 
 void PlaylistModel::loadSubscriptions()
 {
     beginResetModel();
-    _items = _videoRepository.getSubscriptions();
+    auto subscriptions = _videoRepository.getSubscriptions();
+    std::move(subscriptions.begin(), subscriptions.end(), std::back_inserter(_items));
     endResetModel();
 }
 
 void PlaylistModel::loadUnwatchedSubscriptions()
 {
     beginResetModel();
-    _items = _videoRepository.getUnwatchedSubscriptions();
+    auto subscriptions = _videoRepository.getUnwatchedSubscriptions();
+    std::move(subscriptions.begin(), subscriptions.end(), std::back_inserter(_items));
     endResetModel();
 }
 
@@ -156,7 +187,7 @@ void PlaylistModel::gotRecommendedVideos()
 
 void PlaylistModel::gotChannelVideos(bool continuation)
 {
-    std::vector<std::unique_ptr<Video>> videos = _jsProcessHelper.getChannelVideos();
+    SearchResults videos = _jsProcessHelper.getChannelVideos();
     if (continuation) {
         beginInsertRows(QModelIndex(), rowCount(), rowCount() + videos.size()-1);
         std::move(videos.begin(), videos.end(), std::back_inserter(_items));
@@ -172,6 +203,7 @@ QHash<int, QByteArray> PlaylistModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
     roles[IdRole] = "id";
+    roles[TypeRole] = "elementType";
     roles[TitleRole] = "title";
     roles[DurationRole] = "duration";
     roles[ThumbnailRole] = "thumbnail";

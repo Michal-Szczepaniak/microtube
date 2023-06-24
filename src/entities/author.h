@@ -31,5 +31,6 @@ public:
     bool subscribed = false;
     int unwatchedVideosCount = 0;
 };
+Q_DECLARE_METATYPE(Author*)
 
 #endif // AUTHOR_H

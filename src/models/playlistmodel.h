@@ -12,11 +12,13 @@ class PlaylistModel : public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(bool safeSearch READ getSafeSearch WRITE setSafeSearch NOTIFY safeSearchChanged)
+    Q_ENUMS(DataTypes)
 public:
     explicit PlaylistModel(QObject *parent = nullptr);
 
     enum DataRoles {
         IdRole = Qt::UserRole,
+        TypeRole,
         TitleRole,
         DurationRole,
         ThumbnailRole,
@@ -28,6 +30,11 @@ public:
         ViewsRole,
         PublishedRole,
         UrlRole
+    };
+
+    enum DataTypes {
+        VideoType,
+        ChannelType
     };
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -64,7 +71,7 @@ protected:
 
 private:
     std::unique_ptr<Search> _lastSearch;
-    std::vector<std::unique_ptr<Video>> _items;
+    SearchResults _items;
     JSProcessHelper _jsProcessHelper;
     quint32 _maxDefinition;
     VideoRepository _videoRepository;

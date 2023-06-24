@@ -1,11 +1,12 @@
 #include "videosparser.h"
 #include <QDebug>
 #include <QJsonObject>
-#include "../factories/videofactory.h"
+#include "factories/videofactory.h"
+#include "factories/authorfactory.h"
 
-std::vector<std::unique_ptr<Video>> VideosParser::parse(const QJsonArray videos)
+SearchResults VideosParser::parse(const QJsonArray videos)
 {
-    std::vector<std::unique_ptr<Video>> result;
+    SearchResults result;
 
     for (const QJsonValue &item : videos) {
         if (item.isUndefined()) break;
@@ -13,6 +14,8 @@ std::vector<std::unique_ptr<Video>> VideosParser::parse(const QJsonArray videos)
         QString type = jsonVideo["type"].toString();
         if (type == "video") {
             result.push_back(VideoFactory::fromJson(jsonVideo));
+        } else if (type == "channel") {
+            result.push_back(AuthorFactory::fromSearchJson(jsonVideo));
         } else {
             qDebug() << type;
         }
@@ -21,9 +24,9 @@ std::vector<std::unique_ptr<Video>> VideosParser::parse(const QJsonArray videos)
     return result;
 }
 
-std::vector<std::unique_ptr<Video>> VideosParser::parseTrending(const QJsonArray videos)
+SearchResults VideosParser::parseTrending(const QJsonArray videos)
 {
-    std::vector<std::unique_ptr<Video>> result;
+    SearchResults result;
 
     for (const QJsonValue &item : videos) {
         if (item.isUndefined()) break;
@@ -39,9 +42,9 @@ std::vector<std::unique_ptr<Video>> VideosParser::parseTrending(const QJsonArray
     return result;
 }
 
-std::vector<std::unique_ptr<Video> > VideosParser::parseRecommended(const QJsonArray videos)
+SearchResults VideosParser::parseRecommended(const QJsonArray videos)
 {
-    std::vector<std::unique_ptr<Video>> result;
+    SearchResults result;
 
     for (const QJsonValue &item : videos) {
         if (item.isUndefined()) break;
@@ -52,9 +55,9 @@ std::vector<std::unique_ptr<Video> > VideosParser::parseRecommended(const QJsonA
     return result;
 }
 
-std::vector<std::unique_ptr<Video>> VideosParser::parseChanelVideos(const QJsonArray videos)
+SearchResults VideosParser::parseChanelVideos(const QJsonArray videos)
 {
-    std::vector<std::unique_ptr<Video>> result;
+    SearchResults result;
 
     for (const QJsonValue &item : videos) {
         if (item.isUndefined()) break;
