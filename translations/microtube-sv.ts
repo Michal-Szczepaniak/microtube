@@ -253,27 +253,27 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <translation type="vanished">Lade till inloggning, 1080p+, gilla och kommentarer</translation>
     </message>
     <message>
-        <source>Improved stability.</source>
+        <source>Added channels in search results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Improved sponsorblock skipping</source>
+        <source>Added text when search results are empty</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Improved seeking</source>
+        <source>Improved first launch experience</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added playback speed (temporary icon)</source>
+        <source>Fixed default category</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Changed FreeTube modules to YouTube.js</source>
+        <source>Fixed Main category in settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added diagnostics page</source>
+        <source>Added playback speed button</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -772,7 +772,27 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <translation type="vanished">Lade till inloggning, 1080p+, gilla och kommentarer</translation>
     </message>
     <message>
-        <source>Added diagnostics page</source>
+        <source>Added channels in search results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added text when search results are empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Improved first launch experience</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fixed default category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fixed Main category in settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added playback speed button</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

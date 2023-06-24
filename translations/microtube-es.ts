@@ -160,11 +160,11 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <name>Diagnostics</name>
     <message>
         <source>Diagnostics</source>
-        <translation type="unfinished"></translation>
+        <translation>Diagnóstico</translation>
     </message>
     <message>
         <source>Run diagnostics</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciar diagnóstico</translation>
     </message>
 </context>
 <context>
@@ -266,70 +266,90 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Improved stability.</source>
-        <translation>Mejoras en estabilidad.</translation>
+        <translation type="vanished">Mejoras en estabilidad.</translation>
     </message>
     <message>
         <source>Improved sponsorblock skipping</source>
-        <translation>Mejoras en bloqueo de anuncios</translation>
+        <translation type="vanished">Mejoras en bloqueo de anuncios</translation>
     </message>
     <message>
         <source>Improved seeking</source>
-        <translation>Mejoras en las búsquedas</translation>
+        <translation type="vanished">Mejoras en las búsquedas</translation>
     </message>
     <message>
         <source>Added playback speed (temporary icon)</source>
-        <translation>Opción de velocidad de reproducción añadida (icono del tiempo)</translation>
+        <translation type="vanished">Opción de velocidad de reproducción añadida (icono del tiempo)</translation>
     </message>
     <message>
         <source>Changed FreeTube modules to YouTube.js</source>
-        <translation>Se sustituyen los módulos de FreeTube por los de js de Youtube</translation>
+        <translation type="vanished">Se sustituyen los módulos de FreeTube por los de js de Youtube</translation>
     </message>
     <message>
-        <source>Added diagnostics page</source>
-        <translation type="unfinished"></translation>
+        <source>Added channels in search results</source>
+        <translation>Se añaden canales en los resultados de búsqueda</translation>
+    </message>
+    <message>
+        <source>Added text when search results are empty</source>
+        <translation>Se añade un texto cuando no hay resultados de búsqueda</translation>
+    </message>
+    <message>
+        <source>Improved first launch experience</source>
+        <translation>Mejoras en la experiencia del primer inicio</translation>
+    </message>
+    <message>
+        <source>Fixed default category</source>
+        <translation>Se corrige la categoría por defecto</translation>
+    </message>
+    <message>
+        <source>Fixed Main category in settings</source>
+        <translation>Se corrige la categoría principal en ajustes</translation>
+    </message>
+    <message>
+        <source>Added playback speed button</source>
+        <translation>Se añade botón para la velocidad de reproducción</translation>
     </message>
 </context>
 <context>
     <name>JsDiagnostics</name>
     <message>
         <source>Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Correcto</translation>
     </message>
     <message>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Fallo</translation>
     </message>
     <message>
         <source>Not running</source>
-        <translation type="unfinished"></translation>
+        <translation>No se está ejecutando</translation>
     </message>
     <message>
         <source>Checking if js directory exists</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprobando si el directorio js existe</translation>
     </message>
     <message>
         <source>Checking if js directory is directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprobando si el directorio js es un directorio</translation>
     </message>
     <message>
         <source>Checking if js directory is readable</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprobando si el directorio js tiene permisos de lectura</translation>
     </message>
     <message>
         <source>Checking if js directory is writable</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprobando si el directorio js tiene permisos de escritura</translation>
     </message>
     <message>
         <source>Checking if js directory is executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprobando si el directorio js tiene permisos de ejecución</translation>
     </message>
     <message>
         <source>Checking if node is executable and correct version</source>
-        <translation type="unfinished"></translation>
+        <translation>Comprobando si node es ejecutable y la versión es correcta</translation>
     </message>
     <message>
         <source>No problems found</source>
-        <translation type="unfinished"></translation>
+        <translation>Ningún problema detectado</translation>
     </message>
 </context>
 <context>
@@ -356,7 +376,7 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Select category by swiping to the left or search for videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecciona categoría deslizando hacia la izquierda o busca vídeos</translation>
     </message>
 </context>
 <context>
@@ -658,11 +678,11 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Diagnostics</source>
-        <translation type="unfinished"></translation>
+        <translation>Diagnostico</translation>
     </message>
     <message>
         <source>Now</source>
-        <translation type="unfinished">Ahora</translation>
+        <translation>Ahora</translation>
     </message>
 </context>
 <context>
@@ -812,8 +832,28 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation type="vanished">Se sustituyen los módulos de FreeTube por los de js de Youtube</translation>
     </message>
     <message>
-        <source>Added diagnostics page</source>
-        <translation type="unfinished"></translation>
+        <source>Added channels in search results</source>
+        <translation>Se añaden canales en los resultados de búsqueda</translation>
+    </message>
+    <message>
+        <source>Added text when search results are empty</source>
+        <translation>Se añade un texto cuando no hay resultados de búsqueda</translation>
+    </message>
+    <message>
+        <source>Improved first launch experience</source>
+        <translation>Mejoras en la experiencia del primer inicio</translation>
+    </message>
+    <message>
+        <source>Fixed default category</source>
+        <translation>Se corrige la categoría por defecto</translation>
+    </message>
+    <message>
+        <source>Fixed Main category in settings</source>
+        <translation>Se corrige la categoría principal en ajustes</translation>
+    </message>
+    <message>
+        <source>Added playback speed button</source>
+        <translation>Se añade botón para la velocidad de reproducción</translation>
     </message>
 </context>
 <context>
