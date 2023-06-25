@@ -76,10 +76,6 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
 <context>
     <name>CategoriesModel</name>
     <message>
-        <source>Trending</source>
-        <translation type="vanished">Trend</translation>
-    </message>
-    <message>
         <source>Music</source>
         <translation>Musik</translation>
     </message>
@@ -245,14 +241,6 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <translation>Donation</translation>
     </message>
     <message>
-        <source>Rewritten everything, no longer based on minitube.</source>
-        <translation type="vanished">Allt omskrivet, inte längre baserat på minitube.</translation>
-    </message>
-    <message>
-        <source>Added login, 1080p+, likes, comments</source>
-        <translation type="vanished">Lade till inloggning, 1080p+, gilla och kommentarer</translation>
-    </message>
-    <message>
         <source>Added channels in search results</source>
         <translation type="unfinished"></translation>
     </message>
@@ -274,6 +262,10 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Added playback speed button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updated translations</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -569,10 +561,6 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <translation>Standardkategori</translation>
     </message>
     <message>
-        <source>Trending</source>
-        <translation type="vanished">Trendar</translation>
-    </message>
-    <message>
         <source>Music</source>
         <translation>Musik</translation>
     </message>
@@ -764,14 +752,6 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <translation>Donation</translation>
     </message>
     <message>
-        <source>Rewritten everything, no longer based on minitube.</source>
-        <translation type="vanished">Allt omskrivet, inte längre baserat på minitube.</translation>
-    </message>
-    <message>
-        <source>Added login, 1080p+, likes, comments</source>
-        <translation type="vanished">Lade till inloggning, 1080p+, gilla och kommentarer</translation>
-    </message>
-    <message>
         <source>Added channels in search results</source>
         <translation type="unfinished"></translation>
     </message>
@@ -792,7 +772,11 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added playback speed button</source>
+        <source>Added playback speed icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updated translations</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -104,7 +104,13 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added playback speed button")
+                    text: "• " + qsTr("Added playback speed icon")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                }
+
+                Label {
+                    width: parent.width
+                    text: "• " + qsTr("Updated translations")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }

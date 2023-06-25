@@ -25,10 +25,6 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
         <translation>Aproposito di</translation>
     </message>
     <message>
-        <source>Made by Michał Szczepaniak. Based on minitube.</source>
-        <translation>Sviluppato da Michał Szczepaniak. Basato su minitube.</translation>
-    </message>
-    <message>
         <source>Licensed under GPLv3</source>
         <translation>Autorizzato con licenza GPLv3</translation>
     </message>
@@ -46,7 +42,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>jgibbon for german translation and help.</source>
-        <translation>jgibbon per la traduzione tedesca e l'aiuto.</translation>
+        <translation>jgibbon per la traduzione tedesca e l&apos;aiuto.</translation>
     </message>
     <message>
         <source>carmenfdezb for spanish translation.</source>
@@ -54,7 +50,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>DylanVanAssche for help.</source>
-        <translation>DylanVanAssche per l'aiuto.</translation>
+        <translation>DylanVanAssche per l&apos;aiuto.</translation>
     </message>
     <message>
         <source>1Zgp for hungarian translation.</source>
@@ -66,30 +62,22 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>mkiol for integration with Jupii.</source>
-        <translation>mkiol per l'integrazione con Jupii.</translation>
+        <translation>mkiol per l&apos;integrazione con Jupii.</translation>
     </message>
     <message>
         <source>SponsorBlock plugin from &lt;br/&gt;&lt;a href=&quot;https://sponsor.ajay.app&quot;&gt;https://sponsor.ajay.app&lt;/a&gt;</source>
         <translation>Plugin SponsorBlock da &lt;br/&gt;&lt;a href=&quot;https://sponsor.ajay.app&quot;&gt;https://sponsor.ajay.app&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>Made by Michał Szczepaniak.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CategoriesModel</name>
     <message>
-        <source>Most Popular</source>
-        <translation>Popolari</translation>
-    </message>
-    <message>
-        <source>Trending</source>
-        <translation>Di tendenza</translation>
-    </message>
-    <message>
         <source>Music</source>
         <translation>Música</translation>
-    </message>
-    <message>
-        <source>News</source>
-        <translation>Notizie</translation>
     </message>
     <message>
         <source>Movies</source>
@@ -98,6 +86,10 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     <message>
         <source>Gaming</source>
         <translation>Videogiochi</translation>
+    </message>
+    <message>
+        <source>Now</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -126,19 +118,9 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
         <source>Show more</source>
         <translation>Mostra altro</translation>
     </message>
-</context>
-<context>
-    <name>ChannelAggregator</name>
     <message>
-        <source>By %1</source>
-        <translation>Per %1</translation>
-    </message>
-    <message numerus="yes">
-        <source>You have %n new video(s)</source>
-        <translation>
-            <numerusform>Hai un nuovo video</numerusform>
-            <numerusform>Hai dei nuovi video</numerusform>
-        </translation>
+        <source>%1 subscribers</source>
+        <translation type="unfinished">%1 iscritti</translation>
     </message>
 </context>
 <context>
@@ -156,13 +138,6 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
 </context>
 <context>
-    <name>CommentsModel</name>
-    <message>
-        <source>Show more</source>
-        <translation>Mostra altro</translation>
-    </message>
-</context>
-<context>
     <name>CoverPage</name>
     <message>
         <source>µtube</source>
@@ -174,68 +149,14 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
 </context>
 <context>
-    <name>DataUtils</name>
+    <name>Diagnostics</name>
     <message>
-        <source>K</source>
-        <comment>K as in Kilo, i.e. thousands</comment>
-        <translation>K</translation>
-    </message>
-    <message>
-        <source>M</source>
-        <comment>M stands for Millions</comment>
-        <translation>M</translation>
+        <source>Diagnostics</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>B</source>
-        <comment>B stands for Billions</comment>
-        <translation>B</translation>
-    </message>
-    <message>
-        <source>%1 subscribers</source>
-        <translation>%1 iscritti</translation>
-    </message>
-    <message>
-        <source>Just now</source>
-        <translation>Adesso</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n hour(s) ago</source>
-        <translation>
-            <numerusform>%n ora fa</numerusform>
-            <numerusform>%n ore fa</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n day(s) ago</source>
-        <translation>
-            <numerusform>%n giorno fa</numerusform>
-            <numerusform>%n giorni fa</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n week(s) ago</source>
-        <translation>
-            <numerusform>%n settimana fa</numerusform>
-            <numerusform>%n settimane fa</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n month(s) ago</source>
-        <translation>
-            <numerusform>%n mese fa</numerusform>
-            <numerusform>%n mesi fa</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <source>%n year(s) ago</source>
-        <translation>
-            <numerusform>%n anno fa</numerusform>
-            <numerusform>%n anni fa</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>%1 views</source>
-        <translation>%1 visualizzazioni</translation>
+        <source>Run diagnostics</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -320,12 +241,75 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
         <translation>Instalazione</translation>
     </message>
     <message>
-        <source>Updated Translations</source>
-        <translation>Traduzioni aggiornate</translation>
+        <source>Added channels in search results</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Full screen video in cover on landscape</source>
-        <translation>Modalità schermo pieno in ritratto o paesaggio</translation>
+        <source>Added text when search results are empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Improved first launch experience</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fixed default category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fixed Main category in settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added playback speed button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updated translations</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>JsDiagnostics</name>
+    <message>
+        <source>Success</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not running</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is readable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is writable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is executable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if node is executable and correct version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No problems found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -350,28 +334,16 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
         <source>Filters</source>
         <translation>Filtri</translation>
     </message>
+    <message>
+        <source>Select category by swiping to the left or search for videos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>PlaylistModel</name>
+    <name>Replies</name>
     <message>
-        <source>No videos</source>
-        <translation>Nessun video</translation>
-    </message>
-    <message>
-        <source>No more videos</source>
-        <translation>Non hai più video</translation>
-    </message>
-    <message>
-        <source>Check internet connection.</source>
-        <translation>Comprueba la conexión a internet.</translation>
-    </message>
-    <message>
-        <source>Show more</source>
-        <translation>Mostrar más</translation>
-    </message>
-    <message>
-        <source>API key quota exceeded.</source>
-        <translation>Raggiunto limite della chiave API.</translation>
+        <source>Replies</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -415,6 +387,258 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     <message>
         <source>SponsorBlock Plugin Configuration</source>
         <translation>Configurazione di SponsorBlock</translation>
+    </message>
+    <message>
+        <source>Diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Algeria</source>
+        <translation type="unfinished">Algeria</translation>
+    </message>
+    <message>
+        <source>Argentina</source>
+        <translation type="unfinished">Argentina</translation>
+    </message>
+    <message>
+        <source>Australia</source>
+        <translation type="unfinished">Australia</translation>
+    </message>
+    <message>
+        <source>Belgium</source>
+        <translation type="unfinished">Belgio</translation>
+    </message>
+    <message>
+        <source>Brazil</source>
+        <translation type="unfinished">Brasile</translation>
+    </message>
+    <message>
+        <source>Canada</source>
+        <translation type="unfinished">Canada</translation>
+    </message>
+    <message>
+        <source>Chile</source>
+        <translation type="unfinished">Cile</translation>
+    </message>
+    <message>
+        <source>Colombia</source>
+        <translation type="unfinished">Colombia</translation>
+    </message>
+    <message>
+        <source>Czech Republic</source>
+        <translation type="unfinished">Repubblica Ceca</translation>
+    </message>
+    <message>
+        <source>Egypt</source>
+        <translation type="unfinished">Egitto</translation>
+    </message>
+    <message>
+        <source>France</source>
+        <translation type="unfinished">Francia</translation>
+    </message>
+    <message>
+        <source>Germany</source>
+        <translation type="unfinished">Germania</translation>
+    </message>
+    <message>
+        <source>Ghana</source>
+        <translation type="unfinished">Ghana</translation>
+    </message>
+    <message>
+        <source>Greece</source>
+        <translation type="unfinished">Grecia</translation>
+    </message>
+    <message>
+        <source>Hong Kong</source>
+        <translation type="unfinished">Hong Kong</translation>
+    </message>
+    <message>
+        <source>Hungary</source>
+        <translation type="unfinished">Ungheria</translation>
+    </message>
+    <message>
+        <source>India</source>
+        <translation type="unfinished">India</translation>
+    </message>
+    <message>
+        <source>Indonesia</source>
+        <translation type="unfinished">Indonesia</translation>
+    </message>
+    <message>
+        <source>Ireland</source>
+        <translation type="unfinished">Irlanda</translation>
+    </message>
+    <message>
+        <source>Israel</source>
+        <translation type="unfinished">Israele</translation>
+    </message>
+    <message>
+        <source>Italy</source>
+        <translation type="unfinished">Italia</translation>
+    </message>
+    <message>
+        <source>Japan</source>
+        <translation type="unfinished">Giappone</translation>
+    </message>
+    <message>
+        <source>Jordan</source>
+        <translation type="unfinished">Giordania</translation>
+    </message>
+    <message>
+        <source>Kenya</source>
+        <translation type="unfinished">Kenia</translation>
+    </message>
+    <message>
+        <source>Malaysia</source>
+        <translation type="unfinished">Malesia</translation>
+    </message>
+    <message>
+        <source>Mexico</source>
+        <translation type="unfinished">Messico</translation>
+    </message>
+    <message>
+        <source>Morocco</source>
+        <translation type="unfinished">Marocco</translation>
+    </message>
+    <message>
+        <source>Netherlands</source>
+        <translation type="unfinished">Paesi Bassi</translation>
+    </message>
+    <message>
+        <source>New Zealand</source>
+        <translation type="unfinished">Nuova Zelanda</translation>
+    </message>
+    <message>
+        <source>Nigeria</source>
+        <translation type="unfinished">Nigeria</translation>
+    </message>
+    <message>
+        <source>Peru</source>
+        <translation type="unfinished">Perú</translation>
+    </message>
+    <message>
+        <source>Philippines</source>
+        <translation type="unfinished">Filippine</translation>
+    </message>
+    <message>
+        <source>Poland</source>
+        <translation type="unfinished">Polonia</translation>
+    </message>
+    <message>
+        <source>Russia</source>
+        <translation type="unfinished">Russia</translation>
+    </message>
+    <message>
+        <source>Saudi Arabia</source>
+        <translation type="unfinished">Arabia Saudita</translation>
+    </message>
+    <message>
+        <source>Singapore</source>
+        <translation type="unfinished">Singapore</translation>
+    </message>
+    <message>
+        <source>South Africa</source>
+        <translation type="unfinished">Sudafrica</translation>
+    </message>
+    <message>
+        <source>South Korea</source>
+        <translation type="unfinished">Corea del Sud</translation>
+    </message>
+    <message>
+        <source>Spain</source>
+        <translation type="unfinished">Spagna</translation>
+    </message>
+    <message>
+        <source>Sweden</source>
+        <translation type="unfinished">Svezia</translation>
+    </message>
+    <message>
+        <source>Taiwan</source>
+        <translation type="unfinished">Taiwan</translation>
+    </message>
+    <message>
+        <source>Tunisia</source>
+        <translation type="unfinished">Tunisia</translation>
+    </message>
+    <message>
+        <source>Turkey</source>
+        <translation type="unfinished">Turchia</translation>
+    </message>
+    <message>
+        <source>Uganda</source>
+        <translation type="unfinished">Uganda</translation>
+    </message>
+    <message>
+        <source>United Arab Emirates</source>
+        <translation type="unfinished">Emirati Arabi Uniti</translation>
+    </message>
+    <message>
+        <source>United Kingdom</source>
+        <translation type="unfinished">Regno Unito</translation>
+    </message>
+    <message>
+        <source>Yemen</source>
+        <translation type="unfinished">Yemen</translation>
+    </message>
+    <message>
+        <source>Now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished">Música</translation>
+    </message>
+    <message>
+        <source>Gaming</source>
+        <translation type="unfinished">Videogiochi</translation>
+    </message>
+    <message>
+        <source>Movies</source>
+        <translation type="unfinished">Film</translation>
+    </message>
+    <message>
+        <source>Playback options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum resolution</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Logout from YouTube</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Login to YouTube</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In oder to allow login you need to provide your own OAuth2 Client Id and Secret. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OAuth2 Client ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OAuth2 Client Secret</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -474,16 +698,28 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
         <translation>Segna tutto come visto</translation>
     </message>
     <message>
-        <source>Import subscriptions</source>
-        <translation>Importa sottoscrizioni</translation>
-    </message>
-    <message>
         <source>Subscriptions</source>
         <translation>Sottoscrizioni</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
         <translation>Disiscriviti</translation>
+    </message>
+    <message>
+        <source>Import subscriptions from YouTube</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Load unwatched videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Load all videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updating subscriptions: (%1/%2)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -493,20 +729,8 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
         <translation>Importa</translation>
     </message>
     <message>
-        <source>Import file</source>
-        <translation>Importa file</translation>
-    </message>
-    <message>
-        <source>Instructions</source>
-        <translation>Istruzioni</translation>
-    </message>
-    <message>
-        <source>Go to YouTube website on desktop and while logged in, save the page by clicking ctrl+s. Upload saved file to your device and pick it from pull down menu.</source>
-        <translation>Visita il sito desktop di YouTube, e dopo aver effettuato l'accesso, salva la pagina con ctrl+s. Sposta il file ottenuto, nel tuo telefono e selezionalo tramite il menu pulley.</translation>
-    </message>
-    <message>
-        <source>Import successful</source>
-        <translation>Importazione corretta</translation>
+        <source>Importing (%1/%2)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -521,19 +745,39 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Changelog</source>
-        <translation>Cos'è cambiato</translation>
+        <translation>Cos&apos;è cambiato</translation>
     </message>
     <message>
         <source>Donation</source>
         <translation>Donazione</translation>
     </message>
     <message>
-        <source>Updated Translations</source>
-        <translation>Traduzioni</translation>
+        <source>Added channels in search results</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Full screen video in cover on landscape</source>
-        <translation>Video a schermo pieno su cover o modalità paesaggio</translation>
+        <source>Added text when search results are empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Improved first launch experience</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fixed default category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fixed Main category in settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added playback speed icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updated translations</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -550,17 +794,20 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
         <source>Copy url</source>
         <translation>Copia url</translation>
     </message>
+    <message>
+        <source>%1 views - %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VideoHelper</name>
+    <message>
+        <source>Off</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>VideoPlayer</name>
-    <message>
-        <source>Downloaded to</source>
-        <translation>Scaricato in</translation>
-    </message>
-    <message>
-        <source>720p</source>
-        <translation>720p</translation>
-    </message>
     <message>
         <source>Download</source>
         <translation>Scarica</translation>
@@ -568,26 +815,6 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     <message>
         <source>Copy url</source>
         <translation>Copia url</translation>
-    </message>
-    <message>
-        <source>Error: Problem with allocating resources</source>
-        <translation>Errore: Problema nell'allocare le risorse</translation>
-    </message>
-    <message>
-        <source>Error: Media service error</source>
-        <translation>Errore: Errore nel servizio multimediale</translation>
-    </message>
-    <message>
-        <source>Error: Video or Audio format is not supported</source>
-        <translation>Errore: Formato video o audio non supportato</translation>
-    </message>
-    <message>
-        <source>Error: Access denied to the video</source>
-        <translation>Errore: Acceso negato al video</translation>
-    </message>
-    <message>
-        <source>Error: Network error</source>
-        <translation>Errore: Errore di rete</translation>
     </message>
     <message>
         <source>Unsubscribe</source>
@@ -598,221 +825,42 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
         <translation>Iscriviti</translation>
     </message>
     <message>
-        <source>360p</source>
-        <translation>360p</translation>
+        <source>%1 views</source>
+        <translation type="unfinished">%1 visualizzazioni</translation>
     </message>
     <message>
-        <source>Load recommended videos</source>
-        <translation>Carica video raccomandati</translation>
+        <source>Dislike</source>
+        <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>YTJSVideo</name>
     <message>
-        <source>Cannot get video stream for %1</source>
-        <translation>Non è possibile caricare il video %1</translation>
+        <source>Comments</source>
+        <translation type="unfinished">Commenti</translation>
     </message>
 </context>
 <context>
-    <name>YTRegions</name>
+    <name>helpers</name>
     <message>
-        <source>Algeria</source>
-        <translation>Algeria</translation>
+        <source>%1K</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Argentina</source>
-        <translation>Argentina</translation>
-    </message>
-    <message>
-        <source>Australia</source>
-        <translation>Australia</translation>
-    </message>
-    <message>
-        <source>Belgium</source>
-        <translation>Belgio</translation>
-    </message>
-    <message>
-        <source>Brazil</source>
-        <translation>Brasile</translation>
-    </message>
-    <message>
-        <source>Canada</source>
-        <translation>Canada</translation>
-    </message>
-    <message>
-        <source>Chile</source>
-        <translation>Cile</translation>
-    </message>
-    <message>
-        <source>Colombia</source>
-        <translation>Colombia</translation>
-    </message>
-    <message>
-        <source>Czech Republic</source>
-        <translation>Repubblica Ceca</translation>
-    </message>
-    <message>
-        <source>Egypt</source>
-        <translation>Egitto</translation>
-    </message>
-    <message>
-        <source>France</source>
-        <translation>Francia</translation>
-    </message>
-    <message>
-        <source>Germany</source>
-        <translation>Germania</translation>
-    </message>
-    <message>
-        <source>Ghana</source>
-        <translation>Ghana</translation>
-    </message>
-    <message>
-        <source>Greece</source>
-        <translation>Grecia</translation>
-    </message>
-    <message>
-        <source>Hong Kong</source>
-        <translation>Hong Kong</translation>
-    </message>
-    <message>
-        <source>Hungary</source>
-        <translation>Ungheria</translation>
-    </message>
-    <message>
-        <source>India</source>
-        <translation>India</translation>
-    </message>
-    <message>
-        <source>Indonesia</source>
-        <translation>Indonesia</translation>
-    </message>
-    <message>
-        <source>Ireland</source>
-        <translation>Irlanda</translation>
-    </message>
-    <message>
-        <source>Israel</source>
-        <translation>Israele</translation>
-    </message>
-    <message>
-        <source>Italy</source>
-        <translation>Italia</translation>
-    </message>
-    <message>
-        <source>Japan</source>
-        <translation>Giappone</translation>
-    </message>
-    <message>
-        <source>Jordan</source>
-        <translation>Giordania</translation>
-    </message>
-    <message>
-        <source>Kenya</source>
-        <translation>Kenia</translation>
-    </message>
-    <message>
-        <source>Malaysia</source>
-        <translation>Malesia</translation>
-    </message>
-    <message>
-        <source>Mexico</source>
-        <translation>Messico</translation>
-    </message>
-    <message>
-        <source>Morocco</source>
-        <translation>Marocco</translation>
-    </message>
-    <message>
-        <source>Netherlands</source>
-        <translation>Paesi Bassi</translation>
-    </message>
-    <message>
-        <source>New Zealand</source>
-        <translation>Nuova Zelanda</translation>
-    </message>
-    <message>
-        <source>Nigeria</source>
-        <translation>Nigeria</translation>
-    </message>
-    <message>
-        <source>Peru</source>
-        <translation>Perú</translation>
-    </message>
-    <message>
-        <source>Philippines</source>
-        <translation>Filippine</translation>
-    </message>
-    <message>
-        <source>Poland</source>
-        <translation>Polonia</translation>
-    </message>
-    <message>
-        <source>Russia</source>
-        <translation>Russia</translation>
-    </message>
-    <message>
-        <source>Saudi Arabia</source>
-        <translation>Arabia Saudita</translation>
-    </message>
-    <message>
-        <source>Singapore</source>
-        <translation>Singapore</translation>
-    </message>
-    <message>
-        <source>South Africa</source>
-        <translation>Sudafrica</translation>
-    </message>
-    <message>
-        <source>South Korea</source>
-        <translation>Corea del Sud</translation>
-    </message>
-    <message>
-        <source>Spain</source>
-        <translation>Spagna</translation>
-    </message>
-    <message>
-        <source>Sweden</source>
-        <translation>Svezia</translation>
-    </message>
-    <message>
-        <source>Taiwan</source>
-        <translation>Taiwan</translation>
-    </message>
-    <message>
-        <source>Tunisia</source>
-        <translation>Tunisia</translation>
-    </message>
-    <message>
-        <source>Turkey</source>
-        <translation>Turchia</translation>
-    </message>
-    <message>
-        <source>Uganda</source>
-        <translation>Uganda</translation>
-    </message>
-    <message>
-        <source>United Arab Emirates</source>
-        <translation>Emirati Arabi Uniti</translation>
-    </message>
-    <message>
-        <source>United Kingdom</source>
-        <translation>Regno Unito</translation>
-    </message>
-    <message>
-        <source>Yemen</source>
-        <translation>Yemen</translation>
-    </message>
-    <message>
-        <source>Worldwide</source>
-        <translation>Tutto il mondo</translation>
+        <source>%1M</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>YTVideo</name>
+    <name>microtube</name>
     <message>
-        <source>Cannot get video stream for %1</source>
-        <translation>Non è possibile caricare il video %1</translation>
+        <source>Microtube download</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download complete</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

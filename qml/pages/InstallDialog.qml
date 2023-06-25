@@ -107,6 +107,12 @@ Page {
                     text: "• " + qsTr("Added playback speed button")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
+
+                Label {
+                    width: parent.width
+                    text: "• " + qsTr("Updated translations")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                }
             }
 
             SectionHeader {

@@ -263,6 +263,10 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <source>Added playback speed button</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Updated translations</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>JsDiagnostics</name>
@@ -767,7 +771,11 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added playback speed button</source>
+        <source>Added playback speed icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updated translations</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
