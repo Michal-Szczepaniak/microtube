@@ -65,11 +65,11 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
         <translation>Sviluppato da Michał Szczepaniak.</translation>
     </message>
     <message>
-        <source>legacychimera247 for italian translation.</source>
+        <source>legacychimera247 per la traduzione italiana.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>eson57 for swedish translation.</source>
+        <source>eson57 per la trasduzione svedese.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -590,7 +590,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Now</source>
-        <translation>Adesso</translation>
+        <translation>Recenti</translation>
     </message>
     <message>
         <source>Music</source>
@@ -711,7 +711,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Load unwatched videos</source>
-        <translation type="unfinished">Carica video non visti</translation>
+        <translation type="unfinished">Carica i video non visti</translation>
     </message>
     <message>
         <source>Load all videos</source>
