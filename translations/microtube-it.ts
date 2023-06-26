@@ -77,7 +77,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     <name>CategoriesModel</name>
     <message>
         <source>Music</source>
-        <translation>Música</translation>
+        <translation>Musica</translation>
     </message>
     <message>
         <source>Movies</source>
@@ -594,7 +594,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Music</source>
-        <translation type="unfinished">Música</translation>
+        <translation type="unfinished">Musica</translation>
     </message>
     <message>
         <source>Gaming</source>
