@@ -89,7 +89,7 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Now</source>
-        <translation type="unfinished"></translation>
+        <translation>Nu</translation>
     </message>
 </context>
 <context>
@@ -152,11 +152,11 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     <name>Diagnostics</name>
     <message>
         <source>Diagnostics</source>
-        <translation type="unfinished"></translation>
+        <translation>Diagnostik</translation>
     </message>
     <message>
         <source>Run diagnostics</source>
-        <translation type="unfinished"></translation>
+        <translation>Kör diagnostik</translation>
     </message>
 </context>
 <context>
@@ -242,74 +242,74 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Added channels in search results</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade till kanaler i sökresultat</translation>
     </message>
     <message>
         <source>Added text when search results are empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade till text när sökresultat saknas</translation>
     </message>
     <message>
         <source>Improved first launch experience</source>
-        <translation type="unfinished"></translation>
+        <translation>Förbättrad första startupplevelse</translation>
     </message>
     <message>
         <source>Fixed default category</source>
-        <translation type="unfinished"></translation>
+        <translation>Fixad standardkategori</translation>
     </message>
     <message>
         <source>Fixed Main category in settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Fixad huvudkategori i inställningar</translation>
     </message>
     <message>
         <source>Added playback speed button</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade till snabbuppspelningsknapp</translation>
     </message>
     <message>
         <source>Updated translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Uppdaterade översättningar</translation>
     </message>
 </context>
 <context>
     <name>JsDiagnostics</name>
     <message>
         <source>Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Slutfört</translation>
     </message>
     <message>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Misslyckades</translation>
     </message>
     <message>
         <source>Not running</source>
-        <translation type="unfinished"></translation>
+        <translation>Körs inte</translation>
     </message>
     <message>
         <source>Checking if js directory exists</source>
-        <translation type="unfinished"></translation>
+        <translation>Kollar om js-katalog finns</translation>
     </message>
     <message>
         <source>Checking if js directory is directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Kollar om js-katalog är en katalog</translation>
     </message>
     <message>
         <source>Checking if js directory is readable</source>
-        <translation type="unfinished"></translation>
+        <translation>Kollar om js-katalog är läsbar</translation>
     </message>
     <message>
         <source>Checking if js directory is writable</source>
-        <translation type="unfinished"></translation>
+        <translation>Kollar om js-katalog är skrivbar</translation>
     </message>
     <message>
         <source>Checking if js directory is executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Kollar om js-katalog är körbar</translation>
     </message>
     <message>
         <source>Checking if node is executable and correct version</source>
-        <translation type="unfinished"></translation>
+        <translation>Kollar om node är körbar och rätt version</translation>
     </message>
     <message>
         <source>No problems found</source>
-        <translation type="unfinished"></translation>
+        <translation>Inga problem hittades</translation>
     </message>
 </context>
 <context>
@@ -336,7 +336,7 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Select category by swiping to the left or search for videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj kategori genom att svepa åt vänster eller sök efter videor</translation>
     </message>
 </context>
 <context>
@@ -634,11 +634,11 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Diagnostics</source>
-        <translation type="unfinished"></translation>
+        <translation>Diagnostik</translation>
     </message>
     <message>
         <source>Now</source>
-        <translation type="unfinished"></translation>
+        <translation>Nu</translation>
     </message>
 </context>
 <context>
@@ -753,31 +753,31 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Added channels in search results</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade till kanaler i sökresultat</translation>
     </message>
     <message>
         <source>Added text when search results are empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade till text när sökresultat saknas</translation>
     </message>
     <message>
         <source>Improved first launch experience</source>
-        <translation type="unfinished"></translation>
+        <translation>Förbättrad första startupplevelse</translation>
     </message>
     <message>
         <source>Fixed default category</source>
-        <translation type="unfinished"></translation>
+        <translation>Fixad standardkategori</translation>
     </message>
     <message>
         <source>Fixed Main category in settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Fixad huvudkategori i inställningar</translation>
     </message>
     <message>
         <source>Added playback speed icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade till snabbuppspelningsikon</translation>
     </message>
     <message>
         <source>Updated translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Uppdaterade översättningar</translation>
     </message>
 </context>
 <context>
