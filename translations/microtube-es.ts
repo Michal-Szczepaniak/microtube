@@ -266,7 +266,7 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Updated translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Traducciones actualizadas</translation>
     </message>
 </context>
 <context>
@@ -634,7 +634,7 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Diagnostics</source>
-        <translation>Diagnostico</translation>
+        <translation>Diagnóstico</translation>
     </message>
     <message>
         <source>Now</source>
@@ -773,11 +773,11 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Added playback speed icon</source>
-        <translation type="unfinished"></translation>
+        <translation>Se añade botón para la velocidad de reproducción</translation>
     </message>
     <message>
         <source>Updated translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Traducciones actualizadas</translation>
     </message>
 </context>
 <context>
