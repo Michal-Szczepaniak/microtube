@@ -145,13 +145,7 @@ Page {
             }
 
             Label {
-                text: qsTr("1Zgp for hungarian translation.")
-                font.pixelSize: Theme.fontSizeSmall
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-
-            Label {
-                text: qsTr("Malakay for Czech translation.")
+                text: qsTr("legacychimera247 for italian translation.")
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
             }
