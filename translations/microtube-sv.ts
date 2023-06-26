@@ -49,14 +49,6 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <translation>carmenfdezb för Spansk översättning.</translation>
     </message>
     <message>
-        <source>1Zgp for hungarian translation.</source>
-        <translation>1Zgp för Ungersk översättning.</translation>
-    </message>
-    <message>
-        <source>Malakay for Czech translation.</source>
-        <translation>Malakay för Tjeckisk översättning.</translation>
-    </message>
-    <message>
         <source>DylanVanAssche for help.</source>
         <translation>DylanVanAssche för hjälp.</translation>
     </message>
@@ -71,6 +63,14 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     <message>
         <source>Made by Michał Szczepaniak.</source>
         <translation>Gjord av Michał Szczepaniak.</translation>
+    </message>
+    <message>
+        <source>legacychimera247 for italian translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eson57 for swedish translation.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

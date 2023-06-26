@@ -49,14 +49,6 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>carmenfdezb por la traducción al español.</translation>
     </message>
     <message>
-        <source>1Zgp for hungarian translation.</source>
-        <translation>1Zgp por la traducción al húngaro.</translation>
-    </message>
-    <message>
-        <source>Malakay for Czech translation.</source>
-        <translation>Malakay por la traducción al checo.</translation>
-    </message>
-    <message>
         <source>DylanVanAssche for help.</source>
         <translation>DylanVanAssche por su ayuda.</translation>
     </message>
@@ -71,6 +63,14 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <message>
         <source>Made by Michał Szczepaniak.</source>
         <translation>Hecho por Michał Szczepaniak.</translation>
+    </message>
+    <message>
+        <source>legacychimera247 for italian translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eson57 for swedish translation.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -53,14 +53,6 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
         <translation>DylanVanAssche per l&apos;aiuto.</translation>
     </message>
     <message>
-        <source>1Zgp for hungarian translation.</source>
-        <translation>1Zgp per la traduzione ungherese.</translation>
-    </message>
-    <message>
-        <source>Malakay for Czech translation.</source>
-        <translation>Malakay per la traduzione ceca.</translation>
-    </message>
-    <message>
         <source>mkiol for integration with Jupii.</source>
         <translation>mkiol per l&apos;integrazione con Jupii.</translation>
     </message>
@@ -71,6 +63,14 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     <message>
         <source>Made by Michał Szczepaniak.</source>
         <translation>Sviluppato da Michał Szczepaniak.</translation>
+    </message>
+    <message>
+        <source>legacychimera247 for italian translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eson57 for swedish translation.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -630,7 +630,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>In oder to allow login you need to provide your own OAuth2 Client Id and Secret. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</source>
-        <translation type="unfinished">Per permettere l'accesso a YouTube hai bisogno del tuo Client ID OAuth2 e della chiave segreta. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://dev </translation>
+        <translation type="unfinished">Per permettere l&apos;accesso a YouTube hai bisogno del tuo Client ID OAuth2 e della chiave segreta. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://dev </translation>
     </message>
     <message>
         <source>OAuth2 Client ID</source>
@@ -745,7 +745,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Changelog</source>
-        <translation>Cos'è cambiato</translation>
+        <translation>Cos&apos;è cambiato</translation>
     </message>
     <message>
         <source>Donation</source>

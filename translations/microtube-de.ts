@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1">
+<TS version="2.1" language="de_DE">
 <context>
     <name>APIKeyDialog</name>
     <message>
@@ -48,14 +48,6 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1Zgp for hungarian translation.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Malakay for Czech translation.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>DylanVanAssche for help.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -71,13 +63,17 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <source>Made by Michał Szczepaniak.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>legacychimera247 for italian translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eson57 for swedish translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CategoriesModel</name>
-    <message>
-        <source>Trending</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Music</source>
         <translation type="unfinished"></translation>
@@ -88,6 +84,10 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Movies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Now</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -139,15 +139,22 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
 <context>
     <name>CoverPage</name>
     <message>
-        <source>My Cover</source>
-        <translation type="vanished">Mein Cover</translation>
-    </message>
-    <message>
         <source>µtube</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Playing:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Diagnostics</name>
+    <message>
+        <source>Diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Run diagnostics</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -215,21 +222,6 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
 </context>
 <context>
-    <name>FirstPage</name>
-    <message>
-        <source>Show Page 2</source>
-        <translation type="vanished">Zur Seite 2</translation>
-    </message>
-    <message>
-        <source>UI Template</source>
-        <translation type="vanished">UI-Vorlage</translation>
-    </message>
-    <message>
-        <source>Hello Sailors</source>
-        <translation type="vanished">Hallo Matrosen</translation>
-    </message>
-</context>
-<context>
     <name>InstallDialog</name>
     <message>
         <source>Installation</source>
@@ -248,11 +240,74 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Rewritten everything, no longer based on minitube.</source>
+        <source>Added channels in search results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added login, 1080p+, likes, comments</source>
+        <source>Added text when search results are empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Improved first launch experience</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fixed default category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fixed Main category in settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added playback speed button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updated translations</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>JsDiagnostics</name>
+    <message>
+        <source>Success</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not running</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory exists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is readable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is writable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if js directory is executable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Checking if node is executable and correct version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No problems found</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -278,23 +333,16 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Select category by swiping to the left or search for videos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Replies</name>
     <message>
         <source>Replies</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>SecondPage</name>
-    <message>
-        <source>Nested Page</source>
-        <translation type="vanished">Unterseite</translation>
-    </message>
-    <message>
-        <source>Item</source>
-        <translation type="vanished">Element</translation>
     </message>
 </context>
 <context>
@@ -512,10 +560,6 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Trending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Music</source>
         <translation type="unfinished"></translation>
     </message>
@@ -585,6 +629,14 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>In oder to allow login you need to provide your own OAuth2 Client Id and Secret. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Diagnostics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Now</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -699,11 +751,31 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Rewritten everything, no longer based on minitube.</source>
+        <source>Added channels in search results</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added login, 1080p+, likes, comments</source>
+        <source>Added text when search results are empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Improved first launch experience</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fixed default category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fixed Main category in settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added playback speed icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Updated translations</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

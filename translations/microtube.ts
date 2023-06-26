@@ -48,14 +48,6 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>1Zgp for hungarian translation.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Malakay for Czech translation.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>DylanVanAssche for help.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -69,6 +61,14 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Made by Michał Szczepaniak.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>legacychimera247 for italian translation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>eson57 for swedish translation.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
