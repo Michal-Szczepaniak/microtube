@@ -22,7 +22,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     <name>About</name>
     <message>
         <source>About</source>
-        <translation>Aproposito di</translation>
+        <translation>A proposito di</translation>
     </message>
     <message>
         <source>Licensed under GPLv3</source>
@@ -70,7 +70,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Made by Michał Szczepaniak.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sviluppato da Michał Szczepaniak.</translation>
     </message>
 </context>
 <context>
@@ -89,7 +89,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Now</source>
-        <translation type="unfinished"></translation>
+        <translation>Adesso</translation>
     </message>
 </context>
 <context>
@@ -116,11 +116,11 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Show more</source>
-        <translation>Mostra altro</translation>
+        <translation>Mostra di più</translation>
     </message>
     <message>
         <source>%1 subscribers</source>
-        <translation type="unfinished">%1 iscritti</translation>
+        <translation>%1 iscritti</translation>
     </message>
 </context>
 <context>
@@ -152,11 +152,11 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     <name>Diagnostics</name>
     <message>
         <source>Diagnostics</source>
-        <translation type="unfinished"></translation>
+        <translation>Diagnostica</translation>
     </message>
     <message>
         <source>Run diagnostics</source>
-        <translation type="unfinished"></translation>
+        <translation>Esegui diagnostica</translation>
     </message>
 </context>
 <context>
@@ -195,11 +195,11 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>7 Days</source>
-        <translation>7 giorni</translation>
+        <translation>7 Giorni</translation>
     </message>
     <message>
         <source>30 Days</source>
-        <translation>30 giorni</translation>
+        <translation>30 Giorni</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -226,7 +226,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     <name>InstallDialog</name>
     <message>
         <source>Thank you for installing Microtube!</source>
-        <translation>¡Graciper aver installato Microtube!</translation>
+        <translation>Grazie per aver installato Microtube</translation>
     </message>
     <message>
         <source>Changelog</source>
@@ -242,74 +242,74 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Added channels in search results</source>
-        <translation type="unfinished"></translation>
+        <translation> Aggiunti canali nei risultati</translation>
     </message>
     <message>
         <source>Added text when search results are empty</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunto testo quando i risultati della ricerca sono vuoti</translation>
     </message>
     <message>
         <source>Improved first launch experience</source>
-        <translation type="unfinished"></translation>
+        <translation>Migliorata esperieza primo avvio</translation>
     </message>
     <message>
         <source>Fixed default category</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistemata categoria predefinita</translation>
     </message>
     <message>
         <source>Fixed Main category in settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistemata categoria principale nelle impostazioni</translation>
     </message>
     <message>
         <source>Added playback speed button</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunto pulsante velocità riproduzione</translation>
     </message>
     <message>
         <source>Updated translations</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiornate traduzioni</translation>
     </message>
 </context>
 <context>
     <name>JsDiagnostics</name>
     <message>
         <source>Success</source>
-        <translation type="unfinished"></translation>
+        <translation>Successo</translation>
     </message>
     <message>
         <source>Failed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ci sono problemi</translation>
     </message>
     <message>
         <source>Not running</source>
-        <translation type="unfinished"></translation>
+        <translation>Non eseguita</translation>
     </message>
     <message>
         <source>Checking if js directory exists</source>
-        <translation type="unfinished"></translation>
+        <translation>Controllando se la cartella js esiste</translation>
     </message>
     <message>
         <source>Checking if js directory is directory</source>
-        <translation type="unfinished"></translation>
+        <translation>Controllando se la cartella js è una cartella</translation>
     </message>
     <message>
         <source>Checking if js directory is readable</source>
-        <translation type="unfinished"></translation>
+        <translation>Controllando se la cartella js è leggibile</translation>
     </message>
     <message>
         <source>Checking if js directory is writable</source>
-        <translation type="unfinished"></translation>
+        <translation>Controllando se la cartella js è scrivibile</translation>
     </message>
     <message>
         <source>Checking if js directory is executable</source>
-        <translation type="unfinished"></translation>
+        <translation>Controllando se la cartella js è eseguibile</translation>
     </message>
     <message>
         <source>Checking if node is executable and correct version</source>
-        <translation type="unfinished"></translation>
+        <translation>Controllando se node è corretto ed eseguibile</translation>
     </message>
     <message>
         <source>No problems found</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessun problema trovato</translation>
     </message>
 </context>
 <context>
@@ -336,14 +336,14 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Select category by swiping to the left or search for videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Scegli la categoria con uno swipe verso sinistra o cerca qualche video</translation>
     </message>
 </context>
 <context>
     <name>Replies</name>
     <message>
         <source>Replies</source>
-        <translation type="unfinished"></translation>
+        <translation>Risposte</translation>
     </message>
 </context>
 <context>
@@ -374,7 +374,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Buffer</source>
-        <translation>Crcamento</translation>
+        <translation>Caricamento</translation>
     </message>
     <message>
         <source>Test new install</source>
@@ -390,15 +390,15 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Diagnostics</source>
-        <translation type="unfinished"></translation>
+        <translation>Diagnostica</translation>
     </message>
     <message>
         <source>Search options</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni di ricerca</translation>
     </message>
     <message>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Predefinito</translation>
     </message>
     <message>
         <source>Algeria</source>
@@ -590,7 +590,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Now</source>
-        <translation type="unfinished"></translation>
+        <translation>Adesso</translation>
     </message>
     <message>
         <source>Music</source>
@@ -606,39 +606,39 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Playback options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Impostazioni riproduzione</translation>
     </message>
     <message>
         <source>Maximum resolution</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Risoluzione massima</translation>
     </message>
     <message>
         <source>Audio only</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Solo audio</translation>
     </message>
     <message>
         <source>Other options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Altre impostazioni</translation>
     </message>
     <message>
         <source>Logout from YouTube</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Esci da account YouTube</translation>
     </message>
     <message>
         <source>Login to YouTube</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Entra su account YouTube</translation>
     </message>
     <message>
         <source>In oder to allow login you need to provide your own OAuth2 Client Id and Secret. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Per permettere l'accesso a YouTube hai bisogno del tuo Client ID OAuth2 e della chiave segreta. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://dev </translation>
     </message>
     <message>
         <source>OAuth2 Client ID</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Client ID OAuth2</translation>
     </message>
     <message>
         <source>OAuth2 Client Secret</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Chiave segreta Client OAut2</translation>
     </message>
 </context>
 <context>
@@ -707,19 +707,19 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Import subscriptions from YouTube</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importa sottoscrizioni da YouTube</translation>
     </message>
     <message>
         <source>Load unwatched videos</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Carica video non visti</translation>
     </message>
     <message>
         <source>Load all videos</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Carica tutti i video</translation>
     </message>
     <message>
         <source>Updating subscriptions: (%1/%2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aggiorno sottoscrizioni: (%1/%2)</translation>
     </message>
 </context>
 <context>
@@ -730,7 +730,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Importing (%1/%2)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sto importando (%1/%2)</translation>
     </message>
 </context>
 <context>
@@ -745,7 +745,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Changelog</source>
-        <translation>Cos&apos;è cambiato</translation>
+        <translation>Cos'è cambiato</translation>
     </message>
     <message>
         <source>Donation</source>
@@ -753,31 +753,31 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Added channels in search results</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aggiunti canali nei risultati di ricerca</translation>
     </message>
     <message>
         <source>Added text when search results are empty</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aggiunto testo quando i risultati di ricerca sono vuoti</translation>
     </message>
     <message>
         <source>Improved first launch experience</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Migliorata esperienza primo avvio</translation>
     </message>
     <message>
         <source>Fixed default category</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistemata categoria predefinita</translation>
     </message>
     <message>
         <source>Fixed Main category in settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistemata categoria principale nelle impostazioni</translation>
     </message>
     <message>
         <source>Added playback speed icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aggiunta icona velocità riproduzione</translation>
     </message>
     <message>
         <source>Updated translations</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aggiornate traduzioni</translation>
     </message>
 </context>
 <context>
@@ -796,14 +796,14 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>%1 views - %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 visualizzazioni - %2</translation>
     </message>
 </context>
 <context>
     <name>VideoHelper</name>
     <message>
         <source>Off</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Spento</translation>
     </message>
 </context>
 <context>
@@ -830,7 +830,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Dislike</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Non mi piace</translation>
     </message>
     <message>
         <source>Comments</source>
@@ -841,26 +841,26 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     <name>helpers</name>
     <message>
         <source>%1K</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1K</translation>
     </message>
     <message>
         <source>%1M</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1M</translation>
     </message>
 </context>
 <context>
     <name>microtube</name>
     <message>
         <source>Microtube download</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scarica Microtube</translation>
     </message>
     <message>
         <source>Download failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scaricamento fallito</translation>
     </message>
     <message>
         <source>Download complete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Scaricamento completato</translation>
     </message>
 </context>
 </TS>
