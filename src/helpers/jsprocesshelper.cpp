@@ -129,13 +129,28 @@ void JSProcessHelper::asyncGetCommentReplies(QJsonObject continuationData)
     connect(_getCommentRepliesProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessHelper::gotCommentRepliesJson);
 }
 
-SearchResults JSProcessHelper::loadChannelVideos(QString channelId)
+SearchResults JSProcessHelper::loadChannelVideos(QString channelId, bool full)
 {
     QProcess* process = execute("channelVideos", {channelId, "{}"});
     process->waitForFinished();
 
     QJsonDocument response = QJsonDocument::fromJson(process->readAll());
-    return VideosParser::parseChanelVideos(response.object()["items"].toArray());
+    SearchResults results = VideosParser::parseChanelVideos(response.object()["items"].toArray());
+    QJsonObject continuation = response.object()["continuation"].toObject();
+
+    while (!continuation.empty() && full) {
+        QJsonDocument d(continuation);
+        QProcess* process = execute("channelVideos", {"{}", d.toJson(QJsonDocument::Compact)});
+        process->waitForFinished();
+
+        QJsonDocument response = QJsonDocument::fromJson(process->readAll());
+        SearchResults tmpResults = VideosParser::parseChanelVideos(response.object()["items"].toArray());
+        std::move(tmpResults.begin(), tmpResults.end(), std::back_inserter(results));
+
+        continuation = response.object()["continuation"].toObject();
+    }
+
+    return results;
 }
 
 std::unique_ptr<Video> JSProcessHelper::getBasicVideoInfo(QString url)

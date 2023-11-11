@@ -22,6 +22,7 @@ import Sailfish.Silica 1.0
 import com.verdanditeam.yt 1.0
 import QtGraphicalEffects 1.0
 import "./helpers.js" as Helpers
+import "./humanized_time_span.js" as HumanizedTimeSpan
 
 ListItem {
     id: listItem
@@ -116,7 +117,7 @@ ListItem {
                     } else if (elementType === YtPlaylist.ChannelType) {
                         return description;
                     } else {
-                        return qsTr("%1 views - %2").arg(Helpers.parseViews(views)).arg(published)
+                        return qsTr("%1 views - %2").arg(Helpers.parseViews(views)).arg(HumanizedTimeSpan.humanized_time_span(published*1000))
                     }
                 }
                 font.pixelSize: Theme.fontSizeExtraSmall

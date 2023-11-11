@@ -14,6 +14,7 @@ public:
     explicit JsDiagnostics(QObject *parent = nullptr);
 
     Q_INVOKABLE void runDiagnostics();
+    Q_INVOKABLE void clearVideoDatabase();
 
     bool isRunning() const;
     void setIsRunning(bool isRunning);

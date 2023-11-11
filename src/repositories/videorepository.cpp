@@ -97,6 +97,15 @@ void VideoRepository::remove(int id)
     _trackedObjects.remove(id);
 }
 
+void VideoRepository::deleteAll()
+{
+    QSqlQuery q;
+    q.prepare("DELETE FROM video WHERE 1 = 1");
+    q.exec();
+
+    _trackedObjects.clear();
+}
+
 Video *VideoRepository::getOneByVideoId(QString videoId)
 {
     QSqlQuery q;

@@ -1,5 +1,6 @@
 #include "jsdiagnostics.h"
 #include <QDebug>
+#include "repositories/videorepository.h"
 
 JsDiagnostics::JsDiagnostics(QObject *parent) : QObject(parent), _worker(this)
 {
@@ -15,6 +16,12 @@ void JsDiagnostics::runDiagnostics()
     emit stepTextChanged();
 
     _worker.start();
+}
+
+void JsDiagnostics::clearVideoDatabase()
+{
+    VideoRepository repository;
+    repository.deleteAll();
 }
 
 QString JsDiagnostics::statusText() const

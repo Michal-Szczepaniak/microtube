@@ -10,7 +10,7 @@ class SubscriptionsAggregator : public QObject
     Q_PROPERTY(int subscriptionsCount READ getSubscriptionsCount NOTIFY subscriptionsCountChanged)
     Q_PROPERTY(int subscriptionsUpdateProgress READ getSubscriptionsUpdateProgress NOTIFY subscriptionsUpdateProgressChanged)
 public:
-    Q_INVOKABLE void updateSubscriptions();
+    Q_INVOKABLE void updateSubscriptions(bool full = false, bool force = false);
     int getSubscriptionsCount();
     int getSubscriptionsUpdateProgress();
 
@@ -19,6 +19,7 @@ signals:
     void subscriptionsUpdateProgressChanged();
 
 private:
+    QThread *_workerThread = nullptr;
     SubscriptionsAggregatorWorker *_worker = nullptr;
     AuthorRepository _authorRepository;
     int _subscriptionsCount = 0;

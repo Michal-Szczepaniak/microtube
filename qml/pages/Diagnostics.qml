@@ -54,6 +54,15 @@ Page {
                 onClicked: jsDiagnostics.runDiagnostics()
             }
 
+            Button {
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Clear videos database")
+                onClicked: {
+                    jsDiagnostics.clearVideoDatabase()
+                    subscriptionsAggregator.updateSubscriptions(false, true)
+                }
+            }
+
             Label {
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter

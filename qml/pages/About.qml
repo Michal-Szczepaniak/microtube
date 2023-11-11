@@ -133,6 +133,15 @@ Page {
             }
 
             Label {
+                text: qsTr("Samuel Žúbor for 180° and 360° video shader. <br/><a href=\"mailto:samuliak77@gmail.com\">Email</a> <a href=\"https://www.fiverr.com/samuelzubor\">Fiverr</a>")
+                font.pixelSize: Theme.fontSizeSmall
+                anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
+                onLinkActivated: Qt.openUrlExternally(link)
+                linkColor: Theme.highlightColor
+            }
+
+            Label {
                 text: qsTr("jgibbon for german translation and help.")
                 font.pixelSize: Theme.fontSizeSmall
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -183,6 +192,19 @@ Page {
 
             Text {
                 text: "<a href=\"https://www.paypal.me/MisterMagister\">paypal.me/MisterMagister</a>"
+                color: "white"
+                textFormat: Text.StyledText
+                font.pixelSize: Theme.fontSizeSmall
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width - Theme.paddingLarge*2
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                horizontalAlignment: Text.AlignHCenter
+                linkColor: Theme.highlightColor
+                onLinkActivated: Qt.openUrlExternally(link)
+            }
+
+            Text {
+                text: "<a href=\"https://www.patreon.com/Mister_Magister\">patreon.com/Mister_Magister</a>"
                 color: "white"
                 textFormat: Text.StyledText
                 font.pixelSize: Theme.fontSizeSmall

@@ -9,6 +9,10 @@
 class SubscriptionsAggregatorWorker : public QObject
 {
     Q_OBJECT
+public:
+    void stop();
+    void setFull(bool full);
+
 signals:
     void finished();
     void updateProgress(int progress);
@@ -20,6 +24,8 @@ private:
     VideoRepository _videoRepository{};
     AuthorRepository _authorRepository{};
     JSProcessHelper _jsProcessHelper{};
+    bool _stop = false;
+    bool _full = false;
 };
 
 #endif // SUBSCRIPTIONSAGGREGATORWORKER_H

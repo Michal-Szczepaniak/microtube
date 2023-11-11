@@ -30,6 +30,13 @@ Page {
 
     property YtPlaylist playlistModel: null
 
+    onStatusChanged: subscriptionsModel.loadSubscriptionsList()
+
+    Connections {
+        target: subscriptionsAggregator
+        onSubscriptionsUpdateProgressChanged: subscriptionsModel.loadSubscriptionsList()
+    }
+
     SilicaFlickable {
         anchors.fill: parent
         flickableDirection: Flickable.VerticalFlick
@@ -40,6 +47,13 @@ Page {
                 visible: googleOAuthHelper.linked
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("SubscriptionsImport.qml"))
+                }
+            }
+
+            MenuItem {
+                text: qsTr("Synchronize all videos")
+                onClicked: {
+                    subscriptionsAggregator.updateSubscriptions(true, false)
                 }
             }
 

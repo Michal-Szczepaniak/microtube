@@ -26,6 +26,7 @@
 #include <gst/interfaces/nemoeglimagememory.h>
 #include <QOpenGLContext>
 #include <QOpenGLExtensions>
+#include <QtMath>
 #include "../helpers/quickviewhelper.h"
 
 typedef void *EGLSyncKHR;
@@ -45,6 +46,54 @@ static const QString FRAGMENT_SHADER = ""
         "}"
     "";
 
+static const QString FRAGMENT_SHADER_180 = ""
+    "#extension GL_OES_EGL_image_external: enable\n"
+    "\n"
+    "varying lowp vec2 fragTexCoord;\n"
+    "\n"
+    "//Uniforms\n"
+    "uniform highp vec2 cameraRotation;\n"
+    "uniform highp float invAspectRatio; //height / width\n"
+    "uniform highp float zoom;\n"
+    "uniform highp bool onlyHalfOfTheScreen;\n"
+    "\n"
+    "//Texture\n"
+    "uniform samplerExternalOES texture0;\n"
+    "\n"
+    "const highp vec2 inverseAtan = vec2(0.1591, 0.3183);\n"
+    "\n"
+    "highp vec2 sampleSphericalMap(highp vec3 localPosition) {\n"
+    "    highp vec2 uv = vec2(atan(localPosition.z, localPosition.x), asin(localPosition.y));\n"
+    "    uv *= inverseAtan;\n"
+    "    uv += 0.5;\n"
+    "\n"
+    "    return uv;\n"
+    "}\n"
+    "\n"
+    "const highp vec3 up = vec3(0.0, 1.0, 0.0);\n"
+    "const highp float fov = 45.0; //Field of view Y\n"
+    "\n"
+    "highp vec3 getDirection(in highp vec2 cameraRotation, in highp vec2 positionInView) {\n"
+    "    highp vec3 viewDirection  = -normalize(vec3(sin(radians(-cameraRotation.y)), sin(radians(cameraRotation.x)), cos(radians(-cameraRotation.y))));\n"
+    "    highp vec3 viewCrossUp    = -normalize(cross(viewDirection, up));\n"
+    "    highp vec3 viewCrossRight = -normalize(cross(viewCrossUp,   viewDirection));\n"
+    "    highp mat3 viewMatrix = mat3(viewCrossUp, viewCrossRight, viewDirection);\n"
+    "\n"
+    "    return viewMatrix * normalize(vec3(positionInView * tan(radians(fov)), 1.0));\n"
+    "}\n"
+    "\n"
+    "void main() {\n"
+    "    highp vec2 position = -(fragTexCoord * 2.0 - 1.0);\n"
+    "    highp vec2 positionInView = vec2(position.x, position.y * invAspectRatio) * zoom;\n"
+    "    highp vec3 localPosition = getDirection(cameraRotation, positionInView);\n"
+    "    highp vec2 uv = sampleSphericalMap(localPosition);\n"
+    "    uv.y = 1.0 - uv.y;"
+    "    if (onlyHalfOfTheScreen)\n"
+    "        uv.x *= 2.0;\n"
+    "    gl_FragColor = texture2D(texture0, uv);\n"
+    "}\n"
+    "";
+
 static const QString VERTEX_SHADER = ""
         "attribute highp vec4 inputVertex;"
         "attribute lowp vec2 textureCoord;"
@@ -55,17 +104,6 @@ static const QString VERTEX_SHADER = ""
         "void main() {"
         "    gl_Position = matrix * matrixWorld * inputVertex;"
         "    fragTexCoord = textureCoord;"
-        "}"
-    "";
-
-static const QString VERTEX_3D_SHADER = ""
-        "uniform highp mat4 matrix;"
-        "attribute highp vec3 vertices;"
-        "attribute highp vec2 textureCoord;"
-        "varying highp vec2 coords;"
-        "void main() {"
-        "    gl_Position = matrix * vec4(vertices, 1.0);"
-        "    coords = textureCoord;"
         "}"
     "";
 
@@ -296,7 +334,7 @@ void QtCamViewfinderRendererNemo::createProgram() {
         return;
     }
 
-    if (!m_program->addShaderFromSourceCode(QGLShader::Fragment, FRAGMENT_SHADER)) {
+    if (!m_program->addShaderFromSourceCode(QGLShader::Fragment, FRAGMENT_SHADER_180)) {
         qCritical() << "Failed to add fragment shader";
         return;
     }
@@ -315,6 +353,10 @@ void QtCamViewfinderRendererNemo::createProgram() {
     }
 
     m_program->setUniformValue("texture0", 0);
+    m_program->setUniformValue("cameraRotation", QVector2D(0.0f, 0.0f));
+    m_program->setUniformValue("invAspectRatio", 1.0f);
+    m_program->setUniformValue("zoom", 1.0f);
+    m_program->setUniformValue("onlyHalfOfTheScreen", false);
     m_program->release();
 }
 
@@ -356,8 +398,8 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix) {
         if (EGLImageKHR img = nemo_gst_egl_image_memory_create_image(memory, m_dpy, nullptr)) {
             glGenTextures(1, &texture);
             glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture);
-            glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glActiveTexture(GL_TEXTURE0);
 
             m_img->glEGLImageTargetTexture2DOES (GL_TEXTURE_EXTERNAL_OES, (GLeglImageOES)img);
@@ -369,9 +411,14 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix) {
 
     m_program->link();
     m_program->bind();
+    _move += 0.01f;
 
     m_program->setUniformValue("matrix", m_projectionMatrix);
     m_program->setUniformValue("matrixWorld", matrix);
+    m_program->setUniformValue("cameraRotation", QVector2D(0.0f, qSin(_move)*45.0f));
+    m_program->setUniformValue("invAspectRatio", (float)m_size.height()/(float)m_size.width());
+    m_program->setUniformValue("zoom", 1.0f);
+    m_program->setUniformValue("onlyHalfOfTheScreen", true);
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, &m_vertexCoords[0]);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, &texCoords[0]);

@@ -161,6 +161,7 @@ install(FILES icons/172x172/microtube.png
 )
 
 file(GLOB_RECURSE QML_FILES qml/*.qml)
+file(GLOB_RECURSE JS_FILES qml/*.js)
 
 add_custom_target(distfiles
     SOURCES
@@ -177,6 +178,7 @@ add_custom_target(distfiles
         js/package.json
         microtube-url.desktop
         rpm/microtube.spec
+        ${JS_FILES}
         ${QML_FILES}
         ${TsFiles})
 

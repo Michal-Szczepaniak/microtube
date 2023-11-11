@@ -81,6 +81,7 @@ private:
     bool m_buffersInvalidated;
     bool m_bufferChanged;
     QOpenGLExtension_OES_EGL_image *m_img;
+    float _move = 0.0f;
 };
 
 #endif /* RENDERER_MEEGO_H */

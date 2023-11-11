@@ -26,7 +26,7 @@ public:
     void asyncGetComments(QString videoId);
     void asyncGetCommentsContinuation();
     void asyncGetCommentReplies(QJsonObject continuationData);
-    SearchResults loadChannelVideos(QString channelId);
+    SearchResults loadChannelVideos(QString channelId, bool full = false);
     std::unique_ptr<Video> getBasicVideoInfo(QString url);
     Author fetchChannelInfo(QString channelId);
     SearchResults getTrendingVideos();

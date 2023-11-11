@@ -13,6 +13,8 @@ public:
     void update(int id);
     void remove(int id);
 
+    void deleteAll();
+
     Video *getOneByVideoId(QString videoId);
     static std::vector<std::unique_ptr<Video>> getSubscriptions();
     static std::vector<std::unique_ptr<Video>> getUnwatchedSubscriptions();

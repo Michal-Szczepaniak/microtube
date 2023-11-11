@@ -52,7 +52,7 @@ QVariant PlaylistModel::data(const QModelIndex &index, int role) const
         case ViewsRole:
             return video->views;
         case PublishedRole:
-            return video->uploadedAt;
+            return video->timestamp;
         case UrlRole:
             return video->url;
         default:
@@ -99,7 +99,11 @@ void PlaylistModel::loadRecommendedVideos(QString query)
 
 void PlaylistModel::loadCategory(QString category, QString country)
 {
-    _jsProcessHelper.asyncScrapeTrending(category, country);
+    if (category == "Subscriptions") {
+        loadSubscriptions();
+    } else {
+        _jsProcessHelper.asyncScrapeTrending(category, country);
+    }
 }
 
 void PlaylistModel::loadChannelVideos(QString channelId)
@@ -113,6 +117,7 @@ void PlaylistModel::loadSubscriberVideos(QString channelId)
     AuthorRepository authorRepository;
     Author author = authorRepository.getOneByChannelId(channelId);
     auto videos = _videoRepository.getChannelVideos(author.id);
+    _items.clear();
     std::move(videos.begin(), videos.end(), std::back_inserter(_items));
     endResetModel();
 }
@@ -133,6 +138,7 @@ QString PlaylistModel::getIdAt(int index)
 void PlaylistModel::loadSubscriptions()
 {
     beginResetModel();
+    _items.clear();
     auto subscriptions = _videoRepository.getSubscriptions();
     std::move(subscriptions.begin(), subscriptions.end(), std::back_inserter(_items));
     endResetModel();
@@ -141,6 +147,7 @@ void PlaylistModel::loadSubscriptions()
 void PlaylistModel::loadUnwatchedSubscriptions()
 {
     beginResetModel();
+    _items.clear();
     auto subscriptions = _videoRepository.getUnwatchedSubscriptions();
     std::move(subscriptions.begin(), subscriptions.end(), std::back_inserter(_items));
     endResetModel();

@@ -116,7 +116,9 @@ Page {
         onSubtitleChanged: {
             var playing = videoPlayer.state === VideoPlayer.StatePlaying
             if (playing) videoPlayer.pause()
+            videoChanging = true
             videoPlayer.subtitle = videoHelper.subtitle
+            videoChanging = false
             if (playing) videoPlayer.play()
         }
 
@@ -355,8 +357,9 @@ Page {
                             } else if (state === VideoPlayer.StateStopped) {
                                 app.playing = ""
                                 console.log("Video stopped", settings.autoPlay, videoHelper.videoUrl !== "", videoChanging === false)
-                                if (settings.autoPlay && videoHelper.videoUrl !== "" && videoChanging === false)
+                                if (settings.autoPlay && videoHelper.videoUrl !== "" && videoChanging === false) {
                                     nextVideo()
+                                }
                             } else if (state === VideoPlayer.StatePlaying) {
                                 videoPlayer.setPlaybackSpeed(playbackSpeedSlider.value)
                                 showHideControls()

@@ -107,7 +107,7 @@ Page {
                 currentIndex: -1
                 menu: ContextMenu {
                     Repeater {
-                        model: [qsTr("Now"),qsTr("Music"),qsTr("Gaming"),qsTr("Movies")]
+                        model: [qsTr("Now"),qsTr("Music"),qsTr("Gaming"),qsTr("Movies"),qsTr("Subscriptions")]
                         delegate: MenuItem {
                             text: modelData
                         }
