@@ -52,53 +52,144 @@ static const QString FRAGMENT_SHADER_180 = ""
     "varying lowp vec2 fragTexCoord;\n"
     "\n"
     "//Uniforms\n"
-    "uniform highp vec2 cameraRotation;\n"
-    "uniform highp float invAspectRatio; //height / width\n"
-    "uniform highp float zoom;\n"
-    "uniform highp bool onlyHalfOfTheScreen;\n"
+    "uniform vec2 cameraRotation;\n"
+    "uniform float invAspectRatio; //height / width\n"
+    "uniform float zoom;\n"
+    "uniform bool onlyHalfOfTheScreen;\n"
     "\n"
     "//Texture\n"
     "uniform samplerExternalOES texture0;\n"
     "\n"
-    "const highp vec2 inverseAtan = vec2(0.1591, 0.3183);\n"
+    "const vec2 inverseAtan = vec2(0.1591, 0.3183);\n"
     "\n"
-    "highp vec2 sampleSphericalMap(highp vec3 localPosition) {\n"
-    "    highp vec2 uv = vec2(atan(localPosition.z, localPosition.x), asin(localPosition.y));\n"
+    "vec2 sampleSphericalMap(vec3 localPosition) {\n"
+    "    vec2 uv = vec2(atan(localPosition.z, localPosition.x), asin(localPosition.y));\n"
     "    uv *= inverseAtan;\n"
     "    uv += 0.5;\n"
     "\n"
     "    return uv;\n"
     "}\n"
     "\n"
-    "const highp vec3 up = vec3(0.0, 1.0, 0.0);\n"
-    "const highp float fov = 45.0; //Field of view Y\n"
+    "const vec3 up = vec3(0.0, 1.0, 0.0);\n"
+    "const float fov = 45.0; //Field of view Y\n"
     "\n"
-    "highp vec3 getDirection(in highp vec2 cameraRotation, in highp vec2 positionInView) {\n"
-    "    highp vec3 viewDirection  = -normalize(vec3(sin(radians(-cameraRotation.y)), sin(radians(cameraRotation.x)), cos(radians(-cameraRotation.y))));\n"
-    "    highp vec3 viewCrossUp    = -normalize(cross(viewDirection, up));\n"
-    "    highp vec3 viewCrossRight = -normalize(cross(viewCrossUp,   viewDirection));\n"
-    "    highp mat3 viewMatrix = mat3(viewCrossUp, viewCrossRight, viewDirection);\n"
+    "vec3 getDirection(in vec2 cameraRotation, in vec2 positionInView) {\n"
+    "    vec3 viewDirection  = normalize(vec3(sin(radians(cameraRotation.y)), sin(radians(-cameraRotation.x)), cos(radians(cameraRotation.y))));\n"
+    "    vec3 viewCrossUp    = normalize(cross(viewDirection, up));\n"
+    "    vec3 viewCrossRight = normalize(cross(viewCrossUp,   viewDirection));\n"
+    "    mat3 viewMatrix = mat3(viewCrossUp, viewCrossRight, viewDirection);\n"
     "\n"
     "    return viewMatrix * normalize(vec3(positionInView * tan(radians(fov)), 1.0));\n"
     "}\n"
     "\n"
     "void main() {\n"
-    "    highp vec2 position = -(fragTexCoord * 2.0 - 1.0);\n"
-    "    highp vec2 positionInView = vec2(position.x, position.y * invAspectRatio) * zoom;\n"
-    "    highp vec3 localPosition = getDirection(cameraRotation, positionInView);\n"
-    "    highp vec2 uv = sampleSphericalMap(localPosition);\n"
+    "    vec2 position = -(fragTexCoord * 2.0 - 1.0);\n"
+    "    vec2 positionInView = vec2(position.x, position.y * invAspectRatio) * zoom;\n"
+    "    vec3 localPosition = getDirection(cameraRotation, positionInView);\n"
+    "    vec2 uv = sampleSphericalMap(localPosition);\n"
     "    uv.y = 1.0 - uv.y;"
     "    if (onlyHalfOfTheScreen)\n"
     "        uv.x *= 2.0;\n"
-    "    gl_FragColor = texture2D(texture0, uv);\n"
+    "    gl_FragColor = vec4(texture2D(texture0, uv).rgb, 1.0);\n"
+    "}\n"
+    "";
+
+static const QString FRAGMENT_SHADER_360 = ""
+    "#extension GL_OES_EGL_image_external: enable\n"
+    "\n"
+    "varying lowp vec2 fragTexCoord;\n"
+    "\n"
+    "//Uniforms\n"
+    "uniform vec2 cameraRotation;\n"
+    "uniform float invAspectRatio;\n"
+    "uniform float zoom;\n"
+    "\n"
+    "//Texture\n"
+    "uniform samplerExternalOES texture0;\n"
+    "\n"
+    "const vec3 up = vec3(0.0, 1.0, 0.0);\n"
+    "const float fov = 45.0;\n"
+    "\n"
+    "vec3 getDirection(in vec2 cameraRotation, in vec2 positionInView) {\n"
+    "    vec3 viewDirection  = normalize(vec3(sin(radians(cameraRotation.y)), sin(radians(-cameraRotation.x)), cos(radians(cameraRotation.y))));\n"
+    "    vec3 viewCrossUp    = normalize(cross(viewDirection, up));\n"
+    "    vec3 viewCrossRight = normalize(cross(viewCrossUp,   viewDirection));\n"
+    "    mat3 viewMatrix = mat3(viewCrossUp, viewCrossRight, viewDirection);\n"
+    "\n"
+    "    return viewMatrix * normalize(vec3(positionInView * tan(radians(fov)), 1.0));\n"
+    "}\n"
+    "\n"
+    "int max3(vec3 v) {\n"
+    "      int index = 0;\n"
+    "    if (v[1] > v[0])\n"
+    "        index = 1;\n"
+    "    if (v[2] > v[index])\n"
+    "        index = 2;\n"
+    "\n"
+    "    return index;\n"
+    "}\n"
+    "\n"
+    "const float PI = 3.14159265359;\n"
+    "\n"
+    "void main() {\n"
+    "vec2 position = fragTexCoord * 2.0 - 1.0;\n"
+    "    vec2 positionInView = vec2(position.x, position.y * invAspectRatio) * zoom;\n"
+    "    vec3 localPosition = normalize(getDirection(cameraRotation, positionInView));\n"
+    "    int maxComponent = max3(abs(localPosition));\n"
+    "\n"
+    "    float x = localPosition.x, y = -localPosition.y, z = localPosition.z;\n"
+    "\n"
+    "    vec2 face;\n"
+    "    vec2 uv;\n"
+    "    float scale;\n"
+    "    if (maxComponent == 0) {\n"
+    "        scale = 1.0 / abs(x);\n"
+    "        if (x >= 0.0) { //Right\n"
+    "            face = vec2(5.0, 3.0);\n"
+    "            uv.x = -4.0 * atan(z * scale) / PI;\n"
+    "            uv.y = 4.0 * atan(y * scale) / PI;\n"
+    "        } else { //Left\n"
+    "            face = vec2(1.0, 3.0);\n"
+    "            uv.x = 4.0 * atan(z * scale) / PI;\n"
+    "            uv.y = 4.0 * atan(y * scale) / PI;\n"
+    "        }\n"
+    "    } else if (maxComponent == 1) {\n"
+    "        scale = 1.0 / abs(y);\n"
+    "        if (y >= 0.0) { //Top\n"
+    "            face = vec2(5.0, 1.0);\n"
+    "            uv.x = 4.0 * atan(z * scale) / PI;\n"
+    "            uv.y = 4.0 * atan(x * scale) / PI;\n"
+    "        } else { //Down\n"
+    "            face = vec2(1.0, 1.0);\n"
+    "            uv.x = -4.0 * atan(z * scale) / PI;\n"
+    "            uv.y = 4.0 * atan(x * scale) / PI;\n"
+    "        }\n"
+    "    } else {\n"
+    "        scale = 1.0 / abs(z);\n"
+    "        if (z >= 0.0) { //Front\n"
+    "            face = vec2(3.0, 3.0);\n"
+    "            uv.x = 4.0 * atan(x * scale) / PI;\n"
+    "            uv.y = 4.0 * atan(y * scale) / PI;\n"
+    "        } else { //Back\n"
+    "            face = vec2(3.0, 1.0);\n"
+    "            uv.x = 4.0 * atan(y * scale) / PI;\n"
+    "            uv.y = 4.0 * atan(x * scale) / PI;\n"
+    "        }\n"
+    "    }\n"
+    "\n"
+    "    uv = clamp(uv, -0.995, 0.995);\n"
+    "    uv = vec2(face.x + uv.x, face.y + uv.y) / vec2(6.0, 4.0);\n"
+    "    uv.y = 1.0 - uv.y;\n"
+    "\n"
+    "    gl_FragColor = vec4(texture2D(texture0, uv).rgb, 1.0);\n"
     "}\n"
     "";
 
 static const QString VERTEX_SHADER = ""
-        "attribute highp vec4 inputVertex;"
+        "attribute vec4 inputVertex;"
         "attribute lowp vec2 textureCoord;"
-        "uniform highp mat4 matrix;"
-        "uniform highp mat4 matrixWorld;"
+        "uniform mat4 matrix;"
+        "uniform mat4 matrixWorld;"
         "varying lowp vec2 fragTexCoord;"
         ""
         "void main() {"
@@ -107,56 +198,63 @@ static const QString VERTEX_SHADER = ""
         "}"
     "";
 
-QtCamViewfinderRendererNemo::QtCamViewfinderRendererNemo(QObject *parent) :
+RendererNemo::RendererNemo(QObject *parent) :
     QObject(parent),
-    m_sink(0),
-    m_queuedBuffer(nullptr),
-    m_currentBuffer(nullptr),
-    m_showFrameId(0),
-    m_buffersInvalidatedId(0),
-    m_notify(0),
-    m_needsInit(true),
-    m_program(0),
-    m_displaySet(false),
-    m_buffersInvalidated(false),
-    m_bufferChanged(false),
-    m_img(0) {
+    _sink(0),
+    _queuedBuffer(nullptr),
+    _currentBuffer(nullptr),
+    _showFrameId(0),
+    _buffersInvalidatedId(0),
+    _notify(0),
+    _needsInit(true),
+    _program(0),
+    _displaySet(false),
+    _buffersInvalidated(false),
+    _bufferChanged(false),
+    _img(0) {
 
-    m_texCoords.resize(8);
-    m_vertexCoords.resize(8);
+    _texCoords.resize(8);
+    _vertexCoords.resize(8);
 
-    m_texCoords[0] = 0;             m_texCoords[1] = 0;
-    m_texCoords[2] = 1;             m_texCoords[3] = 0;
-    m_texCoords[4] = 1;             m_texCoords[5] = 1;
-    m_texCoords[6] = 0;             m_texCoords[7] = 1;
+    _texCoords[0] = 0;             _texCoords[1] = 0;
+    _texCoords[2] = 1;             _texCoords[3] = 0;
+    _texCoords[4] = 1;             _texCoords[5] = 1;
+    _texCoords[6] = 0;             _texCoords[7] = 1;
 
     for (int x = 0; x < 8; x++) {
-        m_vertexCoords[x] = 0;
+        _vertexCoords[x] = 0;
     }
 
     connect(QuickViewHelper::getView(), &QQuickView::sceneGraphInitialized, [&](){ createProgram(); });
 }
 
-QtCamViewfinderRendererNemo::~QtCamViewfinderRendererNemo() {
+RendererNemo::~RendererNemo() {
     cleanup();
 
-    if (m_program) {
-        delete m_program;
-        m_program = 0;
+    if (_program) {
+        delete _program;
+        _program = 0;
     }
 
-    if (m_img) {
-        delete m_img;
-        m_img = 0;
+    if (_img) {
+        delete _img;
+        _img = 0;
     }
 }
 
-bool QtCamViewfinderRendererNemo::needsNativePainting() {
+bool RendererNemo::needsNativePainting() {
     return true;
 }
 
-void QtCamViewfinderRendererNemo::paint(const QMatrix4x4& matrix, const QRectF& viewport) {
-    if (!m_img) {
+void RendererNemo::setProjection(Projection projection)
+{
+    _projection = projection;
+
+    createProgram();
+}
+
+void RendererNemo::paint(const QMatrix4x4& matrix, const QRectF& viewport) {
+    if (!_img) {
         QOpenGLContext *ctx = QOpenGLContext::currentContext();
         if (!ctx) {
             qCritical() << "No current OpenGL context";
@@ -168,33 +266,33 @@ void QtCamViewfinderRendererNemo::paint(const QMatrix4x4& matrix, const QRectF& 
             return;
         }
 
-        m_img = new QOpenGLExtension_OES_EGL_image;
+        _img = new QOpenGLExtension_OES_EGL_image;
 
-        if (!m_img->initializeOpenGLFunctions()) {
+        if (!_img->initializeOpenGLFunctions()) {
             qCritical() << "Failed to initialize GL_OES_EGL_image";
-            delete m_img;
-            m_img = 0;
+            delete _img;
+            _img = 0;
             return;
         }
     }
 
-    if (m_dpy == EGL_NO_DISPLAY) {
-        m_dpy = eglGetCurrentDisplay();
+    if (_dpy == EGL_NO_DISPLAY) {
+        _dpy = eglGetCurrentDisplay();
     }
 
-    if (m_dpy == EGL_NO_DISPLAY) {
+    if (_dpy == EGL_NO_DISPLAY) {
         qCritical() << "Failed to obtain EGL Display";
     }
 
-    if (m_sink && m_dpy != EGL_NO_DISPLAY && !m_displaySet) {
-        g_object_set(G_OBJECT(m_sink), "egl-display", m_dpy, NULL);
-        m_displaySet = true;
+    if (_sink && _dpy != EGL_NO_DISPLAY && !_displaySet) {
+        g_object_set(G_OBJECT(_sink), "egl-display", _dpy, NULL);
+        _displaySet = true;
     }
 
-    QMutexLocker locker(&m_frameMutex);
-    if (!m_queuedBuffer) {
-        GstBuffer *currentBuffer = m_currentBuffer;
-        m_currentBuffer = nullptr;
+    QMutexLocker locker(&_frameMutex);
+    if (!_queuedBuffer) {
+        GstBuffer *currentBuffer = _currentBuffer;
+        _currentBuffer = nullptr;
 
         locker.unlock();
 
@@ -206,75 +304,75 @@ void QtCamViewfinderRendererNemo::paint(const QMatrix4x4& matrix, const QRectF& 
         return;
     }
 
-    if (m_needsInit) {
+    if (_needsInit) {
         calculateProjectionMatrix(viewport);
 
-        m_needsInit = false;
+        _needsInit = false;
     }
 
-    if (!m_program) {
+    if (!_program) {
         createProgram();
     }
 
     paintFrame(matrix);
 }
 
-void QtCamViewfinderRendererNemo::resize(const QSizeF& size) {
-    if (size == m_size) {
+void RendererNemo::resize(const QSizeF& size) {
+    if (size == _size) {
         return;
     }
 
-    m_size = size;
+    _size = size;
 
-    m_renderArea = QRectF();
+    _renderArea = QRectF();
 
     calculateVertexCoords();
 
-    m_needsInit = true;
+    _needsInit = true;
 
     emit renderAreaChanged();
 }
 
-void QtCamViewfinderRendererNemo::reset() {
-    QMutexLocker locker(&m_frameMutex);
+void RendererNemo::reset() {
+    QMutexLocker locker(&_frameMutex);
 
     destroyCachedTextures();
 }
 
-GstElement *QtCamViewfinderRendererNemo::sinkElement() {
-    if (!m_sink) {
-        m_sink = gst_element_factory_make("droideglsink",
-                                            "QtCamViewfinderRendererNemoSink");
-        if (!m_sink) {
+GstElement *RendererNemo::sinkElement() {
+    if (!_sink) {
+        _sink = gst_element_factory_make("droideglsink",
+                                            "NemoSink");
+        if (!_sink) {
             qCritical() << "Failed to create droideglsink";
             return 0;
         }
 
-        g_object_add_toggle_ref(G_OBJECT(m_sink), (GToggleNotify)sink_notify, this);
-        m_displaySet = false;
+        g_object_add_toggle_ref(G_OBJECT(_sink), (GToggleNotify)sink_notify, this);
+        _displaySet = false;
     }
 
-    m_dpy = eglGetCurrentDisplay();
-    if (m_dpy == EGL_NO_DISPLAY) {
+    _dpy = eglGetCurrentDisplay();
+    if (_dpy == EGL_NO_DISPLAY) {
         qCritical() << "Failed to obtain EGL Display";
     } else {
-        g_object_set(G_OBJECT(m_sink), "egl-display", m_dpy, NULL);
-        m_displaySet = true;
+        g_object_set(G_OBJECT(_sink), "egl-display", _dpy, NULL);
+        _displaySet = true;
     }
 
-    m_showFrameId = g_signal_connect(G_OBJECT(m_sink), "show-frame", G_CALLBACK(show_frame), this);
-    m_buffersInvalidatedId = g_signal_connect(
-            G_OBJECT(m_sink), "buffers-invalidated", G_CALLBACK(buffers_invalidated), this);
+    _showFrameId = g_signal_connect(G_OBJECT(_sink), "show-frame", G_CALLBACK(show_frame), this);
+    _buffersInvalidatedId = g_signal_connect(
+            G_OBJECT(_sink), "buffers-invalidated", G_CALLBACK(buffers_invalidated), this);
 
-    GstPad *pad = gst_element_get_static_pad(m_sink, "sink");
-    m_notify = g_signal_connect(G_OBJECT(pad), "notify::caps",
+    GstPad *pad = gst_element_get_static_pad(_sink, "sink");
+    _notify = g_signal_connect(G_OBJECT(pad), "notify::caps",
                                     G_CALLBACK(sink_caps_changed), this);
     gst_object_unref(pad);
 
-    return m_sink;
+    return _sink;
 }
 
-void QtCamViewfinderRendererNemo::sink_notify(QtCamViewfinderRendererNemo *q, GObject *object, gboolean is_last_ref) {
+void RendererNemo::sink_notify(RendererNemo *q, GObject *object, gboolean is_last_ref) {
     Q_UNUSED(object);
 
     if (is_last_ref) {
@@ -282,7 +380,7 @@ void QtCamViewfinderRendererNemo::sink_notify(QtCamViewfinderRendererNemo *q, GO
     }
 }
 
-void QtCamViewfinderRendererNemo::sink_caps_changed(GObject *obj, GParamSpec *pspec, QtCamViewfinderRendererNemo *q) {
+void RendererNemo::sink_caps_changed(GObject *obj, GParamSpec *pspec, RendererNemo *q) {
     Q_UNUSED(pspec);
 
     if (!obj) {
@@ -317,110 +415,118 @@ void QtCamViewfinderRendererNemo::sink_caps_changed(GObject *obj, GParamSpec *ps
     gst_caps_unref (caps);
 }
 
-void QtCamViewfinderRendererNemo::calculateProjectionMatrix(const QRectF& rect) {
-    m_projectionMatrix = QMatrix4x4();
-    m_projectionMatrix.ortho(rect);
+void RendererNemo::calculateProjectionMatrix(const QRectF& rect) {
+    _projectionMatrix = QMatrix4x4();
+    _projectionMatrix.ortho(rect);
 }
 
-void QtCamViewfinderRendererNemo::createProgram() {
-    if (m_program) {
-        delete m_program;
+void RendererNemo::createProgram() {
+    QMutexLocker locker(&_programMutex);
+    if (_program) {
+        delete _program;
     }
 
-    m_program = new QGLShaderProgram;
+    _program = new QGLShaderProgram;
 
-    if (!m_program->addShaderFromSourceCode(QGLShader::Vertex, VERTEX_SHADER)) {
+    if (!_program->addShaderFromSourceCode(QGLShader::Vertex, VERTEX_SHADER)) {
         qCritical() << "Failed to add vertex shader";
         return;
     }
 
-    if (!m_program->addShaderFromSourceCode(QGLShader::Fragment, FRAGMENT_SHADER_180)) {
+    QString shader;
+
+    switch (_projection) {
+    case Flat:
+        shader = FRAGMENT_SHADER;
+        break;
+    case s180:
+        shader = FRAGMENT_SHADER_180;
+        break;
+    case s360:
+        shader = FRAGMENT_SHADER_360;
+        break;
+    }
+
+    if (!_program->addShaderFromSourceCode(QGLShader::Fragment, shader)) {
         qCritical() << "Failed to add fragment shader";
         return;
     }
 
-    m_program->bindAttributeLocation("inputVertex", 0);
-    m_program->bindAttributeLocation("textureCoord", 1);
+    _program->bindAttributeLocation("inputVertex", 0);
+    _program->bindAttributeLocation("textureCoord", 1);
 
-    if (!m_program->link()) {
-        qCritical() << "Failed to link program!";
-        return;
-    }
-
-    if (!m_program->bind()) {
+    if (!_program->bind()) {
         qCritical() << "Failed to bind program";
         return;
     }
 
-    m_program->setUniformValue("texture0", 0);
-    m_program->setUniformValue("cameraRotation", QVector2D(0.0f, 0.0f));
-    m_program->setUniformValue("invAspectRatio", 1.0f);
-    m_program->setUniformValue("zoom", 1.0f);
-    m_program->setUniformValue("onlyHalfOfTheScreen", false);
-    m_program->release();
+    _program->setUniformValue("texture0", 0);
+    _program->setUniformValue("cameraRotation", QVector2D(0.0f, 0.0f));
+    _program->setUniformValue("invAspectRatio", 1.0f);
+    _program->setUniformValue("zoom", 1.0f);
+    _program->setUniformValue("onlyHalfOfTheScreen", false);
+    _program->release();
 }
 
-void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix) {
-    if (m_buffersInvalidated) {
-        m_buffersInvalidated = false;
+void RendererNemo::paintFrame(const QMatrix4x4& matrix) {
+    if (_buffersInvalidated) {
+        _buffersInvalidated = false;
         destroyCachedTextures();
     }
 
 
     GstBuffer *bufferToRelease = nullptr;
-    if (m_currentBuffer != m_queuedBuffer && m_bufferChanged) {
-        bufferToRelease = m_currentBuffer;
+    if (_currentBuffer != _queuedBuffer && _bufferChanged) {
+        bufferToRelease = _currentBuffer;
 
-        m_currentBuffer = gst_buffer_ref(m_queuedBuffer);
+        _currentBuffer = gst_buffer_ref(_queuedBuffer);
     }
 
-    m_bufferChanged = false;
+    _bufferChanged = false;
 
-    if (!m_currentBuffer || gst_buffer_n_memory(m_currentBuffer) == 0) {
+    if (!_currentBuffer || gst_buffer_n_memory(_currentBuffer) == 0) {
         return;
     }
 
-    std::vector<GLfloat> texCoords(m_texCoords);
+    std::vector<GLfloat> texCoords(_texCoords);
 
-    GLuint texture;
+    GLuint texture = 0;
 
-    GstMemory *memory = gst_buffer_peek_memory(m_currentBuffer, 0);
+    GstMemory *memory = gst_buffer_peek_memory(_currentBuffer, 0);
 
-    for (CachedTexture &cachedTexture : m_textures) {
+    for (CachedTexture &cachedTexture : _textures) {
         if (cachedTexture.memory == memory) {
             texture = cachedTexture.textureId;
             glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture);
-            m_img->glEGLImageTargetTexture2DOES(GL_TEXTURE_EXTERNAL_OES, cachedTexture.image);
+            _img->glEGLImageTargetTexture2DOES(GL_TEXTURE_EXTERNAL_OES, cachedTexture.image);
         }
     }
 
     if (texture == 0) {
-        if (EGLImageKHR img = nemo_gst_egl_image_memory_create_image(memory, m_dpy, nullptr)) {
+        if (EGLImageKHR img = nemo_gst_egl_image_memory_create_image(memory, _dpy, nullptr)) {
             glGenTextures(1, &texture);
             glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture);
             glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
             glActiveTexture(GL_TEXTURE0);
 
-            m_img->glEGLImageTargetTexture2DOES (GL_TEXTURE_EXTERNAL_OES, (GLeglImageOES)img);
+            _img->glEGLImageTargetTexture2DOES (GL_TEXTURE_EXTERNAL_OES, (GLeglImageOES)img);
 
             CachedTexture cachedTexture = { gst_memory_ref(memory), img, texture };
-            m_textures.push_back(cachedTexture);
+            _textures.push_back(cachedTexture);
         }
     }
 
-    m_program->link();
-    m_program->bind();
-    _move += 0.01f;
+    _program->bind();
 
-    m_program->setUniformValue("matrix", m_projectionMatrix);
-    m_program->setUniformValue("matrixWorld", matrix);
-    m_program->setUniformValue("cameraRotation", QVector2D(0.0f, qSin(_move)*45.0f));
-    m_program->setUniformValue("invAspectRatio", (float)m_size.height()/(float)m_size.width());
-    m_program->setUniformValue("zoom", 1.0f);
-    m_program->setUniformValue("onlyHalfOfTheScreen", true);
+    _program->setUniformValue("matrix", _projectionMatrix);
+    _program->setUniformValue("matrixWorld", matrix);
+    _program->setUniformValue("cameraRotation", QVector2D(0.f, 0.f));
+    _program->setUniformValue("invAspectRatio", (float)_size.height()/(float)_size.width());
+    _program->setUniformValue("zoom", 1.0f);
+    _program->setUniformValue("onlyHalfOfTheScreen", true);
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, &m_vertexCoords[0]);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, &_vertexCoords[0]);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, &texCoords[0]);
 
     glEnableVertexAttribArray(0);
@@ -431,17 +537,17 @@ void QtCamViewfinderRendererNemo::paintFrame(const QMatrix4x4& matrix) {
     glDisableVertexAttribArray(1);
     glDisableVertexAttribArray(0);
 
-    m_program->release();
+    _program->release();
 
-    glBindTexture(GL_TEXTURE_EXTERNAL_OES, 0);
+//    glBindTexture(GL_TEXTURE_EXTERNAL_OES, 0);
 
     if (bufferToRelease) {
         gst_buffer_unref(bufferToRelease);
     }
 }
 
-void QtCamViewfinderRendererNemo::calculateVertexCoords() {
-    if (!m_size.isValid() || !m_videoSize.isValid()) {
+void RendererNemo::calculateVertexCoords() {
+    if (!_size.isValid() || !_videoSize.isValid()) {
         return;
     }
 
@@ -451,63 +557,63 @@ void QtCamViewfinderRendererNemo::calculateVertexCoords() {
     qreal topMargin = area.y();
     QSizeF renderSize = area.size();
 
-    m_vertexCoords[0] = leftMargin;
-    m_vertexCoords[1] = topMargin + renderSize.height();
+    _vertexCoords[0] = leftMargin;
+    _vertexCoords[1] = topMargin + renderSize.height();
 
-    m_vertexCoords[2] = renderSize.width() + leftMargin;
-    m_vertexCoords[3] = topMargin + renderSize.height();
+    _vertexCoords[2] = renderSize.width() + leftMargin;
+    _vertexCoords[3] = topMargin + renderSize.height();
 
-    m_vertexCoords[4] = renderSize.width() + leftMargin;
-    m_vertexCoords[5] = topMargin;
+    _vertexCoords[4] = renderSize.width() + leftMargin;
+    _vertexCoords[5] = topMargin;
 
-    m_vertexCoords[6] = leftMargin;
-    m_vertexCoords[7] = topMargin;
+    _vertexCoords[6] = leftMargin;
+    _vertexCoords[7] = topMargin;
 }
 
-QRectF QtCamViewfinderRendererNemo::renderArea() {
-    if (!m_renderArea.isNull()) {
-        return m_renderArea;
+QRectF RendererNemo::renderArea() {
+    if (!_renderArea.isNull()) {
+        return _renderArea;
     }
 
-    QSizeF renderSize = m_videoSize;
-    renderSize.scale(m_size, Qt::KeepAspectRatio);
+    QSizeF renderSize = _videoSize;
+    renderSize.scale(_size, Qt::KeepAspectRatio);
 
-    qreal leftMargin = (m_size.width() - renderSize.width())/2.0;
-    qreal topMargin = (m_size.height() - renderSize.height())/2.0;
+    qreal leftMargin = (_size.width() - renderSize.width())/2.0;
+    qreal topMargin = (_size.height() - renderSize.height())/2.0;
 
-    m_renderArea = QRectF(QPointF(leftMargin, topMargin), renderSize);
+    _renderArea = QRectF(QPointF(leftMargin, topMargin), renderSize);
 
-    return m_renderArea;
+    return _renderArea;
 }
 
-QSizeF QtCamViewfinderRendererNemo::videoResolution() {
-    return m_videoSize;
+QSizeF RendererNemo::videoResolution() {
+    return _videoSize;
 }
 
-void QtCamViewfinderRendererNemo::setVideoSize(const QSizeF& size) {
-    if (size == m_videoSize) {
+void RendererNemo::setVideoSize(const QSizeF& size) {
+    if (size == _videoSize) {
         return;
     }
 
-    m_videoSize = size;
+    _videoSize = size;
 
-    m_renderArea = QRectF();
+    _renderArea = QRectF();
 
     calculateVertexCoords();
 
-    m_needsInit = true;
+    _needsInit = true;
 
     emit renderAreaChanged();
     emit videoResolutionChanged();
 }
 
-void QtCamViewfinderRendererNemo::show_frame(GstVideoSink *, GstBuffer *buffer, QtCamViewfinderRendererNemo *r)
+void RendererNemo::show_frame(GstVideoSink *, GstBuffer *buffer, RendererNemo *r)
 {
-    QMutexLocker locker(&r->m_frameMutex);
+    QMutexLocker locker(&r->_frameMutex);
 
-    GstBuffer * const bufferToRelease = r->m_queuedBuffer;
-    r->m_queuedBuffer = buffer ? gst_buffer_ref(buffer) : nullptr;
-    r->m_bufferChanged = true;
+    GstBuffer * const bufferToRelease = r->_queuedBuffer;
+    r->_queuedBuffer = buffer ? gst_buffer_ref(buffer) : nullptr;
+    r->_bufferChanged = true;
 
     locker.unlock();
 
@@ -518,58 +624,57 @@ void QtCamViewfinderRendererNemo::show_frame(GstVideoSink *, GstBuffer *buffer, 
     QMetaObject::invokeMethod(r, "updateRequested", Qt::QueuedConnection);
 }
 
-void QtCamViewfinderRendererNemo::buffers_invalidated(GstVideoSink *, QtCamViewfinderRendererNemo *r)
+void RendererNemo::buffers_invalidated(GstVideoSink *, RendererNemo *r)
 {
     {
-        QMutexLocker locker(&r->m_frameMutex);
-        r->m_buffersInvalidated = true;
+        QMutexLocker locker(&r->_frameMutex);
+        r->_buffersInvalidated = true;
     }
     QMetaObject::invokeMethod(r, "updateRequested", Qt::QueuedConnection);
 }
 
-void QtCamViewfinderRendererNemo::cleanup() {
-    if (!m_sink) {
+void RendererNemo::cleanup() {
+    if (!_sink) {
         return;
     }
 
     destroyCachedTextures();
 
-    if (m_showFrameId) {
-        g_signal_handler_disconnect(m_sink, m_showFrameId);
-        m_showFrameId = 0;
+    if (_showFrameId) {
+        g_signal_handler_disconnect(_sink, _showFrameId);
+        _showFrameId = 0;
     }
 
-    if (m_buffersInvalidatedId) {
-        g_signal_handler_disconnect(m_sink, m_buffersInvalidatedId);
-        m_buffersInvalidatedId = 0;
+    if (_buffersInvalidatedId) {
+        g_signal_handler_disconnect(_sink, _buffersInvalidatedId);
+        _buffersInvalidatedId = 0;
     }
 
 
-    if (m_notify) {
-        g_signal_handler_disconnect(m_sink, m_notify);
-        m_notify = 0;
+    if (_notify) {
+        g_signal_handler_disconnect(_sink, _notify);
+        _notify = 0;
     }
 
-    g_object_remove_toggle_ref(G_OBJECT(m_sink), (GToggleNotify)sink_notify, this);
-    m_sink = 0;
+    g_object_remove_toggle_ref(G_OBJECT(_sink), (GToggleNotify)sink_notify, this);
+    _sink = 0;
 }
 
-void QtCamViewfinderRendererNemo::destroyCachedTextures()
+void RendererNemo::destroyCachedTextures()
 {
     static const PFNEGLDESTROYIMAGEKHRPROC eglDestroyImageKHR
         = reinterpret_cast<PFNEGLDESTROYIMAGEKHRPROC>(eglGetProcAddress("eglDestroyImageKHR"));
 
-    for (CachedTexture &texture : m_textures) {
+    for (CachedTexture &texture : _textures) {
         glDeleteTextures(1, &texture.textureId);
+        eglDestroyImageKHR(_dpy, texture.image);
 
-        eglDestroyImageKHR(m_dpy, texture.image);
-
-        gst_memory_unref(texture.memory);
+//        gst_memory_unref(texture.memory);
     }
-    m_textures.clear();
+    _textures.clear();
 }
 
-void QtCamViewfinderRendererNemo::updateCropInfo(const GstStructure *s,
+void RendererNemo::updateCropInfo(const GstStructure *s,
                                                  std::vector<GLfloat>& texCoords) {
     int right = 0, bottom = 0, top = 0, left = 0;
 
@@ -588,8 +693,8 @@ void QtCamViewfinderRendererNemo::updateCropInfo(const GstStructure *s,
     int width = right - left;
     int height = bottom - top;
     qreal tx = 0.0f, ty = 0.0f, sx = 1.0f, sy = 1.0f;
-    int bufferWidth = m_videoSize.width();
-    int bufferHeight = m_videoSize.height();
+    int bufferWidth = _videoSize.width();
+    int bufferHeight = _videoSize.height();
     if (width < bufferWidth) {
         tx = (qreal)left / (qreal)bufferWidth;
         sx = (qreal)right / (qreal)bufferWidth;

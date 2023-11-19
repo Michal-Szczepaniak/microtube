@@ -8,6 +8,7 @@
 #include "renderernemo.h"
 
 class QtCamViewfinderRenderer;
+using Projection = RendererNemo::Projection;
 
 class VideoPlayer : public QQuickPaintedItem {
     Q_OBJECT
@@ -19,6 +20,7 @@ class VideoPlayer : public QQuickPaintedItem {
     Q_PROPERTY(State state READ getState NOTIFY stateChanged);
     Q_PROPERTY(QString subtitle READ getSubtitle WRITE setSubtitle NOTIFY subtitleChanged);
     Q_PROPERTY(QString displaySubtitle READ getDisplaySubtitle WRITE setDisplaySubtitle NOTIFY displaySubtitleChanged);
+    Q_PROPERTY(Projection projection READ getProjection WRITE setProjection NOTIFY projectionChanged);
     Q_ENUMS(State);
 
 public:
@@ -41,6 +43,8 @@ public:
     void setSubtitle(QString subtitle);
     QString getDisplaySubtitle() const;
     void setDisplaySubtitle(QString subtitle);
+    Projection getProjection() const;
+    void setProjection(Projection projection);
 
     Q_INVOKABLE bool pause();
     Q_INVOKABLE bool play();
@@ -67,6 +71,7 @@ signals:
     void stateChanged();
     void subtitleChanged();
     void displaySubtitleChanged();
+    void projectionChanged();
 
 protected:
     void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
@@ -83,7 +88,7 @@ private:
 
     bool setState(const State& state);
 
-    QtCamViewfinderRendererNemo *_renderer;
+    RendererNemo *_renderer;
     AudioResourceQt::AudioResource _audioResource;
     QUrl _videoUrl;
     QUrl _audioUrl;
@@ -106,6 +111,7 @@ private:
     QString _subtitle;
     quint64 _subtitleEnd;
     QHash<QString, int> _bufferingProgress;
+    Projection _projection = Projection::Flat;
 };
 
 #endif /* VIDEO_PLAYER_H */

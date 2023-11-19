@@ -90,6 +90,7 @@ void VideoPlayer::setVideoSource(const QUrl& videoSource) {
             _videoSource = gst_element_factory_make ("uridecodebin", "VideoSource");
             Q_ASSERT(_videoSource);
 //            g_object_set(_videoSource, "buffer-duration", 1800000000000, NULL);
+//            g_object_set(_videoSource, "download", TRUE, NULL);
             g_object_set(_videoSource, "uri", _videoUrl.toString().toUtf8().constData(), NULL);
 
             gst_bin_add(GST_BIN(_pipeline), _videoSource);
@@ -120,6 +121,7 @@ void VideoPlayer::setAudioSource(const QUrl& audioSource) {
         if (audioSource.toString() != "") {
             _audioSource = gst_element_factory_make ("uridecodebin", "AudioSource");
             Q_ASSERT(_audioSource);
+//            g_object_set(_videoSource, "download", TRUE, NULL);
 //            g_object_set(_audioSource, "buffer-duration", 20000000000, NULL);
 
             gst_bin_add(GST_BIN(_pipeline), _audioSource);
@@ -252,6 +254,20 @@ void VideoPlayer::setDisplaySubtitle(QString subtitle)
     emit displaySubtitleChanged();
 }
 
+RendererNemo::Projection VideoPlayer::getProjection() const
+{
+    return _projection;
+}
+
+void VideoPlayer::setProjection(Projection projection)
+{
+    _projection = projection;
+
+    _renderer->setProjection(_projection);
+
+    emit projectionChanged();
+}
+
 bool VideoPlayer::pause() {
     return setState(VideoPlayer::StatePaused);
 }
@@ -259,7 +275,7 @@ bool VideoPlayer::pause() {
 bool VideoPlayer::play() {
     if (!_audioOnlyMode) {
         if (!_renderer) {
-            _renderer = new QtCamViewfinderRendererNemo(this);
+            _renderer = new RendererNemo(this);
             if (!_renderer) {
                 qmlInfo(this) << "Failed to create viewfinder renderer";
                 return false;
@@ -366,13 +382,13 @@ void VideoPlayer::paint(QPainter *painter) {
 
     bool needsNativePainting = _renderer->needsNativePainting();
 
-    if (needsNativePainting) {
-        painter->beginNativePainting();
-    }
-
     gint64 pos;
     if (gst_element_query_position(_pipeline, GST_FORMAT_TIME, &pos) && pos > _subtitleEnd) {
         setDisplaySubtitle("");
+    }
+
+    if (needsNativePainting) {
+        painter->beginNativePainting();
     }
 
     _renderer->paint(QMatrix4x4(painter->combinedTransform()), painter->viewport());

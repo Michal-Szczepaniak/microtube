@@ -12,13 +12,20 @@
 class QGLShaderProgram;
 class QOpenGLExtension_OES_EGL_image;
 
-class QtCamViewfinderRendererNemo : public QObject {
+class RendererNemo : public QObject {
     Q_OBJECT
 
 public:
-    QtCamViewfinderRendererNemo(QObject *parent = 0);
+    RendererNemo(QObject *parent = 0);
 
-    ~QtCamViewfinderRendererNemo();
+    ~RendererNemo();
+
+    enum Projection {
+        Flat,
+        s180,
+        s360
+    };
+    Q_ENUMS(Projection)
 
     virtual void paint(const QMatrix4x4& matrix, const QRectF& viewport);
     virtual void resize(const QSizeF& size);
@@ -29,6 +36,7 @@ public:
     QSizeF videoResolution();
 
     bool needsNativePainting();
+    void setProjection(Projection projection);
 
 signals:
     void updateRequested();
@@ -39,10 +47,10 @@ private slots:
     void setVideoSize(const QSizeF& size);
 
 private:
-    inline static void show_frame(GstVideoSink *, GstBuffer *buffer, QtCamViewfinderRendererNemo *r);
-    inline static void buffers_invalidated(GstVideoSink *sink, QtCamViewfinderRendererNemo *r);
-    static void sink_notify(QtCamViewfinderRendererNemo *q, GObject *object, gboolean is_last_ref);
-    static void sink_caps_changed(GObject *obj, GParamSpec *pspec, QtCamViewfinderRendererNemo *q);
+    inline static void show_frame(GstVideoSink *, GstBuffer *buffer, RendererNemo *r);
+    inline static void buffers_invalidated(GstVideoSink *sink, RendererNemo *r);
+    static void sink_notify(RendererNemo *q, GObject *object, gboolean is_last_ref);
+    static void sink_caps_changed(GObject *obj, GParamSpec *pspec, RendererNemo *q);
 
     void calculateProjectionMatrix(const QRectF& rect);
     void createProgram();
@@ -60,28 +68,29 @@ private:
         GLuint textureId;
     };
 
-    GstElement *m_sink;
-    GstBuffer *m_queuedBuffer;
-    GstBuffer *m_currentBuffer;
-    QMutex m_frameMutex;
-    gulong m_showFrameId;
-    gulong m_buffersInvalidatedId;
-    gulong m_notify;
-    bool m_needsInit;
-    QGLShaderProgram *m_program;
-    QMatrix4x4 m_projectionMatrix;
-    std::vector<GLfloat> m_vertexCoords;
-    std::vector<GLfloat> m_texCoords;
-    std::vector<CachedTexture> m_textures;
-    QSizeF m_size;
-    QSizeF m_videoSize;
-    QRectF m_renderArea;
-    EGLDisplay m_dpy;
-    bool m_displaySet;
-    bool m_buffersInvalidated;
-    bool m_bufferChanged;
-    QOpenGLExtension_OES_EGL_image *m_img;
-    float _move = 0.0f;
+    GstElement *_sink;
+    GstBuffer *_queuedBuffer;
+    GstBuffer *_currentBuffer;
+    QMutex _frameMutex;
+    QMutex _programMutex;
+    gulong _showFrameId;
+    gulong _buffersInvalidatedId;
+    gulong _notify;
+    bool _needsInit;
+    QGLShaderProgram *_program;
+    QMatrix4x4 _projectionMatrix;
+    std::vector<GLfloat> _vertexCoords;
+    std::vector<GLfloat> _texCoords;
+    QVector<CachedTexture> _textures;
+    QSizeF _size;
+    QSizeF _videoSize;
+    QRectF _renderArea;
+    EGLDisplay _dpy;
+    bool _displaySet;
+    bool _buffersInvalidated;
+    bool _bufferChanged;
+    QOpenGLExtension_OES_EGL_image *_img;
+    Projection _projection = Projection::Flat;
 };
 
 #endif /* RENDERER_MEEGO_H */
