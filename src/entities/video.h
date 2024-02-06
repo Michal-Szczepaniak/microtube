@@ -8,6 +8,9 @@
 #include "entities/thumbnail.h"
 #include "entities/author.h"
 #include "entities/caption.h"
+#include "player/renderernemo.h"
+
+using Projection = RendererNemo::Projection;
 
 class Video : public QObject {
     Q_OBJECT
@@ -64,6 +67,7 @@ public:
     quint32 views = 0;
     bool watched = false;
     quint32 likes = 0;
+    Projection projection = Projection::Flat;
 
 signals:
     void infoChanged();

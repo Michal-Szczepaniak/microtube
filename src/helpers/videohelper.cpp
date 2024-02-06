@@ -55,11 +55,6 @@ QString VideoHelper::getAudioUrl() const
     return _audioUrl;
 }
 
-QString VideoHelper::getDescription() const
-{
-    return _description;
-}
-
 QString VideoHelper::getSubtitle() const
 {
     return _currentSubtitle;
@@ -81,6 +76,13 @@ QStringList VideoHelper::getSubtitlesLabels() const
     }
 
     return list;
+}
+
+int VideoHelper::getProjection() const
+{
+    if (!_currentVideo) return Projection::Flat;
+
+    return _currentVideo->projection;
 }
 
 void VideoHelper::gotFormats(QHash<int, QString> formats)
@@ -137,14 +139,6 @@ void VideoHelper::gotFormats(QHash<int, QString> formats)
 
     emit gotVideoInfo();
     emit subtitlesChanged();
-}
-
-
-void VideoHelper::gotDescription(QString description)
-{
-    _description = description;
-
-    emit gotVideoInfo();
 }
 
 void VideoHelper::gotSubtitles(QString srt)

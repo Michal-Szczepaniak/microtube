@@ -11,9 +11,9 @@ Q_DECLARE_METATYPE(QList<Caption>);
 class VideoHelper : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString description READ getDescription NOTIFY gotVideoInfo)
     Q_PROPERTY(QString videoUrl READ getVideoUrl NOTIFY gotVideoInfo)
     Q_PROPERTY(QString audioUrl READ getAudioUrl NOTIFY gotVideoInfo)
+    Q_PROPERTY(int projection READ getProjection NOTIFY gotVideoInfo)
     Q_PROPERTY(QString subtitle READ getSubtitle NOTIFY subtitleChanged)
     Q_PROPERTY(QStringList subtitlesLabels READ getSubtitlesLabels NOTIFY subtitlesChanged)
     Q_PROPERTY(Video* currentVideo READ getCurrentVideo NOTIFY gotVideoInfo)
@@ -25,10 +25,10 @@ public:
     Q_INVOKABLE void markAsWatched();
     QString getVideoUrl() const;
     QString getAudioUrl() const;
-    QString getDescription() const;
     QString getSubtitle() const;
     Video* getCurrentVideo() const;
     QStringList getSubtitlesLabels() const;
+    int getProjection() const;
 
 signals:
     void gotVideoInfo();
@@ -37,7 +37,6 @@ signals:
 
 public slots:
     void gotFormats(QHash<int, QString> formats);
-    void gotDescription(QString description);
     void gotSubtitles(QString srt);
 
 private:
@@ -45,7 +44,6 @@ private:
     XmlToSrtConverter _converter;
     QString _videoUrl;
     QString _audioUrl;
-    QString _description;
     quint32 _maxDefinition;
     bool _combined;
     std::unique_ptr<Video> _currentVideo{};

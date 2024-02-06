@@ -12,7 +12,12 @@ else()
     message(STATUS "Building for linux")
 endif()
 
-find_package(Qt5 COMPONENTS Core Network Qml Gui Quick DBus Sql OpenGL OpenGLExtensions LinguistTools REQUIRED)
+
+if (TARGET_SAILFISH)
+    find_package(Qt5 COMPONENTS Core Network Qml Gui Quick DBus Sql OpenGL OpenGLExtensions LinguistTools REQUIRED)
+else()
+    find_package(Qt6 COMPONENTS Core Network Qml Gui Quick DBus Sql OpenGL OpenGLExtensions LinguistTools REQUIRED)
+endif()
 find_package(DBus1 REQUIRED)
 
 pkg_search_module(GLIB glib-2.0 REQUIRED)

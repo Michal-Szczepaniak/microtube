@@ -87,6 +87,7 @@ std::unique_ptr<Video> VideoFactory::fromRecommendedJson(QJsonObject video)
 std::unique_ptr<Video> VideoFactory::fromVideoInfoJson(QJsonObject video)
 {
     QJsonObject videoDetails = video["videoDetails"].toObject();
+    QJsonObject playerConfig = video["player_response"].toObject()["playerConfig"].toObject();
 
     std::unique_ptr<Video> parsed(new Video());
     parsed->author = AuthorFactory::fromJson(videoDetails["author"].toObject());
@@ -101,6 +102,23 @@ std::unique_ptr<Video> VideoFactory::fromVideoInfoJson(QJsonObject video)
     parsed->url = videoDetails["video_url"].toString();
     parsed->views = videoDetails["viewCount"].toString().toInt();
     parsed->likes = getLikeCount(video);
+
+    bool isVR = false;
+    for (const QJsonValue &jsonFormat : video["formats"].toArray()) {
+        const QJsonObject format = jsonFormat.toObject();
+        if (format["projectionType"].toString().compare("MESH") == 0) {
+            isVR = true;
+            break;
+        }
+    }
+
+    if (isVR) {
+        parsed->projection = Projection::s360;
+
+        if (playerConfig.contains("vrConfig") && playerConfig["vrConfig"].toObject()["partialSpherical"].toBool()) {
+            parsed->projection = Projection::s180;
+        }
+    }
 
     QJsonArray thumbnails = videoDetails["thumbnails"].toArray();
     for (const QJsonValue &jsonThumbnail : thumbnails) {
@@ -209,7 +227,9 @@ uint VideoFactory::parseTimestamp(QString timestamp)
     if (num == 0) return QDateTime::currentDateTimeUtc().toTime_t();
 
     auto now = QDateTime::currentDateTimeUtc();
-    if (timestamp.contains("hour")) {
+    if (timestamp.contains("minute")) {
+        return now.addSecs(-num * 60).toTime_t();
+    } else if (timestamp.contains("hour")) {
         return now.addSecs(-num * 3600).toTime_t();
     } else if (timestamp.contains("day")) {
         return now.addDays(-num).toTime_t();
@@ -276,18 +296,27 @@ uint VideoFactory::getLikeCount(QJsonObject video)
     currentObject = currentArray.first().toObject();
     if (currentObject.empty()) return 0;
 
-    currentObject = currentObject["segmentedLikeDislikeButtonRenderer"].toObject();
+    currentObject = currentObject["segmentedLikeDislikeButtonViewModel"].toObject();
     if (currentObject.empty()) return 0;
 
-    currentObject = currentObject["likeButton"].toObject();
+    currentObject = currentObject["likeButtonViewModel"].toObject();
     if (currentObject.empty()) return 0;
 
-    currentObject = currentObject["toggleButtonRenderer"].toObject();
+    currentObject = currentObject["likeButtonViewModel"].toObject();
     if (currentObject.empty()) return 0;
 
-    currentObject = currentObject["defaultText"].toObject();
+    currentObject = currentObject["toggleButtonViewModel"].toObject();
     if (currentObject.empty()) return 0;
 
-    if (!currentObject.contains("simpleText")) return 0;
-    return parseAmount(currentObject["simpleText"].toString());
+    currentObject = currentObject["toggleButtonViewModel"].toObject();
+    if (currentObject.empty()) return 0;
+
+    currentObject = currentObject["defaultButtonViewModel"].toObject();
+    if (currentObject.empty()) return 0;
+
+    currentObject = currentObject["buttonViewModel"].toObject();
+    if (currentObject.empty()) return 0;
+
+    if (!currentObject.contains("title")) return 0;
+    return parseAmount(currentObject["title"].toString());
 }

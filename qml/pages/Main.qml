@@ -28,6 +28,14 @@ Page {
 
     allowedOrientations: Orientation.All
     backNavigation: false
+    property bool initialized: false
+
+    onStatusChanged: {
+        if (!initialized) {
+            swipeView.contentX = page.width;
+            initialized = true;
+        }
+    }
 
     ConfigurationGroup {
         id: settings
@@ -131,8 +139,6 @@ Page {
             contentHeight: height
             contentWidth: width*2
             snapMode: ListView.SnapOneItem
-
-            contentX: width
 
             Behavior on contentX { PropertyAnimation {} }
 

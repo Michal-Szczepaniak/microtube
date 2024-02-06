@@ -20,7 +20,9 @@ class VideoPlayer : public QQuickPaintedItem {
     Q_PROPERTY(State state READ getState NOTIFY stateChanged);
     Q_PROPERTY(QString subtitle READ getSubtitle WRITE setSubtitle NOTIFY subtitleChanged);
     Q_PROPERTY(QString displaySubtitle READ getDisplaySubtitle WRITE setDisplaySubtitle NOTIFY displaySubtitleChanged);
-    Q_PROPERTY(Projection projection READ getProjection WRITE setProjection NOTIFY projectionChanged);
+    Q_PROPERTY(int projection READ getProjection WRITE setProjection NOTIFY projectionChanged);
+    Q_PROPERTY(float projectionX READ getProjectionX WRITE setProjectionX NOTIFY videoSourceChanged)
+    Q_PROPERTY(float projectionY READ getProjectionY WRITE setProjectionY NOTIFY videoSourceChanged)
     Q_ENUMS(State);
 
 public:
@@ -43,8 +45,12 @@ public:
     void setSubtitle(QString subtitle);
     QString getDisplaySubtitle() const;
     void setDisplaySubtitle(QString subtitle);
-    Projection getProjection() const;
-    void setProjection(Projection projection);
+    int getProjection() const;
+    void setProjection(int projection);
+    float getProjectionX() const;
+    void setProjectionX(float projectionX);
+    float getProjectionY() const;
+    void setProjectionY(float projectionY);
 
     Q_INVOKABLE bool pause();
     Q_INVOKABLE bool play();

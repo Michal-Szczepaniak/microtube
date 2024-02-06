@@ -75,6 +75,7 @@ int main(int argc, char *argv[])
     qRegisterMetaType<Author>();
     qRegisterMetaType<Caption>();
     qRegisterMetaType<Thumbnail>();
+    qRegisterMetaType<RendererNemo::Projection>();
     qmlRegisterType<Video>("com.verdanditeam.yt", 1, 0, "Video");
     qmlRegisterType<SponsorBlock>("com.verdanditeam.sponsorblock", 1, 0, "SponsorBlockPlugin");
     qmlRegisterType<VideoPlayer>("com.verdanditeam.yt", 1, 0, "VideoPlayer");

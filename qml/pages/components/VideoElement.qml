@@ -93,13 +93,15 @@ ListItem {
             anchors.verticalCenter: parent.verticalCenter
             width: listItem.width - left.width
             height: this.contentHeight
-            padding: Theme.paddingLarge
+            padding: Theme.paddingSmall
 
             Label {
                 text: title
                 width: parent.width - Theme.paddingLarge*2
                 truncationMode: TruncationMode.Fade
                 horizontalAlignment: Text.AlignLeft
+                maximumLineCount: 2
+                wrapMode: Text.WordWrap
             }
 
             Label {

@@ -35,7 +35,7 @@ ApplicationWindow
 
     property string playing: ""
     property bool videoCover: false
-    property string version: "3.3.3"
+    property string version: "3.4.0"
 
     Component {
         id: updatePage

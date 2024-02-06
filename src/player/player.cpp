@@ -254,18 +254,52 @@ void VideoPlayer::setDisplaySubtitle(QString subtitle)
     emit displaySubtitleChanged();
 }
 
-RendererNemo::Projection VideoPlayer::getProjection() const
+int VideoPlayer::getProjection() const
 {
     return _projection;
 }
 
-void VideoPlayer::setProjection(Projection projection)
+void VideoPlayer::setProjection(int projection)
 {
-    _projection = projection;
+    _projection = static_cast<Projection>(projection);
 
-    _renderer->setProjection(_projection);
+    if (_renderer) {
+        _renderer->setProjection(_projection);
+    }
 
     emit projectionChanged();
+}
+
+float VideoPlayer::getProjectionX() const
+{
+    if (!_renderer) {
+        return 0.f;
+    }
+
+    return _renderer->getProjectionX();
+}
+
+void VideoPlayer::setProjectionX(float projectionX)
+{
+    if (_renderer) {
+        _renderer->setProjectionX(projectionX);
+    }
+}
+
+float VideoPlayer::getProjectionY() const
+{
+    if (!_renderer) {
+        return 0.f;
+    }
+
+    return _renderer->getProjectionY();
+}
+
+void VideoPlayer::setProjectionY(float projectionY)
+{
+    if (_renderer) {
+        _renderer->setProjectionY(projectionY);
+    }
 }
 
 bool VideoPlayer::pause() {
@@ -283,6 +317,7 @@ bool VideoPlayer::play() {
 
             QObject::connect(_renderer, SIGNAL(updateRequested()), this, SLOT(updateRequested()));
             gst_bin_add(GST_BIN(_pipeline), _renderer->sinkElement());
+            _renderer->setProjection(_projection);
         }
 
         _renderer->resize(QSizeF(width(), height()));

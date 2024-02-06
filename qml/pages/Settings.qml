@@ -42,6 +42,7 @@ Page {
         property int maxDefinition: 1080
         property int currentRegionId: 0
         property string currentRegion: ""
+        property bool invertVRControls: false
     }
 
     SilicaFlickable {
@@ -129,6 +130,15 @@ Page {
                text: qsTr("Automatic change to next video")
                onClicked: {
                    settings.autoPlay = checked
+               }
+            }
+
+            TextSwitch {
+               checked: settings.invertVRControls
+               width: parent.width
+               text: qsTr("Invert VR controls")
+               onClicked: {
+                   settings.invertVRControls = checked
                }
             }
 

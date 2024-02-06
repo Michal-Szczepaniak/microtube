@@ -76,6 +76,7 @@ Page {
         property double buffer: 1.0
         property int maxDefinition: 1080
         property string downloadLocation: StandardPaths.download
+        property bool invertVRControls: false
     }
 
     SponsorBlockPlugin {
@@ -126,6 +127,7 @@ Page {
             videoPlayer.setAudioOnlyMode(settings.audioOnlyMode)
             videoPlayer.videoSource = videoHelper.videoUrl
             videoPlayer.audioSource = videoHelper.audioUrl
+            videoPlayer.projection = videoHelper.projection
             if (videoChanging) videoChanging = false
             videoPlayer.play()
             sponsorBlockPlugin.videoId = videoHelper.currentVideo.videoId
@@ -195,8 +197,8 @@ Page {
         running: false
         repeat: false
         onTriggered: {
-            volumeSlider.visible = false
-            volumeIndicator.visible = false
+            volumeSlider.opacity = 0
+            volumeIndicator.opacity = 0
         }
     }
 
@@ -206,8 +208,8 @@ Page {
         running: false
         repeat: false
         onTriggered: {
-            brightnessSlider.visible = false
-            brightnessIndicator.visible = false
+            brightnessSlider.opacity = 0
+            brightnessIndicator.opacity = 0
         }
     }
 
@@ -256,12 +258,14 @@ Page {
     onStatusChanged: {
         if (status === PageStatus.Deactivating) {
             app.videoCover = false
-        } else if(status === PageStatus.Active && videoHelper.videoUrl == "") {
-            videoHelper.loadVideoUrl(videoIdToPlay, settings.maxDefinition)
-            app.videoCover = true
-            pacontrol.update()
-            showHideControls()
-            hideControlsAutomatically.restart()
+        } else if(status === PageStatus.Active) {
+            if (videoHelper.videoUrl == "") {
+                videoHelper.loadVideoUrl(videoIdToPlay, settings.maxDefinition);
+            }
+            app.videoCover = true;
+            pacontrol.update();
+            showHideControls();
+            hideControlsAutomatically.restart();
         }
     }
 
@@ -357,7 +361,7 @@ Page {
                             } else if (state === VideoPlayer.StateStopped) {
                                 app.playing = ""
                                 console.log("Video stopped", settings.autoPlay, videoHelper.videoUrl !== "", videoChanging === false)
-                                if (settings.autoPlay && videoHelper.videoUrl !== "" && videoChanging === false) {
+                                if (settings.autoPlay && videoHelper.videoUrl !== "" && videoChanging === false && videoPlayer.position >= (videoPlayer.duration - 1000.0)) {
                                     nextVideo()
                                 }
                             } else if (state === VideoPlayer.StatePlaying) {
@@ -417,13 +421,6 @@ Page {
                             anchors.bottom: videoPlayer.bottom
                             anchors.bottomMargin: Theme.paddingMedium + (landscape ? (videoPlayer.height - Screen.width)/2 : 0)
                             anchors.horizontalCenter: videoPlayer.horizontalCenter
-                        }
-
-                        Rectangle {
-                            anchors.fill: parent
-                            color: "red"
-                            transform: Rotation { origin.x: page.width/2; origin.y: page.height/2; angle: 90}
-                            visible: false
                         }
 
                         Rectangle {
@@ -494,6 +491,9 @@ Page {
                                 property int lambdaVolumeStep: -1
                                 property int lambdaBrightnessStep: -1
                                 property int currentVolume: -1
+                                property int lambdaProjectionX: 0
+                                property int lambdaProjectionY: 0
+                                property bool isHeld: false
 
                                 Timer{
                                     id: doubleClickTimer
@@ -502,46 +502,51 @@ Page {
 
 
                                 function calculateStep(mouse) {
-                                    return Math.round((offsetHeight - (mouse.y-offset)) / step)
+                                    return Math.round((offsetHeight - (mouse.y-offset)) / step);
                                 }
 
                                 onReleased: {
-                                    if (doubleClickTimer.running) doubleClicked(mouse)
-                                    if (!doubleClickTimer.running) doubleClickTimer.start()
-                                    if (!stepChanged) _controlsVisible = !_controlsVisible
+                                    page.backNavigation = true;
 
-                                    if ( landscape ) {
-                                        flickable.flickableDirection = Flickable.VerticalFlick
-                                        lambdaVolumeStep = -1
-                                        lambdaBrightnessStep = -1
-                                        stepChanged = false
+                                    if (doubleClickTimer.running) doubleClicked(mouse);
+                                    if (!doubleClickTimer.running) doubleClickTimer.start();
+                                    if (!stepChanged && !mousearea.isHeld) _controlsVisible = !_controlsVisible;
+                                    mousearea.isHeld = false;
+
+                                    if (landscape) {
+                                        flickable.flickableDirection = Flickable.VerticalFlick;
+                                        lambdaVolumeStep = lambdaBrightnessStep = -1;
+                                        lambdaProjectionX = lambdaProjectionY = 0;
+                                        stepChanged = false;
                                     }
                                 }
 
                                 onPressed: {
-                                    if ( landscape ) {
-                                        pacontrol.update()
-                                        flickable.flickableDirection = Flickable.HorizontalFlick
-                                        lambdaBrightnessStep = lambdaVolumeStep = calculateStep(mouse)
+                                    if (landscape) {
+                                        pacontrol.update();
+                                        flickable.flickableDirection = Flickable.HorizontalFlick;
+                                        lambdaBrightnessStep = lambdaVolumeStep = calculateStep(mouse);
+                                        lambdaProjectionX = mouse.x;
+                                        lambdaProjectionY = mouse.y;
                                     }
                                 }
 
                                 function doubleClicked(mouse) {
-                                    if ( landscape ) {
-                                        var newPos = null
+                                    if (landscape) {
+                                        var newPos = null;
                                         if(mouse.x < mousearea.width/2 ) {
-                                            newPos = videoPlayer.position - 5000
-                                            if(newPos < 0) newPos = 0
-                                            videoPlayer.seek(newPos)
-                                            backwardIndicator.visible = true
+                                            newPos = videoPlayer.position - 5000;
+                                            if(newPos < 0) newPos = 0;
+                                            videoPlayer.seek(newPos);
+                                            backwardIndicator.opacity = 1;
                                         } else if (mouse.x > mousearea.width/2) {
-                                            newPos = videoPlayer.position + 5000
+                                            newPos = videoPlayer.position + 5000;
                                             if(newPos > videoPlayer.duration) {
-                                                videoPlayer.nextVideo()
-                                                return
+                                                videoPlayer.nextVideo();
+                                                return;
                                             }
-                                            videoPlayer.seek(newPos)
-                                            forwardIndicator.visible = true
+                                            videoPlayer.seek(newPos);
+                                            forwardIndicator.opacity = 1;
                                         }
                                     }
                                 }
@@ -549,39 +554,64 @@ Page {
                                 Connections {
                                     target: pacontrol
                                     onVolumeChanged: {
-                                        mousearea.currentVolume = volume
+                                        mousearea.currentVolume = volume;
                                         if (volume > 10) {
-                                            mousearea.currentVolume = 10
+                                            mousearea.currentVolume = 10;
                                         } else if (volume < 0) {
-                                            mousearea.currentVolume = 0
+                                            mousearea.currentVolume = 0;
                                         }
                                     }
                                 }
 
                                 onPositionChanged: {
-                                    if ( landscape ) {
-                                        var step = calculateStep(mouse)
-                                        if((mouse.y - offset) > 0 && (mouse.y + offset) < offsetHeight && mouse.x < mousearea.width/2 && lambdaVolumeStep !== step) {
-                                            pacontrol.setVolume(currentVolume - (lambdaVolumeStep - step))
-                                            volumeSlider.value = currentVolume - (lambdaVolumeStep - step)
-                                            lambdaVolumeStep = step
-                                            volumeSlider.visible = true
-                                            volumeIndicator.visible = true
-                                            hideVolumeSlider.restart()
-                                            pacontrol.update()
-                                            stepChanged = true
-                                        } else if ((mouse.y - offset) > 0 && (mouse.y + offset) < offsetHeight && mouse.x > mousearea.width/2 && lambdaBrightnessStep !== step) {
-                                            var relativeStep = Math.round(displaySettings.brightness/brightnessStep) - (lambdaBrightnessStep - step)
+                                    if (landscape) {
+                                        var step = calculateStep(mouse);
+                                        if(!mousearea.isHeld && mouse.x < mousearea.width*0.25 && lambdaVolumeStep !== step) {
+                                            pacontrol.setVolume(currentVolume - (lambdaVolumeStep - step));
+                                            volumeSlider.value = currentVolume - (lambdaVolumeStep - step);
+                                            lambdaVolumeStep = step;
+                                            volumeSlider.opacity = 1;
+                                            volumeIndicator.opacity = 1;
+                                            hideVolumeSlider.restart();
+                                            pacontrol.update();
+                                            stepChanged = true;
+                                        } else if (!mousearea.isHeld && mouse.x > mousearea.width*0.75 && lambdaBrightnessStep !== step) {
+                                            var relativeStep = Math.round(displaySettings.brightness/brightnessStep) - (lambdaBrightnessStep - step);
                                             if (relativeStep > 10) relativeStep = 10;
                                             if (relativeStep < 0) relativeStep = 0;
-                                            displaySettings.brightness = relativeStep * brightnessStep
-                                            activeBrightness = relativeStep * brightnessStep
-                                            lambdaBrightnessStep = step
-                                            brightnessSlider.value = relativeStep
-                                            brightnessSlider.visible = true
-                                            brightnessIndicator.visible = true
-                                            hideBrightnessSlider.restart()
-                                            stepChanged = true
+                                            displaySettings.brightness = relativeStep * brightnessStep;
+                                            activeBrightness = relativeStep * brightnessStep;
+                                            lambdaBrightnessStep = step;
+                                            brightnessSlider.value = relativeStep;
+                                            brightnessSlider.opacity = 1;
+                                            brightnessIndicator.opacity = 1;
+                                            hideBrightnessSlider.restart();
+                                            stepChanged = true;
+                                        } else if (videoHelper.projection > 0 && ((mouse.x > mousearea.width*0.25 && mouse.x < mousearea.width*0.75) || mousearea.isHeld)) {
+                                            var relativeX = (mouse.x - lambdaProjectionX)/(mousearea.width/2);
+                                            var relativeY = (mouse.y - lambdaProjectionY)/(mousearea.height/2);
+
+                                            if (!mousearea.isHeld) {
+                                                if (Math.abs(relativeX) > 0.1 || Math.abs(relativeY) > 0.1) {
+                                                    page.backNavigation = false;
+                                                    mousearea.isHeld = true;
+                                                    lambdaProjectionX = mouse.x;
+                                                    lambdaProjectionY = mouse.y;
+                                                }
+
+                                                return;
+                                            }
+
+                                            if (videoHelper.projection === 1) {
+                                                videoPlayer.projectionX += relativeX * (settings.invertVRControls ? -2.0 : 2.0);
+                                                videoPlayer.projectionY += relativeY * (settings.invertVRControls ? -2.0 : 2.0);
+                                            } else if (videoHelper.projection === 2) {
+                                                videoPlayer.projectionX -= relativeX * (settings.invertVRControls ? -2.0 : 2.0);
+                                                videoPlayer.projectionY -= relativeY * (settings.invertVRControls ? -2.0 : 2.0);
+                                            }
+
+                                            lambdaProjectionX = mouse.x;
+                                            lambdaProjectionY = mouse.y;
                                         }
                                     }
                                 }
@@ -596,8 +626,16 @@ Page {
                     Row {
                         id: volumeIndicator
                         anchors.centerIn: parent
-                        visible: false
+                        visible: opacity !== 0
+                        opacity: 0
                         spacing: Theme.paddingLarge
+
+                        Behavior on opacity {
+                            NumberAnimation {
+                                duration: 100
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
 
                         Image {
                             width: Theme.itemSizeLarge
@@ -616,8 +654,16 @@ Page {
                     Row {
                         id: brightnessIndicator
                         anchors.centerIn: parent
-                        visible: false
+                        visible: opacity !== 0
+                        opacity: 0
                         spacing: Theme.paddingLarge
+
+                        Behavior on opacity {
+                            NumberAnimation {
+                                duration: 100
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
 
                         Image {
                             width: Theme.itemSizeLarge
@@ -636,8 +682,16 @@ Page {
                     Row {
                         id: backwardIndicator
                         anchors.centerIn: parent
-                        visible: false
+                        visible: opacity !== 0
+                        opacity: 0
                         spacing: -Theme.paddingLarge*2
+
+                        Behavior on opacity {
+                            NumberAnimation {
+                                duration: 100
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
 
                         Image {
                             id: prev1
@@ -671,7 +725,7 @@ Page {
                         Timer {
                             id: hideBackward
                             interval: 300
-                            onTriggered: backwardIndicator.visible = false
+                            onTriggered: backwardIndicator.opacity = 0
                         }
 
                         onVisibleChanged: if (backwardIndicator.visible) hideBackward.start()
@@ -680,8 +734,16 @@ Page {
                     Row {
                         id: forwardIndicator
                         anchors.centerIn: parent
-                        visible: false
+                        visible: opacity !== 0
+                        opacity: 0
                         spacing: -Theme.paddingLarge*2
+
+                        Behavior on opacity {
+                            NumberAnimation {
+                                duration: 100
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
 
                         Image {
                             width: Theme.itemSizeLarge
@@ -702,7 +764,7 @@ Page {
                         Timer {
                             id: hideForward
                             interval: 300
-                            onTriggered: forwardIndicator.visible = false
+                            onTriggered: forwardIndicator.opacity = 0
                         }
 
                         onVisibleChanged: if (forwardIndicator.visible) hideForward.start()
@@ -801,6 +863,13 @@ Page {
                             repeat: false
                             onTriggered: playbackSpeedSlider.opacity = 0
                         }
+
+                        Behavior on opacity {
+                            NumberAnimation {
+                                duration: 100
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
                     }
 
                     Slider {
@@ -818,7 +887,9 @@ Page {
                         stepSize: 0.25
                         transform: Rotation { angle: -90 }
                         enabled: visible
+                        onValueChanged: hideControlsAutomatically.restart()
                         onDownChanged: if (down) {
+                                           hideControlsAutomatically.restart()
                                            playbackSpeedSliderTimer.stop()
                                        } else {
                                            playbackSpeedSliderTimer.start()
@@ -826,7 +897,10 @@ Page {
                                        }
 
                         Behavior on opacity {
-                            PropertyAction {}
+                            NumberAnimation {
+                                duration: 100
+                                easing.type: Easing.InOutQuad
+                            }
                         }
                     }
 
@@ -838,11 +912,19 @@ Page {
                         text: playbackSpeedSlider.value
                         opacity: playbackSpeedSlider.opacity
                         visible: opacity !== 0
+
+                        Behavior on opacity {
+                            NumberAnimation {
+                                duration: 100
+                                easing.type: Easing.InOutQuad
+                            }
+                        }
                     }
 
                     Slider {
                         id: volumeSlider
-                        visible: false
+                        visible: opacity !== 0
+                        opacity: 0
                         x: page.width - height
                         y: page.height
                         width: page.height
@@ -852,13 +934,17 @@ Page {
                         enabled: false
 
                         Behavior on opacity {
-                            PropertyAction {}
+                            NumberAnimation {
+                                duration: 100
+                                easing.type: Easing.InOutQuad
+                            }
                         }
                     }
 
                     Slider {
                         id: brightnessSlider
-                        visible: false
+                        visible: opacity !== 0
+                        opacity: 0
                         x: 0
                         y: page.height
                         width: page.height
@@ -868,7 +954,10 @@ Page {
                         minimumValue: 0
 
                         Behavior on opacity {
-                            PropertyAction {}
+                            NumberAnimation {
+                                duration: 100
+                                easing.type: Easing.InOutQuad
+                            }
                         }
                     }
 

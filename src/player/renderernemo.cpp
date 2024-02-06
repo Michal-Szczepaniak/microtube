@@ -90,6 +90,7 @@ static const QString FRAGMENT_SHADER_180 = ""
     "    uv.y = 1.0 - uv.y;"
     "    if (onlyHalfOfTheScreen)\n"
     "        uv.x *= 2.0;\n"
+    "    uv.x -= 1.0;\n"
     "    gl_FragColor = vec4(texture2D(texture0, uv).rgb, 1.0);\n"
     "}\n"
     "";
@@ -108,7 +109,7 @@ static const QString FRAGMENT_SHADER_360 = ""
     "uniform samplerExternalOES texture0;\n"
     "\n"
     "const vec3 up = vec3(0.0, 1.0, 0.0);\n"
-    "const float fov = 45.0;\n"
+    "const float fov = 50.0;\n"
     "\n"
     "vec3 getDirection(in vec2 cameraRotation, in vec2 positionInView) {\n"
     "    vec3 viewDirection  = normalize(vec3(sin(radians(cameraRotation.y)), sin(radians(-cameraRotation.x)), cos(radians(cameraRotation.y))));\n"
@@ -145,12 +146,12 @@ static const QString FRAGMENT_SHADER_360 = ""
     "    if (maxComponent == 0) {\n"
     "        scale = 1.0 / abs(x);\n"
     "        if (x >= 0.0) { //Right\n"
-    "            face = vec2(5.0, 3.0);\n"
-    "            uv.x = -4.0 * atan(z * scale) / PI;\n"
-    "            uv.y = 4.0 * atan(y * scale) / PI;\n"
-    "        } else { //Left\n"
     "            face = vec2(1.0, 3.0);\n"
     "            uv.x = 4.0 * atan(z * scale) / PI;\n"
+    "            uv.y = 4.0 * atan(y * scale) / PI;\n"
+    "        } else { //Left\n"
+    "            face = vec2(5.0, 3.0);\n"
+    "            uv.x = -4.0 * atan(z * scale) / PI;\n"
     "            uv.y = 4.0 * atan(y * scale) / PI;\n"
     "        }\n"
     "    } else if (maxComponent == 1) {\n"
@@ -158,22 +159,22 @@ static const QString FRAGMENT_SHADER_360 = ""
     "        if (y >= 0.0) { //Top\n"
     "            face = vec2(5.0, 1.0);\n"
     "            uv.x = 4.0 * atan(z * scale) / PI;\n"
-    "            uv.y = 4.0 * atan(x * scale) / PI;\n"
+    "            uv.y = -4.0 * atan(x * scale) / PI;\n"
     "        } else { //Down\n"
     "            face = vec2(1.0, 1.0);\n"
     "            uv.x = -4.0 * atan(z * scale) / PI;\n"
-    "            uv.y = 4.0 * atan(x * scale) / PI;\n"
+    "            uv.y = -4.0 * atan(x * scale) / PI;\n"
     "        }\n"
     "    } else {\n"
     "        scale = 1.0 / abs(z);\n"
     "        if (z >= 0.0) { //Front\n"
     "            face = vec2(3.0, 3.0);\n"
-    "            uv.x = 4.0 * atan(x * scale) / PI;\n"
+    "            uv.x = -4.0 * atan(x * scale) / PI;\n"
     "            uv.y = 4.0 * atan(y * scale) / PI;\n"
     "        } else { //Back\n"
     "            face = vec2(3.0, 1.0);\n"
     "            uv.x = 4.0 * atan(y * scale) / PI;\n"
-    "            uv.y = 4.0 * atan(x * scale) / PI;\n"
+    "            uv.y = -4.0 * atan(x * scale) / PI;\n"
     "        }\n"
     "    }\n"
     "\n"
@@ -211,7 +212,10 @@ RendererNemo::RendererNemo(QObject *parent) :
     _displaySet(false),
     _buffersInvalidated(false),
     _bufferChanged(false),
-    _img(0) {
+    _img(0),
+    _projection(Projection::Flat),
+    _projectionX(0.0f),
+    _projectionY(0.0f) {
 
     _texCoords.resize(8);
     _vertexCoords.resize(8);
@@ -249,8 +253,6 @@ bool RendererNemo::needsNativePainting() {
 void RendererNemo::setProjection(Projection projection)
 {
     _projection = projection;
-
-    createProgram();
 }
 
 void RendererNemo::paint(const QMatrix4x4& matrix, const QRectF& viewport) {
@@ -461,7 +463,7 @@ void RendererNemo::createProgram() {
     }
 
     _program->setUniformValue("texture0", 0);
-    _program->setUniformValue("cameraRotation", QVector2D(0.0f, 0.0f));
+    _program->setUniformValue("cameraRotation", QVector2D(0.f, 0.f));
     _program->setUniformValue("invAspectRatio", 1.0f);
     _program->setUniformValue("zoom", 1.0f);
     _program->setUniformValue("onlyHalfOfTheScreen", false);
@@ -521,8 +523,8 @@ void RendererNemo::paintFrame(const QMatrix4x4& matrix) {
 
     _program->setUniformValue("matrix", _projectionMatrix);
     _program->setUniformValue("matrixWorld", matrix);
-    _program->setUniformValue("cameraRotation", QVector2D(0.f, 0.f));
-    _program->setUniformValue("invAspectRatio", (float)_size.height()/(float)_size.width());
+    _program->setUniformValue("cameraRotation", QVector2D(_projectionY*90.f, _projectionX*(_projection == Projection::s360 ? 180.f : 90.f)));
+    _program->setUniformValue("invAspectRatio", (float)_videoSize.height()/(float)_videoSize.width());
     _program->setUniformValue("zoom", 1.0f);
     _program->setUniformValue("onlyHalfOfTheScreen", true);
 
@@ -539,7 +541,7 @@ void RendererNemo::paintFrame(const QMatrix4x4& matrix) {
 
     _program->release();
 
-//    glBindTexture(GL_TEXTURE_EXTERNAL_OES, 0);
+    glBindTexture(GL_TEXTURE_EXTERNAL_OES, 0);
 
     if (bufferToRelease) {
         gst_buffer_unref(bufferToRelease);
@@ -588,6 +590,33 @@ QRectF RendererNemo::renderArea() {
 
 QSizeF RendererNemo::videoResolution() {
     return _videoSize;
+}
+
+float RendererNemo::getProjectionX() const
+{
+    return _projectionX;
+}
+
+void RendererNemo::setProjectionX(float projectionX)
+{
+    _projectionX = std::clamp(projectionX, -1.0f, 1.0f);
+
+    if (_projectionX == 1.0f) _projectionX = -1.0f;
+    else if (_projectionX == -1.0f) _projectionX = 1.0f;
+
+    QMetaObject::invokeMethod(this, "updateRequested", Qt::QueuedConnection);
+}
+
+float RendererNemo::getProjectionY() const
+{
+    return _projectionY;
+}
+
+void RendererNemo::setProjectionY(float projectionY)
+{
+    _projectionY = std::clamp(projectionY, -1.0f, 1.0f);
+
+    QMetaObject::invokeMethod(this, "updateRequested", Qt::QueuedConnection);
 }
 
 void RendererNemo::setVideoSize(const QSizeF& size) {

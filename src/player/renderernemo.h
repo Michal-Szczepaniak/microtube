@@ -25,7 +25,7 @@ public:
         s180,
         s360
     };
-    Q_ENUMS(Projection)
+    Q_ENUM(Projection)
 
     virtual void paint(const QMatrix4x4& matrix, const QRectF& viewport);
     virtual void resize(const QSizeF& size);
@@ -34,6 +34,10 @@ public:
 
     QRectF renderArea();
     QSizeF videoResolution();
+    float getProjectionX() const;
+    void setProjectionX(float projectionX);
+    float getProjectionY() const;
+    void setProjectionY(float projectionY);
 
     bool needsNativePainting();
     void setProjection(Projection projection);
@@ -90,7 +94,9 @@ private:
     bool _buffersInvalidated;
     bool _bufferChanged;
     QOpenGLExtension_OES_EGL_image *_img;
-    Projection _projection = Projection::Flat;
+    Projection _projection;
+    float _projectionX;
+    float _projectionY;
 };
 
 #endif /* RENDERER_MEEGO_H */
