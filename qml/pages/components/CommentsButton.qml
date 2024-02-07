@@ -30,6 +30,7 @@ BackgroundItem {
     Label {
         id: label
         anchors.left: parent.left
+        anchors.leftMargin: Theme.horizontalPageMargin
         anchors.verticalCenter: parent.verticalCenter
         color: barButton.highlighted ? Theme.highlightColor : Theme.primaryColor
     }
@@ -37,7 +38,7 @@ BackgroundItem {
     Image {
         id: rightIcon
         anchors.right: parent.right
-        anchors.rightMargin: Theme.paddingMedium
+        anchors.rightMargin: Theme.horizontalPageMargin
         anchors.verticalCenter: parent.verticalCenter
         source: "image://theme/icon-m-right"
     }

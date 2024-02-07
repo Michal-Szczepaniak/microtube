@@ -37,6 +37,8 @@ QVariant CommentsModel::data(const QModelIndex &index, int role) const
         return comment.author.bestAvatar.url;
     case CommentsRoles::TextRole:
         return comment.text;
+    case CommentsRoles::PublishedRole:
+        return comment.time;
     case CommentsRoles::RepliesCountRole:
         return comment.numReplies;
     case CommentsRoles::RepliesContinuationRole:
@@ -85,6 +87,7 @@ QHash<int, QByteArray> CommentsModel::roleNames() const
     roles[NameRole] = "author";
     roles[PhotoRole] = "photo";
     roles[TextRole] = "commentText";
+    roles[PublishedRole] = "publishedAt";
     roles[RepliesCountRole] = "repliesCount";
     roles[RepliesContinuationRole] = "repliesContinuation";
     return roles;

@@ -48,10 +48,22 @@ ListItem {
         anchors.leftMargin: Theme.paddingLarge
         anchors.top: parent.top
         anchors.topMargin: Theme.paddingLarge
-        anchors.right: parent.right
         font.pixelSize: Theme.fontSizeMedium
         horizontalAlignment: Text.AlignLeft
         color: Theme.highlightColor
+        truncationMode: TruncationMode.Fade
+        width: Math.min(implicitWidth, parent.width - (Theme.paddingLarge*4 + avatarPhoto.width + publishedTime.width))
+    }
+
+    Label {
+        id: publishedTime
+        text: publishedAt
+        anchors.left: name.right
+        anchors.leftMargin: Theme.paddingSmall
+        anchors.verticalCenter: name.verticalCenter
+        font.pixelSize: Theme.fontSizeSmall
+        horizontalAlignment: Text.AlignLeft
+        color: Theme.secondaryColor
     }
 
     Label {

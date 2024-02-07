@@ -15,6 +15,7 @@ public:
         NameRole,
         PhotoRole,
         TextRole,
+        PublishedRole,
         RepliesCountRole,
         RepliesContinuationRole
     };
