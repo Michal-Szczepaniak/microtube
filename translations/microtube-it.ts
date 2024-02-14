@@ -332,7 +332,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Categories</source>
-        <translation>Categoríe</translation>
+        <translation>Categorie</translation>
     </message>
     <message>
         <source>Playlist</source>
@@ -676,7 +676,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Categories</source>
-        <translation>Categoríe</translation>
+        <translation>Categorie</translation>
     </message>
     <message>
         <source>Sponsors</source>
