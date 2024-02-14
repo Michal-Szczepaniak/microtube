@@ -72,6 +72,10 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <source>eson57 for swedish translation.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Samuel Žúbor for 180° and 360° video shader. &lt;br/&gt;&lt;a href=&quot;mailto:samuliak77@gmail.com&quot;&gt;Email&lt;/a&gt; &lt;a href=&quot;https://www.fiverr.com/samuelzubor&quot;&gt;Fiverr&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CategoriesModel</name>
@@ -158,6 +162,10 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <source>Run diagnostics</source>
         <translation>Kör diagnostik</translation>
     </message>
+    <message>
+        <source>Clear videos database</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Filters</name>
@@ -241,32 +249,16 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <translation>Donation</translation>
     </message>
     <message>
-        <source>Added channels in search results</source>
-        <translation>Lade till kanaler i sökresultat</translation>
+        <source>Added 180° and 360° videos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added text when search results are empty</source>
-        <translation>Lade till text när sökresultat saknas</translation>
+        <source>Improved animations and next video switching</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Improved first launch experience</source>
-        <translation>Förbättrad första startupplevelse</translation>
-    </message>
-    <message>
-        <source>Fixed default category</source>
-        <translation>Fixad standardkategori</translation>
-    </message>
-    <message>
-        <source>Fixed Main category in settings</source>
-        <translation>Fixad huvudkategori i inställningar</translation>
-    </message>
-    <message>
-        <source>Added playback speed button</source>
-        <translation>Lade till snabbuppspelningsknapp</translation>
-    </message>
-    <message>
-        <source>Updated translations</source>
-        <translation>Uppdaterade översättningar</translation>
+        <source>Bug fixes</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -327,16 +319,32 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <translation>Prenumerationer</translation>
     </message>
     <message>
-        <source>Filters</source>
-        <translation>Filter</translation>
-    </message>
-    <message>
         <source>Search</source>
         <translation>Sök</translation>
     </message>
     <message>
         <source>Select category by swiping to the left or search for videos</source>
         <translation>Välj kategori genom att svepa åt vänster eller sök efter videor</translation>
+    </message>
+    <message>
+        <source>Search results to playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <translation type="unfinished">Kategorier</translation>
+    </message>
+    <message>
+        <source>Playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Playlist mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play videos sequentially from playlist</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -640,6 +648,14 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <source>Now</source>
         <translation>Nu</translation>
     </message>
+    <message>
+        <source>Subscriptions</source>
+        <translation type="unfinished">Prenumerationer</translation>
+    </message>
+    <message>
+        <source>Invert VR controls</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>
@@ -721,6 +737,10 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <source>Unsubscribe</source>
         <translation>Avsluta prenumeration</translation>
     </message>
+    <message>
+        <source>Synchronize all videos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SubscriptionsImport</name>
@@ -752,32 +772,16 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <translation>Donation</translation>
     </message>
     <message>
-        <source>Added channels in search results</source>
-        <translation>Lade till kanaler i sökresultat</translation>
+        <source>Added 180° and 360° videos</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added text when search results are empty</source>
-        <translation>Lade till text när sökresultat saknas</translation>
+        <source>Improved animations and next video switching</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Improved first launch experience</source>
-        <translation>Förbättrad första startupplevelse</translation>
-    </message>
-    <message>
-        <source>Fixed default category</source>
-        <translation>Fixad standardkategori</translation>
-    </message>
-    <message>
-        <source>Fixed Main category in settings</source>
-        <translation>Fixad huvudkategori i inställningar</translation>
-    </message>
-    <message>
-        <source>Added playback speed icon</source>
-        <translation>Lade till snabbuppspelningsikon</translation>
-    </message>
-    <message>
-        <source>Updated translations</source>
-        <translation>Uppdaterade översättningar</translation>
+        <source>Bug fixes</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -835,6 +839,10 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     <message>
         <source>Comments</source>
         <translation>Kommentarer</translation>
+    </message>
+    <message>
+        <source>Like</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

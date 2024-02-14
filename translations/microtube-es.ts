@@ -66,11 +66,15 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>legacychimera247 for italian translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>legacychimera247 por la traducción al italiano.</translation>
     </message>
     <message>
         <source>eson57 for swedish translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>eson57 por la traducción al sueco.</translation>
+    </message>
+    <message>
+        <source>Samuel Žúbor for 180° and 360° video shader. &lt;br/&gt;&lt;a href=&quot;mailto:samuliak77@gmail.com&quot;&gt;Email&lt;/a&gt; &lt;a href=&quot;https://www.fiverr.com/samuelzubor&quot;&gt;Fiverr&lt;/a&gt;</source>
+        <translation>Samuel Žúbor por el sombreador de vídeo de 180° y 360°. &lt;br/&gt;&lt;a href=&quot;mailto:samuliak77@gmail.com&quot;&gt;Correo&lt;/a&gt; &lt;a href=&quot;https://www.fiverr.com/samuelzubor&quot;&gt;Fiverr&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -158,6 +162,10 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <source>Run diagnostics</source>
         <translation>Iniciar diagnóstico</translation>
     </message>
+    <message>
+        <source>Clear videos database</source>
+        <translation>Borrar base de datos de vídeos</translation>
+    </message>
 </context>
 <context>
     <name>Filters</name>
@@ -241,32 +249,16 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Donación</translation>
     </message>
     <message>
-        <source>Added channels in search results</source>
-        <translation>Se añaden canales en los resultados de búsqueda</translation>
+        <source>Added 180° and 360° videos</source>
+        <translation>Vídeos de 180º y 360º añadidos</translation>
     </message>
     <message>
-        <source>Added text when search results are empty</source>
-        <translation>Se añade un texto cuando no hay resultados de búsqueda</translation>
+        <source>Improved animations and next video switching</source>
+        <translation>Mejoras en animaciones y en el cambio al siguiente vídeo</translation>
     </message>
     <message>
-        <source>Improved first launch experience</source>
-        <translation>Mejoras en la experiencia del primer inicio</translation>
-    </message>
-    <message>
-        <source>Fixed default category</source>
-        <translation>Se corrige la categoría por defecto</translation>
-    </message>
-    <message>
-        <source>Fixed Main category in settings</source>
-        <translation>Se corrige la categoría principal en ajustes</translation>
-    </message>
-    <message>
-        <source>Added playback speed button</source>
-        <translation>Se añade botón para la velocidad de reproducción</translation>
-    </message>
-    <message>
-        <source>Updated translations</source>
-        <translation>Traducciones actualizadas</translation>
+        <source>Bug fixes</source>
+        <translation>Corrección de errores</translation>
     </message>
 </context>
 <context>
@@ -327,16 +319,32 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Suscripciones</translation>
     </message>
     <message>
-        <source>Filters</source>
-        <translation>Filtros</translation>
-    </message>
-    <message>
         <source>Search</source>
         <translation>Buscar</translation>
     </message>
     <message>
         <source>Select category by swiping to the left or search for videos</source>
         <translation>Selecciona categoría deslizando hacia la izquierda o busca vídeos</translation>
+    </message>
+    <message>
+        <source>Search results to playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <translation type="unfinished">Categorías</translation>
+    </message>
+    <message>
+        <source>Playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Playlist mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play videos sequentially from playlist</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -640,6 +648,14 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <source>Now</source>
         <translation>Ahora</translation>
     </message>
+    <message>
+        <source>Subscriptions</source>
+        <translation>Suscripciones</translation>
+    </message>
+    <message>
+        <source>Invert VR controls</source>
+        <translation>Invertir controles de RV</translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>
@@ -721,6 +737,10 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <source>Unsubscribe</source>
         <translation>Borrar suscripción</translation>
     </message>
+    <message>
+        <source>Synchronize all videos</source>
+        <translation>Sincronizar todos los vídeos</translation>
+    </message>
 </context>
 <context>
     <name>SubscriptionsImport</name>
@@ -752,32 +772,16 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Donación</translation>
     </message>
     <message>
-        <source>Added channels in search results</source>
-        <translation>Se añaden canales en los resultados de búsqueda</translation>
+        <source>Added 180° and 360° videos</source>
+        <translation>Vídeos de 180º y 360º añadidos</translation>
     </message>
     <message>
-        <source>Added text when search results are empty</source>
-        <translation>Se añade un texto cuando no hay resultados de búsqueda</translation>
+        <source>Improved animations and next video switching</source>
+        <translation>Mejoras en animaciones y en el cambio al siguiente vídeo</translation>
     </message>
     <message>
-        <source>Improved first launch experience</source>
-        <translation>Mejoras en la experiencia del primer inicio</translation>
-    </message>
-    <message>
-        <source>Fixed default category</source>
-        <translation>Se corrige la categoría por defecto</translation>
-    </message>
-    <message>
-        <source>Fixed Main category in settings</source>
-        <translation>Se corrige la categoría principal en ajustes</translation>
-    </message>
-    <message>
-        <source>Added playback speed icon</source>
-        <translation>Se añade botón para la velocidad de reproducción</translation>
-    </message>
-    <message>
-        <source>Updated translations</source>
-        <translation>Traducciones actualizadas</translation>
+        <source>Bug fixes</source>
+        <translation>Corrección de errores</translation>
     </message>
 </context>
 <context>
@@ -835,6 +839,10 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <message>
         <source>Comments</source>
         <translation>Comentarios</translation>
+    </message>
+    <message>
+        <source>Like</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -71,6 +71,10 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <source>eson57 for swedish translation.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Samuel Žúbor for 180° and 360° video shader. &lt;br/&gt;&lt;a href=&quot;mailto:samuliak77@gmail.com&quot;&gt;Email&lt;/a&gt; &lt;a href=&quot;https://www.fiverr.com/samuelzubor&quot;&gt;Fiverr&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CategoriesModel</name>
@@ -157,6 +161,10 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <source>Run diagnostics</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Clear videos database</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Filters</name>
@@ -240,31 +248,15 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added channels in search results</source>
+        <source>Added 180° and 360° videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added text when search results are empty</source>
+        <source>Improved animations and next video switching</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Improved first launch experience</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fixed default category</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fixed Main category in settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Added playback speed button</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Updated translations</source>
+        <source>Bug fixes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -326,15 +318,31 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Filters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select category by swiping to the left or search for videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search results to playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Playlist mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play videos sequentially from playlist</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -639,6 +647,14 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <source>Now</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Subscriptions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Invert VR controls</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>
@@ -720,6 +736,10 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <source>Unsubscribe</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Synchronize all videos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SubscriptionsImport</name>
@@ -751,31 +771,15 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added channels in search results</source>
+        <source>Added 180° and 360° videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Added text when search results are empty</source>
+        <source>Improved animations and next video switching</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Improved first launch experience</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fixed default category</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fixed Main category in settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Added playback speed icon</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Updated translations</source>
+        <source>Bug fixes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -833,6 +837,10 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Like</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
