@@ -66,15 +66,15 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Samuel Žúbor for 180° and 360° video shader. &lt;br/&gt;&lt;a href=&quot;mailto:samuliak77@gmail.com&quot;&gt;Email&lt;/a&gt; &lt;a href=&quot;https://www.fiverr.com/samuelzubor&quot;&gt;Fiverr&lt;/a&gt;</source>
-        <translation></translation>
+        <translation>Samuel Žúbor per gli shader dei video a 180° e 360°</translation>
     </message>
     <message>
         <source>legacychimera247 for italian translation.</source>
-        <translation></translation>
+        <translation>Legacychimera247 per la traduzione italiana.</translation>
     </message>
     <message>
         <source>eson57 for swedish translation.</source>
-        <translation></translation>
+        <translation>eson57 per la traduzione svedese.</translation>
     </message>
 </context>
 <context>
@@ -164,7 +164,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Clear videos database</source>
-        <translation></translation>
+        <translation>Cancella database dei video</translation>
     </message>
 </context>
 <context>
@@ -250,15 +250,15 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Added 180° and 360° videos</source>
-        <translation></translation>
+        <translation>Aggiunti video a 180° e 360°</translation>
     </message>
     <message>
         <source>Improved animations and next video switching</source>
-        <translation></translation>
+        <translation>Migliorate le animazioni ed il passaggio al video successivo</translation>
     </message>
     <message>
         <source>Bug fixes</source>
-        <translation></translation>
+        <translation>Sistemati alcuni bug</translation>
     </message>
 </context>
 <context>
@@ -269,7 +269,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Failed</source>
-        <translation>Ci sono problemi</translation>
+        <translation>Ho dei problemi</translation>
     </message>
     <message>
         <source>Not running</source>
@@ -332,7 +332,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Categories</source>
-        <translation>Categoríe</translation>
+        <translation>Categorie</translation>
     </message>
     <message>
         <source>Playlist</source>
@@ -676,7 +676,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Categories</source>
-        <translation>Categoríe</translation>
+        <translation>Categorie</translation>
     </message>
     <message>
         <source>Sponsors</source>
@@ -739,7 +739,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Synchronize all videos</source>
-        <translation></translation>
+        <translation>Sincronizza tutti i video</translation>
     </message>
 </context>
 <context>
