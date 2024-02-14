@@ -66,15 +66,15 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Samuel Žúbor for 180° and 360° video shader. &lt;br/&gt;&lt;a href=&quot;mailto:samuliak77@gmail.com&quot;&gt;Email&lt;/a&gt; &lt;a href=&quot;https://www.fiverr.com/samuelzubor&quot;&gt;Fiverr&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Samuel Žúbor per gli shader dei video a 180° e 360°</translation>
     </message>
     <message>
         <source>legacychimera247 for italian translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Legacychimera247 per la traduzione italiana</translation>
     </message>
     <message>
         <source>eson57 for swedish translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>eson57 per la traduzione svedese</translation>
     </message>
 </context>
 <context>
@@ -164,7 +164,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Clear videos database</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancella database dei video</translation>
     </message>
 </context>
 <context>
@@ -250,15 +250,15 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Added 180° and 360° videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunti video a 180° e 360°</translation>
     </message>
     <message>
         <source>Improved animations and next video switching</source>
-        <translation type="unfinished"></translation>
+        <translation>Migliorate le animazioni ed il passaggio al video successivo</translation>
     </message>
     <message>
         <source>Bug fixes</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistemati alcuni bug</translation>
     </message>
 </context>
 <context>
@@ -269,7 +269,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Failed</source>
-        <translation>Ci sono problemi</translation>
+        <translation>Ho dei problemi</translation>
     </message>
     <message>
         <source>Not running</source>
@@ -332,19 +332,19 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Categories</source>
-        <translation type="unfinished">Categoríe</translation>
+        <translation>Categoríe</translation>
     </message>
     <message>
         <source>Playlist</source>
-        <translation type="unfinished">Scaletta</translation>
+        <translation>Scaletta</translation>
     </message>
     <message>
         <source>Playlist mode</source>
-        <translation type="unfinished">Modalità scaletta</translation>
+        <translation>Modalità scaletta</translation>
     </message>
     <message>
         <source>Play videos sequentially from playlist</source>
-        <translation type="unfinished">Riproduci video in sequenza da scaletta</translation>
+        <translation>Riproduci video in sequenza da scaletta</translation>
     </message>
 </context>
 <context>
@@ -410,191 +410,191 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Algeria</source>
-        <translation type="unfinished">Algeria</translation>
+        <translation>Algeria</translation>
     </message>
     <message>
         <source>Argentina</source>
-        <translation type="unfinished">Argentina</translation>
+        <translation>Argentina</translation>
     </message>
     <message>
         <source>Australia</source>
-        <translation type="unfinished">Australia</translation>
+        <translation>Australia</translation>
     </message>
     <message>
         <source>Belgium</source>
-        <translation type="unfinished">Belgio</translation>
+        <translation>Belgio</translation>
     </message>
     <message>
         <source>Brazil</source>
-        <translation type="unfinished">Brasile</translation>
+        <translation>Brasile</translation>
     </message>
     <message>
         <source>Canada</source>
-        <translation type="unfinished">Canada</translation>
+        <translation>Canada</translation>
     </message>
     <message>
         <source>Chile</source>
-        <translation type="unfinished">Cile</translation>
+        <translation>Cile</translation>
     </message>
     <message>
         <source>Colombia</source>
-        <translation type="unfinished">Colombia</translation>
+        <translation>Colombia</translation>
     </message>
     <message>
         <source>Czech Republic</source>
-        <translation type="unfinished">Repubblica Ceca</translation>
+        <translation>Repubblica Ceca</translation>
     </message>
     <message>
         <source>Egypt</source>
-        <translation type="unfinished">Egitto</translation>
+        <translation>Egitto</translation>
     </message>
     <message>
         <source>France</source>
-        <translation type="unfinished">Francia</translation>
+        <translation>Francia</translation>
     </message>
     <message>
         <source>Germany</source>
-        <translation type="unfinished">Germania</translation>
+        <translation>Germania</translation>
     </message>
     <message>
         <source>Ghana</source>
-        <translation type="unfinished">Ghana</translation>
+        <translation>Ghana</translation>
     </message>
     <message>
         <source>Greece</source>
-        <translation type="unfinished">Grecia</translation>
+        <translation>Grecia</translation>
     </message>
     <message>
         <source>Hong Kong</source>
-        <translation type="unfinished">Hong Kong</translation>
+        <translation>Hong Kong</translation>
     </message>
     <message>
         <source>Hungary</source>
-        <translation type="unfinished">Ungheria</translation>
+        <translation>Ungheria</translation>
     </message>
     <message>
         <source>India</source>
-        <translation type="unfinished">India</translation>
+        <translation>India</translation>
     </message>
     <message>
         <source>Indonesia</source>
-        <translation type="unfinished">Indonesia</translation>
+        <translation>Indonesia</translation>
     </message>
     <message>
         <source>Ireland</source>
-        <translation type="unfinished">Irlanda</translation>
+        <translation>Irlanda</translation>
     </message>
     <message>
         <source>Israel</source>
-        <translation type="unfinished">Israele</translation>
+        <translation>Israele</translation>
     </message>
     <message>
         <source>Italy</source>
-        <translation type="unfinished">Italia</translation>
+        <translation>Italia</translation>
     </message>
     <message>
         <source>Japan</source>
-        <translation type="unfinished">Giappone</translation>
+        <translation>Giappone</translation>
     </message>
     <message>
         <source>Jordan</source>
-        <translation type="unfinished">Giordania</translation>
+        <translation>Giordania</translation>
     </message>
     <message>
         <source>Kenya</source>
-        <translation type="unfinished">Kenia</translation>
+        <translation>Kenia</translation>
     </message>
     <message>
         <source>Malaysia</source>
-        <translation type="unfinished">Malesia</translation>
+        <translation>Malesia</translation>
     </message>
     <message>
         <source>Mexico</source>
-        <translation type="unfinished">Messico</translation>
+        <translation>Messico</translation>
     </message>
     <message>
         <source>Morocco</source>
-        <translation type="unfinished">Marocco</translation>
+        <translation>Marocco</translation>
     </message>
     <message>
         <source>Netherlands</source>
-        <translation type="unfinished">Paesi Bassi</translation>
+        <translation>Paesi Bassi</translation>
     </message>
     <message>
         <source>New Zealand</source>
-        <translation type="unfinished">Nuova Zelanda</translation>
+        <translation>Nuova Zelanda</translation>
     </message>
     <message>
         <source>Nigeria</source>
-        <translation type="unfinished">Nigeria</translation>
+        <translation>Nigeria</translation>
     </message>
     <message>
         <source>Peru</source>
-        <translation type="unfinished">Perú</translation>
+        <translation>Perú</translation>
     </message>
     <message>
         <source>Philippines</source>
-        <translation type="unfinished">Filippine</translation>
+        <translation>Filippine</translation>
     </message>
     <message>
         <source>Poland</source>
-        <translation type="unfinished">Polonia</translation>
+        <translation>Polonia</translation>
     </message>
     <message>
         <source>Russia</source>
-        <translation type="unfinished">Russia</translation>
+        <translation>Russia</translation>
     </message>
     <message>
         <source>Saudi Arabia</source>
-        <translation type="unfinished">Arabia Saudita</translation>
+        <translation>Arabia Saudita</translation>
     </message>
     <message>
         <source>Singapore</source>
-        <translation type="unfinished">Singapore</translation>
+        <translation>Singapore</translation>
     </message>
     <message>
         <source>South Africa</source>
-        <translation type="unfinished">Sudafrica</translation>
+        <translation>Sudafrica</translation>
     </message>
     <message>
         <source>South Korea</source>
-        <translation type="unfinished">Corea del Sud</translation>
+        <translation>Corea del Sud</translation>
     </message>
     <message>
         <source>Spain</source>
-        <translation type="unfinished">Spagna</translation>
+        <translation>Spagna</translation>
     </message>
     <message>
         <source>Sweden</source>
-        <translation type="unfinished">Svezia</translation>
+        <translation>Svezia</translation>
     </message>
     <message>
         <source>Taiwan</source>
-        <translation type="unfinished">Taiwan</translation>
+        <translation>Taiwan</translation>
     </message>
     <message>
         <source>Tunisia</source>
-        <translation type="unfinished">Tunisia</translation>
+        <translation>Tunisia</translation>
     </message>
     <message>
         <source>Turkey</source>
-        <translation type="unfinished">Turchia</translation>
+        <translation>Turchia</translation>
     </message>
     <message>
         <source>Uganda</source>
-        <translation type="unfinished">Uganda</translation>
+        <translation>Uganda</translation>
     </message>
     <message>
         <source>United Arab Emirates</source>
-        <translation type="unfinished">Emirati Arabi Uniti</translation>
+        <translation>Emirati Arabi Uniti</translation>
     </message>
     <message>
         <source>United Kingdom</source>
-        <translation type="unfinished">Regno Unito</translation>
+        <translation>Regno Unito</translation>
     </message>
     <message>
         <source>Yemen</source>
-        <translation type="unfinished">Yemen</translation>
+        <translation>Yemen</translation>
     </message>
     <message>
         <source>Now</source>
@@ -602,59 +602,59 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Music</source>
-        <translation type="unfinished">Musica</translation>
+        <translation>Musica</translation>
     </message>
     <message>
         <source>Gaming</source>
-        <translation type="unfinished">Videogiochi</translation>
+        <translation>Videogiochi</translation>
     </message>
     <message>
         <source>Movies</source>
-        <translation type="unfinished">Film</translation>
+        <translation>Film</translation>
     </message>
     <message>
         <source>Playback options</source>
-        <translation type="unfinished">Impostazioni riproduzione</translation>
+        <translation>Impostazioni riproduzione</translation>
     </message>
     <message>
         <source>Maximum resolution</source>
-        <translation type="unfinished">Risoluzione massima</translation>
+        <translation>Risoluzione massima</translation>
     </message>
     <message>
         <source>Audio only</source>
-        <translation type="unfinished">Solo audio</translation>
+        <translation>Solo audio</translation>
     </message>
     <message>
         <source>Other options</source>
-        <translation type="unfinished">Altre impostazioni</translation>
+        <translation>Altre impostazioni</translation>
     </message>
     <message>
         <source>Logout from YouTube</source>
-        <translation type="unfinished">Esci da account YouTube</translation>
+        <translation>Esci da account YouTube</translation>
     </message>
     <message>
         <source>Login to YouTube</source>
-        <translation type="unfinished">Entra su account YouTube</translation>
+        <translation>Entra su account YouTube</translation>
     </message>
     <message>
         <source>In oder to allow login you need to provide your own OAuth2 Client Id and Secret. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://developers.google.com/youtube/registering_an_application&lt;/a&gt;</source>
-        <translation type="unfinished">Per permettere l&apos;accesso a YouTube hai bisogno del tuo Client ID OAuth2 e della chiave segreta. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://dev </translation>
+        <translation>Per permettere l&apos;accesso a YouTube hai bisogno del tuo Client ID OAuth2 e della chiave segreta. &lt;a href=&quot;https://developers.google.com/youtube/registering_an_application&quot;&gt;https://dev </translation>
     </message>
     <message>
         <source>OAuth2 Client ID</source>
-        <translation type="unfinished">Client ID OAuth2</translation>
+        <translation>Client ID OAuth2</translation>
     </message>
     <message>
         <source>OAuth2 Client Secret</source>
-        <translation type="unfinished">Chiave segreta Client OAut2</translation>
+        <translation>Chiave segreta Client OAut2</translation>
     </message>
     <message>
         <source>Subscriptions</source>
-        <translation type="unfinished">Sottoscrizioni</translation>
+        <translation>Sottoscrizioni</translation>
     </message>
     <message>
         <source>Invert VR controls</source>
-        <translation type="unfinished">Inverti controlli VR</translation>
+        <translation>Inverti controlli VR</translation>
     </message>
 </context>
 <context>
@@ -723,23 +723,23 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Import subscriptions from YouTube</source>
-        <translation type="unfinished">Importa sottoscrizioni da YouTube</translation>
+        <translation>Importa sottoscrizioni da YouTube</translation>
     </message>
     <message>
         <source>Load unwatched videos</source>
-        <translation type="unfinished">Carica i video non visti</translation>
+        <translation>Carica i video non visti</translation>
     </message>
     <message>
         <source>Load all videos</source>
-        <translation type="unfinished">Carica tutti i video</translation>
+        <translation>Carica tutti i video</translation>
     </message>
     <message>
         <source>Updating subscriptions: (%1/%2)</source>
-        <translation type="unfinished">Aggiorno sottoscrizioni: (%1/%2)</translation>
+        <translation>Aggiorno sottoscrizioni: (%1/%2)</translation>
     </message>
     <message>
         <source>Synchronize all videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Sincronizza tutti i video</translation>
     </message>
 </context>
 <context>
@@ -750,7 +750,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Importing (%1/%2)</source>
-        <translation type="unfinished">Sto importando (%1/%2)</translation>
+        <translation>Sto importando (%1/%2)</translation>
     </message>
 </context>
 <context>
@@ -777,11 +777,11 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Improved animations and next video switching</source>
-        <translation type="unfinished">Migliorate le animazioni ed il cambio al prossimo video</translation>
+        <translation>Migliorate le animazioni ed il cambio al prossimo video</translation>
     </message>
     <message>
         <source>Bug fixes</source>
-        <translation type="unfinished">Sistemati alcuni bug</translation>
+        <translation>Sistemati alcuni bug</translation>
     </message>
 </context>
 <context>
@@ -800,14 +800,14 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>%1 views - %2</source>
-        <translation type="unfinished">%1 visualizzazioni - %2</translation>
+        <translation>%1 visualizzazioni - %2</translation>
     </message>
 </context>
 <context>
     <name>VideoHelper</name>
     <message>
         <source>Off</source>
-        <translation type="unfinished">Spento</translation>
+        <translation>Spento</translation>
     </message>
 </context>
 <context>
@@ -830,45 +830,45 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>%1 views</source>
-        <translation type="unfinished">%1 visualizzazioni</translation>
+        <translation>%1 visualizzazioni</translation>
     </message>
     <message>
         <source>Dislike</source>
-        <translation type="unfinished">Non mi piace</translation>
+        <translation>Non mi piace</translation>
     </message>
     <message>
         <source>Comments</source>
-        <translation type="unfinished">Commenti</translation>
+        <translation>Commenti</translation>
     </message>
     <message>
         <source>Like</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>helpers</name>
     <message>
         <source>%1K</source>
-        <translation type="unfinished">%1K</translation>
+        <translation>%1K</translation>
     </message>
     <message>
         <source>%1M</source>
-        <translation type="unfinished">%1M</translation>
+        <translation>%1M</translation>
     </message>
 </context>
 <context>
     <name>microtube</name>
     <message>
         <source>Microtube download</source>
-        <translation type="unfinished">Scarica Microtube</translation>
+        <translation>Scarica Microtube</translation>
     </message>
     <message>
         <source>Download failed</source>
-        <translation type="unfinished">Scaricamento fallito</translation>
+        <translation>Scaricamento fallito</translation>
     </message>
     <message>
         <source>Download complete</source>
-        <translation type="unfinished">Scaricamento completato</translation>
+        <translation>Scaricamento completato</translation>
     </message>
 </context>
 </TS>
