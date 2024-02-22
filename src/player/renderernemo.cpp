@@ -71,7 +71,7 @@ static const QString FRAGMENT_SHADER_180 = ""
     "}\n"
     "\n"
     "const vec3 up = vec3(0.0, 1.0, 0.0);\n"
-    "const float fov = 45.0; //Field of view Y\n"
+    "const float fov = 50.0; //Field of view Y\n"
     "\n"
     "vec3 getDirection(in vec2 cameraRotation, in vec2 positionInView) {\n"
     "    vec3 viewDirection  = normalize(vec3(sin(radians(cameraRotation.y)), sin(radians(-cameraRotation.x)), cos(radians(cameraRotation.y))));\n"
@@ -89,8 +89,7 @@ static const QString FRAGMENT_SHADER_180 = ""
     "    vec2 uv = sampleSphericalMap(localPosition);\n"
     "    uv.y = 1.0 - uv.y;"
     "    if (onlyHalfOfTheScreen)\n"
-    "        uv.x *= 2.0;\n"
-    "    uv.x -= 1.0;\n"
+    "        uv.x = 2.0 - uv.x * 2.0;\n"
     "    gl_FragColor = vec4(texture2D(texture0, uv).rgb, 1.0);\n"
     "}\n"
     "";
@@ -229,15 +228,26 @@ RendererNemo::RendererNemo(QObject *parent) :
         _vertexCoords[x] = 0;
     }
 
-    connect(QuickViewHelper::getView(), &QQuickView::sceneGraphInitialized, [&](){ createProgram(); });
+    _sceneGraphInitializedSignal = connect(QuickViewHelper::getView(), &QQuickView::sceneGraphInitialized, [&](){ createProgram(); });
 }
 
 RendererNemo::~RendererNemo() {
+    disconnect(_sceneGraphInitializedSignal);
+    disconnect(_sceneGraphInvalidatedSignal);
+
     cleanup();
+
+    if (_queuedBuffer) {
+        gst_buffer_unref(_queuedBuffer);
+    }
+
+    if (_currentBuffer) {
+        gst_buffer_unref(_currentBuffer);
+    }
 
     if (_program) {
         delete _program;
-        _program = 0;
+        _program = nullptr;
     }
 
     if (_img) {
@@ -314,6 +324,7 @@ void RendererNemo::paint(const QMatrix4x4& matrix, const QRectF& viewport) {
 
     if (!_program) {
         createProgram();
+        return;
     }
 
     paintFrame(matrix);
@@ -454,6 +465,11 @@ void RendererNemo::createProgram() {
         return;
     }
 
+    if (!_program->addShaderFromSourceCode(QGLShader::Fragment, shader)) {
+        qCritical() << "Failed to add fragment shader";
+        return;
+    }
+
     _program->bindAttributeLocation("inputVertex", 0);
     _program->bindAttributeLocation("textureCoord", 1);
 
@@ -508,8 +524,8 @@ void RendererNemo::paintFrame(const QMatrix4x4& matrix) {
         if (EGLImageKHR img = nemo_gst_egl_image_memory_create_image(memory, _dpy, nullptr)) {
             glGenTextures(1, &texture);
             glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture);
-            glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
             glActiveTexture(GL_TEXTURE0);
 
             _img->glEGLImageTargetTexture2DOES (GL_TEXTURE_EXTERNAL_OES, (GLeglImageOES)img);
@@ -696,10 +712,12 @@ void RendererNemo::destroyCachedTextures()
 
     for (CachedTexture &texture : _textures) {
         glDeleteTextures(1, &texture.textureId);
+
         eglDestroyImageKHR(_dpy, texture.image);
 
-//        gst_memory_unref(texture.memory);
+        gst_memory_unref(texture.memory);
     }
+
     _textures.clear();
 }
 

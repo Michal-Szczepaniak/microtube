@@ -9,7 +9,7 @@
 #include "workers/subscriptionsimportworker.h"
 #include "repositories/authorrepository.h"
 #include "factories/authorfactory.h"
-#include "jsprocesshelper.h"
+#include <managers/jsprocessmanager.h>
 
 class GoogleOAuthHelper : public QObject
 {

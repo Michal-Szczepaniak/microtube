@@ -12,6 +12,7 @@ class SubscriptionsModel : public QAbstractListModel
 public:
     enum SubscriptionRoles {
         IdRole = Qt::UserRole + 1,
+        DatabaseIdRole,
         AuthorIdRole,
         NameRole,
         AvatarRole,
@@ -20,6 +21,7 @@ public:
 
     explicit SubscriptionsModel(QObject *parent = nullptr);
     Q_INVOKABLE void loadSubscriptionsList();
+    Q_INVOKABLE void refresh();
     Q_INVOKABLE void markAllAsWatched();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;

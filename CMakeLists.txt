@@ -130,11 +130,16 @@ target_link_libraries(microtube
     ${OPENGL_EXTENSIONS_STATIC_LDFLAGS}
     ${NEMO_GSTREAMER_INTERFACES_LDFLAGS}
 )
+
 target_compile_options(microtube PUBLIC
     ${EGL_CFLAGS_OTHER}
 )
+
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0")
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -O0")
+
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_DEBUG} -O3 -DQT_NO_DEBUG_OUTPUT")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_DEBUG} -O3 -DQT_NO_DEBUG_OUTPUT")
 
 install(TARGETS microtube
     RUNTIME DESTINATION bin
@@ -173,13 +178,11 @@ add_custom_target(distfiles
         microtube.desktop
         qml/microtube.qml
         js/channelInfo.js
-        js/channelVideos.js
-        js/search.js
-        js/trending.js
         js/videoInfo.js
         js/basicVideoInfo.js
         js/comments.js
         js/commentReplies.js
+        js/unified.js
         js/package.json
         microtube-url.desktop
         rpm/microtube.spec

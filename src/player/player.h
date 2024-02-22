@@ -108,6 +108,8 @@ private:
     GstElement *_subSource;
     GstElement *_scaletempo;
     State _state;
+    State _previousState;
+    qint64 _bufferTimestamp;
     QTimer *_timer;
     qint64 _pos;
     double _playbackSpeed;

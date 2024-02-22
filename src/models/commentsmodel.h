@@ -4,7 +4,7 @@
 #include <QAbstractListModel>
 #include <QVector>
 #include "entities/comment.h"
-#include "helpers/jsprocesshelper.h"
+#include "managers/jsprocessmanager.h"
 
 class CommentsModel : public QAbstractListModel
 {
@@ -41,7 +41,7 @@ private:
     bool _canContinue;
     QString _videoId;
     QJsonObject _repliesContinuation;
-    JSProcessHelper _jsProcessHelper;
+    JSProcessManager _jsProcessHelper;
 };
 
 #endif // COMMENTSMODEL_H

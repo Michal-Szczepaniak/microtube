@@ -11,6 +11,7 @@ public:
     void put(Author &entity);
     void update(Author entity);
     void remove(Author entity);
+    bool has(QString channelId) const;
 
     Author getOneByChannelId(QString channelId);
     QVector<Author> getSubscriptions();

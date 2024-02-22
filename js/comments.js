@@ -3,6 +3,8 @@ import { Innertube, YTNodes } from 'youtubei.js';
 const yt = await Innertube.create({
     lang: 'en',
     location: 'US',
+    retrieve_player: false,
+    enable_safety_mode: false,
 });
 
 const channelId = process.argv[2];

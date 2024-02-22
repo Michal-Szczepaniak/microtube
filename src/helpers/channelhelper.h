@@ -5,7 +5,7 @@
 #include <memory>
 #include "src/repositories/authorrepository.h"
 #include "src/services/subscriptionsaggregator.h"
-#include "src/helpers/jsprocesshelper.h"
+#include "src/managers/jsprocessmanager.h"
 
 class ChannelHelper : public QObject
 {
@@ -17,6 +17,7 @@ public:
     Q_INVOKABLE void loadChannelInfo(QString channelId);
     Q_INVOKABLE void subscribe(QString channelId);
     Q_INVOKABLE void unsubscribe(QString channelId);
+    Q_INVOKABLE void unsubscribeId(int id);
     Q_INVOKABLE bool isSubscribed(QString channelId);
     Author getChannelInfo();
     void setSubscribe(QString channelId, bool subscribed);
@@ -28,7 +29,7 @@ public slots:
     void gotChannelInfo();
 
 private:
-    JSProcessHelper _jsProcessHelper;
+    JSProcessManager _jsProcessHelper;
     Author _channelInfo;
     AuthorRepository _authorRepository;
 };

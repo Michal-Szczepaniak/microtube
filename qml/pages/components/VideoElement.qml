@@ -29,9 +29,6 @@ ListItem {
     contentHeight: Theme.itemSizeHuge
     menu: contextMenuComponent
 
-    property bool subPage: false
-    property bool popPage: false
-
     Row {
         width: parent.width
         height: Theme.itemSizeHuge
@@ -74,6 +71,7 @@ ListItem {
                     color: Theme.rgba(Theme.highlightBackgroundColor, 0.7)
                     width: durationLabel.width + Theme.paddingMedium
                     height: durationLabel.height
+                    visible: elementType !== YtPlaylist.ChannelType
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
                     anchors.margins: Theme.paddingMedium
@@ -81,7 +79,17 @@ ListItem {
 
                     Label {
                         id: durationLabel
-                        text: duration
+                        text: if (elementType === YtPlaylist.ChannelType) {
+                                  return "";
+                              } else if (elementType === YtPlaylist.PlaylistType) {
+                                  return qsTr("%1 videos").arg(duration);
+                              } else if (isLive) {
+                                  return qsTr("Live")
+                              } else if (isUpcoming) {
+                                  return qsTr("Upcoming")
+                              } else {
+                                  return duration;
+                              }
                         highlighted: false
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
@@ -97,7 +105,7 @@ ListItem {
 
             Label {
                 text: title
-                width: parent.width - Theme.paddingLarge*2
+                width: parent.width - Theme.paddingLarge
                 truncationMode: TruncationMode.Fade
                 horizontalAlignment: Text.AlignLeft
                 maximumLineCount: 2
@@ -106,18 +114,22 @@ ListItem {
 
             Label {
                 text: author.name
-                width: parent.width - Theme.paddingLarge*2
+                width: parent.width - Theme.paddingLarge
                 font.pixelSize: Theme.fontSizeExtraSmall
                 truncationMode: TruncationMode.Fade
             }
             Label {
+                width: parent.width - Theme.paddingLarge
+                truncationMode: TruncationMode.Fade
                 text: {
                     if (isUpcoming) {
-                        return "scheduled";
+                        return qsTr("Scheduled");
                     } else if (isLive) {
-                        return "live";
+                        return qsTr("Live");
                     } else if (elementType === YtPlaylist.ChannelType) {
                         return description;
+                    } else if (elementType === YtPlaylist.PlaylistType) {
+                        return qsTr("Playlist");
                     } else {
                         return qsTr("%1 views - %2").arg(Helpers.parseViews(views)).arg(HumanizedTimeSpan.humanized_time_span(published*1000))
                     }
@@ -143,6 +155,21 @@ ListItem {
                 onClicked: {
                     channelHelper.isSubscribed(author.id) ? channelHelper.unsubscribe(author.id) : channelHelper.subscribe(author.id)
                     subscribed = channelHelper.isSubscribed(author.id)
+                }
+            }
+
+            MenuItem {
+                text:  watched ? qsTr("Mark as unwatched") : qsTr("Mark as watched")
+                visible: elementType === YtPlaylist.VideoType && isSubscribed
+                onClicked: watched = !watched
+            }
+
+            MenuItem {
+                text: app.playlistModel.hasVideo(id) ? qsTr("Remove from queue") : qsTr("Add to queue")
+                visible: elementType === YtPlaylist.VideoType
+                onClicked: {
+                    app.playlistModel.hasVideo(id) ? app.playlistModel.removeVideo(id) : app.playlistModel.addVideo(id);
+                    text = app.playlistModel.hasVideo(id) ? qsTr("Remove from queue") : qsTr("Add to queue")
                 }
             }
 

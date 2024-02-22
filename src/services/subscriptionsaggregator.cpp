@@ -12,7 +12,7 @@ void SubscriptionsAggregator::updateSubscriptions(bool full, bool force)
             _worker->deleteLater();
             _workerThread->deleteLater();
         }
-    } else if (_worker != nullptr || (QDateTime::currentMSecsSinceEpoch() - QSettings().value("lastSubscriptionsUpdate", 0).toLongLong() < 600000 && !full)) return;
+    } else if (_worker != nullptr || (QDateTime::currentMSecsSinceEpoch() - QSettings().value("lastSubscriptionsUpdate", 0).toLongLong() < 1800000 && !full)) return;
 
     QSettings().setValue("lastSubscriptionsUpdate", QDateTime::currentMSecsSinceEpoch());
 
@@ -30,12 +30,24 @@ void SubscriptionsAggregator::updateSubscriptions(bool full, bool force)
     connect(_workerThread, &QThread::finished, _workerThread, &QThread::deleteLater);
 
     _worker->setFull(full);
+    _worker->setSubscriptionToFullySync(_subscriptionToFullySync);
     _workerThread->start();
 
-    _subscriptionsCount = _authorRepository.getSubscriptions().count();
+    if (_subscriptionToFullySync != "") {
+        _subscriptionsCount = 1;
+    } else {
+        _subscriptionsCount = _authorRepository.getSubscriptions().count();
+    }
     _subscriptionsUpdateProgress = 0;
     emit subscriptionsCountChanged();
     emit subscriptionsUpdateProgressChanged();
+}
+
+void SubscriptionsAggregator::updateSubscription(QString id)
+{
+    _subscriptionToFullySync = id;
+
+    updateSubscriptions(true, false);
 }
 
 int SubscriptionsAggregator::getSubscriptionsCount()
@@ -46,4 +58,40 @@ int SubscriptionsAggregator::getSubscriptionsCount()
 int SubscriptionsAggregator::getSubscriptionsUpdateProgress()
 {
     return _subscriptionsUpdateProgress;
+}
+
+bool SubscriptionsAggregator::getSynchronizeVideos() const
+{
+    return QSettings().value("synchronize_videos", true).toBool();
+}
+
+void SubscriptionsAggregator::setSynchronizeVideos(bool synchronizeVideos)
+{
+    QSettings().setValue("synchronize_videos", synchronizeVideos);
+
+    emit synchronizeVideosChanged();
+}
+
+bool SubscriptionsAggregator::getSynchronizeShorts() const
+{
+    return QSettings().value("synchronize_shorts", false).toBool();
+}
+
+void SubscriptionsAggregator::setSynchronizeShorts(bool synchronizeShorts)
+{
+    QSettings().setValue("synchronize_shorts", synchronizeShorts);
+
+    emit synchronizeShortsChanged();
+}
+
+bool SubscriptionsAggregator::getSynchronizeLivestreams() const
+{
+    return QSettings().value("synchronize_livestreams", false).toBool();
+}
+
+void SubscriptionsAggregator::setSynchronizeLivestreams(bool synchronizeLivestreams)
+{
+    QSettings().setValue("synchronize_livestreams", synchronizeLivestreams);
+
+    emit synchronizeLivestreamsChanged();
 }

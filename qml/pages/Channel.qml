@@ -18,8 +18,6 @@ Page {
     ChannelHelper {
         id: channelHelper
 
-        onChannelInfoChanged: channelVideos.loadChannelVideos(channelId)
-
         Component.onCompleted: channelHelper.loadChannelInfo(channelId)
     }
 
@@ -33,7 +31,7 @@ Page {
     SilicaFlickable {
         id: flickable
         anchors.fill: parent
-        contentHeight: column.height + videosList.height
+        contentHeight: column.height + videosList.height + channelTab.height + Theme.paddingSmall*2
 
         PullDownMenu {
             MenuItem {
@@ -49,7 +47,7 @@ Page {
             MenuItem {
                 text: qsTr("Play all")
                 onClicked: {
-                    app.playlistModel.loadChannelVideos(channelId)
+                    app.searchModel.loadChannelVideos(channelId, channelTab.values[channelTab.currentIndex])
                     pageStack.navigateBack()
                 }
             }
@@ -154,23 +152,64 @@ Page {
             id: channelVideos
         }
 
+        ComboBox {
+            id: channelTab
+            anchors.top: column.bottom
+            anchors.topMargin: Theme.paddingSmall
+            anchors.left: parent.left
+            anchors.right: parent.right
+            label: qsTr("Category")
+            currentIndex: 0
+            property var values: [Search.Channel, Search.ChannelShorts, Search.ChannelLiveStreams, Search.ChannelPlaylists]
+            menu: ContextMenu {
+                Repeater {
+                    model: [qsTr("Videos"),qsTr("Shorts"),qsTr("Livestreams"),qsTr("Playlists")]
+                    delegate: MenuItem {
+                        text: modelData
+                    }
+                }
+            }
+            onCurrentItemChanged: {
+                channelVideos.loadChannelVideos(channelId, values[currentIndex])
+            }
+        }
+
         SilicaFastListView {
             id: videosList
-            anchors.top: column.bottom
-            anchors.topMargin: Theme.paddingLarge
-            x: Theme.horizontalPageMargin
-            width: parent.width - Theme.horizontalPageMargin
-            height: page.height
+            anchors.top: channelTab.bottom
+            anchors.topMargin: Theme.paddingSmall
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: page.height - channelTab.height
             maximumFlickVelocity: 9999
             spacing: Theme.paddingMedium
             model: channelVideos
             clip: true
-            interactive: flickable.contentY == Math.round(column.height)
-            onContentYChanged: if (contentY === contentHeight - videosList.height) channelVideos.continueChannelVideos()
+            interactive: flickable.contentY >= Math.round(column.height + Theme.paddingSmall*2)
+
+            ViewPlaceholder {
+                enabled: !videosList.count
+                text: qsTr("No videos")
+            }
 
             delegate: VideoElement {
                 id: delegate
-                popPage: true
+
+                onClicked: {
+                    if (elementType === YtPlaylist.PlaylistType) {
+                        app.playlistModel.loadPlaylist(id);
+                        app.playlistMode = true;
+                        pageStack.navigateBack()
+                    } else {
+                        pageStack.navigateBack(PageStackAction.Immediate)
+                        if (pageStack.nextPage(pageStack.currentPage)) {
+                            pageStack.popAttached(pageStack.currentPage, PageStackAction.Immediate)
+                        }
+
+                        pageStack.pushAttached(Qt.resolvedUrl("VideoPlayer.qml"), {videoIdToPlay: id})
+                        pageStack.navigateForward()
+                    }
+                }
             }
         }
     }

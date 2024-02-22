@@ -13,6 +13,7 @@ public:
     static std::unique_ptr<Video> fromTrendingJson(QJsonObject video);
     static std::unique_ptr<Video> fromRecommendedJson(QJsonObject video);
     static std::unique_ptr<Video> fromVideoInfoJson(QJsonObject video);
+    static std::unique_ptr<Video> fromPlaylistJson(QJsonObject video);
     static Video* fromSqlRecord(QSqlRecord record);
     static std::unique_ptr<Video> fromChannelVideosJson(QJsonObject video);
     static int parseAmount(QString amount);
@@ -21,6 +22,8 @@ private:
     static uint parseTimestamp(QString timestamp);
     static QString formatDuration(QTime duration);
     static uint getLikeCount(QJsonObject video);
+    static bool isLive(QJsonObject video);
+    static bool isUpcoming(QJsonObject video);
 };
 
 #endif // VIDEOFACTORY_H

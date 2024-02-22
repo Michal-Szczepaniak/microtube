@@ -97,6 +97,8 @@ private:
     Projection _projection;
     float _projectionX;
     float _projectionY;
+    QMetaObject::Connection _sceneGraphInitializedSignal;
+    QMetaObject::Connection _sceneGraphInvalidatedSignal;
 };
 
 #endif /* RENDERER_MEEGO_H */

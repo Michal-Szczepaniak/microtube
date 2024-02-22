@@ -7,17 +7,16 @@
 Author AuthorFactory::fromJson(QJsonObject json)
 {
     Author author{};
-    for (const QJsonValue &avatar : json["thumbnails"].toArray())
+    for (const QJsonValue &avatar : json["thumbnails"].toArray()) {
         author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
-    if (json.contains("bestAvatar")) {
-        author.bestAvatar = ThumbnailFactory::fromJson(json["bestAvatar"].toObject());
-    } else if (!author.avatars.empty()) {
+    }
+    if (!author.avatars.empty()) {
         author.bestAvatar = author.avatars.last();
     }
     author.authorId = json.contains("id") ? json["id"].toString() : json["channelID"].toString();
     author.name = json["name"].toString();
-    author.url = json["channel_url"].toString();
-    author.verified = json["verified"].toBool();
+    author.url = json["url"].toString();
+    author.verified = json["is_verified"].toBool();
 
     return author;
 }
@@ -103,11 +102,17 @@ Author AuthorFactory::fromSubscriptionsJson(QJsonObject json)
 
     for (const QJsonValue &avatar : json["authorThumbnails"].toArray())
         author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
-    author.bestAvatar = author.avatars.last();
+
+    if (!author.avatars.empty()) {
+        author.bestAvatar = author.avatars.first();
+    }
 
     for (const QJsonValue &banner : json["authorBanners"].toArray())
         author.banners.append(ThumbnailFactory::fromJson(banner.toObject()));
-    author.bestBanner = author.banners.last();
+
+    if (!author.banners.empty()) {
+        author.bestBanner = author.banners.first();
+    }
 
     return author;
 }
@@ -122,7 +127,10 @@ Author AuthorFactory::fromCommentsJson(QJsonObject json)
 
     for (const QJsonValue &avatar : json["thumbnails"].toArray())
         author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
-    author.bestAvatar = author.avatars.last();
+
+    if (!author.avatars.empty()) {
+        author.bestAvatar = author.avatars.first();
+    }
 
     return author;
 }
@@ -130,15 +138,31 @@ Author AuthorFactory::fromCommentsJson(QJsonObject json)
 Author AuthorFactory::fromSearchJson(QJsonObject json)
 {
     Author author{};
-    author.authorId = json["channelID"].toString();
-    author.description = json["descriptionShort"].toString();
+    author.authorId = json["id"].toString();
+    author.description = json["description_snippet"].toObject()["text"].toString();
+    author.name = json["author"].toObject()["name"].toString();
+    author.url = json["author"].toObject()["url"].toString();
+    author.verified = json["author"].toObject()["is_verified"].toBool();
+    author.subscriberCount = parseAmount(json["video_count"].toString());
+
+    for (const QJsonValue &avatar : json["author"].toObject()["thumbnails"].toArray())
+        author.avatars.append(ThumbnailFactory::fromAuthorJson(avatar.toObject()));
+
+    if (!author.avatars.empty()) {
+        author.bestAvatar = author.avatars.first();
+    }
+
+    return author;
+}
+
+Author AuthorFactory::fromPlaylistJson(QJsonObject json)
+{
+    Author author{};
+
+    author.authorId = json["id"].toString();
     author.name = json["name"].toString();
     author.url = json["url"].toString();
-    author.verified = json["verified"].toBool();
-
-    for (const QJsonValue &avatar : json["avatars"].toArray())
-        author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
-    author.bestAvatar = author.avatars.first();
+    author.verified = json["is_verified"].toBool();
 
     return author;
 }

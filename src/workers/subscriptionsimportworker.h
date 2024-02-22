@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QString>
 #include <QVector>
-#include "helpers/jsprocesshelper.h"
+#include "managers/jsprocessmanager.h"
 #include "repositories/authorrepository.h"
 
 class SubscriptionsImportWorker : public QObject
@@ -23,7 +23,7 @@ signals:
 private:
     QVector<QString> _authorsToImport;
     AuthorRepository _authorRepository;
-    JSProcessHelper _jsProcessHelper;
+    JSProcessManager _jsProcessHelper;
 };
 
 #endif // SUBSCRIPTIONSIMPORTWORKER_H

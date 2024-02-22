@@ -5,13 +5,19 @@
 #include "src/entities/video.h"
 #include <memory>
 
-class VideoRepository : public BaseRepository<Video>
+class VideoRepository : public BaseRepository<Video*>
 {
 public:
+    ~VideoRepository();
+
     Video *get(int id);
     void put(Video *entity);
     void update(int id);
     void remove(int id);
+    bool has(int id) const;
+    bool has(QString videoId) const;
+    bool isWatched(int id) const;
+    bool isWatched(QString videoId) const;
 
     void deleteAll();
 

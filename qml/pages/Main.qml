@@ -37,6 +37,12 @@ Page {
         }
     }
 
+    onOrientationChanged: {
+        if (swipeView.contentX > 0) {
+            swipeView.contentX = page.height;
+        }
+    }
+
     ConfigurationGroup {
         id: settings
         path: "/apps/microtube"
@@ -84,23 +90,59 @@ Page {
                 text: qsTr("Subscriptions")
                 onClicked: {
                     subscriptionsAggregator.updateSubscriptions()
-                    pageStack.push(Qt.resolvedUrl("Subscriptions.qml"), {playlistModel: app.playlistModel})
+                    pageStack.push(Qt.resolvedUrl("Subscriptions.qml"), {searchModel: app.searchModel})
+                }
+            }
+
+            MenuItem {
+                text: qsTr("Search results to queue")
+                visible: !app.playlistMode
+                onClicked: {
+                    playlistModel.copyOtherModel(searchModel)
+                    playlistMode = true;
+                }
+            }
+
+            MenuItem {
+                text: qsTr("Clear queue")
+                visible: app.playlistMode
+                onClicked: {
+                    var remorse = Remorse.popupAction(page, qsTr("Clearing queue"), function() {
+                        playlistModel.clear();
+                    })
                 }
             }
 
             MenuItem {
                 text: qsTr("Filters")
-                enabled: typeof playlistModel.searchParams !== "undefined"
-                visible: false
+                enabled: searchModel.hasLastSearch
                 onClicked: {
-                    pageStack.push(Qt.resolvedUrl("Filters.qml"), {playlistModel: app.playlistModel})
+                    pageStack.push(Qt.resolvedUrl("Filters.qml"), {searchModel: app.searchModel})
                 }
             }
         }
 
         PageHeader {
             id: header
-            title: qsTr("Search")
+            title: swipeView.contentX === 0 ? qsTr("Categories") : app.playlistMode ? qsTr("Queue") : qsTr("Search")
+            description: swipeView.contentX === 0 ? qsTr("Select trending category") : app.playlistMode ? qsTr("Play queued videos") : qsTr("Find videos")
+
+            TextSwitch {
+                id: playlistModeSwitch
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.rightMargin: header._titleItem.width
+                text: qsTr("Switch to queue")
+                onCheckedChanged: {
+                    app.playlistMode = checked
+                }
+
+                Connections {
+                    target: app
+                    onPlaylistModeChanged: playlistModeSwitch.checked = app.playlistMode
+                }
+            }
         }
 
         SearchField {
@@ -111,17 +153,18 @@ Page {
             Keys.onReturnPressed: {
                 if(searchField.text.length != 0) {
                     if(searchField.text == "21379111488") settings.developerMode = !settings.developerMode
-                    playlistModel.search(searchField.text)
+                    searchModel.search(searchField.text)
+                    app.playlistMode = false
+                    swipeView.contentX = page.width;
                 }
             }
             Component.onCompleted: {
                 if (Qt.application.arguments.length === 2) {
-                    playlistModel.search(Qt.application.arguments[1])
+                    searchModel.search(Qt.application.arguments[1])
                     searchField.text = Qt.application.arguments[1]
                 }
             }
         }
-
 
         SilicaListView {
             id: swipeView
@@ -163,8 +206,8 @@ Page {
 
                     delegate: CategoryElement {
                         onClicked: {
-                            playlistModel.loadCategory(name, settings.currentRegion)
-                            swipeView.contentX = -page.width
+                            searchModel.loadCategory(name, settings.currentRegion)
+                            swipeView.contentX = page.width
                         }
                     }
                 }
@@ -176,24 +219,30 @@ Page {
                     clip: true
                     spacing: Theme.paddingMedium
                     visible: index === 1
-                    model: playlistModel
+                    model: app.playlistMode ? playlistModel : searchModel
 
-                    Label {
-                        anchors.centerIn: parent
-                        width: parent.width/2
-                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                        horizontalAlignment: Text.AlignHCenter
-                        text: qsTr("Select category by swiping to the left or search for videos")
-                        visible: !searchList.count
+                    ViewPlaceholder {
+                        enabled: !searchList.count
+                        text: playlistMode ? qsTr("No queued videos") : qsTr("No videos")
+                        hintText: playlistMode ? qsTr("Add videos to queue from pulldown or dropdown menus") : qsTr("Select category by swiping to the left or search for videos")
                     }
 
                     delegate: VideoElement {
                         onClicked: {
                             if (elementType === YtPlaylist.ChannelType) {
-                                pageStack.push(Qt.resolvedUrl("Channel.qml"), {channelId: id })
+                                pageStack.push(Qt.resolvedUrl("Channel.qml"), {channelId: id})
+                            } else if (elementType === YtPlaylist.PlaylistType) {
+                                app.playlistModel.loadPlaylist(id);
+                                app.playlistMode = true;
                             } else {
-                                if (pageStack.nextPage(page))
-                                    pageStack.popAttached(page, PageStackAction.Immediate)
+                                if (pageStack.nextPage(page)) {
+                                    pageStack.popAttached(page, PageStackAction.Immediate);
+                                }
+
+                                if (app.playlistMode) {
+                                    app.playlistModel.currentVideoIndex = index;
+                                }
+
                                 pageStack.pushAttached(Qt.resolvedUrl("VideoPlayer.qml"), {videoIdToPlay: id})
                                 pageStack.navigateForward()
                             }

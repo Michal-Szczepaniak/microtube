@@ -75,6 +75,7 @@ int main(int argc, char *argv[])
     qRegisterMetaType<Author>();
     qRegisterMetaType<Caption>();
     qRegisterMetaType<Thumbnail>();
+    qRegisterMetaType<Search>();
     qRegisterMetaType<RendererNemo::Projection>();
     qmlRegisterType<Video>("com.verdanditeam.yt", 1, 0, "Video");
     qmlRegisterType<SponsorBlock>("com.verdanditeam.sponsorblock", 1, 0, "SponsorBlockPlugin");
@@ -87,6 +88,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<CommentsModel>("com.verdanditeam.yt", 1, 0, "CommentsModel");
     qmlRegisterType<VideoDownloader>("com.verdanditeam.yt", 1, 0, "VideoDownloader");
     qmlRegisterType<JsDiagnostics>("com.verdanditeam.yt", 1, 0, "JsDiagnostics");
+    qmlRegisterUncreatableType<Search>("com.verdanditeam.yt", 1, 0, "Search", "");
 
     view->setSource(SailfishApp::pathTo("qml/microtube.qml"));
     view->show();

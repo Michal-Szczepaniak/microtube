@@ -21,15 +21,17 @@ public:
     QVector<Thumbnail> banners;
     Thumbnail bestBanner{};
     int id = -1;
-    QString authorId;
-    QString name;
-    QString description;
+    QString authorId{};
+    QString name{};
+    QString description{};
     //QString<Badge> badges;
-    QString url;
-    bool verified;
-    int subscriberCount;
+    QString url{};
+    bool verified = false;
+    int subscriberCount = 0;
     bool subscribed = false;
     int unwatchedVideosCount = 0;
+
+    bool operator!=(Author const &other) { return authorId != other.authorId; }
 };
 Q_DECLARE_METATYPE(Author*)
 

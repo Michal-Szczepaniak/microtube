@@ -8,6 +8,7 @@ class ThumbnailFactory
 {
 public:
     static Thumbnail fromJson(QJsonObject json);
+    static Thumbnail fromAuthorJson(QJsonObject json);
     static Thumbnail fromTrendingJson(QJsonObject json);
     static Thumbnail fromRecommendedJson(QJsonObject json);
 };

@@ -1,5 +1,5 @@
-#ifndef JSPROCESSHELPER_H
-#define JSPROCESSHELPER_H
+#ifndef JSPROCESSMANAGER_H
+#define JSPROCESSMANAGER_H
 
 #include <QString>
 #include <QProcess>
@@ -9,29 +9,33 @@
 #include "converters/xmltosrtconverter.h"
 #include "src/parsers/videosparser.h"
 
-class JSProcessHelper : public QObject
+class JSProcessManager : public QObject
 {
     Q_OBJECT
 public:
-    JSProcessHelper();
+    JSProcessManager();
 
     void asyncSearch(Search* query);
     void asyncContinueSearch(Search* query);
-    void asyncGetVideoInfo(QString url);
+    bool asyncGetVideoInfo(QString url);
     void asyncLoadRecommendedVideos(QString url);
-    void asyncScrapeTrending(QString category, QString country);
-    void asyncGetChannelInfo(QString channelId);
-    void asyncLoadChannelVideos(QString channelId);
-    void asyncContinueChannelVideos();
+    void asyncGetTrending(Search* query);
+    void asyncGetChannelInfo(Search* query);
+    void asyncLoadChannelVideos(Search* query);
+    void asyncContinueChannelVideos(Search* query);
     void asyncGetComments(QString videoId);
     void asyncGetCommentsContinuation();
     void asyncGetCommentReplies(QJsonObject continuationData);
-    SearchResults loadChannelVideos(QString channelId, bool full = false);
+    void asyncLoadPlaylist(Search* query);
+    void asyncContinuePlaylist(Search* query);
+    SearchResults loadChannelVideos(Search* query, bool full = false);
     std::unique_ptr<Video> getBasicVideoInfo(QString url);
-    Author fetchChannelInfo(QString channelId);
+    Author fetchChannelInfo(Search *query);
+    SearchResults getSearchVideos();
     SearchResults getTrendingVideos();
     SearchResults getRecommendedVideos();
     SearchResults getChannelVideos();
+    SearchResults getPlaylistVideos();
     std::vector<Comment> getComments();
     std::vector<Comment> getCommentReplies();
     std::unique_ptr<Video> getVideoInfo();
@@ -46,12 +50,12 @@ signals:
     void gotChannelVideos(bool isContinuation);
     void gotComments(bool canContinue, bool isContinuation);
     void gotCommentReplies(QJsonObject continuation);
+    void gotPlaylist(bool isContinuation);
 
 private slots:
     static QProcess* execute(QString script, QStringList args);
-    static QJsonObject prepareSearchOptions(Search *query);
+    QJsonObject prepareSearchOptions(Search *query, QJsonObject *continuation);
     void searchDone(int exitStatus);
-    void searchContinuationDone(int exitStatus);
     void gotVideoInfoJson(int exitStatus);
     void gotRecommendedVideosInfo(int exitStatus);
     void trendingScrapeDone(int exitStatus);
@@ -59,28 +63,33 @@ private slots:
     void gotChannelVideosJson(int exitStatus);
     void gotCommentsJson(int exitStatus);
     void gotCommentRepliesJson(int exitStatus);
+    void gotPlaylistJson(int exitStatus);
 
 private:
     QProcess* _searchProcess;
-    QProcess* _trendingScrapeProcess;
-    Search* _searchInProgress;
+    QProcess* _trendingProcess;
     QProcess* _getUrlProcess;
     QProcess* _getChannelInfoProcess;
     QProcess* _getChannelVideosProcess;
     QProcess* _getCommentsProcess;
     QProcess* _getCommentRepliesProcess;
+    QProcess* _playlistProcess;
+    QJsonObject _searchContinuation{};
     QJsonObject _channelVideosContinuation{};
     QJsonObject _commentsContinuation{};
+    QJsonObject _playlistContinuation{};
     QString _commentRepliesContinuation{};
     QString _loadChannelVideosLastAuthorId{};
 
+    SearchResults _searchVideos{};
     SearchResults _trendingVideos{};
     SearchResults _recommendedVideos{};
     SearchResults _channelVideos{};
+    SearchResults _playlistVideos{};
     std::vector<Comment> _comments{};
     std::vector<Comment> _commentReplies{};
     std::unique_ptr<Video> _videoInfo{};
     Author _channelInfo{};
 };
 
-#endif // JSPROCESSHELPER_H
+#endif // JSPROCESSMANAGER_H

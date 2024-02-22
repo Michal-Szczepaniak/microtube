@@ -16,6 +16,13 @@ Thumbnail ThumbnailFactory::fromJson(QJsonObject json)
     return thumbnail;
 }
 
+Thumbnail ThumbnailFactory::fromAuthorJson(QJsonObject json)
+{
+    Thumbnail thumbnail = fromJson(json);
+    thumbnail.url = "https:" + thumbnail.url;
+    return thumbnail;
+}
+
 Thumbnail ThumbnailFactory::fromTrendingJson(QJsonObject json)
 {
     Thumbnail thumbnail{};

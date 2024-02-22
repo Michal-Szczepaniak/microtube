@@ -4,7 +4,7 @@
 
 VideoHelper::VideoHelper(QObject *parent) : QObject(parent)
 {
-    connect(&_jsProcessHelper, &JSProcessHelper::gotVideoInfo, this, &VideoHelper::gotFormats);
+    connect(&_jsProcessHelper, &JSProcessManager::gotVideoInfo, this, &VideoHelper::gotFormats);
     connect(&_converter, &XmlToSrtConverter::gotSrt, this, &VideoHelper::gotSubtitles);
 }
 
@@ -90,7 +90,13 @@ void VideoHelper::gotFormats(QHash<int, QString> formats)
     _currentVideo = _jsProcessHelper.getVideoInfo();
 
     if (_currentVideo->isLive) {
-        _audioUrl = "";
+        for (int definition : VideoDefinition::audioDefinitions) {
+            if (formats.contains(definition)) {
+                _audioUrl = formats[definition];
+                qDebug() << "Selecting audio format: " << definition;
+                break;
+            }
+        }
 
         for (QMap<quint32, QVector<int>>::const_iterator definitions = VideoDefinition::liveVideoDefinitions.constEnd(); definitions-- != VideoDefinition::liveVideoDefinitions.constBegin(); ) {
             if (definitions.key() > _maxDefinition || _videoUrl != "") continue;

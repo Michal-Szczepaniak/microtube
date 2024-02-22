@@ -29,13 +29,15 @@ ApplicationWindow
     id: app
     initialPage: settings.version === version ? mainPage : (settings.version === "" ? installPage : updatePage)
     cover: !videoCover ? Qt.resolvedUrl("cover/CoverPage.qml") : null
-    property alias playlistModel: playlistModel
+    property alias searchModel: searchModel
 
     allowedOrientations: defaultAllowedOrientations
 
     property string playing: ""
     property bool videoCover: false
     property string version: "3.4.0"
+    property bool playlistMode: false
+    property alias playlistModel: playlistModel
 
     Component {
         id: updatePage
@@ -50,6 +52,10 @@ ApplicationWindow
     Component {
         id: mainPage
         Main { }
+    }
+
+    YtPlaylist {
+        id: searchModel
     }
 
     YtPlaylist {
@@ -88,14 +94,14 @@ ApplicationWindow
     Connections {
         target: userFilesHelper
         onUpdateFinished: {
-            if (playlistModel.rowCount() === 0 && Qt.application.arguments.length !== 2)
-                playlistModel.loadCategory(settings.categoryName, settings.currentRegion)
+            if (searchModel.rowCount() === 0 && Qt.application.arguments.length !== 2)
+                searchModel.loadCategory(settings.categoryName, settings.currentRegion)
         }
     }
 
     Component.onCompleted: {
         if (Qt.application.arguments.length !== 2) {
-            playlistModel.loadCategory(settings.categoryName, settings.currentRegion)
+            searchModel.loadCategory(settings.categoryName, settings.currentRegion)
         }
     }
 

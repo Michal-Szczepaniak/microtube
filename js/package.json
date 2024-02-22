@@ -10,10 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "youtubei.js": "^4.2.0",
-    "yt-channel-info": "^3.2.1",
-    "ytdl-core": "https://github.com:khlevon/node-ytdl-core.git#v4.11.4-patch.2",
-    "ytpl": "^2.3.0",
-    "ytsr": "^3.8.0"
+    "youtubei.js": "^9.0",
+    "ytdl-core": "git+https://github.com/khlevon/node-ytdl-core.git#v4.11.4-patch.2"
   }
 }

@@ -13,7 +13,7 @@ UserFilesHelper::UserFilesHelper()
 
 void UserFilesHelper::copyJsFiles()
 {
-    QStringList files = { "basicVideoInfo.js", "channelInfo.js", "channelVideos.js", "commentReplies.js", "comments.js", "package.json", "search.js", "trending.js", "videoInfo.js" };
+    QStringList files = { "basicVideoInfo.js", "channelInfo.js", "commentReplies.js", "comments.js", "package.json", "videoInfo.js", "unified.js" };
 
     QString appDataLocation = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/";
 

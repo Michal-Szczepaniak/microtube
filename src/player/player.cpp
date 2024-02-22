@@ -5,6 +5,7 @@
 #include <QMatrix4x4>
 #include <cmath>
 #include <QTextDocument>
+#include <QDateTime>
 
 VideoPlayer::VideoPlayer(QQuickItem *parent) :
     QQuickPaintedItem(parent),
@@ -19,6 +20,7 @@ VideoPlayer::VideoPlayer(QQuickItem *parent) :
     _subSource(nullptr),
     _scaletempo(nullptr),
     _state(VideoPlayer::StateStopped),
+    _previousState(VideoPlayer::StatePlaying),
     _timer(new QTimer((QObject*)this)),
     _pos(0),
     _playbackSpeed(1.0),
@@ -328,8 +330,6 @@ bool VideoPlayer::play() {
         return false;
     }
 
-    qDebug() << "AudioResource: " << _audioResource.isAcquired();
-
     return setState(VideoPlayer::StatePlaying);
 }
 
@@ -362,6 +362,7 @@ bool VideoPlayer::seek(qint64 offset) {
 
         return TRUE;
     }
+
 
     return TRUE;
 }
@@ -449,6 +450,9 @@ bool VideoPlayer::setState(const VideoPlayer::State& state) {
 
     if (state == VideoPlayer::StatePaused || state == VideoPlayer::StateBuffering) {
         _timer->stop();
+        if (state == VideoPlayer::StatePaused) {
+            _previousState = VideoPlayer::StatePaused;
+        }
 
         int ret = gst_element_set_state(_pipeline, GST_STATE_PAUSED);
         if (ret == GST_STATE_CHANGE_FAILURE) {
@@ -475,6 +479,10 @@ bool VideoPlayer::setState(const VideoPlayer::State& state) {
 
         return true;
     } else if (state == VideoPlayer::StatePlaying) {
+        if (_state == VideoPlayer::StateBuffering) {
+            _previousState = VideoPlayer::StatePlaying;
+        }
+
         if (gst_element_set_state(_pipeline, GST_STATE_PLAYING) == GST_STATE_CHANGE_FAILURE) {
                 qmlInfo(this) << "error setting pipeline to PLAYING";
                 return false;
@@ -638,18 +646,32 @@ void VideoPlayer::cbNewVideoPad(GstElement *element, GstPad *pad, gpointer data)
     gchar *name;
     VideoPlayer *other = (VideoPlayer*)data;
 
-    name = gst_pad_get_name (pad);
+    name = gst_pad_get_name(pad);
     g_print ("A new pad %s was created for %s\n", name, gst_element_get_name(element));
     g_free (name);
 
     Q_ASSERT(other->_renderer);
-    g_print ("element %s will be linked to %s\n",
-            gst_element_get_name(element),
-            gst_element_get_name(other->_renderer->sinkElement()));
-    gst_element_link(element, other->_renderer->sinkElement());
 
-    if (other->_audioUrl.toString() == "") {
-        gst_element_link(element, other->_pulsesink);
+    GstPad *compatiblePad = gst_element_get_compatible_pad(other->_renderer->sinkElement(), pad, NULL);
+    if (compatiblePad != NULL) {
+        g_print ("element %s will be linked to %s\n",
+                gst_element_get_name(element),
+                gst_element_get_name(other->_renderer->sinkElement()));
+        gst_element_link(element, other->_renderer->sinkElement());
+        gst_object_unref(GST_OBJECT(compatiblePad));
+
+        return;
+    }
+
+    if (other->_audioUrl.toString() != "") return;
+
+    compatiblePad = gst_element_get_compatible_pad(other->_scaletempo, pad, NULL);
+    if (compatiblePad != NULL) {
+        g_print ("element %s will be linked to %s\n",
+                gst_element_get_name(element),
+                gst_element_get_name(other->_scaletempo));
+        gst_element_link(element, other->_scaletempo);
+        gst_object_unref(GST_OBJECT(compatiblePad));
     }
 }
 
@@ -685,17 +707,28 @@ void VideoPlayer::updateRequested() {
 
 void VideoPlayer::updateBufferingState(int percent, QString name)
 {
-    if (!name.startsWith("queue")) return;
     _bufferingProgress[name] = percent;
 
     for (int p : _bufferingProgress) {
-        if (p < 10) {
+        if (_audioOnlyMode ? (p < 2) : (p < 5)) {
+            if (_state != VideoPlayer::StateBuffering) {
+                _previousState = _state;
+            }
+
             setState(VideoPlayer::StateBuffering);
+            _bufferTimestamp = QDateTime::currentMSecsSinceEpoch();
             return;
         }
     }
 
-    if (_state == StateBuffering) {
-        play();
+    if (_state != StateBuffering) {
+        return;
+    }
+
+    if (_previousState == VideoPlayer::StatePlaying &&
+        QDateTime::currentMSecsSinceEpoch() - _bufferTimestamp > 1000) {
+            play();
+    } else if (_previousState != VideoPlayer::StatePlaying) {
+        setState(_previousState);
     }
 }

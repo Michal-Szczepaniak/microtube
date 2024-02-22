@@ -22,6 +22,7 @@ ListItem {
         horizontalAlignment: Image.AlignHCenter
         fillMode: Image.PreserveAspectFit
         source: photo
+        onStatusChanged: if (status === Image.Error) source = "image://theme/icon-l-people"
         asynchronous: true
         width: Theme.itemSizeSmall
         height: Theme.itemSizeSmall

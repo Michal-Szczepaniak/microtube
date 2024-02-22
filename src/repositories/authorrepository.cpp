@@ -24,6 +24,8 @@ Author AuthorRepository::get(int id)
 
 void AuthorRepository::put(Author &entity)
 {
+    if (entity.authorId == "") return;
+
     QSqlQuery q;
     q.prepare("INSERT INTO author(authorId, name, url, avatar, subscribed) VALUES (?,?,?,?,?)");
     q.addBindValue(QVariant::fromValue(entity.authorId));
@@ -65,6 +67,16 @@ void AuthorRepository::remove(Author entity)
     q.exec();
 }
 
+bool AuthorRepository::has(QString channelId) const
+{
+    QSqlQuery q;
+    q.prepare("SELECT id FROM author WHERE authorId = ? AND subscribed = true");
+    q.addBindValue(QVariant::fromValue(channelId));
+    q.exec();
+
+    return q.next();
+}
+
 Author AuthorRepository::getOneByChannelId(QString channelId)
 {
     QSqlQuery q;
@@ -101,7 +113,7 @@ QVector<Author> AuthorRepository::getSubscriptions()
 QVector<Author> AuthorRepository::getSubscriptionsWithUnwatchedCount()
 {
     QSqlQuery q;
-    q.prepare("SELECT author.*, COUNT(video.id) as unwatchedCount FROM author LEFT JOIN video ON video.author = author.id AND video.watched = false  WHERE subscribed = true GROUP BY author.id");
+    q.prepare("SELECT author.*, COUNT(video.id) as unwatchedCount FROM author LEFT JOIN video ON video.author = author.id AND video.watched = 0 AND isUpcoming = 0 AND isLive = 0 WHERE subscribed = 1 GROUP BY author.id");
     q.exec();
 
     Q_ASSERT_X(!q.lastError().isValid(), "AuthorRepository::getSubscriptionsWithUnwatchedCount", q.lastError().text().toLatin1());

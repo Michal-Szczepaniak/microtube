@@ -12,22 +12,22 @@ std::unique_ptr<Video> VideoFactory::fromJson(QJsonObject video)
 {
     std::unique_ptr<Video> parsed(new Video());
     parsed->author = AuthorFactory::fromJson(video["author"].toObject());
-    parsed->description = video["description"].toString();
-    parsed->duration = video["duration"].toString();
+    parsed->duration = video["duration"].toObject()["text"].toString();
     parsed->videoId = video["id"].toString();
-    parsed->isLive = video["isLive"].toBool();
-    parsed->isUpcoming = video["isUpcoming"].toBool();
-    parsed->title = video["title"].toString();
-    parsed->upcoming = video["upcoming"].toInt();
-    parsed->uploadedAt = video["uploadedAt"].toString();
-    parsed->timestamp = parseTimestamp(video["uploadedAt"].toString());
-    parsed->url = video["url"].toString();
-    parsed->views = video["views"].toInt();
+    parsed->title = video["title"].toObject()["text"].toString();
+    parsed->uploadedAt = video["published"].toObject()["text"].toString();
+    parsed->timestamp = parseTimestamp(parsed->uploadedAt);
+    parsed->url = "https://www.youtube.com/watch?v=" + parsed->videoId;
+    parsed->views = parseAmount(video["view_count"].toObject()["text"].toString());
+    parsed->isLive = isLive(video);
+    parsed->isUpcoming = isUpcoming(video);
 
     QJsonArray thumbnails = video["thumbnails"].toArray();
     for (const QJsonValue &jsonThumbnail : thumbnails) {
         Thumbnail thumbnail = ThumbnailFactory::fromJson(jsonThumbnail.toObject());
-        parsed->thumbnails[thumbnail.size] = thumbnail;
+        if (!parsed->thumbnails.contains(thumbnail.size) || parsed->thumbnails[thumbnail.size].width < thumbnail.width) {
+            parsed->thumbnails[thumbnail.size] = thumbnail;
+        }
     }
 
     return parsed;
@@ -40,10 +40,9 @@ std::unique_ptr<Video> VideoFactory::fromTrendingJson(QJsonObject video)
     parsed->description = video["description_snippet"].toObject()["text"].toString();
     parsed->duration = video["duration"].toObject()["text"].toString();
     parsed->videoId = video["id"].toString();
-    parsed->isLive = false;
-    parsed->isUpcoming = false;//video["isUpcoming"].toBool();
+    parsed->isLive = isLive(video);
+    parsed->isUpcoming = isUpcoming(video);
     parsed->title = video["title"].toObject()["text"].toString();
-    //parsed->upcoming = video["upcoming"].toInt();
     parsed->uploadedAt = video["published"].toObject()["text"].toString();
     parsed->timestamp = parseTimestamp(parsed->uploadedAt);
     parsed->url = "https://www.youtube.com/watch?v=" + parsed->videoId;
@@ -55,7 +54,9 @@ std::unique_ptr<Video> VideoFactory::fromTrendingJson(QJsonObject video)
     QJsonArray thumbnails = video["thumbnails"].toArray();
     for (const QJsonValue &jsonThumbnail : thumbnails) {
         Thumbnail thumbnail = ThumbnailFactory::fromTrendingJson(jsonThumbnail.toObject());
-        parsed->thumbnails[thumbnail.size] = thumbnail;
+        if (!parsed->thumbnails.contains(thumbnail.size) || parsed->thumbnails[thumbnail.size].width < thumbnail.width) {
+            parsed->thumbnails[thumbnail.size] = thumbnail;
+        }
     }
 
     return parsed;
@@ -78,7 +79,9 @@ std::unique_ptr<Video> VideoFactory::fromRecommendedJson(QJsonObject video)
     QJsonArray thumbnails = video["thumbnails"].toArray();
     for (const QJsonValue &jsonThumbnail : thumbnails) {
         Thumbnail thumbnail = ThumbnailFactory::fromRecommendedJson(jsonThumbnail.toObject());
-        parsed->thumbnails[thumbnail.size] = thumbnail;
+        if (!parsed->thumbnails.contains(thumbnail.size) || parsed->thumbnails[thumbnail.size].width < thumbnail.width) {
+            parsed->thumbnails[thumbnail.size] = thumbnail;
+        }
     }
 
     return parsed;
@@ -92,13 +95,13 @@ std::unique_ptr<Video> VideoFactory::fromVideoInfoJson(QJsonObject video)
     std::unique_ptr<Video> parsed(new Video());
     parsed->author = AuthorFactory::fromJson(videoDetails["author"].toObject());
     parsed->description = videoDetails["description"].toString();
-    parsed->duration = videoDetails["lengthSeconds"].toString();
+    parsed->duration = formatDuration(QTime::fromMSecsSinceStartOfDay(videoDetails["lengthSeconds"].toString().toInt()*1000));
     parsed->videoId = videoDetails["videoId"].toString();
     parsed->isLive = videoDetails["isLive"].toBool();
     parsed->isUpcoming = videoDetails["isUpcoming"].toBool();
     parsed->title = videoDetails["title"].toString();
     parsed->upcoming = videoDetails["upcoming"].toInt();
-    parsed->uploadedAt = videoDetails["uploadDate"].toString();
+    parsed->uploadedAt = videoDetails["publishDate"].toString();
     parsed->url = videoDetails["video_url"].toString();
     parsed->views = videoDetails["viewCount"].toString().toInt();
     parsed->likes = getLikeCount(video);
@@ -123,13 +126,50 @@ std::unique_ptr<Video> VideoFactory::fromVideoInfoJson(QJsonObject video)
     QJsonArray thumbnails = videoDetails["thumbnails"].toArray();
     for (const QJsonValue &jsonThumbnail : thumbnails) {
         Thumbnail thumbnail = ThumbnailFactory::fromJson(jsonThumbnail.toObject());
-        parsed->thumbnails[thumbnail.size] = thumbnail;
+        if (!parsed->thumbnails.contains(thumbnail.size) || parsed->thumbnails[thumbnail.size].width < thumbnail.width) {
+            parsed->thumbnails[thumbnail.size] = thumbnail;
+        }
     }
 
     QJsonArray captions = video["player_response"].toObject()["captions"].toObject()["playerCaptionsTracklistRenderer"].toObject()["captionTracks"].toArray();
     for (const QJsonValue &jsonCaption : captions) {
         Caption caption = CaptionFactory::fromJson(jsonCaption.toObject());
         parsed->subtitles.append(caption);
+    }
+
+    QString publishDate = videoDetails["publishDate"].toString();
+    QDateTime dateTime = QDateTime::fromString(publishDate, Qt::ISODate);
+    parsed->timestamp = dateTime.toTime_t();
+
+    return parsed;
+}
+
+std::unique_ptr<Video> VideoFactory::fromPlaylistJson(QJsonObject video)
+{
+    std::unique_ptr<Video> parsed(new Video());
+    parsed->author = AuthorFactory::fromPlaylistJson(video["author"].toObject());
+    parsed->duration = video["duration"].toObject()["text"].toString();
+    parsed->videoId = video["id"].toString();
+    parsed->title = video["title"].toObject()["text"].toString();
+    parsed->timestamp = QDateTime::currentDateTimeUtc().toTime_t();
+    parsed->url = "https://www.youtube.com/watch?v=" + parsed->videoId;
+    parsed->isLive = isLive(video);
+    parsed->isUpcoming = isUpcoming(video);
+    parsed->upcoming = QDateTime::fromString(video["upcoming"].toString(), Qt::ISODate).toTime_t();
+
+    QJsonArray runs = video["video_info"].toObject()["runs"].toArray();
+    QJsonObject views = runs.first().toObject();
+    QJsonObject timestamp = runs.last().toObject();
+
+    parsed->views = parseAmount(views["text"].toString());
+    parsed->timestamp = parseTimestamp(timestamp["text"].toString());
+
+    QJsonArray thumbnails = video["thumbnails"].toArray();
+    for (const QJsonValue &jsonThumbnail : thumbnails) {
+        Thumbnail thumbnail = ThumbnailFactory::fromJson(jsonThumbnail.toObject());
+        if (!parsed->thumbnails.contains(thumbnail.size) || parsed->thumbnails[thumbnail.size].width < thumbnail.width) {
+            parsed->thumbnails[thumbnail.size] = thumbnail;
+        }
     }
 
     return parsed;
@@ -170,12 +210,14 @@ Video* VideoFactory::fromSqlRecord(QSqlRecord record)
 std::unique_ptr<Video> VideoFactory::fromChannelVideosJson(QJsonObject video)
 {
     std::unique_ptr<Video> parsed(new Video());
+    QString duration = video["duration"].toObject()["text"].toString();
     parsed->author = AuthorFactory::fromChannelVideosJson(video["author"].toObject());
-    parsed->duration = video["duration"].toObject()["text"].toString();
+    parsed->duration = duration;
     parsed->description = video["description_snippet"].toObject()["text"].toString();
     parsed->videoId = video["id"].toString();
-    parsed->isLive = false;
-    parsed->isUpcoming = false;
+    parsed->isLive = isLive(video);
+    parsed->isUpcoming = isUpcoming(video);
+    parsed->upcoming = QDateTime::fromString(video["upcoming"].toString(), Qt::ISODate).toTime_t();
     parsed->title = video["title"].toObject()["text"].toString();
     parsed->uploadedAt = video["published"].toObject()["text"].toString();
     parsed->timestamp = parseTimestamp(parsed->uploadedAt);
@@ -185,7 +227,9 @@ std::unique_ptr<Video> VideoFactory::fromChannelVideosJson(QJsonObject video)
     QJsonArray thumbnails = video["thumbnails"].toArray();
     for (const QJsonValue &jsonThumbnail : thumbnails) {
         Thumbnail thumbnail = ThumbnailFactory::fromJson(jsonThumbnail.toObject());
-        parsed->thumbnails[thumbnail.size] = thumbnail;
+        if (!parsed->thumbnails.contains(thumbnail.size) || parsed->thumbnails[thumbnail.size].width < thumbnail.width) {
+            parsed->thumbnails[thumbnail.size] = thumbnail;
+        }
     }
 
     return parsed;
@@ -247,10 +291,11 @@ QString VideoFactory::formatDuration(QTime duration)
 {
     QString result = "";
 
-    if (duration.hour() > 0)
+    if (duration.hour() > 0) {
         result += QString::number(duration.hour()) + ":";
+    }
 
-    result += duration.toString("m:ss");
+    result += duration.toString("mm:ss");
 
     return result;
 }
@@ -319,4 +364,52 @@ uint VideoFactory::getLikeCount(QJsonObject video)
 
     if (!currentObject.contains("title")) return 0;
     return parseAmount(currentObject["title"].toString());
+}
+
+bool VideoFactory::isLive(QJsonObject video)
+{
+    bool result = false;
+
+    for (const QJsonValue &badge : video["badges"].toArray()) {
+        QJsonObject badgeObj = badge.toObject();
+
+        if (badgeObj["style"].toString() == "BADGE_STYLE_TYPE_LIVE_NOW" ||
+            badgeObj["label"].toString() == "LIVE") {
+            result = true;
+            break;
+        }
+    }
+
+    for (const QJsonValue &overlay : video["thumbnail_overlays"].toArray()) {
+        QJsonObject thumbObj = overlay.toObject();
+
+        if (thumbObj["style"].toString() == "LIVE" ||
+            thumbObj["text"].toString() == "LIVE") {
+            result = true;
+            break;
+        }
+    }
+
+    return result;
+}
+
+bool VideoFactory::isUpcoming(QJsonObject video)
+{
+    if (video.contains("upcoming")) {
+        qint64 timestamp = QDateTime::fromString(video["upcoming"].toString(), Qt::ISODate).toTime_t();
+
+        return timestamp - QDateTime::currentDateTimeUtc().toTime_t() > 0;
+    }
+
+
+    for (const QJsonValue &overlay : video["thumbnail_overlays"].toArray()) {
+        QJsonObject thumbObj = overlay.toObject();
+
+        if (thumbObj["style"].toString() == "UPCOMING" ||
+            thumbObj["text"].toString() == "UPCOMING") {
+            return true;
+        }
+    }
+
+    return false;
 }

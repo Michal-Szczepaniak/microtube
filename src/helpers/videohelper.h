@@ -5,7 +5,7 @@
 #include <memory>
 #include "src/repositories/videorepository.h"
 #include "src/entities/video.h"
-#include "jsprocesshelper.h"
+#include <managers/jsprocessmanager.h>
 
 Q_DECLARE_METATYPE(QList<Caption>);
 class VideoHelper : public QObject
@@ -40,7 +40,7 @@ public slots:
     void gotSubtitles(QString srt);
 
 private:
-    JSProcessHelper _jsProcessHelper;
+    JSProcessManager _jsProcessHelper;
     XmlToSrtConverter _converter;
     QString _videoUrl;
     QString _audioUrl;

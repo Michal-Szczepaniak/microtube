@@ -38,15 +38,15 @@ const QMap<quint32, QVector<int>> VideoDefinition::videoDefinitionsCombined = {
 };
 
 const QMap<quint32, QVector<int>> VideoDefinition::liveVideoDefinitions = {
-    { 1080, { 301, 96 } },
-    { 720,  { 300, 95 } },
-    { 480,  { 94 } },
-    { 360,  { 93 } },
-    { 240,  { 92 } }
+    { 1080, { 301, 270, 96 } },
+    { 720,  { 300, 232, 95 } },
+    { 480,  { 231, 94 } },
+    { 360,  { 230, 93 } },
+    { 240,  { 229, 92 } }
 };
 
 const QVector<int> VideoDefinition::audioDefinitions = {
-    251, 250, 249
+    251, 250, 249, 234, 233
 };
 
 #endif // VIDEODEFINITION_H

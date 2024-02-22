@@ -35,6 +35,7 @@ Page {
         property bool audioOnlyMode: false
         property bool developerMode: false
         property double buffer: 1.0
+        property int skipAmount: 5
         property string downloadLocation: "/home/nemo/Downloads/"
         property string version: ""
         property string categoryId: "0"
@@ -76,10 +77,10 @@ Page {
             }
 
             TextSwitch {
-               checked: playlistModel.safeSearch
+               checked: searchModel.safeSearch
                width: parent.width
                text: qsTr("Restricted mode (safe for kids)")
-               onClicked: playlistModel.safeSearch = checked
+               onClicked: app.playlistModel.setSafeSearch(checked)
             }
 
             ComboBox {
@@ -95,6 +96,8 @@ Page {
                 }
                 onCurrentItemChanged: {
                     var countries = ["","DZ","AR","AU","BE","BR","CA","CL","CO","CZ","EG","FR","DE","GH","GR","HK","HU","IN","ID","IE","IL","IT","JP","JO","KE","MY","MX","MA","NL","NZ","NG","PE","PH","PL","RU","SA","SG","ZA","KR","ES","SE","TW","TN","TR","UG","AE","GB","YE"];
+
+                    app.playlistModel.setCountry(countries[currentIndex])
                     settings.currentRegion = countries[currentIndex]
                     settings.currentRegionId = currentIndex
                 }
@@ -209,6 +212,31 @@ Page {
                 }
             }
 
+            BackgroundItem {
+                width: parent.width
+                onClicked: pageStack.push(Qt.resolvedUrl("SponsorBlockSettings.qml"))
+
+                Label {
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    anchors.leftMargin: Theme.horizontalPageMargin
+                    text: qsTr("SponsorBlock Plugin Configuration")
+                }
+            }
+
+            Slider {
+                id: doubleTapSkipSlider
+                width: parent.width
+                minimumValue: 3
+                maximumValue: 15
+                stepSize: 1
+                value: settings.skipAmount
+                valueText: qsTr("%1 seconds").arg(value)
+
+                onValueChanged: settings.skipAmount = value
+                label: qsTr("Double tap skip amount")
+            }
+
             SectionHeader {
                 text: qsTr("Other options")
             }
@@ -251,14 +279,18 @@ Page {
 
             BackgroundItem {
                 width: parent.width
-                onClicked: pageStack.push(Qt.resolvedUrl("SponsorBlockSettings.qml"))
+                onClicked: pageStack.push(Qt.resolvedUrl("SubscriptionsSettings.qml"))
 
                 Label {
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: Theme.horizontalPageMargin
-                    text: qsTr("SponsorBlock Plugin Configuration")
+                    text: qsTr("Subscriptions Aggregator Configuration")
                 }
+            }
+
+            SectionHeader {
+                text: qsTr("Youtube login")
             }
 
             Button {

@@ -28,13 +28,11 @@ Page {
 
     allowedOrientations: Orientation.All
 
-    property YtPlaylist playlistModel: null
-
-    onStatusChanged: subscriptionsModel.loadSubscriptionsList()
+    property YtPlaylist searchModel: null
 
     Connections {
         target: subscriptionsAggregator
-        onSubscriptionsUpdateProgressChanged: subscriptionsModel.loadSubscriptionsList()
+        onSubscriptionsUpdateProgressChanged: subscriptionsModel.refresh()
     }
 
     SilicaFlickable {
@@ -60,14 +58,16 @@ Page {
             MenuItem {
                 text: qsTr("Mark all as watched")
                 onClicked: {
-                    subscriptionsModel.markAllAsWatched()
+                    var remorse = Remorse.popupAction(page, qsTr("Marking everything as watched"), function() {
+                        subscriptionsModel.markAllAsWatched()
+                    })
                 }
             }
 
             MenuItem {
                 text: qsTr("Load unwatched videos")
                 onClicked: {
-                    playlistModel.loadUnwatchedSubscriptions()
+                    searchModel.loadUnwatchedSubscriptions()
                     pageStack.pop()
                 }
             }
@@ -75,7 +75,7 @@ Page {
             MenuItem {
                 text: qsTr("Load all videos")
                 onClicked: {
-                    playlistModel.loadSubscriptions()
+                    searchModel.loadSubscriptions()
                     pageStack.pop()
                 }
             }
@@ -100,7 +100,8 @@ Page {
             id: channelsProxyModel
             sourceModel: subscriptionsModel
             sorters: [
-                RoleSorter { roleName: "unwatchedCount"; sortOrder: Qt.DescendingOrder}
+                RoleSorter { roleName: "unwatchedCount"; sortOrder: Qt.DescendingOrder},
+                RoleSorter { roleName: "name"; sortOrder: Qt.AscendingOrder}
             ]
         }
 
@@ -130,14 +131,9 @@ Page {
 
             model: channelsProxyModel
 
-            delegate: ListItem {
-                width: listView.columnWidth
-                height: listView.columnWidth + contextMenu.height
-                contentWidth: listView.columnWidth
-                contentHeight: listView.columnWidth + contextMenu.height
-
+            delegate: GridItem {
                 onClicked: {
-                    playlistModel.loadSubscriberVideos(authorId)
+                    searchModel.loadSubscriberVideos(authorId)
                     pageStack.pop()
                 }
 
@@ -176,6 +172,7 @@ Page {
                     width: Theme.itemSizeExtraLarge
                     height: Theme.itemSizeExtraLarge
                     source: avatar
+                    onStatusChanged: if (status === Image.Error) source = "image://theme/icon-l-people"
                     fillMode: Image.PreserveAspectFit
                 }
                 Label {
@@ -192,10 +189,26 @@ Page {
                 menu: ContextMenu {
                     id: contextMenu
                     width: page.width
+
+                    MenuItem {
+                        text: qsTr("Channel page")
+                        onClicked: {
+                            pageStack.navigateBack(PageStackAction.Immediate)
+                            pageStack.push(Qt.resolvedUrl("Channel.qml"), {channelId: authorId})
+                        }
+                    }
+
+                    MenuItem {
+                        text: qsTr("Synchronize all videos")
+                        onClicked: {
+                            subscriptionsAggregator.updateSubscription(authorId)
+                        }
+                    }
+
                     MenuItem {
                         text: qsTr("Unsubscribe")
                         onClicked: {
-                            channelHelper.unsubscribe(authorId)
+                            channelHelper.unsubscribeId(databaseId)
                             subscriptionsModel.loadSubscriptionsList()
                         }
                     }

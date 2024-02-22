@@ -7,6 +7,13 @@
 #include <QSqlError>
 #include <src/factories/videofactory.h>
 
+VideoRepository::~VideoRepository()
+{
+    for (Video *video : _trackedObjects) {
+        delete video;
+    }
+}
+
 Video *VideoRepository::get(int id)
 {
     QSqlQuery q;
@@ -97,6 +104,46 @@ void VideoRepository::remove(int id)
     _trackedObjects.remove(id);
 }
 
+bool VideoRepository::has(int id) const
+{
+    QSqlQuery q;
+    q.prepare("SELECT * FROM video WHERE id = ?");
+    q.addBindValue(QVariant::fromValue(id));
+    q.exec();
+
+    return q.next();
+}
+
+bool VideoRepository::has(QString videoId) const
+{
+    QSqlQuery q;
+    q.prepare("SELECT * FROM video WHERE videoId = ?");
+    q.addBindValue(QVariant::fromValue(videoId));
+    q.exec();
+
+    return q.next();
+}
+
+bool VideoRepository::isWatched(int id) const
+{
+    QSqlQuery q;
+    q.prepare("SELECT * FROM video WHERE id = ? AND watched = 1");
+    q.addBindValue(QVariant::fromValue(id));
+    q.exec();
+
+    return q.next();
+}
+
+bool VideoRepository::isWatched(QString videoId) const
+{
+    QSqlQuery q;
+    q.prepare("SELECT * FROM video WHERE videoId = ? AND watched = 1");
+    q.addBindValue(QVariant::fromValue(videoId));
+    q.exec();
+
+    return q.next();
+}
+
 void VideoRepository::deleteAll()
 {
     QSqlQuery q;
@@ -128,7 +175,7 @@ Video *VideoRepository::getOneByVideoId(QString videoId)
 std::vector<std::unique_ptr<Video>> VideoRepository::getSubscriptions()
 {
     QSqlQuery q;
-    q.prepare("SELECT video.* FROM video JOIN author ON author.id = video.author WHERE subscribed = true ORDER BY timestamp desc");
+    q.prepare("SELECT video.* FROM video JOIN author ON author.id = video.author WHERE subscribed = 1 AND isUpcoming = 0 AND isLive = 0 ORDER BY timestamp desc");
     q.exec();
 
     Q_ASSERT_X(!q.lastError().isValid(), "VideoRepository::getSubscriptions", q.lastError().text().toLatin1());
@@ -144,7 +191,7 @@ std::vector<std::unique_ptr<Video>> VideoRepository::getSubscriptions()
 std::vector<std::unique_ptr<Video> > VideoRepository::getUnwatchedSubscriptions()
 {
     QSqlQuery q;
-    q.prepare("SELECT video.* FROM video JOIN author ON author.id = video.author WHERE subscribed = true AND watched = false ORDER BY timestamp desc");
+    q.prepare("SELECT video.* FROM video JOIN author ON author.id = video.author WHERE subscribed = 1 AND isUpcoming = 0 AND isLive = 0 AND watched = 0 ORDER BY timestamp desc");
     q.exec();
 
     Q_ASSERT_X(!q.lastError().isValid(), "VideoRepository::getSubscriptions", q.lastError().text().toLatin1());
@@ -160,7 +207,7 @@ std::vector<std::unique_ptr<Video> > VideoRepository::getUnwatchedSubscriptions(
 std::vector<std::unique_ptr<Video> > VideoRepository::getChannelVideos(int authorId)
 {
     QSqlQuery q;
-    q.prepare("SELECT video.* FROM video JOIN author ON author.id = video.author WHERE subscribed = true AND video.author = ? ORDER BY timestamp desc");
+    q.prepare("SELECT video.* FROM video JOIN author ON author.id = video.author WHERE subscribed = 1 AND isUpcoming = 0 AND isLive = 0 AND video.author = ? ORDER BY timestamp desc");
     q.addBindValue(QVariant::fromValue(authorId));
     q.exec();
 

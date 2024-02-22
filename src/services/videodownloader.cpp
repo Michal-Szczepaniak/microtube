@@ -5,7 +5,7 @@
 
 VideoDownloader::VideoDownloader(QObject *parent) : QObject(parent), _downloadFile(nullptr), _reply(nullptr), _status(Null), _progress(0)
 {
-    connect(&_jsProcessHelper, &JSProcessHelper::gotVideoInfo, this, &VideoDownloader::doDownload);
+    connect(&_jsProcessHelper, &JSProcessManager::gotVideoInfo, this, &VideoDownloader::doDownload);
 }
 
 void VideoDownloader::download(QString url, QString path)

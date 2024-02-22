@@ -6,7 +6,7 @@
 #include <QNetworkAccessManager>
 #include <QUrl>
 #include <QNetworkReply>
-#include "helpers/jsprocesshelper.h"
+#include "managers/jsprocessmanager.h"
 
 class VideoDownloader : public QObject
 {
@@ -39,7 +39,7 @@ signals:
     void downloadStarted(QString filename);
 
 private:
-    JSProcessHelper _jsProcessHelper;
+    JSProcessManager _jsProcessHelper;
     QFile *_downloadFile;
     QNetworkAccessManager _nam;
     QNetworkReply *_reply;

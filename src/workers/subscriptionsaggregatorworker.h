@@ -4,7 +4,7 @@
 #include <QObject>
 #include "src/repositories/videorepository.h"
 #include "src/repositories/authorrepository.h"
-#include "src/helpers/jsprocesshelper.h"
+#include "src/managers/jsprocessmanager.h"
 
 class SubscriptionsAggregatorWorker : public QObject
 {
@@ -12,6 +12,7 @@ class SubscriptionsAggregatorWorker : public QObject
 public:
     void stop();
     void setFull(bool full);
+    void setSubscriptionToFullySync(QString subscriptionToFullySync);
 
 signals:
     void finished();
@@ -21,11 +22,15 @@ public slots:
     void execute();
 
 private:
+    void executeFor(Search::SearchType type, Author subscription);
+
+private:
     VideoRepository _videoRepository{};
     AuthorRepository _authorRepository{};
-    JSProcessHelper _jsProcessHelper{};
+    JSProcessManager _jsProcessHelper{};
     bool _stop = false;
     bool _full = false;
+    QString _subscriptionToFullySync{};
 };
 
 #endif // SUBSCRIPTIONSAGGREGATORWORKER_H

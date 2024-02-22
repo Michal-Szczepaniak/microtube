@@ -74,43 +74,19 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added channels in search results")
+                    text: "• " + qsTr("Added 180° and 360° videos")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added text when search results are empty")
+                    text: "• " + qsTr("Improved animations and next video switching")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Improved first launch experience")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Fixed default category")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Fixed Main category in settings")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Added playback speed icon")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Updated translations")
+                    text: "• " + qsTr("Bug fixes")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }

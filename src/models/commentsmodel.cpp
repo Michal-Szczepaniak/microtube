@@ -2,8 +2,8 @@
 
 CommentsModel::CommentsModel(QObject *parent) : QAbstractListModel(parent), _canContinue(false)
 {
-    connect(&_jsProcessHelper, &JSProcessHelper::gotComments, this, &CommentsModel::gotComments);
-    connect(&_jsProcessHelper, &JSProcessHelper::gotCommentReplies, this, &CommentsModel::gotCommentReplies);
+    connect(&_jsProcessHelper, &JSProcessManager::gotComments, this, &CommentsModel::gotComments);
+    connect(&_jsProcessHelper, &JSProcessManager::gotCommentReplies, this, &CommentsModel::gotCommentReplies);
 }
 
 void CommentsModel::loadCommentsForVideo(QString videoId)

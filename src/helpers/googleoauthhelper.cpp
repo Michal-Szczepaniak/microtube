@@ -48,6 +48,7 @@ void GoogleOAuthHelper::importSubscriptions()
         _pendingRequests[RequestType::Subscriptions] = {};
         _progress = 0;
         _progressEnd = 0;
+        _authorsToImport.clear();
         emit importProgressChanged();
         emit importEndChanged();
     }
@@ -88,7 +89,7 @@ void GoogleOAuthHelper::getRating(QString videoId)
      url.setQuery(query);
 
      QNetworkRequest request(url);
-     _pendingRequests[RequestType::Rate].id = _o2Requestor.get(request);
+     _pendingRequests[RequestType::Rating].id = _o2Requestor.get(request);
 }
 
 void GoogleOAuthHelper::rate(QString videoId, QString rating)
@@ -150,6 +151,7 @@ void GoogleOAuthHelper::processSubscriptionsRequest(QString data)
     if (count == 50 && _pendingRequests[RequestType::Subscriptions].nextPage != "") {
         importSubscriptions();
     } else {
+        _pendingRequests.remove(RequestType::Subscriptions);
         if (_importWorker == nullptr) {
             _importWorker = new SubscriptionsImportWorker(_authorsToImport, this);
             _importThread = new QThread();
@@ -178,7 +180,7 @@ void GoogleOAuthHelper::processRatingRequest(QString data)
 
     _rating = object["items"].toArray().first().toObject()["rating"].toString();
 
-    ratingChanged(_rating);
+    emit ratingChanged(_rating);
 }
 
 void GoogleOAuthHelper::link()
