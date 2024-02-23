@@ -7,6 +7,7 @@
 #include <QDateTime>
 #include <QRegularExpression>
 #include <src/repositories/authorrepository.h>
+#include <QObject>
 
 std::unique_ptr<Video> VideoFactory::fromJson(QJsonObject video)
 {
@@ -223,6 +224,25 @@ std::unique_ptr<Video> VideoFactory::fromChannelVideosJson(QJsonObject video)
     parsed->timestamp = parseTimestamp(parsed->uploadedAt);
     parsed->url = "https://www.youtube.com/watch?v=" + parsed->videoId;
     parsed->views = parseAmount(video["view_count"].toObject()["text"].toString());
+
+    QJsonArray thumbnails = video["thumbnails"].toArray();
+    for (const QJsonValue &jsonThumbnail : thumbnails) {
+        Thumbnail thumbnail = ThumbnailFactory::fromJson(jsonThumbnail.toObject());
+        if (!parsed->thumbnails.contains(thumbnail.size) || parsed->thumbnails[thumbnail.size].width < thumbnail.width) {
+            parsed->thumbnails[thumbnail.size] = thumbnail;
+        }
+    }
+
+    return parsed;
+}
+
+std::unique_ptr<Video> VideoFactory::fromChannelShortsJson(QJsonObject video)
+{
+    std::unique_ptr<Video> parsed(new Video());
+    parsed->videoId = video["id"].toString();
+    parsed->title = video["title"].toObject()["text"].toString();
+    parsed->views = parseAmount(video["views"].toObject()["text"].toString());
+    parsed->duration = QObject::tr("Short");
 
     QJsonArray thumbnails = video["thumbnails"].toArray();
     for (const QJsonValue &jsonThumbnail : thumbnails) {

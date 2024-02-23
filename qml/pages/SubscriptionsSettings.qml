@@ -54,13 +54,6 @@ Page {
             }
 
             TextSwitch {
-                checked: subscriptionsAggregator.synchronizeShorts
-                width: parent.width
-                text: qsTr("Shorts")
-                onClicked: subscriptionsAggregator.synchronizeShorts = !subscriptionsAggregator.synchronizeShorts
-            }
-
-            TextSwitch {
                 checked: subscriptionsAggregator.synchronizeLivestreams
                 width: parent.width
                 text: qsTr("Past livestreams")

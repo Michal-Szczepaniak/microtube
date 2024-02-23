@@ -126,6 +126,30 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <source>Show more</source>
         <translation>Mostrar más</translation>
     </message>
+    <message>
+        <source>Category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shorts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Livestreams</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Playlists</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No videos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Comment</name>
@@ -182,10 +206,6 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Relevancia</translation>
     </message>
     <message>
-        <source>Date</source>
-        <translation>Fecha</translation>
-    </message>
-    <message>
         <source>View Count</source>
         <translation>Visualizaciones</translation>
     </message>
@@ -200,14 +220,6 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <message>
         <source>Today</source>
         <translation>Hoy</translation>
-    </message>
-    <message>
-        <source>7 Days</source>
-        <translation>7 días</translation>
-    </message>
-    <message>
-        <source>30 Days</source>
-        <translation>30 días</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -228,6 +240,26 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <message>
         <source>Long</source>
         <translation>Larga</translation>
+    </message>
+    <message>
+        <source>Upload date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Last hour</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This week</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This year</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -257,8 +289,36 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Mejoras en animaciones y en el cambio al siguiente vídeo</translation>
     </message>
     <message>
-        <source>Bug fixes</source>
-        <translation>Corrección de errores</translation>
+        <source>Added queue and playlists handling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added all video tabs to channel page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fixed many many many bugs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switched to youtubei.js for most of video listing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added double tap in portrait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added ability to control double tap skip amount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Improved buffering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added search filters</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -327,24 +387,63 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Selecciona categoría deslizando hacia la izquierda o busca vídeos</translation>
     </message>
     <message>
-        <source>Search results to playlist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Categories</source>
         <translation type="unfinished">Categorías</translation>
     </message>
     <message>
-        <source>Playlist</source>
+        <source>Search results to queue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Playlist mode</source>
+        <source>Clear queue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Play videos sequentially from playlist</source>
+        <source>Clearing queue</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filters</source>
+        <translation type="unfinished">Filtros</translation>
+    </message>
+    <message>
+        <source>Queue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select trending category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play queued videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Find videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch to queue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No queued videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add videos to queue from pulldown or dropdown menus</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>Short</source>
+        <translation type="unfinished">Corta</translation>
     </message>
 </context>
 <context>
@@ -656,6 +755,22 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <source>Invert VR controls</source>
         <translation>Invertir controles de RV</translation>
     </message>
+    <message>
+        <source>%1 seconds</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double tap skip amount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Subscriptions Aggregator Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Youtube login</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>
@@ -741,6 +856,14 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <source>Synchronize all videos</source>
         <translation>Sincronizar todos los vídeos</translation>
     </message>
+    <message>
+        <source>Marking everything as watched</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Channel page</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SubscriptionsImport</name>
@@ -751,6 +874,25 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <message>
         <source>Importing (%1/%2)</source>
         <translation>Importando (%1/%2)</translation>
+    </message>
+</context>
+<context>
+    <name>SubscriptionsSettings</name>
+    <message>
+        <source>Subscriptions Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Elements to aggregate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Past livestreams</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -772,16 +914,36 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <translation>Donación</translation>
     </message>
     <message>
-        <source>Added 180° and 360° videos</source>
-        <translation>Vídeos de 180º y 360º añadidos</translation>
+        <source>Added queue and playlists handling</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Improved animations and next video switching</source>
-        <translation>Mejoras en animaciones y en el cambio al siguiente vídeo</translation>
+        <source>Added all video tabs to channel page</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bug fixes</source>
-        <translation>Corrección de errores</translation>
+        <source>Fixed many many many bugs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switched to youtubei.js for most of video listing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added double tap in portrait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added ability to control double tap skip amount</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Improved buffering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Added search filters</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -801,6 +963,42 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <message>
         <source>Copy url</source>
         <translation>Copiar url</translation>
+    </message>
+    <message>
+        <source>%1 videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Live</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Upcoming</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scheduled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mark as unwatched</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mark as watched</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove from queue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to queue</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -842,6 +1040,14 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Like</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show more</source>
+        <translation type="unfinished">Mostrar más</translation>
+    </message>
+    <message>
+        <source>No videos</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

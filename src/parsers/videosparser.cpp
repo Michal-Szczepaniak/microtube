@@ -69,7 +69,7 @@ SearchResults VideosParser::parseChanelVideos(const QJsonArray videos)
         if (type == "video") {
             result.push_back(VideoFactory::fromChannelVideosJson(jsonVideo));
         } else if (type == "reelitem") {
-                result.push_back(VideoFactory::fromChannelVideosJson(jsonVideo));
+                result.push_back(VideoFactory::fromChannelShortsJson(jsonVideo));
         } else if (type == "playlist") {
             result.push_back(PlaylistFactory::fromJson(jsonVideo));
         } else if (type == "gridplaylist") {

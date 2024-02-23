@@ -59,10 +59,6 @@ void SubscriptionsAggregatorWorker::execute()
             executeFor(Search::Channel, subscription);
         }
 
-        if (settings.value("synchronize_shorts", false).toBool()) {
-            executeFor(Search::ChannelShorts, subscription);
-        }
-
         if (settings.value("synchronize_livestreams", false).toBool()) {
             executeFor(Search::ChannelLiveStreams, subscription);
         }

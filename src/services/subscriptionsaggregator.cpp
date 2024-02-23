@@ -72,18 +72,6 @@ void SubscriptionsAggregator::setSynchronizeVideos(bool synchronizeVideos)
     emit synchronizeVideosChanged();
 }
 
-bool SubscriptionsAggregator::getSynchronizeShorts() const
-{
-    return QSettings().value("synchronize_shorts", false).toBool();
-}
-
-void SubscriptionsAggregator::setSynchronizeShorts(bool synchronizeShorts)
-{
-    QSettings().setValue("synchronize_shorts", synchronizeShorts);
-
-    emit synchronizeShortsChanged();
-}
-
 bool SubscriptionsAggregator::getSynchronizeLivestreams() const
 {
     return QSettings().value("synchronize_livestreams", false).toBool();
