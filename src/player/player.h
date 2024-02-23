@@ -94,7 +94,7 @@ private:
 
     bool setState(const State& state);
 
-    RendererNemo *_renderer;
+    Renderer *_renderer;
     AudioResourceQt::AudioResource _audioResource;
     QUrl _videoUrl;
     QUrl _audioUrl;

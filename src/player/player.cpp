@@ -311,7 +311,7 @@ bool VideoPlayer::pause() {
 bool VideoPlayer::play() {
     if (!_audioOnlyMode) {
         if (!_renderer) {
-            _renderer = new RendererNemo(this);
+            _renderer = Renderer::create(this, true);
             if (!_renderer) {
                 qmlInfo(this) << "Failed to create viewfinder renderer";
                 return false;

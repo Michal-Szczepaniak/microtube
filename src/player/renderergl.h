@@ -1,24 +1,21 @@
-#ifndef RENDERER_MEEGO_H
-#define RENDERER_MEEGO_H
+#ifndef RENDERERGL_H
+#define RENDERERGL_H
 
 #include "renderer.h"
 
-#include <QImage>
 #include <QMutex>
-#include <QMatrix4x4>
 #include <QtOpenGL/qgl.h>
 #include <EGL/egl.h>
 #include <EGL/eglext.h>
-#include <gst/video/gstvideometa.h>
 
-class RendererNemo : public Renderer
+class RendererGL : public Renderer
 {
     Q_OBJECT
 
 public:
-    RendererNemo(QObject *parent = nullptr);
+    RendererGL(QObject *parent = nullptr);
 
-    ~RendererNemo();
+    ~RendererGL();
 
     void paint(const QMatrix4x4& matrix, const QRectF& viewport) override;
     void resize(const QSizeF& size) override;
@@ -37,10 +34,10 @@ private slots:
     void setVideoSize(const QSizeF& size);
 
 private:
-    inline static void show_frame(GstVideoSink *, GstBuffer *buffer, RendererNemo *r);
-    inline static void buffers_invalidated(GstVideoSink *sink, RendererNemo *r);
-    static void sink_notify(RendererNemo *q, GObject *object, gboolean is_last_ref);
-    static void sink_caps_changed(GObject *obj, GParamSpec *pspec, RendererNemo *q);
+    inline static void reshapeCallback(GstVideoSink *, GLuint width, GLuint height, RendererGL *r);
+    inline static void drawCallback(GstVideoSink *sink, GLuint texture, GLuint width, GLuint height, RendererGL *r);
+    static void sink_notify(RendererGL *q, GObject *object, gboolean is_last_ref);
+    static void sink_caps_changed(GObject *obj, GParamSpec *pspec, RendererGL *q);
 
     void calculateProjectionMatrix(const QRectF& rect);
     void createProgram();
@@ -48,40 +45,33 @@ private:
     void calculateVertexCoords();
 
     void cleanup();
-    void destroyCachedTextures();
     void updateCropInfo(const GstStructure *s, std::vector<GLfloat>& texCoords);
 
-    struct CachedTexture
-    {
-        GstMemory *memory;
-        EGLImageKHR image;
-        GLuint textureId;
-    };
-
     GstElement *_sink;
-    GstBuffer *_queuedBuffer;
-    GstBuffer *_currentBuffer;
+
     QMutex _frameMutex;
     QMutex _programMutex;
-    gulong _showFrameId;
-    gulong _buffersInvalidatedId;
+    gulong _reshapeId;
+    gulong _drawId;
     gulong _notify;
+    GLuint _texture;
+
     bool _needsInit;
     QGLShaderProgram *_program;
     QMatrix4x4 _projectionMatrix;
     std::vector<GLfloat> _vertexCoords;
     std::vector<GLfloat> _texCoords;
-    QVector<CachedTexture> _textures;
+
     QSizeF _size;
     QSizeF _videoSize;
     QRectF _renderArea;
+
     EGLDisplay _dpy;
     bool _displaySet;
-    bool _buffersInvalidated;
-    bool _bufferChanged;
-    QOpenGLExtension_OES_EGL_image *_img;
+
     QMetaObject::Connection _sceneGraphInitializedSignal;
     QMetaObject::Connection _sceneGraphInvalidatedSignal;
+
 };
 
-#endif /* RENDERER_MEEGO_H */
+#endif // RENDERERGL_H
