@@ -93,7 +93,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Now</source>
-        <translation>Adesso</translation>
+        <translation>Di tendenza</translation>
     </message>
 </context>
 <context>
@@ -128,27 +128,27 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Category</source>
-        <translation type="unfinished"></translation>
+        <translation>Categoria</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Video</translation>
     </message>
     <message>
         <source>Shorts</source>
-        <translation type="unfinished"></translation>
+        <translation>Corti</translation>
     </message>
     <message>
         <source>Livestreams</source>
-        <translation type="unfinished"></translation>
+        <translation>Dirette</translation>
     </message>
     <message>
         <source>Playlists</source>
-        <translation type="unfinished"></translation>
+        <translation>Scalette</translation>
     </message>
     <message>
         <source>No videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessun Video</translation>
     </message>
 </context>
 <context>
@@ -243,23 +243,23 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Upload date</source>
-        <translation type="unfinished"></translation>
+        <translation>Data caricamento</translation>
     </message>
     <message>
         <source>Last hour</source>
-        <translation type="unfinished"></translation>
+        <translation>Poco fa</translation>
     </message>
     <message>
         <source>This week</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa settimana</translation>
     </message>
     <message>
         <source>This month</source>
-        <translation type="unfinished"></translation>
+        <translation>Questo mese</translation>
     </message>
     <message>
         <source>This year</source>
-        <translation type="unfinished"></translation>
+        <translation>Questo anno</translation>
     </message>
 </context>
 <context>
@@ -290,35 +290,35 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Added queue and playlists handling</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunte coda di riproduzione e scalette</translation>
     </message>
     <message>
         <source>Added all video tabs to channel page</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunta scheda &quot;tutti i video&quot; nei canali</translation>
     </message>
     <message>
         <source>Fixed many many many bugs</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistemati davvero tanti bug</translation>
     </message>
     <message>
         <source>Switched to youtubei.js for most of video listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambio a youtubei.js per la maggior parte degli elenchi video</translation>
     </message>
     <message>
         <source>Added double tap in portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunto doppio tocco su modalità ritratto</translation>
     </message>
     <message>
         <source>Added ability to control double tap skip amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunta abilità di impostare i secondi di salto del doppio tocco</translation>
     </message>
     <message>
         <source>Improved buffering</source>
-        <translation type="unfinished"></translation>
+        <translation>Migliorato il caricamento</translation>
     </message>
     <message>
         <source>Added search filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunti filtri di ricerca</translation>
     </message>
 </context>
 <context>
@@ -392,58 +392,58 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Search results to queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi risultati alla coda</translation>
     </message>
     <message>
         <source>Clear queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Pulisci coda</translation>
     </message>
     <message>
         <source>Clearing queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Sto pulendo la coda</translation>
     </message>
     <message>
         <source>Filters</source>
-        <translation type="unfinished">Filtri</translation>
+        <translation>Filtri</translation>
     </message>
     <message>
         <source>Queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Coda</translation>
     </message>
     <message>
         <source>Select trending category</source>
-        <translation type="unfinished"></translation>
+        <translation>Scegli categorie di tendenza</translation>
     </message>
     <message>
         <source>Play queued videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Riproduci video in coda</translation>
     </message>
     <message>
         <source>Find videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerca video</translation>
     </message>
     <message>
         <source>Switch to queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Passa a coda</translation>
     </message>
     <message>
         <source>No queued videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessun video in coda</translation>
     </message>
     <message>
         <source>No videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessun video</translation>
     </message>
     <message>
         <source>Add videos to queue from pulldown or dropdown menus</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi video alla coda dal menu pulley o dal menu a tendina</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Short</source>
-        <translation type="unfinished">Corta</translation>
+        <translation>Corto</translation>
     </message>
 </context>
 <context>
@@ -697,7 +697,7 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Now</source>
-        <translation>Recenti</translation>
+        <translation>Di tendenza</translation>
     </message>
     <message>
         <source>Music</source>
@@ -757,19 +757,27 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>%1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 secondi</translation>
     </message>
     <message>
         <source>Double tap skip amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppio tocco per saltare</translation>
     </message>
     <message>
         <source>Subscriptions Aggregator Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuratore aggregatore di sottoscrizioni</translation>
     </message>
     <message>
         <source>Youtube login</source>
-        <translation type="unfinished"></translation>
+        <translation>Accessi a Youtube</translation>
+    </message>
+    <message>
+        <source>Only AVC1 (for older devices without vp9)</source>
+        <translation>Solo AVC1 (per vecchi dispositivi che non supportano vp9)</translation>
+    </message>
+    <message>
+        <source>United States</source>
+        <translation>Stati Uniti</translation>
     </message>
 </context>
 <context>
@@ -858,11 +866,11 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Marking everything as watched</source>
-        <translation type="unfinished"></translation>
+        <translation>Segna tutti i video come visti</translation>
     </message>
     <message>
         <source>Channel page</source>
-        <translation type="unfinished"></translation>
+        <translation>Canale</translation>
     </message>
 </context>
 <context>
@@ -880,19 +888,19 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     <name>SubscriptionsSettings</name>
     <message>
         <source>Subscriptions Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni sottoscrizioni</translation>
     </message>
     <message>
         <source>Elements to aggregate</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementi da unire</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Video</translation>
     </message>
     <message>
         <source>Past livestreams</source>
-        <translation type="unfinished"></translation>
+        <translation>Dirette passate</translation>
     </message>
 </context>
 <context>
@@ -915,35 +923,35 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Added queue and playlists handling</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunte coda di riproduzione e scalette</translation>
     </message>
     <message>
         <source>Added all video tabs to channel page</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunta scheda &quot;tutti i video&quot; nei canali</translation>
     </message>
     <message>
         <source>Fixed many many many bugs</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistemati davvero tanti bug</translation>
     </message>
     <message>
         <source>Switched to youtubei.js for most of video listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambio a youtubei.js per la maggior parte degli elenchi video</translation>
     </message>
     <message>
         <source>Added double tap in portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunto doppio tocco in modalità ritratto</translation>
     </message>
     <message>
         <source>Added ability to control double tap skip amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunta abilità di impostare i secondi di salto del doppio tocco</translation>
     </message>
     <message>
         <source>Improved buffering</source>
-        <translation type="unfinished"></translation>
+        <translation>Migliorato il caricamento</translation>
     </message>
     <message>
         <source>Added search filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunti filtri di ricerca</translation>
     </message>
 </context>
 <context>
@@ -966,39 +974,39 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>%1 videos</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 video</translation>
     </message>
     <message>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Dal vivo</translation>
     </message>
     <message>
         <source>Upcoming</source>
-        <translation type="unfinished"></translation>
+        <translation>In arrivo</translation>
     </message>
     <message>
         <source>Scheduled</source>
-        <translation type="unfinished"></translation>
+        <translation>Programmati</translation>
     </message>
     <message>
         <source>Playlist</source>
-        <translation type="unfinished">Scaletta</translation>
+        <translation>Scaletta</translation>
     </message>
     <message>
         <source>Mark as unwatched</source>
-        <translation type="unfinished"></translation>
+        <translation>Segna come non visto</translation>
     </message>
     <message>
         <source>Mark as watched</source>
-        <translation type="unfinished"></translation>
+        <translation>Segna come visto</translation>
     </message>
     <message>
         <source>Remove from queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuovi dalla coda</translation>
     </message>
     <message>
         <source>Add to queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi alla coda</translation>
     </message>
 </context>
 <context>
@@ -1040,15 +1048,51 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     </message>
     <message>
         <source>Like</source>
-        <translation></translation>
+        <translation>Mi piace</translation>
     </message>
     <message>
         <source>Show more</source>
-        <translation type="unfinished">Mostra di più</translation>
+        <translation>Mostra di più</translation>
     </message>
     <message>
         <source>No videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessun video</translation>
+    </message>
+    <message>
+        <source>No video formats available</source>
+        <translation>Nessun formato video disponibile</translation>
+    </message>
+    <message>
+        <source>No compatible video formats could be found</source>
+        <translation>Nessun formato video compatibile trovato</translation>
+    </message>
+    <message>
+        <source>Skipped</source>
+        <translation>Saltato</translation>
+    </message>
+    <message>
+        <source>Intro Skipped</source>
+        <translation>Intro saltato</translation>
+    </message>
+    <message>
+        <source>Outro Skipped</source>
+        <translation>Conclusioni saltate</translation>
+    </message>
+    <message>
+        <source>Interaction Reminder Skipped</source>
+        <translation>Richiesta di interazione saltata</translation>
+    </message>
+    <message>
+        <source>Self Promotion Skipped</source>
+        <translation>Autopromozione saltata</translation>
+    </message>
+    <message>
+        <source>Offtopic music skipped</source>
+        <translation>Musica fuori contesto saltata</translation>
+    </message>
+    <message>
+        <source>Sponsor blocked</source>
+        <translation>Sponsor bloccato</translation>
     </message>
 </context>
 <context>
@@ -1075,6 +1119,10 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
     <message>
         <source>Download complete</source>
         <translation>Scaricamento completato</translation>
+    </message>
+    <message>
+        <source>Downloading %1</source>
+        <translation>Scaricamento %1</translation>
     </message>
 </context>
 </TS>

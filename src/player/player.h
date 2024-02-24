@@ -13,8 +13,9 @@ using Projection = RendererNemo::Projection;
 class VideoPlayer : public QQuickPaintedItem {
     Q_OBJECT
 
-    Q_PROPERTY(QUrl videoSource READ getVideoSource WRITE setVideoSource NOTIFY videoSourceChanged);
-    Q_PROPERTY(QUrl audioSource READ getAudioSource WRITE setAudioSource NOTIFY audioSourceChanged);
+    Q_PROPERTY(QString videoSource READ getVideoSource WRITE setVideoSource NOTIFY videoSourceChanged);
+    Q_PROPERTY(QString audioSource READ getAudioSource WRITE setAudioSource NOTIFY audioSourceChanged);
+    Q_PROPERTY(bool audioOnlyMode READ getAudioOnlyMode WRITE setAudioOnlyMode NOTIFY audioOnlyModeChanged)
     Q_PROPERTY(qint64 duration READ getDuration NOTIFY durationChanged);
     Q_PROPERTY(qint64 position READ getPosition WRITE setPosition NOTIFY positionChanged);
     Q_PROPERTY(State state READ getState NOTIFY stateChanged);
@@ -34,10 +35,10 @@ public:
 
     void paint(QPainter *painter);
 
-    QUrl getVideoSource() const;
-    void setVideoSource(const QUrl& videoSource);
-    QUrl getAudioSource() const;
-    void setAudioSource(const QUrl& audioSource);
+    QString getVideoSource() const;
+    void setVideoSource(const QString& videoSource);
+    QString getAudioSource() const;
+    void setAudioSource(const QString& audioSource);
     qint64 getDuration() const;
     qint64 getPosition();
     void setPosition(qint64 position);
@@ -56,7 +57,8 @@ public:
     Q_INVOKABLE bool play();
     Q_INVOKABLE bool seek(qint64 offset);
     Q_INVOKABLE bool stop();
-    Q_INVOKABLE void setAudioOnlyMode(bool audioOnlyMode);
+    void setAudioOnlyMode(bool audioOnlyMode);
+    bool getAudioOnlyMode() const;
     Q_INVOKABLE bool setPlaybackSpeed(double speed);
 
     typedef enum {
@@ -78,6 +80,7 @@ signals:
     void subtitleChanged();
     void displaySubtitleChanged();
     void projectionChanged();
+    void audioOnlyModeChanged();
 
 protected:
     void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
@@ -96,8 +99,8 @@ private:
 
     RendererNemo *_renderer;
     AudioResourceQt::AudioResource _audioResource;
-    QUrl _videoUrl;
-    QUrl _audioUrl;
+    QString _videoUrl;
+    QString _audioUrl;
 
     GstElement *_pipeline;
     GstElement *_videoSource;

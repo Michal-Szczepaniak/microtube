@@ -770,6 +770,14 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <source>Youtube login</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Only AVC1 (for older devices without vp9)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>United States</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>
@@ -1049,6 +1057,42 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <source>No videos</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No video formats available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No compatible video formats could be found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Intro Skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Outro Skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Interaction Reminder Skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Self Promotion Skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Offtopic music skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sponsor blocked</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>helpers</name>
@@ -1073,6 +1117,10 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
     </message>
     <message>
         <source>Download complete</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Downloading %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -128,27 +128,27 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Category</source>
-        <translation type="unfinished"></translation>
+        <translation>Categoría</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Vídeos</translation>
     </message>
     <message>
         <source>Shorts</source>
-        <translation type="unfinished"></translation>
+        <translation>Cortos</translation>
     </message>
     <message>
         <source>Livestreams</source>
-        <translation type="unfinished"></translation>
+        <translation>Directos</translation>
     </message>
     <message>
         <source>Playlists</source>
-        <translation type="unfinished"></translation>
+        <translation>Listas</translation>
     </message>
     <message>
         <source>No videos</source>
-        <translation type="unfinished"></translation>
+        <translation>No hay vídeos</translation>
     </message>
 </context>
 <context>
@@ -243,23 +243,23 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Upload date</source>
-        <translation type="unfinished"></translation>
+        <translation>Fecha de subida</translation>
     </message>
     <message>
         <source>Last hour</source>
-        <translation type="unfinished"></translation>
+        <translation>Última hora</translation>
     </message>
     <message>
         <source>This week</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta semana</translation>
     </message>
     <message>
         <source>This month</source>
-        <translation type="unfinished"></translation>
+        <translation>Este mes</translation>
     </message>
     <message>
         <source>This year</source>
-        <translation type="unfinished"></translation>
+        <translation>Este año</translation>
     </message>
 </context>
 <context>
@@ -290,35 +290,35 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Added queue and playlists handling</source>
-        <translation type="unfinished"></translation>
+        <translation>Se han añadido el manejo de reproducción en cola y listas de reproducción</translation>
     </message>
     <message>
         <source>Added all video tabs to channel page</source>
-        <translation type="unfinished"></translation>
+        <translation>Se han añadido todas las pestañas de vídeo de la página del canal</translation>
     </message>
     <message>
         <source>Fixed many many many bugs</source>
-        <translation type="unfinished"></translation>
+        <translation>Se han corregido muchísimos errores</translation>
     </message>
     <message>
         <source>Switched to youtubei.js for most of video listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha cambiado a youtubei.js para la mayoría de listas de vídeo</translation>
     </message>
     <message>
         <source>Added double tap in portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha añadido el doble toque en modo vertical</translation>
     </message>
     <message>
         <source>Added ability to control double tap skip amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha añadido la capacidad de controlar el salto con el doble toque</translation>
     </message>
     <message>
         <source>Improved buffering</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha mejorado el buffering</translation>
     </message>
     <message>
         <source>Added search filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Se han añadido filtros de búsqueda</translation>
     </message>
 </context>
 <context>
@@ -388,62 +388,62 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Categories</source>
-        <translation type="unfinished">Categorías</translation>
+        <translation>Categorías</translation>
     </message>
     <message>
         <source>Search results to queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultados de búsqueda a la cola</translation>
     </message>
     <message>
         <source>Clear queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Borrar cola</translation>
     </message>
     <message>
         <source>Clearing queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Borrando cola</translation>
     </message>
     <message>
         <source>Filters</source>
-        <translation type="unfinished">Filtros</translation>
+        <translation>Filtros</translation>
     </message>
     <message>
         <source>Queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Cola</translation>
     </message>
     <message>
         <source>Select trending category</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar categoría de tendencia</translation>
     </message>
     <message>
         <source>Play queued videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Reproducir vídeos en cola</translation>
     </message>
     <message>
         <source>Find videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Encontrar vídeos</translation>
     </message>
     <message>
         <source>Switch to queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar a cola</translation>
     </message>
     <message>
         <source>No queued videos</source>
-        <translation type="unfinished"></translation>
+        <translation>No hay vídeos en cola</translation>
     </message>
     <message>
         <source>No videos</source>
-        <translation type="unfinished"></translation>
+        <translation>No hay vídeos</translation>
     </message>
     <message>
         <source>Add videos to queue from pulldown or dropdown menus</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir vídeos a la cola desde el menú superior o lista desplegable</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Short</source>
-        <translation type="unfinished">Corta</translation>
+        <translation>Corto</translation>
     </message>
 </context>
 <context>
@@ -757,19 +757,27 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>%1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 segundos</translation>
     </message>
     <message>
         <source>Double tap skip amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Salto con el doble toque</translation>
     </message>
     <message>
         <source>Subscriptions Aggregator Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustes del agregador de suscripciones</translation>
     </message>
     <message>
         <source>Youtube login</source>
-        <translation type="unfinished"></translation>
+        <translation>Acceso a Youtube</translation>
+    </message>
+    <message>
+        <source>Only AVC1 (for older devices without vp9)</source>
+        <translation>Sólo AVC1 (para dispositivos más antiguos sin vp9)</translation>
+    </message>
+    <message>
+        <source>United States</source>
+        <translation>Estados Unidos</translation>
     </message>
 </context>
 <context>
@@ -858,11 +866,11 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Marking everything as watched</source>
-        <translation type="unfinished"></translation>
+        <translation>Marcando todo como visto</translation>
     </message>
     <message>
         <source>Channel page</source>
-        <translation type="unfinished"></translation>
+        <translation>Página del canal</translation>
     </message>
 </context>
 <context>
@@ -880,19 +888,19 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <name>SubscriptionsSettings</name>
     <message>
         <source>Subscriptions Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustes de suscripciones</translation>
     </message>
     <message>
         <source>Elements to aggregate</source>
-        <translation type="unfinished"></translation>
+        <translation>Elementos a recopilar</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Vídeos</translation>
     </message>
     <message>
         <source>Past livestreams</source>
-        <translation type="unfinished"></translation>
+        <translation>Directos pasados</translation>
     </message>
 </context>
 <context>
@@ -915,35 +923,35 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Added queue and playlists handling</source>
-        <translation type="unfinished"></translation>
+        <translation>Se han añadido el manejo de reproducción en cola y listas de reproducción</translation>
     </message>
     <message>
         <source>Added all video tabs to channel page</source>
-        <translation type="unfinished"></translation>
+        <translation>Se han añadido todas las pestañas de vídeo de la página del canal</translation>
     </message>
     <message>
         <source>Fixed many many many bugs</source>
-        <translation type="unfinished"></translation>
+        <translation>Se han corregido muchísimos errores</translation>
     </message>
     <message>
         <source>Switched to youtubei.js for most of video listing</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha cambiado a youtubei.js para la mayoría de listas de vídeo</translation>
     </message>
     <message>
         <source>Added double tap in portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha añadido el doble toque en modo vertical</translation>
     </message>
     <message>
         <source>Added ability to control double tap skip amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha añadido la capacidad de controlar el salto con el doble toque</translation>
     </message>
     <message>
         <source>Improved buffering</source>
-        <translation type="unfinished"></translation>
+        <translation>Se ha mejorado el buffering</translation>
     </message>
     <message>
         <source>Added search filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Se han añadido filtros de búsqueda</translation>
     </message>
 </context>
 <context>
@@ -966,39 +974,39 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>%1 videos</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 vídeos</translation>
     </message>
     <message>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Directo</translation>
     </message>
     <message>
         <source>Upcoming</source>
-        <translation type="unfinished"></translation>
+        <translation>Próximamente</translation>
     </message>
     <message>
         <source>Scheduled</source>
-        <translation type="unfinished"></translation>
+        <translation>Programado</translation>
     </message>
     <message>
         <source>Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Lista de reproducción</translation>
     </message>
     <message>
         <source>Mark as unwatched</source>
-        <translation type="unfinished"></translation>
+        <translation>Marcar como no visto</translation>
     </message>
     <message>
         <source>Mark as watched</source>
-        <translation type="unfinished"></translation>
+        <translation>Marcar como visto</translation>
     </message>
     <message>
         <source>Remove from queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Quitar de la cola</translation>
     </message>
     <message>
         <source>Add to queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir a la cola</translation>
     </message>
 </context>
 <context>
@@ -1040,15 +1048,51 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     </message>
     <message>
         <source>Like</source>
-        <translation type="unfinished"></translation>
+        <translation>Me gusta</translation>
     </message>
     <message>
         <source>Show more</source>
-        <translation type="unfinished">Mostrar más</translation>
+        <translation>Mostrar más</translation>
     </message>
     <message>
         <source>No videos</source>
-        <translation type="unfinished"></translation>
+        <translation>No hay vídeos</translation>
+    </message>
+    <message>
+        <source>No video formats available</source>
+        <translation>No hay vídeos en formatos disponibles</translation>
+    </message>
+    <message>
+        <source>No compatible video formats could be found</source>
+        <translation>No se han encontrado vídeos en formatos compatibles</translation>
+    </message>
+    <message>
+        <source>Skipped</source>
+        <translation>Omitido</translation>
+    </message>
+    <message>
+        <source>Intro Skipped</source>
+        <translation>Intro omitida</translation>
+    </message>
+    <message>
+        <source>Outro Skipped</source>
+        <translation>Final omitido</translation>
+    </message>
+    <message>
+        <source>Interaction Reminder Skipped</source>
+        <translation>Aviso de interacción omitido</translation>
+    </message>
+    <message>
+        <source>Self Promotion Skipped</source>
+        <translation>Autopromoción omitida</translation>
+    </message>
+    <message>
+        <source>Offtopic music skipped</source>
+        <translation>Música fuera de contexto omitida</translation>
+    </message>
+    <message>
+        <source>Sponsor blocked</source>
+        <translation>Anuncio bloqueado</translation>
     </message>
 </context>
 <context>
@@ -1075,6 +1119,10 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
     <message>
         <source>Download complete</source>
         <translation>Descarga completa</translation>
+    </message>
+    <message>
+        <source>Downloading %1</source>
+        <translation>Descargando %1</translation>
     </message>
 </context>
 </TS>

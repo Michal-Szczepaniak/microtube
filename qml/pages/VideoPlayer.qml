@@ -52,6 +52,12 @@ Page {
     Keys.onDownPressed: videoPlayer.nextVideo()
     property int _orientation: OrientationReading.TopUp
 
+    PageBusyIndicator {
+        running: !videoHelper.currentVideo
+        size: BusyIndicatorSize.Large
+        anchors.centerIn: parent
+    }
+
     YtPlaylist {
         id: currentPlaylistModel
     }
@@ -108,6 +114,16 @@ Page {
         }
     }
 
+    Notification {
+        id: noFormatsNotification
+        previewSummary: qsTr("No video formats available")
+        summary: qsTr("No compatible video formats could be found")
+    }
+
+    Notification {
+        id: errorNotification
+    }
+
     VideoHelper {
         id: videoHelper
 
@@ -121,8 +137,9 @@ Page {
         }
 
         onGotVideoInfo: {
-            videoPlayer.setAudioOnlyMode(settings.audioOnlyMode)
             videoPlayer.videoSource = videoHelper.videoUrl
+            videoPlayer.audioOnlyMode = (settings.audioOnlyMode || videoHelper.videoUrl === "")
+            if (!settings.audioOnlyMode && videoHelper.videoUrl === "") noFormatsNotification.publish()
             videoPlayer.audioSource = videoHelper.audioUrl
             videoPlayer.projection = videoHelper.projection
             if (videoChanging) videoChanging = false
@@ -150,30 +167,30 @@ Page {
 
     Notification {
         id: sponsorBlockPluginNotification
-        previewSummary: "Skipped"
+        previewSummary: qsTr("Skipped")
 
         function setSummary(category) {
             var summary = "";
 
             switch (category) {
             case "intro":
-                summary = "Intro Skipped";
+                summary = qsTr("Intro Skipped");
                 break;
             case "outro":
-                summary = "Outro Skipped";
+                summary = qsTr("Outro Skipped");
                 break;
             case "interaction":
-                summary = "Interaction Reminder Skipped";
+                summary = qsTr("Interaction Reminder Skipped");
                 break;
             case "selfpromo":
-                summary = "Self Promotion Skipped";
+                summary = qsTr("Self Promotion Skipped");
                 break;
             case "music_offtopic":
-                summary = "Offtopic music skipped";
+                summary = qsTr("Offtopic music skipped");
                 break;
             case "sponsor":
             default:
-                summary = "Sponsor blocked";
+                summary = qsTr("Sponsor blocked");
             }
 
            previewSummary = summary;
@@ -254,7 +271,7 @@ Page {
         if (status === PageStatus.Deactivating) {
             app.videoCover = false
         } else if(status === PageStatus.Active) {
-            if (videoHelper.videoUrl == "") {
+            if (!videoHelper.currentVideo) {
                 videoHelper.loadVideoUrl(videoIdToPlay, settings.maxDefinition);
             }
             app.videoCover = true;
@@ -366,6 +383,11 @@ Page {
                             }
                         }
 
+                        onError: {
+                            errorNotification.summary = message
+                            errorNotification.publish()
+                        }
+
                         Timer {
                             id: sponsorBlockTimeout
                             interval: 500
@@ -460,8 +482,8 @@ Page {
                             source: videoHelper.currentVideo ? videoHelper.currentVideo.bigThumbnail : ""
                             asynchronous: true
                             fillMode: Image.PreserveAspectCrop
-                            visible: videoHelper.currentVideo && videoPlayer.duration <= 0 && !settings.audioOnlyMode || settings.audioOnlyMode
-                            z: (videoHelper.currentVideo && videoPlayer.duration <= 0 && !settings.audioOnlyMode) || settings.audioOnlyMode ? 1 : -1
+                            visible: false //(videoHelper.currentVideo && videoPlayer.duration <= 0 && !videoPlayer.audioOnlyMode) || videoPlayer.audioOnlyMode
+                            z: ((videoHelper.currentVideo && videoPlayer.duration <= 0 && !videoPlayer.audioOnlyMode) || videoPlayer.audioOnlyMode) ? 1 : -1
                         }
 
                         PinchArea {
@@ -1380,12 +1402,12 @@ Page {
 
     CoverActionList {
         id: coverAction
-        enabled: videoPlayer.playbackState !== videoPlayer.StoppedState
+        enabled: videoPlayer.state !== VideoPlayer.StateStopped
 
         CoverAction {
-            iconSource: videoPlayer.playbackState === videoPlayer.PlayingState ? "image://theme/icon-cover-pause" : "image://theme/icon-cover-play"
+            iconSource: videoPlayer.state === VideoPlayer.StatePlaying ? "image://theme/icon-cover-pause" : "image://theme/icon-cover-play"
             onTriggered: {
-                videoPlayer.playbackState === videoPlayer.PlayingState ? videoPlayer.videoPause() : videoPlayer.videoPlay()
+                videoPlayer.state === VideoPlayer.StatePlaying ? videoPlayer.pause() : videoPlayer.play()
             }
         }
 
@@ -1446,7 +1468,7 @@ Page {
         }
 
         onPlayPauseRequested: {
-            videoPlayer.playbackState == videoPlayer.PlayingState ? videoPlayer.pause() : videoPlayer.play()
+            videoPlayer.state === VideoPlayer.StatePlaying ? videoPlayer.pause() : videoPlayer.play()
         }
 
         onStopRequested: {

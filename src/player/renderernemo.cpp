@@ -233,7 +233,6 @@ RendererNemo::RendererNemo(QObject *parent) :
 
 RendererNemo::~RendererNemo() {
     disconnect(_sceneGraphInitializedSignal);
-    disconnect(_sceneGraphInvalidatedSignal);
 
     cleanup();
 

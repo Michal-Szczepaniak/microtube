@@ -206,7 +206,7 @@ Page {
 
                     delegate: CategoryElement {
                         onClicked: {
-                            searchModel.loadCategory(name, settings.currentRegion)
+                            searchModel.loadCategory(code, settings.currentRegion)
                             swipeView.contentX = page.width
                         }
                     }
@@ -225,6 +225,12 @@ Page {
                         enabled: !searchList.count
                         text: playlistMode ? qsTr("No queued videos") : qsTr("No videos")
                         hintText: playlistMode ? qsTr("Add videos to queue from pulldown or dropdown menus") : qsTr("Select category by swiping to the left or search for videos")
+                    }
+
+                    BusyIndicator {
+                        running: (app.playlistMode ? playlistModel : searchModel).busy
+                        size: BusyIndicatorSize.Large
+                        anchors.centerIn: parent
                     }
 
                     delegate: VideoElement {

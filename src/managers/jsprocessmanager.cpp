@@ -67,6 +67,7 @@ void JSProcessManager::asyncGetTrending(Search* query)
     if (_trendingProcess != nullptr) return;
 
     QJsonDocument optionsDoc(prepareSearchOptions(query, nullptr));
+    qDebug() << query->query << " " << optionsDoc.toJson(QJsonDocument::Compact);
     _trendingProcess = execute("unified", {query->query, optionsDoc.toJson(QJsonDocument::Compact)});
     connect(_trendingProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessManager::trendingScrapeDone);
 }
@@ -350,6 +351,7 @@ void JSProcessManager::gotVideoInfoJson(int exitStatus)
     for (const QJsonValue &jsonFormat : response.object()["formats"].toArray()) {
         const QJsonObject format = jsonFormat.toObject();
         formats[format["itag"].toInt()] = format["url"].toString();
+        qDebug() << "Format: " << format["itag"].toInt() << "url: " << format["url"].toString();
     }
 
     auto obj = response.object();

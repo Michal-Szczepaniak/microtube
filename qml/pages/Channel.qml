@@ -192,6 +192,12 @@ Page {
                 text: qsTr("No videos")
             }
 
+            BusyIndicator {
+                running: channelVideos.busy
+                size: BusyIndicatorSize.Large
+                anchors.centerIn: parent
+            }
+
             delegate: VideoElement {
                 id: delegate
 

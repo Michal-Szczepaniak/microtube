@@ -17,6 +17,7 @@ class VideoHelper : public QObject
     Q_PROPERTY(QString subtitle READ getSubtitle NOTIFY subtitleChanged)
     Q_PROPERTY(QStringList subtitlesLabels READ getSubtitlesLabels NOTIFY subtitlesChanged)
     Q_PROPERTY(Video* currentVideo READ getCurrentVideo NOTIFY gotVideoInfo)
+    Q_PROPERTY(bool useAVC READ getUseAVC WRITE setUseAVC NOTIFY useAVCChanged)
 public:
     explicit VideoHelper(QObject *parent = nullptr);
 
@@ -29,11 +30,14 @@ public:
     Video* getCurrentVideo() const;
     QStringList getSubtitlesLabels() const;
     int getProjection() const;
+    bool getUseAVC() const;
+    void setUseAVC(bool useAVC);
 
 signals:
     void gotVideoInfo();
     void subtitleChanged();
     void subtitlesChanged();
+    void useAVCChanged();
 
 public slots:
     void gotFormats(QHash<int, QString> formats);

@@ -1,6 +1,6 @@
 #include "commentsmodel.h"
 
-CommentsModel::CommentsModel(QObject *parent) : QAbstractListModel(parent), _canContinue(false)
+CommentsModel::CommentsModel(QObject *parent) : QAbstractListModel(parent), _canContinue(false), _busy(false)
 {
     connect(&_jsProcessHelper, &JSProcessManager::gotComments, this, &CommentsModel::gotComments);
     connect(&_jsProcessHelper, &JSProcessManager::gotCommentReplies, this, &CommentsModel::gotCommentReplies);
@@ -9,12 +9,26 @@ CommentsModel::CommentsModel(QObject *parent) : QAbstractListModel(parent), _can
 void CommentsModel::loadCommentsForVideo(QString videoId)
 {
     _jsProcessHelper.asyncGetComments(videoId);
+    setBusy(true);
 }
 
 void CommentsModel::loadRepliesForComment(QJsonObject continuation)
 {
     _repliesContinuation = {};
     _jsProcessHelper.asyncGetCommentReplies(continuation);
+    setBusy(true);
+}
+
+bool CommentsModel::isBusy() const
+{
+    return _busy;
+}
+
+void CommentsModel::setBusy(bool busy)
+{
+    _busy = busy;
+
+    emit busyChanged();
 }
 
 int CommentsModel::rowCount(const QModelIndex &parent) const
@@ -62,6 +76,8 @@ void CommentsModel::gotComments(bool canContinue, bool isContinuation)
         _comments = move(comments);
         endResetModel();
     }
+
+    setBusy(false);
 }
 
 void CommentsModel::gotCommentReplies(QJsonObject continuation)
@@ -78,6 +94,7 @@ void CommentsModel::gotCommentReplies(QJsonObject continuation)
     }
 
     _repliesContinuation = continuation;
+    setBusy(false);
 }
 
 QHash<int, QByteArray> CommentsModel::roleNames() const
@@ -102,7 +119,11 @@ void CommentsModel::fetchMore(const QModelIndex &parent)
 {
     if (_canContinue) {
         _jsProcessHelper.asyncGetCommentsContinuation();
+
+        setBusy(true);
     } else if (!_repliesContinuation.empty()) {
         _jsProcessHelper.asyncGetCommentReplies(_repliesContinuation);
+
+        setBusy(true);
     }
 }

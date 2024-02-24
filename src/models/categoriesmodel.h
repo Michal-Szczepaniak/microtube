@@ -13,6 +13,7 @@ public:
     enum CategoriesRoles {
         IdRole = Qt::UserRole + 1,
         NameRole,
+        CodeRole,
         PhotoRole
     };
 
@@ -26,6 +27,7 @@ protected:
 
 private:
     QStringList _categories;
+    QStringList _codes;
 };
 
 #endif // CATEGORIESMODEL_H

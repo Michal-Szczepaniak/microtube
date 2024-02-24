@@ -19,6 +19,7 @@ class PlaylistModel : public QAbstractListModel
     Q_PROPERTY(int typeFilter READ getTypeFilter WRITE setTypeFilter NOTIFY lastSearchChanged)
     Q_PROPERTY(int durationFilter READ getDurationFilter WRITE setDurationFilter NOTIFY lastSearchChanged)
     Q_PROPERTY(int sortBy READ getSortBy WRITE setSortBy NOTIFY lastSearchChanged)
+    Q_PROPERTY(bool busy READ isBusy NOTIFY busyChanged)
     Q_ENUMS(DataTypes)
 public:
     explicit PlaylistModel(QObject *parent = nullptr);
@@ -84,6 +85,8 @@ public:
     void setTypeFilter(int value);
     int getDurationFilter()  const;
     void setDurationFilter(int value);
+    bool isBusy() const;
+    void setBusy(bool busy);
 
 signals:
     void currentVideoStreamUrlChanged();
@@ -93,6 +96,7 @@ signals:
     void countryChanged();
     void currentVideoIndexChanged();
     void lastSearchChanged();
+    void busyChanged();
 
 public slots:
     void searchDone(bool continuation);
@@ -116,6 +120,7 @@ private:
     quint32 _maxDefinition;
     VideoRepository _videoRepository;
     qint32 _currentVideoIndex;
+    bool _busy;
 };
 
 #endif // PLAYLISTMODEL_H

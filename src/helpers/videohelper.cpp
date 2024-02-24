@@ -1,6 +1,7 @@
 #include "videohelper.h"
 #include "../entities/videodefinition.h"
 #include <QDebug>
+#include <QSettings>
 
 VideoHelper::VideoHelper(QObject *parent) : QObject(parent)
 {
@@ -85,6 +86,16 @@ int VideoHelper::getProjection() const
     return _currentVideo->projection;
 }
 
+bool VideoHelper::getUseAVC() const
+{
+    return QSettings().value("avc", false).toBool();
+}
+
+void VideoHelper::setUseAVC(bool useAVC)
+{
+    QSettings().setValue("avc", useAVC);
+}
+
 void VideoHelper::gotFormats(QHash<int, QString> formats)
 {
     _currentVideo = _jsProcessHelper.getVideoInfo();
@@ -109,7 +120,7 @@ void VideoHelper::gotFormats(QHash<int, QString> formats)
                 }
             }
         }
-    } else if (_combined) {
+    } else if (_combined || getUseAVC()) {
         for (QMap<quint32, QVector<int>>::const_iterator definitions = VideoDefinition::videoDefinitionsCombined.constEnd(); definitions-- != VideoDefinition::videoDefinitionsCombined.constBegin(); ) {
             if (definitions.key() > _maxDefinition || _videoUrl != "") continue;
             qDebug() << "Definition: " << definitions.key() << " max definition: " << _maxDefinition;
@@ -136,7 +147,13 @@ void VideoHelper::gotFormats(QHash<int, QString> formats)
             for (int definition : definitions.value()) {
                 if (formats.contains(definition)) {
                     _videoUrl = formats[definition];
+
                     qDebug() << "Selecting video format: " << definition;
+
+                    if (definition == 22 || definition == 18) {
+                        _audioUrl = "";
+                    }
+
                     break;
                 }
             }

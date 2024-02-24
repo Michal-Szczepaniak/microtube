@@ -23,6 +23,7 @@
 #include <execinfo.h>
 #include <unistd.h>
 #include <services/jsdiagnostics.h>
+#include <stdio.h>
 
 void handler(int sig) {
     void *array[10];
@@ -30,8 +31,20 @@ void handler(int sig) {
 
     size = backtrace(array, 10);
 
-    fprintf(stderr, "Error: signal %d:\n", sig);
-    backtrace_symbols_fd(array, size, STDERR_FILENO);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::HomeLocation);
+    path += "/microtube-dump-";
+    path += QString::number(QDateTime::currentMSecsSinceEpoch());
+    path += ".dump";
+
+    FILE *f = fopen(path.toStdString().c_str(), "w+");
+
+    fprintf(f, "Error: signal %d:\n", sig);
+    fflush(f);
+    backtrace_symbols_fd(array, size, fileno(f));
+
+    fflush(f);
+    fclose(f);
+
     exit(1);
 }
 

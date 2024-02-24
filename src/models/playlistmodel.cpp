@@ -5,7 +5,7 @@
 #include <QUrlQuery>
 #include <repositories/authorrepository.h>
 
-PlaylistModel::PlaylistModel(QObject *parent) : QAbstractListModel(parent), _currentVideoIndex(0)
+PlaylistModel::PlaylistModel(QObject *parent) : QAbstractListModel(parent), _currentVideoIndex(0), _busy(false)
 {
     connect(&_jsProcessManager, &JSProcessManager::searchFinished, this, &PlaylistModel::searchDone);
     connect(&_jsProcessManager, &JSProcessManager::gotTrendingVideos, this, &PlaylistModel::gotTrendingVideos);
@@ -201,6 +201,7 @@ void PlaylistModel::loadCategory(QString category)
         Search search = createNewSearch();
         search.query = category;
         search.type = Search::Category;
+        search.language = "en";
         _lastSearch = search;
         emit lastSearchChanged();
         executeSearch();
@@ -370,6 +371,8 @@ std::optional<Search> PlaylistModel::getSearch()
 
 void PlaylistModel::executeSearch()
 {
+    setBusy(true);
+
     switch (_lastSearch->type) {
     case Search::Query:
         _jsProcessManager.asyncSearch(&_lastSearch.value());
@@ -389,18 +392,21 @@ void PlaylistModel::executeSearch()
         Author author = authorRepository.getOneByChannelId(_lastSearch->query);
         auto videos = _videoRepository.getChannelVideos(author.id);
         std::move(videos.begin(), videos.end(), std::back_inserter(_items));
+        setBusy(false);
     }
         break;
     case Search::Subscriptions:
     {
         auto subscriptions = _videoRepository.getSubscriptions();
         std::move(subscriptions.begin(), subscriptions.end(), std::back_inserter(_items));
+        setBusy(false);
     }
         break;
     case Search::UnwatchedSubscriptions:
     {
         auto subscriptions = _videoRepository.getUnwatchedSubscriptions();
         std::move(subscriptions.begin(), subscriptions.end(), std::back_inserter(_items));
+        setBusy(false);
     }
         break;
     case Search::Playlist:
@@ -492,6 +498,18 @@ void PlaylistModel::setDurationFilter(int value)
     emit lastSearchChanged();
 }
 
+bool PlaylistModel::isBusy() const
+{
+    return _busy;
+}
+
+void PlaylistModel::setBusy(bool busy)
+{
+    _busy = busy;
+
+    emit busyChanged();
+}
+
 void PlaylistModel::searchDone(bool continuation)
 {
     SearchResults videos = _jsProcessManager.getSearchVideos();
@@ -504,6 +522,8 @@ void PlaylistModel::searchDone(bool continuation)
         _items = move(videos);
         endResetModel();
     }
+
+    setBusy(false);
 }
 
 void PlaylistModel::gotTrendingVideos()
@@ -511,6 +531,8 @@ void PlaylistModel::gotTrendingVideos()
     beginResetModel();
     _items = _jsProcessManager.getTrendingVideos();
     endResetModel();
+
+    setBusy(false);
 }
 
 void PlaylistModel::gotRecommendedVideos()
@@ -518,6 +540,8 @@ void PlaylistModel::gotRecommendedVideos()
     beginResetModel();
     _items = _jsProcessManager.getRecommendedVideos();
     endResetModel();
+
+    setBusy(false);
 }
 
 void PlaylistModel::gotChannelVideos(bool continuation)
@@ -532,6 +556,8 @@ void PlaylistModel::gotChannelVideos(bool continuation)
         _items = move(videos);
         endResetModel();
     }
+
+    setBusy(false);
 }
 
 void PlaylistModel::gotVideoInfo(QHash<int, QString> formats)
@@ -541,6 +567,8 @@ void PlaylistModel::gotVideoInfo(QHash<int, QString> formats)
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     _items.emplace_back(move(video));
     endInsertRows();
+
+    setBusy(false);
 }
 
 void PlaylistModel::gotPlaylist()
@@ -550,6 +578,8 @@ void PlaylistModel::gotPlaylist()
     beginInsertRows(QModelIndex(), rowCount(), rowCount() + videos.size()-1);
     std::move(videos.begin(), videos.end(), std::back_inserter(_items));
     endInsertRows();
+
+    setBusy(false);
 }
 
 QHash<int, QByteArray> PlaylistModel::roleNames() const
@@ -608,6 +638,7 @@ void PlaylistModel::fetchMore(const QModelIndex &parent)
 Search PlaylistModel::createNewSearch()
 {
     Search search;
+    search.language = QLocale::system().name().split("_")[0];
     search.country = getCountry();
     search.safeSearch = getSafeSearch();
     return search;

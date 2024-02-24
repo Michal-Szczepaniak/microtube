@@ -72,16 +72,18 @@ ApplicationWindow
     Connections {
         target: videoDownloader
         onDownloadStarted: {
-            downloadNotification.body = qsTr("Downloading " + filename)
+            downloadNotification.body = qsTr("Downloading %1").arg(filename)
             downloadNotification.publish();
         }
 
         onDownloadStatusChanged: {
             if (videoDownloader.downloadStatus === VideoDownloader.Failed) {
                 downloadNotification.body = qsTr("Download failed")
+                downloadNotification.progress = undefined
                 downloadNotification.publish()
             } else if (videoDownloader.downloadStatus === VideoDownloader.Finished) {
                 downloadNotification.body = qsTr("Download complete")
+                downloadNotification.progress = undefined
                 downloadNotification.publish()
             }
         }

@@ -46,6 +46,10 @@ Page {
         property bool invertVRControls: false
     }
 
+    VideoHelper {
+        id: videoHelper
+    }
+
     SilicaFlickable {
         anchors.fill: parent
         flickableDirection: Flickable.VerticalFlick
@@ -90,12 +94,12 @@ Page {
                 currentIndex: settings.currentRegionId
                 menu: ContextMenu {
                     Repeater {
-                        model: [qsTr("Default"),qsTr("Algeria"),qsTr("Argentina"),qsTr("Australia"),qsTr("Belgium"),qsTr("Brazil"),qsTr("Canada"),qsTr("Chile"),qsTr("Colombia"),qsTr("Czech Republic"),qsTr("Egypt"),qsTr("France"),qsTr("Germany"),qsTr("Ghana"),qsTr("Greece"),qsTr("Hong Kong"),qsTr("Hungary"),qsTr("India"),qsTr("Indonesia"),qsTr("Ireland"),qsTr("Israel"),qsTr("Italy"),qsTr("Japan"),qsTr("Jordan"),qsTr("Kenya"),qsTr("Malaysia"),qsTr("Mexico"),qsTr("Morocco"),qsTr("Netherlands"),qsTr("New Zealand"),qsTr("Nigeria"),qsTr("Peru"),qsTr("Philippines"),qsTr("Poland"),qsTr("Russia"),qsTr("Saudi Arabia"),qsTr("Singapore"),qsTr("South Africa"),qsTr("South Korea"),qsTr("Spain"),qsTr("Sweden"),qsTr("Taiwan"),qsTr("Tunisia"),qsTr("Turkey"),qsTr("Uganda"),qsTr("United Arab Emirates"),qsTr("United Kingdom"),qsTr("Yemen"),]
+                        model: [qsTr("Default"),qsTr("Algeria"),qsTr("Argentina"),qsTr("Australia"),qsTr("Belgium"),qsTr("Brazil"),qsTr("Canada"),qsTr("Chile"),qsTr("Colombia"),qsTr("Czech Republic"),qsTr("Egypt"),qsTr("France"),qsTr("Germany"),qsTr("Ghana"),qsTr("Greece"),qsTr("Hong Kong"),qsTr("Hungary"),qsTr("India"),qsTr("Indonesia"),qsTr("Ireland"),qsTr("Israel"),qsTr("Italy"),qsTr("Japan"),qsTr("Jordan"),qsTr("Kenya"),qsTr("Malaysia"),qsTr("Mexico"),qsTr("Morocco"),qsTr("Netherlands"),qsTr("New Zealand"),qsTr("Nigeria"),qsTr("Peru"),qsTr("Philippines"),qsTr("Poland"),qsTr("Russia"),qsTr("Saudi Arabia"),qsTr("Singapore"),qsTr("South Africa"),qsTr("South Korea"),qsTr("Spain"),qsTr("Sweden"),qsTr("Taiwan"),qsTr("Tunisia"),qsTr("Turkey"),qsTr("Uganda"),qsTr("United Arab Emirates"),qsTr("United Kingdom"),qsTr("United States"),qsTr("Yemen"),]
                         delegate: MenuItem { text: modelData }
                     }
                 }
                 onCurrentItemChanged: {
-                    var countries = ["","DZ","AR","AU","BE","BR","CA","CL","CO","CZ","EG","FR","DE","GH","GR","HK","HU","IN","ID","IE","IL","IT","JP","JO","KE","MY","MX","MA","NL","NZ","NG","PE","PH","PL","RU","SA","SG","ZA","KR","ES","SE","TW","TN","TR","UG","AE","GB","YE"];
+                    var countries = ["","DZ","AR","AU","BE","BR","CA","CL","CO","CZ","EG","FR","DE","GH","GR","HK","HU","IN","ID","IE","IL","IT","JP","JO","KE","MY","MX","MA","NL","NZ","NG","PE","PH","PL","RU","SA","SG","ZA","KR","ES","SE","TW","TN","TR","UG","AE","GB","US","YE"];
 
                     app.playlistModel.setCountry(countries[currentIndex])
                     settings.currentRegion = countries[currentIndex]
@@ -109,11 +113,12 @@ Page {
                 label: qsTr("Default category")
                 value: settings.categoryName
                 currentIndex: -1
+                property var values: ["Now", "Music", "Gaming", "Movies", "Subscriptions"]
                 menu: ContextMenu {
                     Repeater {
                         model: [qsTr("Now"),qsTr("Music"),qsTr("Gaming"),qsTr("Movies"),qsTr("Subscriptions")]
                         delegate: MenuItem {
-                            text: modelData
+                            text: values[index]
                         }
                     }
                 }
@@ -142,6 +147,15 @@ Page {
                text: qsTr("Invert VR controls")
                onClicked: {
                    settings.invertVRControls = checked
+               }
+            }
+
+            TextSwitch {
+               checked: videoHelper.useAVC
+               width: parent.width
+               text: qsTr("Only AVC1 (for older devices without vp9)")
+               onClicked: {
+                   videoHelper.useAVC = checked
                }
             }
 

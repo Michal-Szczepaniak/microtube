@@ -26,6 +26,12 @@ Page {
 
         model: commentsModel
 
+        BusyIndicator {
+            running: commentsModel.busy
+            size: BusyIndicatorSize.Large
+            anchors.centerIn: parent
+        }
+
         delegate: Comment { }
     }
 }

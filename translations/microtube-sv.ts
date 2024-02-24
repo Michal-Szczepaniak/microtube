@@ -771,6 +771,14 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <source>Youtube login</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Only AVC1 (for older devices without vp9)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>United States</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SharePage</name>
@@ -1050,6 +1058,42 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <source>No videos</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No video formats available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No compatible video formats could be found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Intro Skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Outro Skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Interaction Reminder Skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Self Promotion Skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Offtopic music skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sponsor blocked</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>helpers</name>
@@ -1075,6 +1119,10 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     <message>
         <source>Download complete</source>
         <translation>Nerladdning slutförd</translation>
+    </message>
+    <message>
+        <source>Downloading %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

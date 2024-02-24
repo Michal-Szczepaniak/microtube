@@ -71,11 +71,11 @@ void VideoPlayer::classBegin() {
     gst_object_unref(bus);
 }
 
-QUrl VideoPlayer::getVideoSource() const {
+QString VideoPlayer::getVideoSource() const {
     return _videoUrl;
 }
 
-void VideoPlayer::setVideoSource(const QUrl& videoSource) {
+void VideoPlayer::setVideoSource(const QString& videoSource) {
     if (_videoUrl != videoSource) {
         _videoUrl = videoSource;
 
@@ -93,7 +93,7 @@ void VideoPlayer::setVideoSource(const QUrl& videoSource) {
             Q_ASSERT(_videoSource);
 //            g_object_set(_videoSource, "buffer-duration", 1800000000000, NULL);
 //            g_object_set(_videoSource, "download", TRUE, NULL);
-            g_object_set(_videoSource, "uri", _videoUrl.toString().toUtf8().constData(), NULL);
+            g_object_set(_videoSource, "uri", _videoUrl.toUtf8().constData(), NULL);
 
             gst_bin_add(GST_BIN(_pipeline), _videoSource);
             g_signal_connect (_videoSource, "pad-added", G_CALLBACK (cbNewVideoPad), this);
@@ -103,38 +103,36 @@ void VideoPlayer::setVideoSource(const QUrl& videoSource) {
     }
 }
 
-QUrl VideoPlayer::getAudioSource() const {
+QString VideoPlayer::getAudioSource() const {
     return _audioUrl;
 }
 
-void VideoPlayer::setAudioSource(const QUrl& audioSource) {
-    if (_audioUrl != audioSource) {
-        _audioUrl = audioSource;
+void VideoPlayer::setAudioSource(const QString& audioSource) {
+    _audioUrl = audioSource;
 
-        if (_audioSource != nullptr) {
-            gst_object_ref(_audioSource);
-            if (gst_bin_remove(GST_BIN(_pipeline), _audioSource) == false) {
-                gst_element_set_state(_audioSource, GST_STATE_NULL);
-                gst_object_unref(_audioSource);
-                _audioSource = nullptr;
-            }
+    if (_audioSource != nullptr) {
+        gst_object_ref(_audioSource);
+        if (gst_bin_remove(GST_BIN(_pipeline), _audioSource) == false) {
+            gst_element_set_state(_audioSource, GST_STATE_NULL);
+            gst_object_unref(_audioSource);
+            _audioSource = nullptr;
         }
+    }
 
-        if (audioSource.toString() != "") {
-            _audioSource = gst_element_factory_make ("uridecodebin", "AudioSource");
-            Q_ASSERT(_audioSource);
+    if (audioSource != "") {
+        _audioSource = gst_element_factory_make ("uridecodebin", "AudioSource");
+        Q_ASSERT(_audioSource);
 //            g_object_set(_videoSource, "download", TRUE, NULL);
 //            g_object_set(_audioSource, "buffer-duration", 20000000000, NULL);
 
-            gst_bin_add(GST_BIN(_pipeline), _audioSource);
+        gst_bin_add(GST_BIN(_pipeline), _audioSource);
 
-            g_signal_connect(_audioSource, "pad-added", G_CALLBACK (cbNewPad), this);
+        g_signal_connect(_audioSource, "pad-added", G_CALLBACK (cbNewPad), this);
 
-            g_object_set(_audioSource, "uri", _audioUrl.toString().toUtf8().constData(), NULL);
-        }
-
-        emit audioSourceChanged();
+        g_object_set(_audioSource, "uri", _audioUrl.toUtf8().constData(), NULL);
     }
+
+    emit audioSourceChanged();
 }
 
 qint64 VideoPlayer::getDuration() const {
@@ -374,6 +372,13 @@ bool VideoPlayer::stop() {
 void VideoPlayer::setAudioOnlyMode(bool audioOnlyMode)
 {
     _audioOnlyMode = audioOnlyMode;
+
+    emit audioOnlyModeChanged();
+}
+
+bool VideoPlayer::getAudioOnlyMode() const
+{
+    return _audioOnlyMode;
 }
 
 bool VideoPlayer::setPlaybackSpeed(double speed)
@@ -564,7 +569,7 @@ gboolean VideoPlayer::bus_call(GstBus *bus, GstMessage *msg, gpointer data) {
         gchar *debug = NULL;
         GError *err = NULL;
         gst_message_parse_error (msg, &err, &debug);
-        qCritical() << "Error" << err->message;
+        qCritical() << "Error" << err->message << " " << debug;
 
         emit that->error(err->message, err->code, debug);
         that->stop();
@@ -663,7 +668,7 @@ void VideoPlayer::cbNewVideoPad(GstElement *element, GstPad *pad, gpointer data)
         return;
     }
 
-    if (other->_audioUrl.toString() != "") return;
+    if (other->_audioUrl != "") return;
 
     compatiblePad = gst_element_get_compatible_pad(other->_scaletempo, pad, NULL);
     if (compatiblePad != NULL) {
