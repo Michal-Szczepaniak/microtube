@@ -72,22 +72,27 @@ ApplicationWindow
     Connections {
         target: videoDownloader
         onDownloadStarted: {
-            downloadNotification.body = qsTr("Downloading " + filename)
+            downloadNotification.summary = qsTr("Downloading ")
+            downloadNotification.body = filename
+            downloadNotification.progress = Notification.ProgressIndeterminate
             downloadNotification.publish();
         }
 
         onDownloadStatusChanged: {
             if (videoDownloader.downloadStatus === VideoDownloader.Failed) {
-                downloadNotification.body = qsTr("Download failed")
-                downloadNotification.publish()
+                downloadNotification.summary = qsTr("Download failed")
+                downloadNotification.publish();
             } else if (videoDownloader.downloadStatus === VideoDownloader.Finished) {
-                downloadNotification.body = qsTr("Download complete")
-                downloadNotification.publish()
+                downloadNotification.summary = qsTr("Download complete")
+                downloadNotification.progress = 1.0
+                downloadNotification.publish();
             }
         }
         onDownloadProgressChanged: {
-            downloadNotification.progress = videoDownloader.downloadProgress
-            downloadNotification.publish()
+            if (!isNaN(videoDownloader.downloadProgress) && videoDownloader.downloadProgress >= 0) {
+                downloadNotification.progress = videoDownloader.downloadProgress
+                downloadNotification.publish();
+            }
         }
     }
 
