@@ -66,15 +66,15 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>legacychimera247 for italian translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>legacychimera247 för Italiensk översättning.</translation>
     </message>
     <message>
         <source>eson57 for swedish translation.</source>
-        <translation type="unfinished"></translation>
+        <translation>eson57 för Svensk översättning.</translation>
     </message>
     <message>
         <source>Samuel Žúbor for 180° and 360° video shader. &lt;br/&gt;&lt;a href=&quot;mailto:samuliak77@gmail.com&quot;&gt;Email&lt;/a&gt; &lt;a href=&quot;https://www.fiverr.com/samuelzubor&quot;&gt;Fiverr&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Samuel Žúbor för 180° och 360° video shader. &lt;br/&gt;&lt;a href=&quot;mailto:samuliak77@gmail.com&quot;&gt;E-post&lt;/a&gt; &lt;a href=&quot;https://www.fiverr.com/samuelzubor&quot;&gt;Fiverr&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -128,27 +128,27 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Category</source>
-        <translation type="unfinished"></translation>
+        <translation>Kategori</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Videor</translation>
     </message>
     <message>
         <source>Shorts</source>
-        <translation type="unfinished"></translation>
+        <translation>Korta</translation>
     </message>
     <message>
         <source>Livestreams</source>
-        <translation type="unfinished"></translation>
+        <translation>Livesändningar</translation>
     </message>
     <message>
         <source>Playlists</source>
-        <translation type="unfinished"></translation>
+        <translation>Spelningslistor</translation>
     </message>
     <message>
         <source>No videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Inga videor</translation>
     </message>
 </context>
 <context>
@@ -188,7 +188,7 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Clear videos database</source>
-        <translation type="unfinished"></translation>
+        <translation>Rensa videodatabasen</translation>
     </message>
 </context>
 <context>
@@ -243,23 +243,23 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Upload date</source>
-        <translation type="unfinished"></translation>
+        <translation>Uppladdningsdatum</translation>
     </message>
     <message>
         <source>Last hour</source>
-        <translation type="unfinished"></translation>
+        <translation>Senaste timman</translation>
     </message>
     <message>
         <source>This week</source>
-        <translation type="unfinished"></translation>
+        <translation>Denna vecka</translation>
     </message>
     <message>
         <source>This month</source>
-        <translation type="unfinished"></translation>
+        <translation>Denna månad</translation>
     </message>
     <message>
         <source>This year</source>
-        <translation type="unfinished"></translation>
+        <translation>Detta år</translation>
     </message>
 </context>
 <context>
@@ -388,62 +388,62 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Categories</source>
-        <translation type="unfinished">Kategorier</translation>
+        <translation>Kategorier</translation>
     </message>
     <message>
         <source>Search results to queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Sökresultat till kön</translation>
     </message>
     <message>
         <source>Clear queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Rensa kön</translation>
     </message>
     <message>
         <source>Clearing queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Rensar kön</translation>
     </message>
     <message>
         <source>Filters</source>
-        <translation type="unfinished">Filter</translation>
+        <translation>Filter</translation>
     </message>
     <message>
         <source>Queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Kö</translation>
     </message>
     <message>
         <source>Select trending category</source>
-        <translation type="unfinished"></translation>
+        <translation>Välj trendkategorin</translation>
     </message>
     <message>
         <source>Play queued videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Spela upp köade videor</translation>
     </message>
     <message>
         <source>Find videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Sök videor</translation>
     </message>
     <message>
         <source>Switch to queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Växla till kön</translation>
     </message>
     <message>
         <source>No queued videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Inga köade videor</translation>
     </message>
     <message>
         <source>No videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Inga videor</translation>
     </message>
     <message>
         <source>Add videos to queue from pulldown or dropdown menus</source>
-        <translation type="unfinished"></translation>
+        <translation>Lägg till videor i kön via toppmeny eller rullgardinsmeny</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <source>Short</source>
-        <translation type="unfinished">Kort</translation>
+        <translation>Korta</translation>
     </message>
 </context>
 <context>
@@ -749,35 +749,35 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Subscriptions</source>
-        <translation type="unfinished">Prenumerationer</translation>
+        <translation>Prenumerationer</translation>
     </message>
     <message>
         <source>Invert VR controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertera VR-kontroller</translation>
     </message>
     <message>
         <source>%1 seconds</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 sekunder</translation>
     </message>
     <message>
         <source>Double tap skip amount</source>
-        <translation type="unfinished"></translation>
+        <translation>Dubbelklicka för att hoppa över mängd</translation>
     </message>
     <message>
         <source>Subscriptions Aggregator Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>Konfiguration av prenumerationsaggregator</translation>
     </message>
     <message>
         <source>Youtube login</source>
-        <translation type="unfinished"></translation>
+        <translation>Youtube Login</translation>
     </message>
     <message>
         <source>Only AVC1 (for older devices without vp9)</source>
-        <translation type="unfinished"></translation>
+        <translation>Endast AVC1 (för äldre enheter utan vp9)</translation>
     </message>
     <message>
         <source>United States</source>
-        <translation type="unfinished"></translation>
+        <translation>Förenta Staterna</translation>
     </message>
 </context>
 <context>
@@ -862,15 +862,15 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Synchronize all videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Synkronisera alla videor</translation>
     </message>
     <message>
         <source>Marking everything as watched</source>
-        <translation type="unfinished"></translation>
+        <translation>Markerar allt som sett</translation>
     </message>
     <message>
         <source>Channel page</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanalsida</translation>
     </message>
 </context>
 <context>
@@ -888,19 +888,19 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     <name>SubscriptionsSettings</name>
     <message>
         <source>Subscriptions Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Prenumerationsinställningar</translation>
     </message>
     <message>
         <source>Elements to aggregate</source>
-        <translation type="unfinished"></translation>
+        <translation>Element att aggregera</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Videor</translation>
     </message>
     <message>
         <source>Past livestreams</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidigare livesändningar</translation>
     </message>
 </context>
 <context>
@@ -974,39 +974,39 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>%1 videos</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 videor</translation>
     </message>
     <message>
         <source>Live</source>
-        <translation type="unfinished"></translation>
+        <translation>Live</translation>
     </message>
     <message>
         <source>Upcoming</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommande</translation>
     </message>
     <message>
         <source>Scheduled</source>
-        <translation type="unfinished"></translation>
+        <translation>Schemalagt</translation>
     </message>
     <message>
         <source>Playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Spelningslista</translation>
     </message>
     <message>
         <source>Mark as unwatched</source>
-        <translation type="unfinished"></translation>
+        <translation>Markera som osedd</translation>
     </message>
     <message>
         <source>Mark as watched</source>
-        <translation type="unfinished"></translation>
+        <translation>Markera som sedd</translation>
     </message>
     <message>
         <source>Remove from queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Ta bort från kön</translation>
     </message>
     <message>
         <source>Add to queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Lägg till i kön</translation>
     </message>
 </context>
 <context>
@@ -1048,51 +1048,51 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Like</source>
-        <translation type="unfinished"></translation>
+        <translation>Gilla</translation>
     </message>
     <message>
         <source>Show more</source>
-        <translation type="unfinished">Visa mer</translation>
+        <translation>Visa mer</translation>
     </message>
     <message>
         <source>No videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Inga videor</translation>
     </message>
     <message>
         <source>No video formats available</source>
-        <translation type="unfinished"></translation>
+        <translation>Inga videoformat tillgängliga</translation>
     </message>
     <message>
         <source>No compatible video formats could be found</source>
-        <translation type="unfinished"></translation>
+        <translation>Inga kompatibla videoformat kunde hittas</translation>
     </message>
     <message>
         <source>Skipped</source>
-        <translation type="unfinished"></translation>
+        <translation>Överhoppad</translation>
     </message>
     <message>
         <source>Intro Skipped</source>
-        <translation type="unfinished"></translation>
+        <translation>Intro överhoppat</translation>
     </message>
     <message>
         <source>Outro Skipped</source>
-        <translation type="unfinished"></translation>
+        <translation>Outro överhoppat</translation>
     </message>
     <message>
         <source>Interaction Reminder Skipped</source>
-        <translation type="unfinished"></translation>
+        <translation>Påminnelse om interaktion överhoppad</translation>
     </message>
     <message>
         <source>Self Promotion Skipped</source>
-        <translation type="unfinished"></translation>
+        <translation>Egenreklam hoppades över</translation>
     </message>
     <message>
         <source>Offtopic music skipped</source>
-        <translation type="unfinished"></translation>
+        <translation>Offtopic-musik hoppades över</translation>
     </message>
     <message>
         <source>Sponsor blocked</source>
-        <translation type="unfinished"></translation>
+        <translation>Sponsor blockerad</translation>
     </message>
 </context>
 <context>
@@ -1122,7 +1122,7 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
     </message>
     <message>
         <source>Downloading %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Laddar ner %1</translation>
     </message>
 </context>
 </TS>
