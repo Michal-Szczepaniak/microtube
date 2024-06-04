@@ -1,7 +1,7 @@
 Name:       microtube
 
 Summary:    µTube
-Version:    3.5.19
+Version:    3.5.27
 Release:    0
 Group:      Qt/Qt
 License:    GPLv3
@@ -20,7 +20,6 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  pkgconfig(Qt5DBus)
 BuildRequires:  pkgconfig(Qt5OpenGL)
 BuildRequires:  pkgconfig(Qt5OpenGLExtensions)
-BuildRequires:  pkgconfig(Qt5SystemInfo)
 BuildRequires:  pkgconfig(audioresource-qt)
 BuildRequires:  pkgconfig(gstreamer-webrtc-1.0)
 BuildRequires:  pkgconfig(gstreamer-sdp-1.0)

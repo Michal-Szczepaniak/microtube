@@ -872,6 +872,14 @@ Para obtener la clave API de Youtube ve a &lt;a href=&quot;https://console.cloud
         <source>Channel page</source>
         <translation>Página del canal</translation>
     </message>
+    <message>
+        <source>Unignore unwatched count</source>
+        <translation>Contar los vídeos no vistos</translation>
+    </message>
+    <message>
+        <source>Ignore unwatched count</source>
+        <translation>No contar los vídeos no vistos</translation>
+    </message>
 </context>
 <context>
     <name>SubscriptionsImport</name>

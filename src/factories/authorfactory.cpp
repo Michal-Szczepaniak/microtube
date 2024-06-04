@@ -44,6 +44,7 @@ Author AuthorFactory::fromSqlRecord(QSqlRecord record)
     author.bestAvatar.url = record.value("avatar").toString();
     author.url = record.value("url").toString();
     author.subscribed = record.value("subscribed").toBool();
+    author.ignored = record.value("ignored").toBool();
 
     if (record.contains("unwatchedCount"))
         author.unwatchedVideosCount = record.value("unwatchedCount").toInt();

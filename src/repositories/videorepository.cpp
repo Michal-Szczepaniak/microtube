@@ -191,7 +191,7 @@ std::vector<std::unique_ptr<Video>> VideoRepository::getSubscriptions()
 std::vector<std::unique_ptr<Video> > VideoRepository::getUnwatchedSubscriptions()
 {
     QSqlQuery q;
-    q.prepare("SELECT video.* FROM video JOIN author ON author.id = video.author WHERE subscribed = 1 AND isUpcoming = 0 AND isLive = 0 AND watched = 0 ORDER BY timestamp desc");
+    q.prepare("SELECT video.* FROM video JOIN author ON author.id = video.author WHERE subscribed = 1 AND ignored = 0 AND isUpcoming = 0 AND isLive = 0 AND watched = 0 ORDER BY timestamp desc");
     q.exec();
 
     Q_ASSERT_X(!q.lastError().isValid(), "VideoRepository::getSubscriptions", q.lastError().text().toLatin1());

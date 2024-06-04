@@ -88,6 +88,8 @@ Page {
         onSkipSegmentsChanged: {
             if (skipSegments != "") {
                 parsedSkipSegments = JSON.parse(skipSegments)
+            } else {
+                parsedSkipSegments = []
             }
         }
 
@@ -137,8 +139,8 @@ Page {
         }
 
         onGotVideoInfo: {
-            videoPlayer.videoSource = videoHelper.videoUrl
             videoPlayer.audioOnlyMode = (settings.audioOnlyMode || videoHelper.videoUrl === "")
+            videoPlayer.videoSource = videoHelper.videoUrl
             if (!settings.audioOnlyMode && videoHelper.videoUrl === "") noFormatsNotification.publish()
             videoPlayer.audioSource = videoHelper.audioUrl
             videoPlayer.projection = videoHelper.projection
@@ -446,6 +448,7 @@ Page {
                             id: dimPane
                             anchors.fill: parent
                             property double colorOpacity: 0
+                            z: 2
                             color: Theme.rgba("black", colorOpacity)
                             Behavior on colorOpacity {
                                 NumberAnimation {}
@@ -482,7 +485,7 @@ Page {
                             source: videoHelper.currentVideo ? videoHelper.currentVideo.bigThumbnail : ""
                             asynchronous: true
                             fillMode: Image.PreserveAspectCrop
-                            visible: false //(videoHelper.currentVideo && videoPlayer.duration <= 0 && !videoPlayer.audioOnlyMode) || videoPlayer.audioOnlyMode
+                            visible: (videoHelper.currentVideo && videoPlayer.duration <= 0 && !videoPlayer.audioOnlyMode) || videoPlayer.audioOnlyMode
                             z: ((videoHelper.currentVideo && videoPlayer.duration <= 0 && !videoPlayer.audioOnlyMode) || videoPlayer.audioOnlyMode) ? 1 : -1
                         }
 
@@ -1096,7 +1099,7 @@ Page {
                     id: playlistFlickable
                     width: parent.width
                     height: playlist.height
-                    contentHeight: (page.height - videoPlayerRow.height) + videoTitle.height + authorViews.height + videoDescription.height + comments.height + progress.height/2 + interactionRow.height + Theme.paddingLarge*2
+                    contentHeight: (page.height - videoPlayerRow.height) + videoTitle.height + authorViews.height + videoDescription.height + progress.height/2 + interactionRow.height + showMoreRow.height + Theme.paddingLarge*2 + Theme.paddingMedium
                     clip: true
                     property int oldContentHeight: 0
                     onContentHeightChanged: {
@@ -1367,7 +1370,7 @@ Page {
                             id: listView
                             anchors.left: parent.left
                             anchors.right: parent.right
-                            height: page.height - videoPlayerRow.height
+                            height: page.height - videoPlayerRow.height - comments.height
                             maximumFlickVelocity: 9999
                             spacing: Theme.paddingMedium
                             model: currentPlaylist

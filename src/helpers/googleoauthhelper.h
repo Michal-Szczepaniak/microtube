@@ -4,7 +4,6 @@
 #include <QObject>
 #include <o2google.h>
 #include <o2requestor.h>
-#include <QNetworkInfo>
 #include <QThread>
 #include "workers/subscriptionsimportworker.h"
 #include "repositories/authorrepository.h"
@@ -70,7 +69,6 @@ private:
     QNetworkAccessManager _nm;
     O2Google _o2Google;
     O2Requestor _o2Requestor;
-    QNetworkInfo _networkInfo;
     QHash<RequestType, Request> _pendingRequests;
     int _progress;
     int _progressEnd;

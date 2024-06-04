@@ -11,6 +11,6 @@
   "license": "ISC",
   "dependencies": {
     "youtubei.js": "^9.0",
-    "ytdl-core": "git+https://github.com/khlevon/node-ytdl-core.git#v4.11.4-patch.2"
+    "ytdl-core": "^v4.11.5"
   }
 }

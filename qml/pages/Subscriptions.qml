@@ -138,7 +138,7 @@ Page {
                 }
 
                 Rectangle {
-                    visible: unwatchedCount > 0
+                    visible: unwatchedCount > 0 || ignored
                     anchors.right: picture.right
                     anchors.top: picture.top
                     anchors.topMargin: -height/2
@@ -158,6 +158,18 @@ Page {
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                         elide: Text.ElideRight
+                        visible: !ignored
+                    }
+
+                    Icon {
+                        anchors.margins: Theme.paddingSmall/2
+                        anchors.fill: parent
+                        color: Theme.primaryColor
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        source: "image://theme/icon-s-blocked"
+                        visible: ignored
+                        asynchronous: true
                     }
                 }
 
@@ -171,6 +183,7 @@ Page {
                     anchors.top: parent.top
                     width: Theme.itemSizeExtraLarge
                     height: Theme.itemSizeExtraLarge
+                    asynchronous: true
                     source: avatar
                     onStatusChanged: if (status === Image.Error) source = "image://theme/icon-l-people"
                     fillMode: Image.PreserveAspectFit
@@ -202,6 +215,13 @@ Page {
                         text: qsTr("Synchronize all videos")
                         onClicked: {
                             subscriptionsAggregator.updateSubscription(authorId)
+                        }
+                    }
+
+                    MenuItem {
+                        text: ignored ? qsTr("Unignore unwatched count") : qsTr("Ignore unwatched count")
+                        onClicked: {
+                            ignored = !ignored
                         }
                     }
 

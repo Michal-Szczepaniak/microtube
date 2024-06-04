@@ -31,6 +31,12 @@ VideoPlayer::VideoPlayer(QQuickItem *parent) :
     _timer->setInterval(100);
     connect(_timer, &QTimer::timeout, this, &VideoPlayer::positionChanged);
 
+    _bufferTimeoutTimer.setSingleShot(true);
+    _bufferTimeoutTimer.setInterval(1000);
+    connect(&_bufferTimeoutTimer, &QTimer::timeout, [&](){
+        if (_state == StateBuffering) setState(_previousState);
+    });
+
     setRenderTarget(QQuickPaintedItem::FramebufferObject);
     setSmooth(false);
     setAntialiasing(false);
@@ -357,10 +363,7 @@ bool VideoPlayer::seek(qint64 offset) {
 
     if (ret) {
         _pos = pos;
-
-        return TRUE;
     }
-
 
     return TRUE;
 }
@@ -721,6 +724,9 @@ void VideoPlayer::updateBufferingState(int percent, QString name)
             }
 
             setState(VideoPlayer::StateBuffering);
+
+            _bufferTimeoutTimer.start();
+
             _bufferTimestamp = QDateTime::currentMSecsSinceEpoch();
             return;
         }

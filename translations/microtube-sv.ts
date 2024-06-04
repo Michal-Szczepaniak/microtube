@@ -872,6 +872,14 @@ För att få en Youtube API-nyckel, gå till &lt;a href=&quot;https://console.cl
         <source>Channel page</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unignore unwatched count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore unwatched count</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SubscriptionsImport</name>

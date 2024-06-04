@@ -3,6 +3,9 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QNetworkConfigurationManager>
+#include <QNetworkInterface>
+#include <QNetworkSession>
 #include <QUrlQuery>
 #include <o0settingsstore.h>
 
@@ -14,9 +17,6 @@ GoogleOAuthHelper::GoogleOAuthHelper(QObject *parent) : QObject(parent), _nm(thi
         _o2Google.setClientSecret(QSettings().value("clientSecret").toString());
     }
     _o2Google.setScope("https://www.googleapis.com/auth/youtube");
-
-    O0SettingsStore *settings = new O0SettingsStore(_networkInfo.macAddress(QNetworkInfo::WlanMode, 0));
-    _o2Google.setStore(settings);
 
     connect(&_o2Google, &O2Google::linkedChanged, this, &GoogleOAuthHelper::linkedChanged);
     connect(&_o2Google, &O2Google::linkingFailed, this, &GoogleOAuthHelper::linkingFailed);

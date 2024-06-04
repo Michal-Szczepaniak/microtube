@@ -871,6 +871,14 @@ To get Youtube API key go to &lt;a href=&quot;https://console.cloud.google.com&q
         <source>Channel page</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unignore unwatched count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ignore unwatched count</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>SubscriptionsImport</name>

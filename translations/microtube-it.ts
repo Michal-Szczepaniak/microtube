@@ -872,6 +872,14 @@ Per ottenere una chiave vai su &lt;a href=&quot;https://console.cloud.google.com
         <source>Channel page</source>
         <translation>Canale</translation>
     </message>
+    <message>
+        <source>Unignore unwatched count</source>
+        <translation>Non ignorare conteggio video non guardati</translation>
+    </message>
+    <message>
+        <source>Ignore unwatched count</source>
+        <translation>Ignora conteggio video non guardati</translation>
+    </message>
 </context>
 <context>
     <name>SubscriptionsImport</name>

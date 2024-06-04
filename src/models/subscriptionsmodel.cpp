@@ -48,21 +48,43 @@ QVariant SubscriptionsModel::data(const QModelIndex &index, int role) const
         return author.name;
     case SubscriptionRoles::AvatarRole:
         return author.bestAvatar.url;
+    case SubscriptionRoles::IgnoredRole:
+        return author.ignored;
     case SubscriptionRoles::UnwatchedRole:
-        return author.unwatchedVideosCount;
+        return author.ignored ? 0 : author.unwatchedVideosCount;
     default:
         return QVariant();
     }
 }
 
+bool SubscriptionsModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (rowCount() <= 0 || index.row() < 0 || index.row() >= rowCount()) return false;
+
+    Author &author = _subscriptions[index.row()];
+    switch (role) {
+    case SubscriptionRoles::IgnoredRole:
+        author.ignored = !author.ignored;
+        _authorRepository.update(author);
+        emit dataChanged(index, index, {UnwatchedRole});
+        break;
+    default:
+        return false;
+    }
+
+    emit dataChanged(index, index, {role});
+    return true;
+}
+
 QHash<int, QByteArray> SubscriptionsModel::roleNames() const
 {
     QHash<int, QByteArray> roles;
-    roles[IdRole]        = "id";;
-    roles[DatabaseIdRole]    = "databaseId";
-    roles[AuthorIdRole]  = "authorId";
-    roles[NameRole]      = "name";
-    roles[AvatarRole]    = "avatar";
-    roles[UnwatchedRole] = "unwatchedCount";
+    roles[IdRole]         = "id";
+    roles[DatabaseIdRole] = "databaseId";
+    roles[AuthorIdRole]   = "authorId";
+    roles[NameRole]       = "name";
+    roles[AvatarRole]     = "avatar";
+    roles[IgnoredRole]    = "ignored";
+    roles[UnwatchedRole]  = "unwatchedCount";
     return roles;
 }

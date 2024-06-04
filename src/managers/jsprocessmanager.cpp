@@ -350,8 +350,9 @@ void JSProcessManager::gotVideoInfoJson(int exitStatus)
     QHash<int, QString> formats;
     for (const QJsonValue &jsonFormat : response.object()["formats"].toArray()) {
         const QJsonObject format = jsonFormat.toObject();
-        formats[format["itag"].toInt()] = format["url"].toString();
-        qDebug() << "Format: " << format["itag"].toInt() << "url: " << format["url"].toString();
+        if (!format.contains("audioTrack")) {
+            formats[format["itag"].toInt()] = format["url"].toString();
+        }
     }
 
     auto obj = response.object();

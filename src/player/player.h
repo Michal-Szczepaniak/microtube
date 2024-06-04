@@ -114,6 +114,7 @@ private:
     State _previousState;
     qint64 _bufferTimestamp;
     QTimer *_timer;
+    QTimer _bufferTimeoutTimer;
     qint64 _pos;
     double _playbackSpeed;
     bool _created;

@@ -30,6 +30,7 @@ public:
     int subscriberCount = 0;
     bool subscribed = false;
     int unwatchedVideosCount = 0;
+    bool ignored = false;
 
     bool operator!=(Author const &other) { return authorId != other.authorId; }
 };

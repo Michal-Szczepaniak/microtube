@@ -638,7 +638,6 @@ void PlaylistModel::fetchMore(const QModelIndex &parent)
 Search PlaylistModel::createNewSearch()
 {
     Search search;
-    search.language = QLocale::system().name().split("_")[0];
     search.country = getCountry();
     search.safeSearch = getSafeSearch();
     return search;

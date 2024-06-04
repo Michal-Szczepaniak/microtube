@@ -35,7 +35,7 @@ ApplicationWindow
 
     property string playing: ""
     property bool videoCover: false
-    property string version: "3.5.13"
+    property string version: "3.5.27"
     property bool playlistMode: false
     property alias playlistModel: playlistModel
 

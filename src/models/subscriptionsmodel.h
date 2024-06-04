@@ -16,6 +16,7 @@ public:
         AuthorIdRole,
         NameRole,
         AvatarRole,
+        IgnoredRole,
         UnwatchedRole
     };
 
@@ -26,6 +27,7 @@ public:
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = IdRole) const override;
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
 
 protected:
     QHash<int, QByteArray> roleNames() const override;

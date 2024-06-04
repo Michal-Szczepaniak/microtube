@@ -29,8 +29,6 @@ pkg_search_module(EGL egl REQUIRED)
 pkg_search_module(OPENGL_EXTENSIONS Qt5OpenGLExtensions REQUIRED)
 
 if (TARGET_SAILFISH)
-    find_package(Qt5 COMPONENTS SystemInfo REQUIRED)
-
     pkg_search_module(AUDIORESOURCE audioresource-qt REQUIRED)
     pkg_search_module(NEMO_GSTREAMER_INTERFACES nemo-gstreamer-interfaces-1.0 REQUIRED)
 endif()
@@ -117,7 +115,6 @@ target_link_libraries(microtube
     Qt5::Sql
     Qt5::OpenGL
     Qt5::OpenGLExtensions
-    $<$<BOOL:TARGET_SAILFISH>:Qt5::SystemInfo>
     ${DBus1_LDFLAGS}
     ${GLIB_LDFLAGS}
     ${DBUSGLIB_LDFLAGS}

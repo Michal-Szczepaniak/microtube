@@ -111,20 +111,19 @@ Page {
                 id: defaultCategory
                 width: parent.width
                 label: qsTr("Default category")
-                value: settings.categoryName
-                currentIndex: -1
+                currentIndex: settings.categoryId
                 property var values: ["Now", "Music", "Gaming", "Movies", "Subscriptions"]
                 menu: ContextMenu {
                     Repeater {
                         model: [qsTr("Now"),qsTr("Music"),qsTr("Gaming"),qsTr("Movies"),qsTr("Subscriptions")]
                         delegate: MenuItem {
-                            text: values[index]
+                            text: modelData
                         }
                     }
                 }
                 onCurrentItemChanged: {
                     settings.categoryId = currentIndex
-                    settings.categoryName = currentItem.text
+                    settings.categoryName = values[currentIndex]
                 }
             }
 

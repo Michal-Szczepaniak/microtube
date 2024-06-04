@@ -27,12 +27,13 @@ void AuthorRepository::put(Author &entity)
     if (entity.authorId == "") return;
 
     QSqlQuery q;
-    q.prepare("INSERT INTO author(authorId, name, url, avatar, subscribed) VALUES (?,?,?,?,?)");
+    q.prepare("INSERT INTO author(authorId, name, url, avatar, subscribed, ignored) VALUES (?,?,?,?,?,?)");
     q.addBindValue(QVariant::fromValue(entity.authorId));
     q.addBindValue(QVariant::fromValue(entity.name));
     q.addBindValue(QVariant::fromValue(entity.url));
     q.addBindValue(QVariant::fromValue(entity.bestAvatar.url));
     q.addBindValue(QVariant::fromValue(entity.subscribed));
+    q.addBindValue(QVariant::fromValue(entity.ignored));
     q.exec();
 
     QVariant v = q.lastInsertId();
@@ -46,13 +47,14 @@ void AuthorRepository::update(Author entity)
     if (entity.id == -1) return;
 
     QSqlQuery q;
-    q.prepare("UPDATE author set authorId = ?, name = ?, url = ?, avatar = ?, subscribed = ? WHERE id = ?");
+    q.prepare("UPDATE author set authorId = ?, name = ?, url = ?, avatar = ?, subscribed = ?, ignored = ? WHERE id = ?");
 
     q.addBindValue(QVariant::fromValue(entity.authorId));
     q.addBindValue(QVariant::fromValue(entity.name));
     q.addBindValue(QVariant::fromValue(entity.url));
     q.addBindValue(QVariant::fromValue(entity.bestAvatar.url));
     q.addBindValue(QVariant::fromValue(entity.subscribed));
+    q.addBindValue(QVariant::fromValue(entity.ignored));
     q.addBindValue(QVariant::fromValue(entity.id));
     q.exec();
 }
@@ -131,4 +133,19 @@ void AuthorRepository::initTable()
     QSqlQuery q;
     q.prepare("create table if not exists author (id INTEGER PRIMARY KEY AUTOINCREMENT, authorId TEXT, name TEXT, url TEXT, avatar TEXT, subscribed BOOLEAN)");
     q.exec();
+
+    q.prepare("SELECT COUNT(*) AS CNTREC FROM pragma_table_info('author') WHERE name='ignored'");
+    q.exec();
+
+    Q_ASSERT_X(!q.lastError().isValid(), "VideoRepository::initTable", q.lastError().text().toLatin1());
+
+    Q_ASSERT_X(q.first(), "VideoRepository::initTable", "Could not execute query");
+
+    int count = q.value(0).toInt();
+    if (count == 0) {
+        q.prepare("ALTER TABLE author ADD COLUMN ignored BOOLEAN;");
+        q.exec();
+
+        Q_ASSERT_X(!q.lastError().isValid(), "VideoRepository::initTable", q.lastError().text().toLatin1());
+    }
 }
