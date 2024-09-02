@@ -66,24 +66,37 @@ Author AuthorFactory::fromChannelVideosJson(QJsonObject json)
 Author AuthorFactory::fromChannelInfoJson(QJsonObject json)
 {
     auto metadata = json["metadata"].toObject();
-    auto header = json["header"].toObject();
-    auto authorJson = header["author"].toObject();
+    auto headerContent = json["header"].toObject()["content"].toObject();
 
     Author author{};
     author.description = metadata["description"].toString();
-    author.authorId = authorJson["id"].toString();
-    author.name = authorJson["name"].toString();
-    author.url = authorJson["url"].toString();
-    author.subscriberCount = parseAmount(header["subscribers"].toObject()["text"].toString());
+    author.authorId = metadata["external_id"].toString();
+    author.name = metadata["title"].toString();
+    author.url = metadata["vanity_channel_url"].toString();
+    author.subscriberCount = getChannelSubscriberCount(headerContent);
 
-    if (authorJson.contains("thumbnails") && !authorJson["thumbnails"].toArray().empty()) {
-        for (const QJsonValue &avatar : authorJson["thumbnails"].toArray())
+    QJsonArray avatars;
+    if (headerContent.contains("image")) {
+        auto image = headerContent["image"].toObject();
+        if (image.contains("avatar")) {
+            auto avatar = image["avatar"].toObject();
+            if (avatar.contains("image")) {
+                avatars = avatar["image"].toArray();
+            }
+        }
+    }
+
+    if (!avatars.empty()) {
+        for (const QJsonValue &avatar : avatars)
             author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
         author.bestAvatar = author.avatars.first();
     }
 
-    if (header.contains("banner") && !header["banner"].toArray().empty()) {
-        for (const QJsonValue &banner : header["banner"].toArray())
+    if (headerContent.contains("banner") && headerContent["banner"].toObject().contains("image") &&
+        !headerContent["banner"].toObject()["image"].toArray().empty()) {
+
+        auto banners = headerContent["banner"].toObject()["image"].toArray();
+        for (const QJsonValue &banner : banners)
             author.banners.append(ThumbnailFactory::fromJson(banner.toObject()));
         author.bestBanner = author.banners.first();
     }
@@ -185,4 +198,33 @@ int AuthorFactory::parseAmount(QString amount)
     }
 
     return number;
+}
+
+int AuthorFactory::getChannelSubscriberCount(QJsonObject json)
+{
+    auto metadata = json["metadata"].toObject();
+
+    if (!metadata.contains("metadata_rows")) return 0;
+
+    auto metadataRows = metadata["metadata_rows"].toArray();
+
+    if (metadataRows.size() < 2) return 0;
+
+    auto metadataRow = metadataRows[1].toObject();
+
+    if (!metadataRow.contains("metadata_parts")) return 0;
+
+    auto metadataParts = metadataRow["metadata_parts"].toArray();
+
+    if (metadataParts.size() < 1) return 0;
+
+    auto metadataPart = metadataParts[0].toObject();
+
+    if (!metadataPart.contains("text")) return 0;
+
+    auto text = metadataPart["text"].toObject();
+
+    if (!text.contains("text")) return 0;
+
+    return parseAmount(text["text"].toString());
 }

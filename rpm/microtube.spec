@@ -1,7 +1,7 @@
 Name:       microtube
 
 Summary:    µTube
-Version:    3.5.27
+Version:    3.5.30
 Release:    0
 Group:      Qt/Qt
 License:    GPLv3

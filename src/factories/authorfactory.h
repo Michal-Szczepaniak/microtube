@@ -20,6 +20,7 @@ public:
 
 private:
     static int parseAmount(QString amount);
+    static int getChannelSubscriberCount(QJsonObject json);
 };
 
 #endif // AUTHORFACTORY_H
