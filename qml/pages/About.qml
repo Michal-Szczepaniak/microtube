@@ -139,6 +139,7 @@ Page {
                 horizontalAlignment: Text.AlignHCenter
                 onLinkActivated: Qt.openUrlExternally(link)
                 linkColor: Theme.highlightColor
+                wrapMode: Text.WordWrap
             }
 
             Label {

@@ -132,6 +132,16 @@ void VideoHelper::gotFormats(QHash<int, QString> formats)
                 }
             }
         }
+
+        if (_maxDefinition == 0) {
+            for (int definition : VideoDefinition::audioDefinitions) {
+                if (formats.contains(definition)) {
+                    _audioUrl = formats[definition];
+                    qDebug() << "Selecting audio format: " << definition;
+                    break;
+                }
+            }
+        }
     } else {
         for (int definition : VideoDefinition::audioDefinitions) {
             if (formats.contains(definition)) {

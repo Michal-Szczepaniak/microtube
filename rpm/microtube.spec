@@ -1,7 +1,7 @@
 Name:       microtube
 
 Summary:    µTube
-Version:    3.5.30
+Version:    3.5.32
 Release:    0
 Group:      Qt/Qt
 License:    GPLv3
@@ -53,7 +53,7 @@ desktop-file-install --delete-original       \
 
 %files
 %defattr(-,root,root,-)
-%{_bindir}
+%{_bindir}/%{name}
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/applications/%{name}-url.desktop
