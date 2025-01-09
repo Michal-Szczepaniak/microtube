@@ -42,6 +42,8 @@ public:
     bool needsNativePainting();
     void setProjection(Projection projection);
 
+    void setAvc1(bool avc1);
+
 signals:
     void updateRequested();
     void renderAreaChanged();
@@ -97,6 +99,7 @@ private:
     Projection _projection;
     float _projectionX;
     float _projectionY;
+    bool _avc1;
     QMetaObject::Connection _sceneGraphInitializedSignal;
 };
 

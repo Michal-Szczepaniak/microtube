@@ -23,7 +23,9 @@ void SubscriptionsAggregator::updateSubscriptions(bool full, bool force)
 
     connect(_workerThread, &QThread::started, _worker, &SubscriptionsAggregatorWorker::execute);
     connect(_worker, &SubscriptionsAggregatorWorker::finished, _workerThread, &QThread::quit);
+    connect(_worker, &SubscriptionsAggregatorWorker::finished, [&](){ _subscriptionsUpdateProgress = _subscriptionsCount; emit subscriptionsUpdateProgressChanged(); });
     connect(_worker, &SubscriptionsAggregatorWorker::updateProgress, [&](int progress){ _subscriptionsUpdateProgress = progress; emit subscriptionsUpdateProgressChanged(); });
+    connect(_worker, &SubscriptionsAggregatorWorker::updateSubscriptionsCount, [&](int count){ _subscriptionsCount = count; emit subscriptionsCountChanged(); });
 
     connect(_worker, &SubscriptionsAggregatorWorker::finished, _worker, &SubscriptionsAggregatorWorker::deleteLater);
     connect(_worker, &SubscriptionsAggregatorWorker::destroyed, [&](){ _worker = nullptr; });

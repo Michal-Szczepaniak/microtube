@@ -31,6 +31,7 @@ public:
     bool subscribed = false;
     int unwatchedVideosCount = 0;
     bool ignored = false;
+    QString latestVideoId{};
 
     bool operator!=(Author const &other) { return authorId != other.authorId; }
 };

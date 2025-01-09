@@ -140,6 +140,7 @@ Page {
                 onLinkActivated: Qt.openUrlExternally(link)
                 linkColor: Theme.highlightColor
                 wrapMode: Text.WordWrap
+                width: parent.width - Theme.paddingLarge*2
             }
 
             Label {

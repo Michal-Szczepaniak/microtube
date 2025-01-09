@@ -28,24 +28,20 @@ Item {
     onVisibleChanged: ping()
 
     function ping() {
-        connected = running ? (jupiiPlayer.getProperty('canControl') === true) : false
+        dbus.call("NameHasOwner", _serviceName, function(result) {
+            running = result
+            connected = running ? (jupiiPlayer.getProperty('canControl') === true) : false
+        },
+        function(error, message) {
+            console.log("updateSatatus error:", error, message)
+            running = false
+            connected = running ? (jupiiPlayer.getProperty('canControl') === true) : false
+        })
     }
 
     function addUrlOnceAndPlay(url, origUrl, title, author, description, type, app, icon) {
         jupiiPlayer.call('add', [url, origUrl, title, author, "", type, app, icon, true, true])
 
-    }
-
-    function _updateSatatus() {
-        dbus.call("NameHasOwner", _serviceName, function(result) {
-            running = result
-            ping()
-        },
-        function(error, message) {
-            console.log("updateSatatus error:", error, message)
-            running = false
-            ping()
-        })
     }
 
     DBusInterface {
@@ -66,7 +62,7 @@ Item {
 
         function nameOwnerChanged(name, oldOwner, newOwner) {
             if (name === _serviceName) {
-                _updateSatatus()
+                ping()
             }
         }
     }

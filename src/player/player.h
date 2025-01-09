@@ -24,6 +24,7 @@ class VideoPlayer : public QQuickPaintedItem {
     Q_PROPERTY(int projection READ getProjection WRITE setProjection NOTIFY projectionChanged);
     Q_PROPERTY(float projectionX READ getProjectionX WRITE setProjectionX NOTIFY videoSourceChanged)
     Q_PROPERTY(float projectionY READ getProjectionY WRITE setProjectionY NOTIFY videoSourceChanged)
+    Q_PROPERTY(bool isAvc1 READ isAvc1 WRITE setAvc1 NOTIFY avc1Changed)
     Q_ENUMS(State);
 
 public:
@@ -52,6 +53,8 @@ public:
     void setProjectionX(float projectionX);
     float getProjectionY() const;
     void setProjectionY(float projectionY);
+    bool isAvc1() const;
+    void setAvc1(bool avc1);
 
     Q_INVOKABLE bool pause();
     Q_INVOKABLE bool play();
@@ -81,6 +84,7 @@ signals:
     void displaySubtitleChanged();
     void projectionChanged();
     void audioOnlyModeChanged();
+    void avc1Changed();
 
 protected:
     void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry);
@@ -119,6 +123,7 @@ private:
     double _playbackSpeed;
     bool _created;
     bool _audioOnlyMode = false;
+    bool _avc1 = false;
     QString _currentSubtitle;
     QString _subtitle;
     quint64 _subtitleEnd;

@@ -254,19 +254,6 @@ Page {
                 text: qsTr("Other options")
             }
 
-            Slider {
-                id: bufferSlider
-                width: parent.width
-                minimumValue: 0
-                maximumValue: 1
-                stepSize: 0.1
-                value: settings.buffer
-                visible: settings.developerMode
-
-                onValueChanged: settings.buffer = value
-                label: qsTr("Buffer")
-            }
-
             Button {
                 id: testNewInstall
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -281,6 +268,14 @@ Page {
                 visible: settings.developerMode
                 onClicked: settings.version = "1"
                 text: qsTr("Test update")
+            }
+
+            Button {
+                id: forceSync
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: settings.developerMode
+                onClicked: subscriptionsAggregator.updateSubscriptions(false, true)
+                text: qsTr("Force subscriptions sync")
             }
 
             TextField {

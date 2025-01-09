@@ -74,61 +74,25 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added 180° and 360° videos")
+                    text: "• " + qsTr("Improved subscriptions sync performance")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Improved animations and next video switching")
+                    text: "• " + qsTr("Updated js libs")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added queue and playlists handling")
+                    text: "• " + qsTr("1080p videos on avc1")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Added all video tabs to channel page")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Fixed many many many bugs")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Switched to youtubei.js for most of video listing")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Added double tap in portrait")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Added ability to control double tap skip amount")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Improved buffering")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
-                    text: "• " + qsTr("Added search filters")
+                    text: "• " + qsTr("Improved streams")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }

@@ -29,6 +29,7 @@ public:
     void asyncLoadPlaylist(Search* query);
     void asyncContinuePlaylist(Search* query);
     SearchResults loadChannelVideos(Search* query, bool full = false);
+    SearchResults aggregateSubscription(Search* query, bool includeVideos, bool includeLivestreams);
     std::unique_ptr<Video> getBasicVideoInfo(QString url);
     Author fetchChannelInfo(Search *query);
     SearchResults getSearchVideos();

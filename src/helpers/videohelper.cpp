@@ -100,6 +100,8 @@ void VideoHelper::gotFormats(QHash<int, QString> formats)
 {
     _currentVideo = _jsProcessHelper.getVideoInfo();
 
+    qDebug() << "Available formats: " << formats.keys();
+
     if (_currentVideo->isLive) {
         for (int definition : VideoDefinition::audioDefinitions) {
             if (formats.contains(definition)) {
@@ -120,7 +122,7 @@ void VideoHelper::gotFormats(QHash<int, QString> formats)
                 }
             }
         }
-    } else if (_combined || getUseAVC()) {
+    } else if (_combined) {
         for (QMap<quint32, QVector<int>>::const_iterator definitions = VideoDefinition::videoDefinitionsCombined.constEnd(); definitions-- != VideoDefinition::videoDefinitionsCombined.constBegin(); ) {
             if (definitions.key() > _maxDefinition || _videoUrl != "") continue;
             qDebug() << "Definition: " << definitions.key() << " max definition: " << _maxDefinition;
@@ -138,6 +140,28 @@ void VideoHelper::gotFormats(QHash<int, QString> formats)
                 if (formats.contains(definition)) {
                     _audioUrl = formats[definition];
                     qDebug() << "Selecting audio format: " << definition;
+                    break;
+                }
+            }
+        }
+    } else if (getUseAVC()) {
+        for (int definition : VideoDefinition::audioDefinitions) {
+            if (formats.contains(definition)) {
+                _audioUrl = formats[definition];
+                qDebug() << "Selecting audio format: " << definition;
+                break;
+            }
+        }
+
+        for (QMap<quint32, QVector<int>>::const_iterator definitions = VideoDefinition::videoDefinitionsAvc1.constEnd(); definitions-- != VideoDefinition::videoDefinitionsAvc1.constBegin(); ) {
+            if (definitions.key() > _maxDefinition || _videoUrl != "") continue;
+            qDebug() << "Definition: " << definitions.key() << " max definition: " << _maxDefinition;
+            for (int definition : definitions.value()) {
+                if (formats.contains(definition)) {
+                    _videoUrl = formats[definition];
+
+                    qDebug() << "Selecting video format: " << definition;
+
                     break;
                 }
             }

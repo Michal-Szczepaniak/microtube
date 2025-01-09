@@ -212,7 +212,6 @@ std::unique_ptr<Video> VideoFactory::fromChannelVideosJson(QJsonObject video)
 {
     std::unique_ptr<Video> parsed(new Video());
     QString duration = video["duration"].toObject()["text"].toString();
-    parsed->author = AuthorFactory::fromChannelVideosJson(video["author"].toObject());
     parsed->duration = duration;
     parsed->description = video["description_snippet"].toObject()["text"].toString();
     parsed->videoId = video["id"].toString();

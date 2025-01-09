@@ -141,6 +141,7 @@ Page {
         onGotVideoInfo: {
             videoPlayer.audioOnlyMode = (settings.audioOnlyMode || videoHelper.videoUrl === "")
             videoPlayer.videoSource = videoHelper.videoUrl
+            console.log("Video url: ", videoHelper.videoUrl, videoPlayer.audioOnlyMode)
             if (!settings.audioOnlyMode && videoHelper.videoUrl === "") noFormatsNotification.publish()
             videoPlayer.audioSource = videoHelper.audioUrl
             videoPlayer.projection = videoHelper.projection
@@ -341,6 +342,7 @@ Page {
                         id: videoPlayer
                         width : landscapeCover ? page.width*1.6 : page.width
                         anchors.centerIn: parent
+                        isAvc1: videoHelper.useAVC
                         height: landscapeCover
                                   ? page.width
                                   : (landscape ? (page.fillMode ? page.width : page.height) : (settings.videoQuality === "360p" ? page.width/1.74 : page.width/1.777777777777778))
@@ -486,7 +488,7 @@ Page {
                             asynchronous: true
                             fillMode: Image.PreserveAspectCrop
                             visible: (videoHelper.currentVideo && videoPlayer.duration <= 0 && !videoPlayer.audioOnlyMode) || videoPlayer.audioOnlyMode
-                            z: ((videoHelper.currentVideo && videoPlayer.duration <= 0 && !videoPlayer.audioOnlyMode) || videoPlayer.audioOnlyMode) ? 1 : -1
+                            z: ((videoHelper.currentVideo && videoPlayer.duration <= 0 && videoPlayer.position === 0 && !videoPlayer.audioOnlyMode) || videoPlayer.audioOnlyMode) ? 1 : -1
                         }
 
                         PinchArea {

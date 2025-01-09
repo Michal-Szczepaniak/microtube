@@ -16,7 +16,7 @@ Author AuthorRepository::get(int id)
     if (ret) {
         return AuthorFactory::fromSqlRecord(q.record());
     } else {
-        qWarning() << "Couldn't fetch";
+        qWarning() << "Couldn't fetch. id: " << id;
     }
 
     return {};
@@ -27,13 +27,14 @@ void AuthorRepository::put(Author &entity)
     if (entity.authorId == "") return;
 
     QSqlQuery q;
-    q.prepare("INSERT INTO author(authorId, name, url, avatar, subscribed, ignored) VALUES (?,?,?,?,?,?)");
+    q.prepare("INSERT INTO author(authorId, name, url, avatar, subscribed, ignored, latestVideoId) VALUES (?,?,?,?,?,?,?)");
     q.addBindValue(QVariant::fromValue(entity.authorId));
     q.addBindValue(QVariant::fromValue(entity.name));
     q.addBindValue(QVariant::fromValue(entity.url));
     q.addBindValue(QVariant::fromValue(entity.bestAvatar.url));
     q.addBindValue(QVariant::fromValue(entity.subscribed));
     q.addBindValue(QVariant::fromValue(entity.ignored));
+    q.addBindValue(QVariant::fromValue(entity.latestVideoId));
     q.exec();
 
     QVariant v = q.lastInsertId();
@@ -47,7 +48,7 @@ void AuthorRepository::update(Author entity)
     if (entity.id == -1) return;
 
     QSqlQuery q;
-    q.prepare("UPDATE author set authorId = ?, name = ?, url = ?, avatar = ?, subscribed = ?, ignored = ? WHERE id = ?");
+    q.prepare("UPDATE author set authorId = ?, name = ?, url = ?, avatar = ?, subscribed = ?, ignored = ?, latestVideoId = ? WHERE id = ?");
 
     q.addBindValue(QVariant::fromValue(entity.authorId));
     q.addBindValue(QVariant::fromValue(entity.name));
@@ -55,6 +56,7 @@ void AuthorRepository::update(Author entity)
     q.addBindValue(QVariant::fromValue(entity.bestAvatar.url));
     q.addBindValue(QVariant::fromValue(entity.subscribed));
     q.addBindValue(QVariant::fromValue(entity.ignored));
+    q.addBindValue(QVariant::fromValue(entity.latestVideoId));
     q.addBindValue(QVariant::fromValue(entity.id));
     q.exec();
 }
@@ -90,7 +92,7 @@ Author AuthorRepository::getOneByChannelId(QString channelId)
     if (ret) {
         return AuthorFactory::fromSqlRecord(q.record());
     } else {
-        qWarning() << "Couldn't fetch";
+        qWarning() << "Couldn't fetch. Channel id: " << channelId;
     }
 
     return {};
@@ -144,6 +146,21 @@ void AuthorRepository::initTable()
     int count = q.value(0).toInt();
     if (count == 0) {
         q.prepare("ALTER TABLE author ADD COLUMN ignored BOOLEAN;");
+        q.exec();
+
+        Q_ASSERT_X(!q.lastError().isValid(), "VideoRepository::initTable", q.lastError().text().toLatin1());
+    }
+
+    q.prepare("SELECT COUNT(*) AS CNTREC FROM pragma_table_info('author') WHERE name='latestVideoId'");
+    q.exec();
+
+    Q_ASSERT_X(!q.lastError().isValid(), "VideoRepository::initTable", q.lastError().text().toLatin1());
+
+    Q_ASSERT_X(q.first(), "VideoRepository::initTable", "Could not execute query");
+
+    count = q.value(0).toInt();
+    if (count == 0) {
+        q.prepare("ALTER TABLE author ADD COLUMN latestVideoId TEXT;");
         q.exec();
 
         Q_ASSERT_X(!q.lastError().isValid(), "VideoRepository::initTable", q.lastError().text().toLatin1());

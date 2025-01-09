@@ -308,6 +308,16 @@ void VideoPlayer::setProjectionY(float projectionY)
     }
 }
 
+bool VideoPlayer::isAvc1() const
+{
+    return _avc1;
+}
+
+void VideoPlayer::setAvc1(bool avc1)
+{
+    _avc1 = avc1;
+}
+
 bool VideoPlayer::pause() {
     return setState(VideoPlayer::StatePaused);
 }
@@ -324,6 +334,7 @@ bool VideoPlayer::play() {
             QObject::connect(_renderer, SIGNAL(updateRequested()), this, SLOT(updateRequested()));
             gst_bin_add(GST_BIN(_pipeline), _renderer->sinkElement());
             _renderer->setProjection(_projection);
+            _renderer->setAvc1(_avc1);
         }
 
         _renderer->resize(QSizeF(width(), height()));

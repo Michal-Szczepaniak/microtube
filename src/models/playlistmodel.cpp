@@ -617,6 +617,8 @@ void PlaylistModel::fetchMore(const QModelIndex &parent)
 {
     if (!_lastSearch.has_value()) return;
 
+    setBusy(true);
+
     switch (_lastSearch->type) {
     case Search::Query:
         _jsProcessManager.asyncContinueSearch(&_lastSearch.value());

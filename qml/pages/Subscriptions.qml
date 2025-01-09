@@ -30,9 +30,15 @@ Page {
 
     property YtPlaylist searchModel: null
 
+    Timer {
+        id: updateTimer
+        interval: 500
+        onTriggered: subscriptionsModel.refresh()
+    }
+
     Connections {
         target: subscriptionsAggregator
-        onSubscriptionsUpdateProgressChanged: subscriptionsModel.refresh()
+        onSubscriptionsUpdateProgressChanged: if (!updateTimer.running) updateTimer.start()
     }
 
     SilicaFlickable {
@@ -170,6 +176,7 @@ Page {
                         source: "image://theme/icon-s-blocked"
                         visible: ignored
                         asynchronous: true
+                        cache: true
                     }
                 }
 
@@ -184,6 +191,7 @@ Page {
                     width: Theme.itemSizeExtraLarge
                     height: Theme.itemSizeExtraLarge
                     asynchronous: true
+                    cache: true
                     source: avatar
                     onStatusChanged: if (status === Image.Error) source = "image://theme/icon-l-people"
                     fillMode: Image.PreserveAspectFit
@@ -199,37 +207,42 @@ Page {
                     horizontalAlignment: Text.AlignLeft
                 }
 
-                menu: ContextMenu {
-                    id: contextMenu
-                    width: page.width
+                menu: contextMenuComponent
 
-                    MenuItem {
-                        text: qsTr("Channel page")
-                        onClicked: {
-                            pageStack.navigateBack(PageStackAction.Immediate)
-                            pageStack.push(Qt.resolvedUrl("Channel.qml"), {channelId: authorId})
+                Component {
+                    id: contextMenuComponent
+                    ContextMenu {
+                        id: contextMenu
+                        width: page.width
+
+                        MenuItem {
+                            text: qsTr("Channel page")
+                            onClicked: {
+                                pageStack.navigateBack(PageStackAction.Immediate)
+                                pageStack.push(Qt.resolvedUrl("Channel.qml"), {channelId: authorId})
+                            }
                         }
-                    }
 
-                    MenuItem {
-                        text: qsTr("Synchronize all videos")
-                        onClicked: {
-                            subscriptionsAggregator.updateSubscription(authorId)
+                        MenuItem {
+                            text: qsTr("Synchronize all videos")
+                            onClicked: {
+                                subscriptionsAggregator.updateSubscription(authorId)
+                            }
                         }
-                    }
 
-                    MenuItem {
-                        text: ignored ? qsTr("Unignore unwatched count") : qsTr("Ignore unwatched count")
-                        onClicked: {
-                            ignored = !ignored
+                        MenuItem {
+                            text: ignored ? qsTr("Unignore unwatched count") : qsTr("Ignore unwatched count")
+                            onClicked: {
+                                ignored = !ignored
+                            }
                         }
-                    }
 
-                    MenuItem {
-                        text: qsTr("Unsubscribe")
-                        onClicked: {
-                            channelHelper.unsubscribeId(databaseId)
-                            subscriptionsModel.loadSubscriptionsList()
+                        MenuItem {
+                            text: qsTr("Unsubscribe")
+                            onClicked: {
+                                channelHelper.unsubscribeId(databaseId)
+                                subscriptionsModel.loadSubscriptionsList()
+                            }
                         }
                     }
                 }

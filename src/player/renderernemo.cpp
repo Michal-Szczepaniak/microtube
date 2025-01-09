@@ -185,17 +185,66 @@ static const QString FRAGMENT_SHADER_360 = ""
     "}\n"
     "";
 
+static const QString FRAGMENT_SHADER_360_AVC1 = ""
+    "#extension GL_OES_EGL_image_external: enable\n"
+    "\n"
+    "varying lowp vec2 fragTexCoord;\n"
+    "\n"
+    "//Uniforms\n"
+    "uniform vec2 cameraRotation;\n"
+    "uniform float invAspectRatio; //height / width\n"
+    "uniform float zoom;\n"
+    "uniform bool onlyHalfOfTheScreen;\n"
+    "\n"
+    "//Texture\n"
+    "uniform samplerExternalOES texture0;\n"
+    "\n"
+    "const vec2 inverseAtan = vec2(0.1591, 0.3183);\n"
+    "\n"
+    "vec2 sampleSphericalMap(vec3 localPosition) {\n"
+    "    vec2 uv = vec2(atan(localPosition.z, localPosition.x), asin(localPosition.y));\n"
+    "    uv *= inverseAtan;\n"
+    "    uv += 0.5;\n"
+    "\n"
+    "    return uv;\n"
+    "}\n"
+    "\n"
+    "const vec3 up = vec3(0.0, 1.0, 0.0);\n"
+    "const float fov = 50.0; //Field of view Y\n"
+    "\n"
+    "vec3 getDirection(in vec2 cameraRotation, in vec2 positionInView) {\n"
+    "    vec3 viewDirection  = normalize(vec3(sin(radians(cameraRotation.y)), sin(radians(-cameraRotation.x)), cos(radians(cameraRotation.y))));\n"
+    "    vec3 viewCrossUp    = normalize(cross(viewDirection, up));\n"
+    "    vec3 viewCrossRight = normalize(cross(viewCrossUp,   viewDirection));\n"
+    "    mat3 viewMatrix = mat3(viewCrossUp, viewCrossRight, viewDirection);\n"
+    "\n"
+    "    return viewMatrix * normalize(vec3(positionInView * tan(radians(fov)), 1.0));\n"
+    "}\n"
+    "\n"
+    "void main() {\n"
+    "    vec2 position = -(fragTexCoord * 2.0 - 1.0);\n"
+    "    vec2 positionInView = vec2(position.x, position.y * invAspectRatio) * zoom;\n"
+    "    vec3 localPosition = getDirection(cameraRotation, positionInView);\n"
+    "    vec2 uv = sampleSphericalMap(localPosition);\n"
+    "    uv.y = 1.0 - uv.y;"
+    "    uv.x = 1.0 - uv.x;"
+    "    if (onlyHalfOfTheScreen)\n"
+    "        uv.x = 2.0 - uv.x * 2.0;\n"
+    "    gl_FragColor = vec4(texture2D(texture0, uv).rgb, 1.0);\n"
+    "}\n"
+    "";
+
 static const QString VERTEX_SHADER = ""
-        "attribute vec4 inputVertex;"
-        "attribute lowp vec2 textureCoord;"
-        "uniform mat4 matrix;"
-        "uniform mat4 matrixWorld;"
-        "varying lowp vec2 fragTexCoord;"
-        ""
-        "void main() {"
-        "    gl_Position = matrix * matrixWorld * inputVertex;"
-        "    fragTexCoord = textureCoord;"
-        "}"
+    "attribute vec4 inputVertex;"
+    "attribute lowp vec2 textureCoord;"
+    "uniform mat4 matrix;"
+    "uniform mat4 matrixWorld;"
+    "varying lowp vec2 fragTexCoord;"
+    ""
+    "void main() {"
+    "    gl_Position = matrix * matrixWorld * inputVertex;"
+    "    fragTexCoord = textureCoord;"
+    "}"
     "";
 
 RendererNemo::RendererNemo(QObject *parent) :
@@ -262,6 +311,11 @@ bool RendererNemo::needsNativePainting() {
 void RendererNemo::setProjection(Projection projection)
 {
     _projection = projection;
+}
+
+void RendererNemo::setAvc1(bool avc1)
+{
+    _avc1 = avc1;
 }
 
 void RendererNemo::paint(const QMatrix4x4& matrix, const QRectF& viewport) {
@@ -455,7 +509,7 @@ void RendererNemo::createProgram() {
         shader = FRAGMENT_SHADER_180;
         break;
     case s360:
-        shader = FRAGMENT_SHADER_360;
+        shader = _avc1 ? FRAGMENT_SHADER_360_AVC1 : FRAGMENT_SHADER_360;
         break;
     }
 
@@ -541,7 +595,7 @@ void RendererNemo::paintFrame(const QMatrix4x4& matrix) {
     _program->setUniformValue("cameraRotation", QVector2D(_projectionY*90.f, _projectionX*(_projection == Projection::s360 ? 180.f : 90.f)));
     _program->setUniformValue("invAspectRatio", (float)_videoSize.height()/(float)_videoSize.width());
     _program->setUniformValue("zoom", 1.0f);
-    _program->setUniformValue("onlyHalfOfTheScreen", true);
+    _program->setUniformValue("onlyHalfOfTheScreen", _projection == Projection::s180);
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, &_vertexCoords[0]);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, &texCoords[0]);

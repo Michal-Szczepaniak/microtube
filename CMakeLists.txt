@@ -12,7 +12,6 @@ else()
     message(STATUS "Building for linux")
 endif()
 
-
 if (TARGET_SAILFISH)
     find_package(Qt5 COMPONENTS Core Network Qml Gui Quick DBus Sql OpenGL OpenGLExtensions LinguistTools REQUIRED)
 else()
@@ -181,6 +180,7 @@ add_custom_target(distfiles
         js/commentReplies.js
         js/unified.js
         js/package.json
+        js/subscriptionsAggregator.js
         microtube-url.desktop
         rpm/microtube.spec
         ${JS_FILES}

@@ -183,6 +183,39 @@ SearchResults JSProcessManager::loadChannelVideos(Search* query, bool full)
     return results;
 }
 
+SearchResults JSProcessManager::aggregateSubscription(Search *query, bool includeVideos, bool includeLivestreams)
+{
+    QJsonObject options = prepareSearchOptions(query, nullptr);
+    options["includeVideos"] = includeVideos;
+    options["includeLivestreams"] = includeLivestreams;
+    QJsonDocument optionsDoc(options);
+    qDebug() << query->query << " " << optionsDoc.toJson(QJsonDocument::Compact);
+    QProcess* process = execute("subscriptionsAggregator", {query->query, optionsDoc.toJson(QJsonDocument::Compact)});
+    process->waitForFinished();
+
+    QJsonDocument response = QJsonDocument::fromJson(process->readAll());
+    SearchResults result;
+
+    QJsonObject entry = response.object();
+
+    Author subscription = AuthorFactory::fromChannelInfoJson(entry["channel"].toObject());
+    result.push_back(subscription);
+
+    if (includeVideos) {
+        SearchResults videos = VideosParser::parseChanelVideos(entry["videos"].toArray());
+
+        std::move(videos.begin(), videos.end(), std::back_inserter(result));
+    }
+
+    if (includeLivestreams) {
+        SearchResults livestreams = VideosParser::parseChanelVideos(entry["livestreams"].toArray());
+
+        std::move(livestreams.begin(), livestreams.end(), std::back_inserter(result));
+    }
+
+    return result;
+}
+
 std::unique_ptr<Video> JSProcessManager::getBasicVideoInfo(QString url)
 {
     QProcess* process = execute("basicVideoInfo", {url});
@@ -350,7 +383,7 @@ void JSProcessManager::gotVideoInfoJson(int exitStatus)
     QHash<int, QString> formats;
     for (const QJsonValue &jsonFormat : response.object()["formats"].toArray()) {
         const QJsonObject format = jsonFormat.toObject();
-        if (!format.contains("audioTrack")) {
+        if (!format.contains("audioTrack") || format["audioTrack"].toObject()["id"].toString().startsWith("en.")) {
             formats[format["itag"].toInt()] = format["url"].toString();
         }
     }

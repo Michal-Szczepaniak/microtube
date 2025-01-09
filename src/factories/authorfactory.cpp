@@ -3,6 +3,8 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include <QVariant>
+#include <QDebug>
+#include <QJsonDocument>
 
 Author AuthorFactory::fromJson(QJsonObject json)
 {
@@ -45,6 +47,7 @@ Author AuthorFactory::fromSqlRecord(QSqlRecord record)
     author.url = record.value("url").toString();
     author.subscribed = record.value("subscribed").toBool();
     author.ignored = record.value("ignored").toBool();
+    author.latestVideoId = record.value("latestVideoId").toString();
 
     if (record.contains("unwatchedCount"))
         author.unwatchedVideosCount = record.value("unwatchedCount").toInt();
