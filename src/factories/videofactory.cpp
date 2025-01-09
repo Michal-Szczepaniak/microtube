@@ -238,12 +238,18 @@ std::unique_ptr<Video> VideoFactory::fromChannelVideosJson(QJsonObject video)
 std::unique_ptr<Video> VideoFactory::fromChannelShortsJson(QJsonObject video)
 {
     std::unique_ptr<Video> parsed(new Video());
-    parsed->videoId = video["id"].toString();
-    parsed->title = video["title"].toObject()["text"].toString();
+    parsed->videoId = video["entity_id"].toString().right(11);
     parsed->views = parseAmount(video["views"].toObject()["text"].toString());
     parsed->duration = QObject::tr("Short");
 
-    QJsonArray thumbnails = video["thumbnails"].toArray();
+    QJsonObject metadata = video["overlay_metadata"].toObject();
+    QJsonObject primary = metadata["primary_text"].toObject();
+    parsed->title = primary["text"].toString();
+
+    QJsonObject secondary = metadata["secondary_text"].toObject();
+    parsed->views = parseAmount(secondary["text"].toString());
+
+    QJsonArray thumbnails = video["thumbnail"].toArray();
     for (const QJsonValue &jsonThumbnail : thumbnails) {
         Thumbnail thumbnail = ThumbnailFactory::fromJson(jsonThumbnail.toObject());
         if (!parsed->thumbnails.contains(thumbnail.size) || parsed->thumbnails[thumbnail.size].width < thumbnail.width) {

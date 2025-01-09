@@ -382,7 +382,8 @@ Page {
                             var segment = sponsorBlockPlugin.checkIfInsideSegment(position)
                             if (segment && state !== VideoPlayer.StateStopped && !sponsorBlockTimeout.running) {
                                 sponsorBlockPluginNotification.publish()
-                                seek(segment)
+                                console.log(segment/1000)
+                                seek(segment+(2*100))
                                 sponsorBlockTimeout.start()
                             }
                         }

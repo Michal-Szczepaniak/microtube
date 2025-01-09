@@ -1,4 +1,4 @@
-import ytdl from 'ytdl-core';
+import ytdl from '@distube/ytdl-core';
 
 let query = process.argv[2];
 

@@ -68,10 +68,12 @@ SearchResults VideosParser::parseChanelVideos(const QJsonArray videos)
         QString type = jsonVideo["type"].toString().toLower();
         if (type == "video") {
             result.push_back(VideoFactory::fromChannelVideosJson(jsonVideo));
-        } else if (type == "reelitem") {
-                result.push_back(VideoFactory::fromChannelShortsJson(jsonVideo));
+        } else if (type == "shortslockupview") {
+            result.push_back(VideoFactory::fromChannelShortsJson(jsonVideo));
         } else if (type == "playlist") {
             result.push_back(PlaylistFactory::fromJson(jsonVideo));
+        } else if (type == "lockupview") {
+            result.push_back(PlaylistFactory::fromLockupViewJson(jsonVideo));
         } else if (type == "gridplaylist") {
             result.push_back(PlaylistFactory::fromGridJson(jsonVideo));
         } else {

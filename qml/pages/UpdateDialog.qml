@@ -74,25 +74,25 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Improved subscriptions sync performance")
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                }
-
-                Label {
-                    width: parent.width
                     text: "• " + qsTr("Updated js libs")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("1080p videos on avc1")
+                    text: "• " + qsTr("Fixed channel playlists and shorts")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Improved streams")
+                    text: "• " + qsTr("Fixed adding videos to queue")
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                }
+
+                Label {
+                    width: parent.width
+                    text: "• " + qsTr("Fixed jupii integration")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }

@@ -28,6 +28,11 @@ public:
     void asyncGetCommentReplies(QJsonObject continuationData);
     void asyncLoadPlaylist(Search* query);
     void asyncContinuePlaylist(Search* query);
+    bool hasSearchContinuation() const;
+    bool hasVideosContinuation() const;
+    bool hasCommentsContinuation() const;
+    bool hasCommentRepliesContinuation() const;
+    bool hasPlaylistContinuation() const;
     SearchResults loadChannelVideos(Search* query, bool full = false);
     SearchResults aggregateSubscription(Search* query, bool includeVideos, bool includeLivestreams);
     std::unique_ptr<Video> getBasicVideoInfo(QString url);

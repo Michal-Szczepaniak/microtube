@@ -22,7 +22,7 @@ if ('continuation' in parameters) {
         const contents = response.on_response_received_actions?.first().contents ||
                          response.on_response_received_commands?.first().contents.first()?.contents;
 
-        videos = contents.filterType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel)
+        videos = contents.filterType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel, YTNodes.ShortsLockupView, YTNodes.LockupView)
         if (videos.length === 0) {
             const items = contents.filterType(YTNodes.RichItem);
             if (items.length !== 0) {
@@ -83,9 +83,9 @@ if ('continuation' in parameters) {
 
     continuationData = data.memo.getType(YTNodes.ContinuationItem).at(0)
     if ('results' in data) {
-        videos = data.results.filterType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel)
+        videos = data.results.filterType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel, YTNodes.ShortsLockupView, YTNodes.LockupView)
     } else {
-        videos = data.memo.getType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel)
+        videos = data.memo.getType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel, YTNodes.ShortsLockupView, YTNodes.LockupView)
     }
 }
 

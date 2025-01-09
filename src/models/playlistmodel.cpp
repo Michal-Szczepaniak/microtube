@@ -605,12 +605,17 @@ QHash<int, QByteArray> PlaylistModel::roleNames() const
 
 bool PlaylistModel::canFetchMore(const QModelIndex &parent) const
 {
-    qDebug() << "Can fetch more: " << (_lastSearch.has_value() ? "yes" : "no");
+    qDebug() << "Can fetch more: " << ((_lastSearch.has_value() && (
+                                            (_lastSearch->type == Search::Query && _jsProcessManager.hasSearchContinuation()) ||
+                                            (_lastSearch->type == Search::Channel && _jsProcessManager.hasVideosContinuation()) ||
+                                            (_lastSearch->type == Search::Playlist && _jsProcessManager.hasPlaylistContinuation())
+                                            )) ? "yes" : "no");
+
     return _lastSearch.has_value() && (
-               _lastSearch->type == Search::Query ||
-               _lastSearch->type == Search::Channel ||
-               _lastSearch->type == Search::Playlist
-            );
+               (_lastSearch->type == Search::Query && _jsProcessManager.hasSearchContinuation()) ||
+               (_lastSearch->type == Search::Channel && _jsProcessManager.hasVideosContinuation()) ||
+               (_lastSearch->type == Search::Playlist && _jsProcessManager.hasPlaylistContinuation())
+               );
 }
 
 void PlaylistModel::fetchMore(const QModelIndex &parent)

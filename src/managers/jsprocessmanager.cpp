@@ -155,6 +155,31 @@ void JSProcessManager::asyncContinuePlaylist(Search* query)
     connect(_playlistProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessManager::gotPlaylistJson);
 }
 
+bool JSProcessManager::hasSearchContinuation() const
+{
+    return !_searchContinuation.empty();
+}
+
+bool JSProcessManager::hasVideosContinuation() const
+{
+    return !_channelVideosContinuation.empty();
+}
+
+bool JSProcessManager::hasCommentsContinuation() const
+{
+    return !_commentsContinuation.empty();
+}
+
+bool JSProcessManager::hasCommentRepliesContinuation() const
+{
+    return _commentRepliesContinuation != "";
+}
+
+bool JSProcessManager::hasPlaylistContinuation() const
+{
+    return !_playlistContinuation.empty();
+}
+
 SearchResults JSProcessManager::loadChannelVideos(Search* query, bool full)
 {
     QJsonDocument optionsDoc(prepareSearchOptions(query, nullptr));
@@ -383,7 +408,7 @@ void JSProcessManager::gotVideoInfoJson(int exitStatus)
     QHash<int, QString> formats;
     for (const QJsonValue &jsonFormat : response.object()["formats"].toArray()) {
         const QJsonObject format = jsonFormat.toObject();
-        if (!format.contains("audioTrack") || format["audioTrack"].toObject()["id"].toString().startsWith("en.")) {
+        if (!format.contains("audioTrack") || format["audioTrack"].toObject()["audioIsDefault"].toBool()) {
             formats[format["itag"].toInt()] = format["url"].toString();
         }
     }

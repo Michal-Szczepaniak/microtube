@@ -9,6 +9,7 @@ class PlaylistFactory
 {
 public:
     static Playlist fromJson(QJsonObject json);
+    static Playlist fromLockupViewJson(QJsonObject json);
     static Playlist fromGridJson(QJsonObject json);
 };
 
