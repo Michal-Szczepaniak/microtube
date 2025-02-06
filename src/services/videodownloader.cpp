@@ -1,6 +1,7 @@
 #include "videodownloader.h"
 
 #include <QNetworkRequest>
+#include <QSettings>
 
 
 VideoDownloader::VideoDownloader(QObject *parent) : QObject(parent), _downloadFile(nullptr), _reply(nullptr), _status(Null), _progress(0)
@@ -21,7 +22,12 @@ void VideoDownloader::download(QString url, QString path)
 
     _downloadFile = new QFile(path);
 
-    _jsProcessHelper.asyncGetVideoInfo(url);
+    Search search;
+    search.country = QSettings().value("country", "US").toString();
+    search.safeSearch = QSettings().value("safeSearch", false).toBool();
+    search.type = Search::VideoInfo;
+    search.query = url;
+    _jsProcessHelper.asyncGetVideoInfo(search);
 }
 
 VideoDownloader::DownloadStatus VideoDownloader::getDownloadStatus() const

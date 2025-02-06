@@ -16,7 +16,12 @@ void VideoHelper::loadVideoUrl(QString videoId, int maxDefinition, bool combined
     _audioUrl = "";
     _combined = combined;
 
-    _jsProcessHelper.asyncGetVideoInfo(videoId);
+    Search search;
+    search.country = QSettings().value("country", "US").toString();
+    search.safeSearch = QSettings().value("safeSearch", false).toBool();
+    search.type = Search::VideoInfo;
+    search.query = videoId;
+    _jsProcessHelper.asyncGetVideoInfo(search);
 }
 
 void VideoHelper::loadSubtitle(int index)

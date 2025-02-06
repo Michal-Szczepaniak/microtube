@@ -190,7 +190,10 @@ void PlaylistModel::searchAgain()
 
 void PlaylistModel::loadRecommendedVideos(QString query)
 {
-    _jsProcessManager.asyncLoadRecommendedVideos(query);
+    Search search = createNewSearch();
+    search.query = query;
+    search.type = Search::VideoInfo;
+    _jsProcessManager.asyncLoadRecommendedVideos(search);
 }
 
 void PlaylistModel::loadCategory(QString category)

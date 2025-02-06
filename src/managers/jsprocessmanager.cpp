@@ -13,6 +13,8 @@
 #include "factories/commentfactory.h"
 #include <repositories/authorrepository.h>
 
+#include <QSettings>
+
 JSProcessManager::JSProcessManager() :
     QObject(),
     _searchProcess(nullptr),
@@ -22,7 +24,8 @@ JSProcessManager::JSProcessManager() :
     _getChannelVideosProcess(nullptr),
     _getCommentsProcess(nullptr),
     _getCommentRepliesProcess(nullptr),
-    _playlistProcess(nullptr)
+    _playlistProcess(nullptr),
+    _tokenProcess(nullptr)
 {
 }
 
@@ -45,20 +48,42 @@ void JSProcessManager::asyncContinueSearch(Search* query)
     connect(_searchProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessManager::searchDone);
 }
 
-bool JSProcessManager::asyncGetVideoInfo(QString url)
+bool JSProcessManager::asyncGetVideoInfo(Search query)
 {
     if (_getUrlProcess != nullptr) return false;
 
-    _getUrlProcess = execute("videoInfo", {url});
+    QSettings settings;
+
+    if (!settings.contains("poToken") || settings.value("poTokenTimer", QDateTime::currentDateTime()).toDateTime().msecsTo(QDateTime::currentDateTime()) > 36000000) {
+        if (_tokenProcess != nullptr) return false;
+
+        _tokenProcess = execute("fetchPOToken", {});
+        connect(_tokenProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessManager::gotTokenJson);
+        connect(_tokenProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, [=](int exitStatus){
+            QJsonObject obj = prepareSearchOptions(&query, nullptr);
+            obj["poToken"] = getPOToken();
+            QJsonDocument optionsDoc(obj);
+            _getUrlProcess = execute("videoInfo", {query.query, optionsDoc.toJson(QJsonDocument::Compact)});
+            connect(_getUrlProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessManager::gotVideoInfoJson);
+        });
+
+        return true;
+    }
+
+    QJsonObject obj = prepareSearchOptions(&query, nullptr);
+    obj["poToken"] = getPOToken();
+    QJsonDocument optionsDoc(obj);
+    _getUrlProcess = execute("videoInfo", {query.query, optionsDoc.toJson(QJsonDocument::Compact)});
     connect(_getUrlProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessManager::gotVideoInfoJson);
     return true;
 }
 
-void JSProcessManager::asyncLoadRecommendedVideos(QString url)
+void JSProcessManager::asyncLoadRecommendedVideos(Search query)
 {
     if (_getUrlProcess != nullptr) return;
 
-    _getUrlProcess = execute("videoInfo", {url});
+    QJsonDocument optionsDoc(prepareSearchOptions(&query, nullptr));
+    _getUrlProcess = execute("basicVideoInfo", {query.query, optionsDoc.toJson(QJsonDocument::Compact)});
     connect(_getUrlProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessManager::gotRecommendedVideosInfo);
 }
 
@@ -67,7 +92,6 @@ void JSProcessManager::asyncGetTrending(Search* query)
     if (_trendingProcess != nullptr) return;
 
     QJsonDocument optionsDoc(prepareSearchOptions(query, nullptr));
-    qDebug() << query->query << " " << optionsDoc.toJson(QJsonDocument::Compact);
     _trendingProcess = execute("unified", {query->query, optionsDoc.toJson(QJsonDocument::Compact)});
     connect(_trendingProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessManager::trendingScrapeDone);
 }
@@ -97,7 +121,6 @@ void JSProcessManager::asyncContinueChannelVideos(Search* query)
     if (_getChannelVideosProcess != nullptr || _channelVideosContinuation.empty()) return;
 
     QJsonDocument optionsDoc(prepareSearchOptions(query, &_channelVideosContinuation));
-    qDebug() << "Continue: " << optionsDoc.toJson(QJsonDocument::Compact);
     _getChannelVideosProcess = execute("unified", {query->query, optionsDoc.toJson(QJsonDocument::Compact)});
     connect(_getChannelVideosProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessManager::gotChannelVideosJson);
 }
@@ -214,7 +237,7 @@ SearchResults JSProcessManager::aggregateSubscription(Search *query, bool includ
     options["includeVideos"] = includeVideos;
     options["includeLivestreams"] = includeLivestreams;
     QJsonDocument optionsDoc(options);
-    qDebug() << query->query << " " << optionsDoc.toJson(QJsonDocument::Compact);
+
     QProcess* process = execute("subscriptionsAggregator", {query->query, optionsDoc.toJson(QJsonDocument::Compact)});
     process->waitForFinished();
 
@@ -321,7 +344,7 @@ QProcess* JSProcessManager::execute(QString script, QStringList args)
     return process;
 }
 
-QJsonObject JSProcessManager::prepareSearchOptions(Search *query, QJsonObject *continuation)
+QJsonObject JSProcessManager::prepareSearchOptions(const Search *query, QJsonObject *continuation)
 {
     QJsonObject options;
 
@@ -427,7 +450,7 @@ void JSProcessManager::gotRecommendedVideosInfo(int exitStatus)
     QJsonDocument response = QJsonDocument::fromJson(_getUrlProcess->readAll());
     QJsonObject obj = response.object();
 
-    _recommendedVideos = VideosParser::parseRecommended(response.object()["related_videos"].toArray());
+    _recommendedVideos = VideosParser::parseRecommended(response.object()["info"].toObject()["watch_next_feed"].toArray());
 
     emit gotRecommendedVideos();
 
@@ -541,4 +564,22 @@ void JSProcessManager::gotPlaylistJson(int exitStatus)
     QProcess* process = _playlistProcess;
     _playlistProcess = nullptr;
     process->deleteLater();
+}
+
+void JSProcessManager::gotTokenJson(int exitStatus)
+{
+    QJsonDocument response = QJsonDocument::fromJson(_tokenProcess->readAll());
+
+    QSettings settings;
+    settings.setValue("poToken", response.toJson(QJsonDocument::Compact));
+    settings.setValue("poTokenTimer", QDateTime::currentDateTime());
+
+    QProcess* process = _tokenProcess;
+    _tokenProcess = nullptr;
+    process->deleteLater();
+}
+
+QJsonObject JSProcessManager::getPOToken()
+{
+    return QJsonDocument::fromJson(QSettings().value("poToken", "{}").toString().toUtf8()).object();
 }

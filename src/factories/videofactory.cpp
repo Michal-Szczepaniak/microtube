@@ -8,6 +8,7 @@
 #include <QRegularExpression>
 #include <src/repositories/authorrepository.h>
 #include <QObject>
+#include <helpers/jsonhelper.h>
 
 std::unique_ptr<Video> VideoFactory::fromJson(QJsonObject video)
 {
@@ -67,15 +68,15 @@ std::unique_ptr<Video> VideoFactory::fromRecommendedJson(QJsonObject video)
 {
     std::unique_ptr<Video> parsed(new Video());
     parsed->author = AuthorFactory::fromJson(video["author"].toObject());
-    parsed->duration = formatDuration(QTime::fromMSecsSinceStartOfDay(video["length_seconds"].toInt()*1000));
+    parsed->duration = formatDuration(QTime::fromMSecsSinceStartOfDay(video["duration"].toObject()["seconds"].toInt()*1000));
     parsed->videoId = video["id"].toString();
-    parsed->isLive = video["isLive"].toBool();
-    parsed->title = video["title"].toString();
-    parsed->uploadedAt = video["published"].toString();
+    parsed->isLive = !JsonHelper::find(video["badges"].toArray(), [](QJsonObject obj){ return obj["label"].toString() == "LIVE"; }).isNull();
+    parsed->title = video["title"].toObject()["text"].toString();
+    parsed->uploadedAt = video["published"].toObject()["text"].toString();
     parsed->upcoming = false;
     parsed->timestamp = parseTimestamp(video["published"].toString());
     parsed->url = "https://www.youtube.com/watch?v=" + parsed->videoId;
-    parsed->views = video["view_count"].toString().toInt();
+    parsed->views = video["view_count"].toObject()["text"].toString().split(" ").first().replace(",", "").toInt();
 
     QJsonArray thumbnails = video["thumbnails"].toArray();
     for (const QJsonValue &jsonThumbnail : thumbnails) {
@@ -90,27 +91,28 @@ std::unique_ptr<Video> VideoFactory::fromRecommendedJson(QJsonObject video)
 
 std::unique_ptr<Video> VideoFactory::fromVideoInfoJson(QJsonObject video)
 {
-    QJsonObject videoDetails = video["videoDetails"].toObject();
-    QJsonObject playerConfig = video["player_response"].toObject()["playerConfig"].toObject();
+    QJsonObject basicInfo = video["info"].toObject()["basic_info"].toObject();
+    QJsonObject primaryInfo = video["info"].toObject()["primary_info"].toObject();
+    QJsonObject secondaryInfo = video["info"].toObject()["secondary_info"].toObject();
 
     std::unique_ptr<Video> parsed(new Video());
-    parsed->author = AuthorFactory::fromJson(videoDetails["author"].toObject());
-    parsed->description = videoDetails["description"].toString();
-    parsed->duration = formatDuration(QTime::fromMSecsSinceStartOfDay(videoDetails["lengthSeconds"].toString().toInt()*1000));
-    parsed->videoId = videoDetails["videoId"].toString();
-    parsed->isLive = videoDetails["isLive"].toBool();
-    parsed->isUpcoming = videoDetails["isUpcoming"].toBool();
-    parsed->title = videoDetails["title"].toString();
-    parsed->upcoming = videoDetails["upcoming"].toInt();
-    parsed->uploadedAt = videoDetails["publishDate"].toString();
-    parsed->url = videoDetails["video_url"].toString();
-    parsed->views = videoDetails["viewCount"].toString().toInt();
-    parsed->likes = getLikeCount(video);
+    parsed->author = AuthorFactory::fromPlaylistJson(basicInfo["channel"].toObject());
+    parsed->description = secondaryInfo["description"].toObject()["text"].toString();
+    parsed->duration = formatDuration(QTime::fromMSecsSinceStartOfDay(basicInfo["duration"].toString().toInt()*1000));
+    parsed->videoId = basicInfo["id"].toString();
+    parsed->isLive = basicInfo["is_live"].toBool();
+    parsed->isUpcoming = basicInfo["is_upcoming"].toBool();
+    parsed->title = basicInfo["title"].toString();
+    parsed->upcoming = QDateTime::fromString(basicInfo["start_timestamp"].toString(), Qt::ISODate).toMSecsSinceEpoch();
+    parsed->uploadedAt = primaryInfo["published"].toObject()["text"].toString();
+    parsed->url = "https://www.youtube.com/watch?v=" + parsed->videoId;
+    parsed->views = basicInfo["view_count"].toInt();
+    parsed->likes = basicInfo["like_count"].toInt();
 
     bool isVR = false;
     for (const QJsonValue &jsonFormat : video["formats"].toArray()) {
         const QJsonObject format = jsonFormat.toObject();
-        if (format["projectionType"].toString().compare("MESH") == 0) {
+        if (format["projection_type"].toString().compare("MESH") == 0) {
             isVR = true;
             break;
         }
@@ -119,12 +121,17 @@ std::unique_ptr<Video> VideoFactory::fromVideoInfoJson(QJsonObject video)
     if (isVR) {
         parsed->projection = Projection::s360;
 
-        if (playerConfig.contains("vrConfig") && playerConfig["vrConfig"].toObject()["partialSpherical"].toBool()) {
-            parsed->projection = Projection::s180;
+        for (const QJsonValue &jsonBadge : primaryInfo["badges"].toArray()) {
+            QJsonObject badge = jsonBadge.toObject();
+
+            if (badge["label"].toString() == "VR180") {
+                parsed->projection = Projection::s180;
+                break;
+            }
         }
     }
 
-    QJsonArray thumbnails = videoDetails["thumbnails"].toArray();
+    QJsonArray thumbnails = basicInfo["thumbnail"].toArray();
     for (const QJsonValue &jsonThumbnail : thumbnails) {
         Thumbnail thumbnail = ThumbnailFactory::fromJson(jsonThumbnail.toObject());
         if (!parsed->thumbnails.contains(thumbnail.size) || parsed->thumbnails[thumbnail.size].width < thumbnail.width) {
@@ -132,13 +139,13 @@ std::unique_ptr<Video> VideoFactory::fromVideoInfoJson(QJsonObject video)
         }
     }
 
-    QJsonArray captions = video["player_response"].toObject()["captions"].toObject()["playerCaptionsTracklistRenderer"].toObject()["captionTracks"].toArray();
+    QJsonArray captions = video["info"].toObject()["captions"].toObject()["caption_tracks"].toArray();
     for (const QJsonValue &jsonCaption : captions) {
         Caption caption = CaptionFactory::fromJson(jsonCaption.toObject());
         parsed->subtitles.append(caption);
     }
 
-    QString publishDate = videoDetails["publishDate"].toString();
+    QString publishDate = parsed->uploadedAt;
     QDateTime dateTime = QDateTime::fromString(publishDate, Qt::ISODate);
     parsed->timestamp = dateTime.toTime_t();
 

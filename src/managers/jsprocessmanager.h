@@ -4,6 +4,7 @@
 #include <QString>
 #include <QProcess>
 #include <QJsonObject>
+#include <QElapsedTimer>
 #include "entities/comment.h"
 #include "entities/search.h"
 #include "converters/xmltosrtconverter.h"
@@ -17,8 +18,8 @@ public:
 
     void asyncSearch(Search* query);
     void asyncContinueSearch(Search* query);
-    bool asyncGetVideoInfo(QString url);
-    void asyncLoadRecommendedVideos(QString url);
+    bool asyncGetVideoInfo(Search query);
+    void asyncLoadRecommendedVideos(Search query);
     void asyncGetTrending(Search* query);
     void asyncGetChannelInfo(Search* query);
     void asyncLoadChannelVideos(Search* query);
@@ -60,7 +61,7 @@ signals:
 
 private slots:
     static QProcess* execute(QString script, QStringList args);
-    QJsonObject prepareSearchOptions(Search *query, QJsonObject *continuation);
+    QJsonObject prepareSearchOptions(const Search *query, QJsonObject *continuation);
     void searchDone(int exitStatus);
     void gotVideoInfoJson(int exitStatus);
     void gotRecommendedVideosInfo(int exitStatus);
@@ -70,6 +71,10 @@ private slots:
     void gotCommentsJson(int exitStatus);
     void gotCommentRepliesJson(int exitStatus);
     void gotPlaylistJson(int exitStatus);
+    void gotTokenJson(int exitStatus);
+
+private:
+    QJsonObject getPOToken();
 
 private:
     QProcess* _searchProcess;
@@ -80,6 +85,7 @@ private:
     QProcess* _getCommentsProcess;
     QProcess* _getCommentRepliesProcess;
     QProcess* _playlistProcess;
+    QProcess* _tokenProcess;
     QJsonObject _searchContinuation{};
     QJsonObject _channelVideosContinuation{};
     QJsonObject _commentsContinuation{};

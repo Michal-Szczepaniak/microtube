@@ -25,6 +25,15 @@
 #include <services/jsdiagnostics.h>
 #include <stdio.h>
 
+QDataStream& operator<<(QDataStream& out, const QJsonObject& myObj) {
+    return out;
+}
+
+QDataStream& operator >> (QDataStream & in, QJsonObject& myObj) {
+    return in;
+}
+Q_DECLARE_METATYPE(QJsonObject)
+
 void handler(int sig) {
     void *array[10];
     size_t size;

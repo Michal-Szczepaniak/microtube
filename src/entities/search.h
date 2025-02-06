@@ -77,6 +77,7 @@ public:
         Subscriptions,
         UnwatchedSubscriptions,
         Playlist,
+        VideoInfo,
     } type{};
     Q_ENUM(SearchType)
 };

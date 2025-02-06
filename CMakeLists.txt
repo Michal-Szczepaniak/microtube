@@ -181,6 +181,7 @@ add_custom_target(distfiles
         js/unified.js
         js/package.json
         js/subscriptionsAggregator.js
+        js/fetchPOToken.js
         microtube-url.desktop
         rpm/microtube.spec
         ${JS_FILES}

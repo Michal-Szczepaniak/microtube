@@ -148,7 +148,7 @@ Page {
             if (videoChanging) videoChanging = false
             videoPlayer.play()
             sponsorBlockPlugin.videoId = videoHelper.currentVideo.videoId
-            currentPlaylistModel.loadRecommendedVideos(videoHelper.currentVideo.url)
+            currentPlaylistModel.loadRecommendedVideos(videoHelper.currentVideo.videoId)
             videoHelper.markAsWatched()
 
             if (googleOAuthHelper.linked) {
