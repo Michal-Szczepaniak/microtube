@@ -92,7 +92,7 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Fixed jupii integration")
+                    text: "• " + qsTr("Fixed jupii integratione")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }

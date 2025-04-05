@@ -305,8 +305,11 @@ void PlaylistModel::copyOtherModel(PlaylistModel *model)
 
 void PlaylistModel::addVideo(QString id, quint8 retryCount)
 {
+    Search search = createNewSearch();
+    search.query = id;
+    search.type = Search::VideoInfo;
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    _items.emplace_back(_jsProcessManager.getBasicVideoInfo(id));
+    _items.emplace_back(_jsProcessManager.getBasicVideoInfo(search));
     endInsertRows();
 }
 

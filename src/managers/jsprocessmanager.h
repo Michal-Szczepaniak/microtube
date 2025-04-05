@@ -36,7 +36,7 @@ public:
     bool hasPlaylistContinuation() const;
     SearchResults loadChannelVideos(Search* query, bool full = false);
     SearchResults aggregateSubscription(Search* query, bool includeVideos, bool includeLivestreams);
-    std::unique_ptr<Video> getBasicVideoInfo(QString url);
+    std::unique_ptr<Video> getBasicVideoInfo(Search query);
     Author fetchChannelInfo(Search *query);
     SearchResults getSearchVideos();
     SearchResults getTrendingVideos();

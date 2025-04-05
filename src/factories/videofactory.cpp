@@ -14,8 +14,8 @@ std::unique_ptr<Video> VideoFactory::fromJson(QJsonObject video)
 {
     std::unique_ptr<Video> parsed(new Video());
     parsed->author = AuthorFactory::fromJson(video["author"].toObject());
-    parsed->duration = video["duration"].toObject()["text"].toString();
-    parsed->videoId = video["id"].toString();
+    parsed->duration = video["length_text"].toObject()["text"].toString();
+    parsed->videoId = video["video_id"].toString();
     parsed->title = video["title"].toObject()["text"].toString();
     parsed->uploadedAt = video["published"].toObject()["text"].toString();
     parsed->timestamp = parseTimestamp(parsed->uploadedAt);
@@ -40,8 +40,8 @@ std::unique_ptr<Video> VideoFactory::fromTrendingJson(QJsonObject video)
     std::unique_ptr<Video> parsed(new Video());
     parsed->author = AuthorFactory::fromTrendingJson(video["author"].toObject());
     parsed->description = video["description_snippet"].toObject()["text"].toString();
-    parsed->duration = video["duration"].toObject()["text"].toString();
-    parsed->videoId = video["id"].toString();
+    parsed->duration = video["length_text"].toObject()["text"].toString();
+    parsed->videoId = video["video_id"].toString();
     parsed->isLive = isLive(video);
     parsed->isUpcoming = isUpcoming(video);
     parsed->title = video["title"].toObject()["text"].toString();
@@ -68,13 +68,13 @@ std::unique_ptr<Video> VideoFactory::fromRecommendedJson(QJsonObject video)
 {
     std::unique_ptr<Video> parsed(new Video());
     parsed->author = AuthorFactory::fromJson(video["author"].toObject());
-    parsed->duration = formatDuration(QTime::fromMSecsSinceStartOfDay(video["duration"].toObject()["seconds"].toInt()*1000));
-    parsed->videoId = video["id"].toString();
+    parsed->duration = video["length_text"].toObject()["text"].toString();
+    parsed->videoId = video["video_id"].toString();
     parsed->isLive = !JsonHelper::find(video["badges"].toArray(), [](QJsonObject obj){ return obj["label"].toString() == "LIVE"; }).isNull();
     parsed->title = video["title"].toObject()["text"].toString();
     parsed->uploadedAt = video["published"].toObject()["text"].toString();
     parsed->upcoming = false;
-    parsed->timestamp = parseTimestamp(video["published"].toString());
+    parsed->timestamp = parseTimestamp(parsed->uploadedAt);
     parsed->url = "https://www.youtube.com/watch?v=" + parsed->videoId;
     parsed->views = video["view_count"].toObject()["text"].toString().split(" ").first().replace(",", "").toInt();
 
@@ -98,7 +98,8 @@ std::unique_ptr<Video> VideoFactory::fromVideoInfoJson(QJsonObject video)
     std::unique_ptr<Video> parsed(new Video());
     parsed->author = AuthorFactory::fromPlaylistJson(basicInfo["channel"].toObject());
     parsed->description = secondaryInfo["description"].toObject()["text"].toString();
-    parsed->duration = formatDuration(QTime::fromMSecsSinceStartOfDay(basicInfo["duration"].toString().toInt()*1000));
+    int duration = basicInfo["duration"].isString() ? basicInfo["duration"].toString().toInt() : basicInfo["duration"].toInt();
+    parsed->duration = formatDuration(QTime::fromMSecsSinceStartOfDay(duration*1000));
     parsed->videoId = basicInfo["id"].toString();
     parsed->isLive = basicInfo["is_live"].toBool();
     parsed->isUpcoming = basicInfo["is_upcoming"].toBool();
@@ -147,6 +148,9 @@ std::unique_ptr<Video> VideoFactory::fromVideoInfoJson(QJsonObject video)
 
     QString publishDate = parsed->uploadedAt;
     QDateTime dateTime = QDateTime::fromString(publishDate, Qt::ISODate);
+    if (!dateTime.isValid()) {
+        dateTime = QDateTime::fromString(publishDate, "MMM d, yyyy");
+    }
     parsed->timestamp = dateTime.toTime_t();
 
     return parsed;
@@ -218,10 +222,10 @@ Video* VideoFactory::fromSqlRecord(QSqlRecord record)
 std::unique_ptr<Video> VideoFactory::fromChannelVideosJson(QJsonObject video)
 {
     std::unique_ptr<Video> parsed(new Video());
-    QString duration = video["duration"].toObject()["text"].toString();
+    QString duration = video["length_text"].toObject()["text"].toString();
     parsed->duration = duration;
     parsed->description = video["description_snippet"].toObject()["text"].toString();
-    parsed->videoId = video["id"].toString();
+    parsed->videoId = video["video_id"].toString();
     parsed->isLive = isLive(video);
     parsed->isUpcoming = isUpcoming(video);
     parsed->upcoming = QDateTime::fromString(video["upcoming"].toString(), Qt::ISODate).toTime_t();

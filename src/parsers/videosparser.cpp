@@ -4,6 +4,7 @@
 #include "factories/videofactory.h"
 #include "factories/authorfactory.h"
 #include <factories/playlistfactory.h>
+#include <helpers/jsonhelper.h>
 
 SearchResults VideosParser::parse(const QJsonArray videos)
 {
@@ -50,7 +51,7 @@ SearchResults VideosParser::parseRecommended(const QJsonArray videos)
     SearchResults result;
 
     for (const QJsonValue &item : videos) {
-        if (item.isUndefined()) continue;
+        if (item.isUndefined() || item.toObject()["type"].toString().toLower() != "compactvideo") continue;
         QJsonObject jsonVideo = item.toObject();
         result.push_back(VideoFactory::fromRecommendedJson(jsonVideo));
     }
@@ -67,6 +68,9 @@ SearchResults VideosParser::parseChanelVideos(const QJsonArray videos)
         QJsonObject jsonVideo = item.toObject();
         QString type = jsonVideo["type"].toString().toLower();
         if (type == "video") {
+            if (!JsonHelper::find(jsonVideo["badges"].toArray(), [](QJsonObject obj){ return obj["style"].toString() == "BADGE_STYLE_TYPE_MEMBERS_ONLY"; }).isNull()) {
+                continue;
+            }
             result.push_back(VideoFactory::fromChannelVideosJson(jsonVideo));
         } else if (type == "shortslockupview") {
             result.push_back(VideoFactory::fromChannelShortsJson(jsonVideo));

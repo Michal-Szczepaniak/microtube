@@ -54,7 +54,7 @@ bool JSProcessManager::asyncGetVideoInfo(Search query)
 
     QSettings settings;
 
-    if (!settings.contains("poToken") || settings.value("poTokenTimer", QDateTime::currentDateTime()).toDateTime().msecsTo(QDateTime::currentDateTime()) > 36000000) {
+    if (!settings.contains("poToken") || getPOToken().empty() || settings.value("poTokenTimer", QDateTime::currentDateTime()).toDateTime().msecsTo(QDateTime::currentDateTime()) > 36000000) {
         if (_tokenProcess != nullptr) return false;
 
         _tokenProcess = execute("fetchPOToken", {});
@@ -264,9 +264,10 @@ SearchResults JSProcessManager::aggregateSubscription(Search *query, bool includ
     return result;
 }
 
-std::unique_ptr<Video> JSProcessManager::getBasicVideoInfo(QString url)
+std::unique_ptr<Video> JSProcessManager::getBasicVideoInfo(Search query)
 {
-    QProcess* process = execute("basicVideoInfo", {url});
+    QJsonDocument optionsDoc(prepareSearchOptions(&query, nullptr));
+    QProcess* process = execute("basicVideoInfo", {query.query, optionsDoc.toJson(QJsonDocument::Compact)});
     process->waitForFinished();
 
     QJsonDocument response = QJsonDocument::fromJson(process->readAll());
@@ -340,6 +341,7 @@ QProcess* JSProcessManager::execute(QString script, QStringList args)
     Q_ASSERT_X(QFile::exists(appPath + script + ".js"), "Missing js file", script.toStdString().c_str());
     QStringList params = {appPath + script + ".js"};
     params << args;
+    qDebug() << "Executing: " << params;
     process->start("node18", params, QIODevice::OpenModeFlag::ReadWrite);
     return process;
 }
