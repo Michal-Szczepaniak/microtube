@@ -479,6 +479,13 @@ void JSProcessManager::gotChannelInfoJson(int exitStatus)
     QJsonDocument response = QJsonDocument::fromJson(_getChannelInfoProcess->readAll());
     _channelInfo = AuthorFactory::fromChannelInfoJson(response.object());
 
+    AuthorRepository authorRepository;
+    if (!authorRepository.has(_channelInfo.authorId)) {
+        authorRepository.put(_channelInfo);
+    } else {
+        authorRepository.update(_channelInfo);
+    }
+
     emit gotChannelInfo();
 
     QProcess* p = _getChannelInfoProcess;
