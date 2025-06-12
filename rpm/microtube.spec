@@ -1,7 +1,7 @@
 Name:       microtube
 
 Summary:    µTube
-Version:    3.8.5
+Version:    3.8.11
 Release:    1
 Group:      Qt/Qt
 License:    GPLv3
@@ -56,5 +56,5 @@ desktop-file-install --delete-original       \
 %{_bindir}/%{name}
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/applications/%{name}-url.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
+%{_datadir}/dbus-1/services/com.verdanditeam.microtube.service

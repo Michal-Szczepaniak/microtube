@@ -37,6 +37,7 @@ import "components/helpers.js" as Helpers
 
 Page {
     id: page
+
     property string videoIdToPlay
     property bool subscribed: false
     property bool _controlsVisible: true
@@ -284,6 +285,12 @@ Page {
         }
     }
 
+    Component.onCompleted: {
+        if (typeof page.cutoutMode !== "undefined") {
+            page.cutoutMode = (landscape && fillMode) ? CutoutMode.FullScreen : CutoutMode.AvoidLandscapeCutout;
+        }
+    }
+
     Component.onDestruction: {
         app.videoCover = false
     }
@@ -332,7 +339,7 @@ Page {
                 id: videoPlayerRow
                 Rectangle {
                     id: videoBackground
-                    width : page.width
+                    width : landscape ? page.width : page.width
                     height: landscapeCover
                               ? page.width*1.6
                               : (landscape ? page.height : (settings.videoQuality === "360p" ? page.width/1.74 : page.width/1.777777777777778))
@@ -378,11 +385,9 @@ Page {
                         }
 
                         onPositionChanged: {
-                            progressSlider.value = position
                             var segment = sponsorBlockPlugin.checkIfInsideSegment(position)
                             if (segment && state !== VideoPlayer.StateStopped && !sponsorBlockTimeout.running) {
                                 sponsorBlockPluginNotification.publish()
-                                console.log(segment/1000)
                                 seek(segment+(2*100))
                                 sponsorBlockTimeout.start()
                             }
@@ -879,6 +884,7 @@ Page {
                         onClicked: {
                             playbackSpeedSlider.opacity = 1.0
                             playbackSpeedSliderTimer.start()
+                            hideControlsAutomatically.restart()
                         }
 
                         Timer {
@@ -904,6 +910,8 @@ Page {
                         anchors.top: parent.top
                         anchors.topMargin: width - height + Theme.paddingMedium*2
                         anchors.rightMargin: -(width) + height + Theme.paddingMedium
+                        leftMargin: Theme.paddingLarge*3
+                        rightMargin: Theme.paddingLarge*3
                         width: Theme.itemSizeHuge*2
                         value: 1.0
                         minimumValue: 0.25
@@ -911,13 +919,15 @@ Page {
                         stepSize: 0.25
                         transform: Rotation { angle: -90 }
                         enabled: visible
-                        onValueChanged: hideControlsAutomatically.restart()
                         onDownChanged: if (down) {
-                                           hideControlsAutomatically.restart()
+                                           console.log("down")
+                                           hideControlsAutomatically.stop()
                                            playbackSpeedSliderTimer.stop()
                                        } else {
+                                           console.log("up")
                                            playbackSpeedSliderTimer.start()
                                            videoPlayer.setPlaybackSpeed(value)
+                                           hideControlsAutomatically.restart()
                                        }
 
                         Behavior on opacity {
@@ -951,6 +961,8 @@ Page {
                         opacity: 0
                         x: page.width - height
                         y: page.height
+                        leftMargin: Theme.paddingLarge*3
+                        rightMargin: Theme.paddingLarge*3
                         width: page.height
                         minimumValue: 0
                         maximumValue: 10
@@ -971,6 +983,8 @@ Page {
                         opacity: 0
                         x: 0
                         y: page.height
+                        leftMargin: Theme.paddingLarge*3
+                        rightMargin: Theme.paddingLarge*3
                         width: page.height
                         transform: Rotation { angle: -90}
                         enabled: false
@@ -1050,15 +1064,28 @@ Page {
 
                     Slider {
                         id: progressSlider
-                        value: videoPlayer.position
+                        Binding on value {
+                            when: !progressSlider.down
+                            value: videoPlayer.position
+                        }
                         valueText: down ? Format.formatDuration(Math.round(value/1000), ((value/1000) > 3600 ? Formatter.DurationLong : Formatter.DurationShort)) : ""
                         minimumValue: 0
                         maximumValue: videoPlayer.duration
                         anchors.bottom: if (landscape && opacity == 0) videoBackground.top; else videoBackground.bottom
-                        x: landscape ? progress.width : - Theme.paddingLarge * 4
-                        width: landscape ? parent.width - progress.width - duration.width - fullscreenButton.width : parent.width + Theme.paddingLarge * 8
+                        leftMargin: landscape ? Theme.paddingLarge*3 : 0
+                        rightMargin: landscape ? Theme.paddingLarge*3 : 0
+                        anchors.left: landscape ? progress.right : parent.left
+                        anchors.right: landscape ? duration.left : parent.right
                         anchors.bottomMargin: page.landscape ? 0 : (down ? -height/3 : -height/2)
                         handleVisible: _controlsVisible || down
+                        onDownChanged: if (down) {
+                                           console.log("down")
+                                           hideControlsAutomatically.stop()
+                                       } else {
+                                           console.log("up")
+                                           videoPlayer.seek(progressSlider.value)
+                                           hideControlsAutomatically.restart()
+                                       }
 
                         NumberAnimation on opacity {
                             id: showAnimation3
@@ -1071,8 +1098,6 @@ Page {
                             to: 0
                             duration: 100
                         }
-
-                        onReleased: videoPlayer.seek(progressSlider.value)
                     }
                 }
             }

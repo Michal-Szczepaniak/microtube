@@ -122,7 +122,7 @@ Page {
         SilicaGridView {
             id: listView
 
-            readonly property int columnWidth: page.orientation === Orientation.Portrait ? listView.width/3 : listView.width/5
+            readonly property int columnWidth: listView.width / Math.floor(listView.width / (Theme.itemSizeExtraLarge*2))
 
             anchors.top: importLabel.visible ? importLabel.bottom : header.bottom
             anchors.topMargin: importLabel.visible ? Theme.paddingLarge : 0
@@ -203,6 +203,7 @@ Page {
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: Math.min(implicitWidth, parent.width - Theme.paddingLarge*2)
                     truncationMode: TruncationMode.Fade
+                    maximumLineCount: 1
                     font.pixelSize: Theme.fontSizeExtraSmall
                     horizontalAlignment: Text.AlignLeft
                 }

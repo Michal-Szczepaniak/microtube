@@ -20,6 +20,7 @@ class PlaylistModel : public QAbstractListModel
     Q_PROPERTY(int durationFilter READ getDurationFilter WRITE setDurationFilter NOTIFY lastSearchChanged)
     Q_PROPERTY(int sortBy READ getSortBy WRITE setSortBy NOTIFY lastSearchChanged)
     Q_PROPERTY(bool busy READ isBusy NOTIFY busyChanged)
+    Q_PROPERTY(bool canReverse READ getCanReverse NOTIFY lastSearchChanged)
     Q_ENUMS(DataTypes)
 public:
     explicit PlaylistModel(QObject *parent = nullptr);
@@ -72,6 +73,8 @@ public:
     Q_INVOKABLE void setSafeSearch(bool safeSearch);
     Q_INVOKABLE QString getCountry() const;
     Q_INVOKABLE void setCountry(QString country);
+    Q_INVOKABLE void reverse();
+    bool getCanReverse() const;
     std::optional<Search> getSearch();
     void executeSearch();
     qint32 getCurrentVideoIndex() const;

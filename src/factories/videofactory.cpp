@@ -96,18 +96,18 @@ std::unique_ptr<Video> VideoFactory::fromVideoInfoJson(QJsonObject video)
     QJsonObject secondaryInfo = video["info"].toObject()["secondary_info"].toObject();
 
     std::unique_ptr<Video> parsed(new Video());
-    parsed->author = AuthorFactory::fromPlaylistJson(basicInfo["channel"].toObject());
+    parsed->author = AuthorFactory::fromPlaylistJson(secondaryInfo["owner"].toObject()["author"].toObject());
     parsed->description = secondaryInfo["description"].toObject()["text"].toString();
     int duration = basicInfo["duration"].isString() ? basicInfo["duration"].toString().toInt() : basicInfo["duration"].toInt();
     parsed->duration = formatDuration(QTime::fromMSecsSinceStartOfDay(duration*1000));
     parsed->videoId = basicInfo["id"].toString();
     parsed->isLive = basicInfo["is_live"].toBool();
     parsed->isUpcoming = basicInfo["is_upcoming"].toBool();
-    parsed->title = basicInfo["title"].toString();
+    parsed->title = primaryInfo["title"].toObject()["text"].toString();
     parsed->upcoming = QDateTime::fromString(basicInfo["start_timestamp"].toString(), Qt::ISODate).toMSecsSinceEpoch();
     parsed->uploadedAt = primaryInfo["published"].toObject()["text"].toString();
     parsed->url = "https://www.youtube.com/watch?v=" + parsed->videoId;
-    parsed->views = basicInfo["view_count"].toInt();
+    parsed->views = primaryInfo["view_count"].toObject()["view_count"].toObject()["text"].toString().split(" ").first().replace(",", "").toInt();;
     parsed->likes = basicInfo["like_count"].toInt();
 
     bool isVR = false;

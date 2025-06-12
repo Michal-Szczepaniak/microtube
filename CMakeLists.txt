@@ -150,7 +150,7 @@ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/translations
     DESTINATION share/microtube
     FILES_MATCHING PATTERN "*.qm"
 )
-install(FILES microtube.desktop microtube-url.desktop
+install(FILES microtube.desktop
     DESTINATION share/applications
 )
 install(FILES icons/86x86/microtube.png
@@ -164,6 +164,9 @@ install(FILES icons/128x128/microtube.png
 )
 install(FILES icons/172x172/microtube.png
     DESTINATION share/icons/hicolor/172x172/apps
+)
+install(FILES com.verdanditeam.microtube.service
+    DESTINATION /usr/share/dbus-1/services
 )
 
 file(GLOB_RECURSE QML_FILES qml/*.qml)
@@ -182,8 +185,8 @@ add_custom_target(distfiles
         js/package.json
         js/subscriptionsAggregator.js
         js/fetchPOToken.js
-        microtube-url.desktop
         rpm/microtube.spec
+        com.verdanditeam.microtube.service
         ${JS_FILES}
         ${QML_FILES}
         ${TsFiles})

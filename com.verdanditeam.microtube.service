@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=com.verdanditeam.microtube
+Exec=/usr/bin/invoker --type=silica-qt5 /usr/bin/microtube

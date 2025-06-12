@@ -54,7 +54,7 @@ bool JSProcessManager::asyncGetVideoInfo(Search query)
 
     QSettings settings;
 
-    if (!settings.contains("poToken") || getPOToken().empty() || settings.value("poTokenTimer", QDateTime::currentDateTime()).toDateTime().msecsTo(QDateTime::currentDateTime()) > 36000000) {
+    if (!settings.contains("poToken") || getPOToken().empty() || settings.value("poTokenTimer", QDateTime::currentDateTime()).toDateTime().msecsTo(QDateTime::currentDateTime()) > 3600000) {
         if (_tokenProcess != nullptr) return false;
 
         _tokenProcess = execute("fetchPOToken", {});

@@ -10,10 +10,11 @@ const youtube = await Innertube.create({
     po_token: parameters.poToken.poToken,
     visitor_data: parameters.poToken.visitorData,
     cache: new UniversalCache(true),
-    generate_session_locally: true
+    generate_session_locally: true,
+    enable_session_cache: false,
 });
 
-const info = await youtube.getInfo(query);
+const info = await youtube.getInfo(query, 'TV');
 
 const formats = [
   ...(info?.streaming_data?.formats || []),

@@ -19,7 +19,8 @@
 
 import QtQuick 2.0
 import Sailfish.Silica 1.0
-import org.nemomobile.configuration 1.0
+import Nemo.Configuration 1.0
+import Nemo.DBus 2.0
 import com.verdanditeam.yt 1.0
 import "components"
 
@@ -28,20 +29,6 @@ Page {
 
     allowedOrientations: Orientation.All
     backNavigation: false
-    property bool initialized: false
-
-    onStatusChanged: {
-        if (!initialized) {
-            swipeView.contentX = page.width;
-            initialized = true;
-        }
-    }
-
-    onOrientationChanged: {
-        if (swipeView.contentX > 0) {
-            swipeView.contentX = page.height;
-        }
-    }
 
     ConfigurationGroup {
         id: settings
@@ -56,8 +43,27 @@ Page {
         property int maxDefinition: 1080
         property int currentRegionId: 0
         property string currentRegion: ""
+        property bool forceReverse: false
     }
 
+    DBusAdaptor {
+        id: shareDBusInterface
+
+        service: "com.verdanditeam.microtube"
+        path: "/"
+        iface: "com.verdanditeam.microtube"
+        xml: '<interface name="com.verdanditeam.microtube">
+                  <method name="openUrl"> <arg type="s" name="url" direction="in"/> </method>
+              </interface>'
+
+        function openUrl(url) {
+            app.activate()
+            pageStack.pop(page, PageStackAction.Immediate)
+
+            searchModel.search(url)
+            searchField.text = url
+        }
+    }
 
     YtCategories {
         id: categories
@@ -114,6 +120,14 @@ Page {
             }
 
             MenuItem {
+                text: qsTr("Reverse queue")
+                visible: app.playlistMode && (playlistModel.canReverse || settings.forceReverse)
+                onClicked: {
+                    playlistModel.reverse()
+                }
+            }
+
+            MenuItem {
                 text: qsTr("Filters")
                 enabled: searchModel.hasLastSearch
                 onClicked: {
@@ -124,8 +138,8 @@ Page {
 
         PageHeader {
             id: header
-            title: swipeView.contentX === 0 ? qsTr("Categories") : app.playlistMode ? qsTr("Queue") : qsTr("Search")
-            description: swipeView.contentX === 0 ? qsTr("Select trending category") : app.playlistMode ? qsTr("Play queued videos") : qsTr("Find videos")
+            title: app.playlistMode ? qsTr("Queue") : qsTr("Search")
+            description: app.playlistMode ? qsTr("Play queued videos") : qsTr("Find videos")
 
             TextSwitch {
                 id: playlistModeSwitch
@@ -155,104 +169,74 @@ Page {
                     if(searchField.text == "21379111488") settings.developerMode = !settings.developerMode
                     searchModel.search(searchField.text)
                     app.playlistMode = false
-                    swipeView.contentX = page.width;
-                }
-            }
-            Component.onCompleted: {
-                if (Qt.application.arguments.length === 2) {
-                    searchModel.search(Qt.application.arguments[1])
-                    searchField.text = Qt.application.arguments[1]
                 }
             }
         }
 
-        SilicaListView {
-            id: swipeView
-
-            clip: true
-            orientation: ListView.Horizontal
-            layoutDirection: ListView.LeftToRight
-
+        ComboBox {
+            id: categoriesBox
             anchors.top: searchField.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            label: qsTr("Category")
+            currentIndex: settings.categoryId
+            menu: ContextMenu {
+                Repeater {
+                    model: categories
+                    delegate: MenuItem {
+                        text: name
+                        property var value: code
+                    }
+                }
+            }
+            onCurrentItemChanged: {
+                searchModel.loadCategory(currentItem.value)
+            }
+        }
+
+        SilicaFastListView {
+            id: searchList
+
+            anchors.top: categoriesBox.bottom
+            anchors.topMargin: Theme.paddingMedium
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
 
-            interactive: true
-            contentHeight: height
-            contentWidth: width*2
-            snapMode: ListView.SnapOneItem
+            clip: true
+            spacing: Theme.paddingMedium
+            model: app.playlistMode ? playlistModel : searchModel
 
-            Behavior on contentX { PropertyAnimation {} }
-
-            model: ListModel {
-                id: listModel
-
-                ListElement {}
-                ListElement {}
+            ViewPlaceholder {
+                enabled: !searchList.count
+                text: playlistMode ? qsTr("No queued videos") : qsTr("No videos")
+                hintText: playlistMode ? qsTr("Add videos to queue from pulldown or dropdown menus") : qsTr("Select category by swiping to the left or search for videos")
             }
 
-            delegate: Item {
-                width: swipeView.width
-                height: swipeView.height
+            BusyIndicator {
+                running: (app.playlistMode ? playlistModel : searchModel).busy
+                size: BusyIndicatorSize.Large
+                anchors.centerIn: parent
+            }
 
-                SilicaFastListView {
-                    id: browseList
-                    width: swipeView.width
-                    height: swipeView.height
-                    clip: true
-                    model: categories
-                    visible: index === 0
-
-                    delegate: CategoryElement {
-                        onClicked: {
-                            searchModel.loadCategory(code, settings.currentRegion)
-                            swipeView.contentX = page.width
+            delegate: VideoElement {
+                onClicked: {
+                    if (elementType === YtPlaylist.ChannelType) {
+                        pageStack.push(Qt.resolvedUrl("Channel.qml"), {channelId: id})
+                    } else if (elementType === YtPlaylist.PlaylistType) {
+                        app.playlistModel.loadPlaylist(id);
+                        app.playlistMode = true;
+                    } else {
+                        if (pageStack.nextPage(page)) {
+                            pageStack.popAttached(page, PageStackAction.Immediate);
                         }
-                    }
-                }
 
-                SilicaFastListView {
-                    id: searchList
-                    width: swipeView.width
-                    height: swipeView.height
-                    clip: true
-                    spacing: Theme.paddingMedium
-                    visible: index === 1
-                    model: app.playlistMode ? playlistModel : searchModel
-
-                    ViewPlaceholder {
-                        enabled: !searchList.count
-                        text: playlistMode ? qsTr("No queued videos") : qsTr("No videos")
-                        hintText: playlistMode ? qsTr("Add videos to queue from pulldown or dropdown menus") : qsTr("Select category by swiping to the left or search for videos")
-                    }
-
-                    BusyIndicator {
-                        running: (app.playlistMode ? playlistModel : searchModel).busy
-                        size: BusyIndicatorSize.Large
-                        anchors.centerIn: parent
-                    }
-
-                    delegate: VideoElement {
-                        onClicked: {
-                            if (elementType === YtPlaylist.ChannelType) {
-                                pageStack.push(Qt.resolvedUrl("Channel.qml"), {channelId: id})
-                            } else if (elementType === YtPlaylist.PlaylistType) {
-                                app.playlistModel.loadPlaylist(id);
-                                app.playlistMode = true;
-                            } else {
-                                if (pageStack.nextPage(page)) {
-                                    pageStack.popAttached(page, PageStackAction.Immediate);
-                                }
-
-                                if (app.playlistMode) {
-                                    app.playlistModel.currentVideoIndex = index;
-                                }
-
-                                pageStack.pushAttached(Qt.resolvedUrl("VideoPlayer.qml"), {videoIdToPlay: id})
-                                pageStack.navigateForward()
-                            }
+                        if (app.playlistMode) {
+                            app.playlistModel.currentVideoIndex = index;
                         }
+
+                        pageStack.pushAttached(Qt.resolvedUrl("VideoPlayer.qml"), {videoIdToPlay: id})
+                        pageStack.navigateForward()
                     }
                 }
             }

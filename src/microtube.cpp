@@ -1,3 +1,4 @@
+#include <QDBusConnection>
 #include <QtQuick>
 #include <sailfishapp.h>
 #include "models/playlistmodel.h"

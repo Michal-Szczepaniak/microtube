@@ -13,6 +13,8 @@ CategoriesModel::CategoriesModel()
     _codes.append("Gaming");
     _categories.append(tr("Movies"));
     _codes.append("Movies");
+    _categories.append(tr("Subscriptions"));
+    _codes.append("Subscriptions");
     endInsertRows();
 }
 
@@ -46,6 +48,5 @@ QHash<int, QByteArray> CategoriesModel::roleNames() const
     roles[IdRole]   = "id";
     roles[NameRole] = "name";
     roles[CodeRole] = "code";
-    roles[PhotoRole]   = "photo";
     return roles;
 }

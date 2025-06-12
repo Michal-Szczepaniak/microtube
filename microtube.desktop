@@ -4,6 +4,10 @@ X-Nemo-Application-Type=silica-qt5
 Icon=microtube
 Exec=microtube %U
 Name=µTube
+MimeType=x-url-handler/youtube.com;x-url-handler/www.youtube.com;x-url-handler/youtu.be
+X-Maemo-Service=com.verdanditeam.microtube
+X-Maemo-Object-Path=/
+X-Maemo-Method=com.verdanditeam.microtube.openUrl
 
 [X-Sailjail]
 Sandboxing=Disabled

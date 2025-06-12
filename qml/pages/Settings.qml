@@ -44,10 +44,15 @@ Page {
         property int currentRegionId: 0
         property string currentRegion: ""
         property bool invertVRControls: false
+        property bool forceReverse: false
     }
 
     VideoHelper {
         id: videoHelper
+    }
+
+    YtCategories {
+        id: categories
     }
 
     SilicaFlickable {
@@ -112,18 +117,18 @@ Page {
                 width: parent.width
                 label: qsTr("Default category")
                 currentIndex: settings.categoryId
-                property var values: ["Now", "Music", "Gaming", "Movies", "Subscriptions"]
                 menu: ContextMenu {
                     Repeater {
-                        model: [qsTr("Now"),qsTr("Music"),qsTr("Gaming"),qsTr("Movies"),qsTr("Subscriptions")]
+                        model: categories
                         delegate: MenuItem {
-                            text: modelData
+                            text: name
+                            property var value: code
                         }
                     }
                 }
                 onCurrentItemChanged: {
                     settings.categoryId = currentIndex
-                    settings.categoryName = values[currentIndex]
+                    settings.categoryName = currentItem.value
                 }
             }
 
@@ -242,6 +247,8 @@ Page {
                 width: parent.width
                 minimumValue: 3
                 maximumValue: 15
+                leftMargin: Theme.paddingLarge*3
+                rightMargin: Theme.paddingLarge*3
                 stepSize: 1
                 value: settings.skipAmount
                 valueText: qsTr("%1 seconds").arg(value)
@@ -276,6 +283,15 @@ Page {
                 visible: settings.developerMode
                 onClicked: subscriptionsAggregator.updateSubscriptions(false, true)
                 text: qsTr("Force subscriptions sync")
+            }
+
+            TextSwitch {
+                id: forceReverse
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: settings.developerMode
+                checked: settings.forceReverse
+                onClicked: settings.forceReverse = !settings.forceReverse
+                text: qsTr("Force playlist reverse option")
             }
 
             TextField {

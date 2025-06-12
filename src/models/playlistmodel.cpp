@@ -370,6 +370,18 @@ void PlaylistModel::setCountry(QString country)
     emit countryChanged();
 }
 
+void PlaylistModel::reverse()
+{
+    beginResetModel();
+    std::reverse(_items.begin(), _items.end());
+    endResetModel();
+}
+
+bool PlaylistModel::getCanReverse() const
+{
+    return _lastSearch->type == Search::Subscriber || _lastSearch->type == Search::Subscriptions || _lastSearch->type == Search::UnwatchedSubscriptions;
+}
+
 std::optional<Search> PlaylistModel::getSearch()
 {
     return _lastSearch;
@@ -417,6 +429,8 @@ void PlaylistModel::executeSearch()
         break;
     case Search::Playlist:
         _jsProcessManager.asyncLoadPlaylist(&_lastSearch.value());
+        break;
+    case Search::VideoInfo:
         break;
     }
 }
