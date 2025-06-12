@@ -35,7 +35,7 @@ ApplicationWindow
 
     property string playing: ""
     property bool videoCover: false
-    property string version: "3.8.11"
+    property string version: "3.8.12"
     property bool playlistMode: false
     property alias playlistModel: playlistModel
 
@@ -96,14 +96,8 @@ ApplicationWindow
     Connections {
         target: userFilesHelper
         onUpdateFinished: {
-            if (searchModel.rowCount() === 0 && Qt.application.arguments.length !== 2)
-                searchModel.loadCategory(settings.categoryName, settings.currentRegion)
-        }
-    }
-
-    Component.onCompleted: {
-        if (Qt.application.arguments.length !== 2) {
-            searchModel.loadCategory(settings.categoryName, settings.currentRegion)
+            if (searchModel.rowCount() === 0 && !searchModel.busy)
+                searchModel.loadCategory(settings.categoryName)
         }
     }
 

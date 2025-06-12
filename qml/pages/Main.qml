@@ -60,8 +60,10 @@ Page {
             app.activate()
             pageStack.pop(page, PageStackAction.Immediate)
 
-            searchModel.search(url)
-            searchField.text = url
+            if (url != "") {
+                searchModel.search(url)
+                searchField.text = url
+            }
         }
     }
 

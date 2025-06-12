@@ -198,6 +198,8 @@ void PlaylistModel::loadRecommendedVideos(QString query)
 
 void PlaylistModel::loadCategory(QString category)
 {
+    if (category == "") return;
+
     if (category == "Subscriptions") {
         loadSubscriptions();
     } else {
