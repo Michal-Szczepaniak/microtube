@@ -18,6 +18,7 @@ Dialog {
         SilicaFastListView {
             width: parent.width
             height: parent.height - header.height
+            clip: true
 
             model: videoHelper.subtitlesLabels
 

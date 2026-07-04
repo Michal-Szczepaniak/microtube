@@ -17,7 +17,12 @@ void XmlToSrtConverter::convertFromUrl(QUrl url)
 
 void XmlToSrtConverter::requestFinished(QNetworkReply *reply)
 {
-    if (!reply->error()) parseXml(reply->readAll());
+    if (!reply->error()) {
+        auto result = reply->readAll();
+//        qDebug() << result;
+//        parseXml(result);
+        emit gotSrt(result);
+    }
 }
 
 void XmlToSrtConverter::parseXml(QString xml)

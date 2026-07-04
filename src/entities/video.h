@@ -56,7 +56,7 @@ public:
     QString duration;
     QString videoId;
     bool isLive = false;
-    bool isUpcoming = false;;
+    bool isUpcoming = false;
     QHash<Thumbnail::Size, Thumbnail> thumbnails;
     QString title;
     quint32 upcoming = 0;

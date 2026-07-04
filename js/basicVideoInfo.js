@@ -12,4 +12,4 @@ const youtube = await Innertube.create({
 
 const info = await youtube.getInfo(query);
 
-console.log(JSON.stringify({info: info, formats: []}, null, 2))
+console.log(JSON.stringify(info, null, 2))

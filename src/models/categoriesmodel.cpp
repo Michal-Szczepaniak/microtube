@@ -5,14 +5,14 @@
 CategoriesModel::CategoriesModel()
 {
     beginInsertRows(QModelIndex(), 0, 5);
-    _categories.append(tr("Now"));
-    _codes.append("Now");
-    _categories.append(tr("Music"));
-    _codes.append("Music");
+    _categories.append(tr("Live"));
+    _codes.append("Live");
     _categories.append(tr("Gaming"));
     _codes.append("Gaming");
-    _categories.append(tr("Movies"));
-    _codes.append("Movies");
+    _categories.append(tr("News"));
+    _codes.append("News");
+    _categories.append(tr("Podcasts"));
+    _codes.append("Podcasts");
     _categories.append(tr("Subscriptions"));
     _codes.append("Subscriptions");
     endInsertRows();

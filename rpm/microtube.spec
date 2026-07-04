@@ -1,14 +1,14 @@
 Name:       microtube
 
 Summary:    µTube
-Version:    3.8.16
+Version:    3.9.1
 Release:    1
 Group:      Qt/Qt
 License:    GPLv3
 URL:        http://example.org/
 Source0:    %{name}-%{version}.tar.bz2
 Requires:   sailfishsilica-qt5 >= 1.1.31.7
-Requires:   nodejs18
+Requires:   nodejs18 >= 18.20.8
 Requires:   npm18
 Requires:   git
 Requires:   libaudioresource-qt
@@ -26,7 +26,7 @@ BuildRequires:  pkgconfig(gstreamer-sdp-1.0)
 BuildRequires:  pkgconfig(gstreamer-1.0)
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(nemo-gstreamer-interfaces-1.0)
-BuildRequires:  pkgconfig(json-glib-1.0)
+BuildRequires:  json-glib-devel
 BuildRequires:  qt5-qtsql-devel
 BuildRequires:  dbus-glib-devel
 BuildRequires:  desktop-file-utils

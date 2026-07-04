@@ -10,9 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@distube/ytdl-core": "git+https://github.com/distubejs/ytdl-core.git#4.15.8",
     "bgutils-js": "^3.2.0",
     "jsdom": "^26.0.0",
-    "youtubei.js": "^15.0"
+    "youtubei.js": "^17.0"
   }
 }

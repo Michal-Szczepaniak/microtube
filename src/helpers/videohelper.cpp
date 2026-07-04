@@ -78,7 +78,7 @@ QStringList VideoHelper::getSubtitlesLabels() const
 
     if (_currentVideo) {
         for (Caption c : _currentVideo->subtitles)
-            list.append(c.label);
+            list.append(c.label + (c.translated ? " (" + tr("Autotranslated") + ")" : ""));
     }
 
     return list;
@@ -99,6 +99,16 @@ bool VideoHelper::getUseAVC() const
 void VideoHelper::setUseAVC(bool useAVC)
 {
     QSettings().setValue("avc", useAVC);
+}
+
+bool VideoHelper::getShowAutotranslated() const
+{
+    return QSettings().value("autotranslated", false).toBool();
+}
+
+void VideoHelper::setShowAutotranslated(bool showAutotranslated)
+{
+    QSettings().setValue("autotranslated", showAutotranslated);
 }
 
 JSProcessManager *VideoHelper::getProcessManager()
@@ -166,7 +176,21 @@ void VideoHelper::gotFormats(QHash<int, QString> formats)
             }
         }
     } else if (getUseAVC()) {
+        for (QMap<quint32, QVector<int>>::const_iterator definitions = VideoDefinition::videoDefinitionsCombined.constEnd(); definitions-- != VideoDefinition::videoDefinitionsCombined.constBegin(); ) {
+            if (definitions.key() > _maxDefinition || _videoUrl != "") continue;
+            qDebug() << "Definition: " << definitions.key() << " max definition: " << _maxDefinition;
+            for (int definition : definitions.value()) {
+                if (formats.contains(definition)) {
+                    _videoUrl = formats[definition];
+                    qDebug() << "Selecting combined video format: " << definition;
+                    break;
+                }
+            }
+        }
+
         for (int definition : VideoDefinition::audioDefinitions) {
+            if (_videoUrl != "") continue;
+
             if (formats.contains(definition)) {
                 _audioUrl = formats[definition];
                 qDebug() << "Selecting audio format: " << definition;
@@ -178,6 +202,7 @@ void VideoHelper::gotFormats(QHash<int, QString> formats)
             if (definitions.key() > _maxDefinition || _videoUrl != "") continue;
             qDebug() << "Definition: " << definitions.key() << " max definition: " << _maxDefinition;
             for (int definition : definitions.value()) {
+                qDebug() << "Format: " << definition;
                 if (formats.contains(definition)) {
                     _videoUrl = formats[definition];
 

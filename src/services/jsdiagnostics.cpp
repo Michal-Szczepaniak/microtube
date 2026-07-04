@@ -29,6 +29,8 @@ QString JsDiagnostics::statusText() const
     switch (_status) {
     case 1:
         return tr("Success");
+    case 2:
+        return tr("Running");
     case -1:
         return tr("Failed");
     default:
@@ -52,6 +54,8 @@ QString JsDiagnostics::stepText() const
     case 6:
         return tr("Checking if node is executable and correct version");
     case 7:
+        return tr("Cheking if yt-dlp is executable");
+    case 8:
         return tr("No problems found");
     case 0:
     default:

@@ -18,6 +18,7 @@ public:
     static Author fromCommentsJson(QJsonObject json);
     static Author fromSearchJson(QJsonObject json);
     static Author fromPlaylistJson(QJsonObject json);
+    static Author fromYtdlpJson(QJsonObject json);
 
 private:
     static int parseAmount(QString amount);

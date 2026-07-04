@@ -35,8 +35,11 @@ const QMap<quint32, QVector<int>> VideoDefinition::videoDefinitionsAvc1 = {
 };
 
 const QMap<quint32, QVector<int>> VideoDefinition::videoDefinitionsCombined = {
-    { 720,  { 22 } },
-    { 360,  { 18 } }
+    { 1080, { 96 } },
+    { 720,  { 95 } },
+    { 480,  { 94 } },
+    { 360,  { 93 } },
+    { 240,  { 92 } }
 };
 
 const QMap<quint32, QVector<int>> VideoDefinition::liveVideoDefinitions = {

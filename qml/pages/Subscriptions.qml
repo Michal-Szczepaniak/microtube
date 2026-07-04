@@ -62,6 +62,13 @@ Page {
             }
 
             MenuItem {
+                text: qsTr("Check for new videos")
+                onClicked: {
+                    subscriptionsAggregator.updateSubscriptions(false, true)
+                }
+            }
+
+            MenuItem {
                 text: qsTr("Mark all as watched")
                 onClicked: {
                     var remorse = Remorse.popupAction(page, qsTr("Marking everything as watched"), function() {
@@ -122,7 +129,7 @@ Page {
         SilicaGridView {
             id: listView
 
-            readonly property int columnWidth: listView.width / Math.floor(listView.width / (Theme.itemSizeExtraLarge*2))
+            readonly property int columnWidth: listView.width / Math.floor(listView.width / (Screen.sizeCategory === Screen.ExtraLarge ? Theme.itemSizeExtraLarge*2 : Theme.itemSizeHuge))
 
             anchors.top: importLabel.visible ? importLabel.bottom : header.bottom
             anchors.topMargin: importLabel.visible ? Theme.paddingLarge : 0

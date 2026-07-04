@@ -121,7 +121,7 @@ protected:
 
 private:
     std::optional<Search> _lastSearch;
-    SearchResults _items;
+    SearchResults _items{};
     JSProcessManager *_jsProcessManager;
     quint32 _maxDefinition;
     VideoRepository _videoRepository;

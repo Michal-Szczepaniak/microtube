@@ -48,8 +48,14 @@ if ('continuation' in parameters) {
         break;
     case 1:
     {
-        const trending = await youtube.getTrending()
-        data = await trending.getTabByName(query)
+        const guide = await youtube.getGuide()
+        const explore = guide.contents?.matchCondition((el) => el.title?.text === "Explore");
+        var nodes = explore.items?.filterType(YTNodes.GuideEntry);
+        if (explore.items?.filterType(YTNodes.GuideCollapsibleEntry).length) {
+            nodes = [...nodes, ...explore.items?.filterType(YTNodes.GuideCollapsibleEntry)[0].expandable_items];
+        }
+
+        data = await nodes.find((el) => el.title?.text === query).endpoint.call(youtube.actions, { parse: true });
     }
         break;
     case 2:
@@ -81,11 +87,17 @@ if ('continuation' in parameters) {
         break;
     }
 
-    continuationData = data.memo.getType(YTNodes.ContinuationItem).at(0)
-    if ('results' in data) {
-        videos = data.results.filterType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel, YTNodes.ShortsLockupView, YTNodes.LockupView)
+    if (data.contents_memo) {
+        videos = data.contents_memo.getType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel, YTNodes.ShortsLockupView, YTNodes.LockupView)
     } else {
-        videos = data.memo.getType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel, YTNodes.ShortsLockupView, YTNodes.LockupView)
+        if (data.memo.getType(YTNodes.ContinuationItem))
+            continuationData = data.memo.getType(YTNodes.ContinuationItem).at(0)
+
+        if ('results' in data) {
+            videos = data.results.filterType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel, YTNodes.ShortsLockupView, YTNodes.LockupView)
+        } else {
+            videos = data.memo.getType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel, YTNodes.ShortsLockupView, YTNodes.LockupView)
+        }
     }
 }
 

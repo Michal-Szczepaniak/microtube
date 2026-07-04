@@ -18,6 +18,7 @@ class VideoHelper : public QObject
     Q_PROPERTY(QStringList subtitlesLabels READ getSubtitlesLabels NOTIFY subtitlesChanged)
     Q_PROPERTY(Video* currentVideo READ getCurrentVideo NOTIFY gotVideoInfo)
     Q_PROPERTY(bool useAVC READ getUseAVC WRITE setUseAVC NOTIFY useAVCChanged)
+    Q_PROPERTY(bool showAutotranslated READ getShowAutotranslated WRITE setShowAutotranslated NOTIFY showAutotranslatedChanged)
     Q_PROPERTY(JSProcessManager* processManager READ getProcessManager WRITE setProcessManager NOTIFY processManagerChanged)
 public:
     explicit VideoHelper(QObject *parent = nullptr);
@@ -33,6 +34,8 @@ public:
     int getProjection() const;
     bool getUseAVC() const;
     void setUseAVC(bool useAVC);
+    bool getShowAutotranslated() const;
+    void setShowAutotranslated(bool showAutotranslated);
     JSProcessManager* getProcessManager();
     void setProcessManager(JSProcessManager *processManager);
 
@@ -42,6 +45,7 @@ signals:
     void subtitlesChanged();
     void useAVCChanged();
     void processManagerChanged();
+    void showAutotranslatedChanged();
 
 public slots:
     void gotFormats(QHash<int, QString> formats);

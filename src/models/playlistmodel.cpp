@@ -598,9 +598,11 @@ void PlaylistModel::gotVideoInfo(QHash<int, QString> formats)
 {
     std::unique_ptr<Video> video = _jsProcessManager->getVideoInfo();
 
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    _items.emplace_back(move(video));
-    endInsertRows();
+    if (video) {
+        beginInsertRows(QModelIndex(), rowCount(), rowCount());
+        _items.emplace_back(move(video));
+        endInsertRows();
+    }
 
     setBusy(false);
 }

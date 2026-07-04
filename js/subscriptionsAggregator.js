@@ -19,12 +19,12 @@ resultData["channel"] = channel;
 
 if (includeVideos) {
     const videos = await channel.getVideos();
-    resultData["videos"] = videos.memo.getType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel);
+    resultData["videos"] = videos.memo.getType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel, YTNodes.ShortsLockupView, YTNodes.LockupView);
 }
 
 if (includeLivestreams) {
     const livestreams = await channel.getLiveStreams();
-    resultData["livestreams"] = livestreams.memo.getType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel);
+    resultData["livestreams"] = livestreams.memo.getType(YTNodes.Video, YTNodes.GridVideo, YTNodes.ReelItem, YTNodes.CompactVideo, YTNodes.PlaylistVideo, YTNodes.PlaylistPanelVideo, YTNodes.WatchCardCompactVideo, YTNodes.Playlist, YTNodes.GridPlaylist, YTNodes.Channel, YTNodes.GridChannel, YTNodes.ShortsLockupView, YTNodes.LockupView);
 }
 
 console.log(JSON.stringify(resultData, null, 2))

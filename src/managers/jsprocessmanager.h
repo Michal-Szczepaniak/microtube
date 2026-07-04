@@ -19,6 +19,7 @@ public:
     void asyncSearch(Search* query);
     void asyncContinueSearch(Search* query);
     bool asyncGetVideoInfo(Search query);
+    bool asyncGetVideoFormats(QString id);
     void asyncGetTrending(Search* query);
     void asyncGetChannelInfo(Search* query);
     void asyncLoadChannelVideos(Search* query);
@@ -63,21 +64,19 @@ private slots:
     QJsonObject prepareSearchOptions(const Search *query, QJsonObject *continuation);
     void searchDone(int exitStatus);
     void gotVideoInfoJson(int exitStatus);
+    void gotVideoFormatsJson(int exitStatus);
     void trendingScrapeDone(int exitStatus);
     void gotChannelInfoJson(int exitStatus);
     void gotChannelVideosJson(int exitStatus);
     void gotCommentsJson(int exitStatus);
     void gotCommentRepliesJson(int exitStatus);
     void gotPlaylistJson(int exitStatus);
-    void gotTokenJson(int exitStatus);
-
-private:
-    QJsonObject getPOToken();
 
 private:
     QProcess* _searchProcess;
     QProcess* _trendingProcess;
     QProcess* _getUrlProcess;
+    QProcess* _getFormatsProcess;
     QProcess* _getChannelInfoProcess;
     QProcess* _getChannelVideosProcess;
     QProcess* _getCommentsProcess;

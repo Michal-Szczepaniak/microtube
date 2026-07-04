@@ -29,19 +29,22 @@ Author AuthorFactory::fromRecommendedJson(QJsonObject json)
 
     QJsonObject image = json["image"].toObject();
     QString name = json["metadata"].toObject()["metadata_rows"].toArray().first().toObject()["metadata_parts"].toArray().first().toObject()["text"].toObject()["text"].toString();
+    author.name = name;
 
-    for (const QJsonValue &avatar : image["avatar"].toObject()["image"].toArray()) {
-        author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
+    if (!image.isEmpty()) {
+        for (const QJsonValue &avatar : image["avatar"].toObject()["image"].toArray()) {
+            author.avatars.append(ThumbnailFactory::fromJson(avatar.toObject()));
+        }
+
+        QJsonObject navigation = image["renderer_context"].toObject()["command_context"].toObject()["on_tap"].toObject()["payload"].toObject();
+
+        author.authorId = navigation["browseId"].toString();
+        author.url = "https://www.youtube.com" + navigation["canonicalBaseUrl"].toString();
     }
+
     if (!author.avatars.empty()) {
         author.bestAvatar = author.avatars.last();
     }
-
-    QJsonObject navigation = image["renderer_context"].toObject()["command_context"].toObject()["on_tap"].toObject()["payload"].toObject();
-
-    author.authorId = navigation["browseId"].toString();
-    author.name = name;
-    author.url = "https://www.youtube.com" + navigation["canonicalBaseUrl"].toString();
 
     return author;
 }
@@ -53,8 +56,9 @@ Author AuthorFactory::fromTrendingJson(QJsonObject json)
     author.authorId = json["id"].toString();
     author.name = json["name"].toString();
     author.url = json["url"].toString();
-    author.verified = json["is_verified"].toBool();
-    author.bestAvatar = ThumbnailFactory::fromJson(json["thumbnails"].toArray().first().toObject());
+    if (!json["thumbnails"].toArray().isEmpty()) {
+        author.bestAvatar = ThumbnailFactory::fromJson(json["thumbnails"].toArray().first().toObject());
+    }
 
     return author;
 }
@@ -203,6 +207,18 @@ Author AuthorFactory::fromPlaylistJson(QJsonObject json)
     author.name = json["name"].toString();
     author.url = json["url"].toString();
     author.verified = json["is_verified"].toBool();
+
+    return author;
+}
+
+Author AuthorFactory::fromYtdlpJson(QJsonObject json)
+{
+    Author author{};
+
+    author.authorId = json["channel_id"].toString();
+    author.name = json["channel"].toString();
+    author.url = json["channel_url"].toString();
+    author.verified = json["channel_is_verified"].toBool();
 
     return author;
 }

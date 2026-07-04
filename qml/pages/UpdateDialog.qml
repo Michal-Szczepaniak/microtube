@@ -74,25 +74,25 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Updated js libs")
+                    text: "• " + qsTr("Switched to yt-dlp for video stream urls")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Fixed channel playlists and shorts")
+                    text: "• " + qsTr("Improved subtitles")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Fixed adding videos to queue")
+                    text: "• " + qsTr("You need to install and keep yt-dlp up-to-date on your own")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Fixed jupii integration")
+                    text: "• " + qsTr("For seeking with avc1 you also need deno")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }

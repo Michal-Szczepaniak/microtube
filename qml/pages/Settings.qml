@@ -163,6 +163,15 @@ Page {
                }
             }
 
+            TextSwitch {
+               checked: videoHelper.showAutotranslated
+               width: parent.width
+               text: qsTr("Autotranslated subtitles")
+               onClicked: {
+                   videoHelper.showAutotranslated = checked
+               }
+            }
+
             ComboBox {
                 id: maximumResolution
                 width: parent.width

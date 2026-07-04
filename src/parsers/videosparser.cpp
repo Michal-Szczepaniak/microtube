@@ -38,6 +38,8 @@ SearchResults VideosParser::parseTrending(const QJsonArray videos)
         QString type = jsonVideo["type"].toString().toLower();
         if (type == "video") {
             result.push_back(VideoFactory::fromTrendingJson(jsonVideo));
+        } else if (type == "gridvideo") {
+            result.push_back(VideoFactory::fromGridVideoJson(jsonVideo));
         } else {
             qDebug() << type;
         }
@@ -78,7 +80,11 @@ SearchResults VideosParser::parseChanelVideos(const QJsonArray videos)
         } else if (type == "playlist") {
             result.push_back(PlaylistFactory::fromJson(jsonVideo));
         } else if (type == "lockupview") {
-            result.push_back(PlaylistFactory::fromLockupViewJson(jsonVideo));
+            if (jsonVideo["content_type"].toString() == "PLAYLIST") {
+                result.push_back(PlaylistFactory::fromLockupViewJson(jsonVideo));
+            } else if (jsonVideo["content_type"].toString() == "VIDEO") {
+                result.push_back(VideoFactory::fromLockupViewJson(jsonVideo));
+            }
         } else if (type == "gridplaylist") {
             result.push_back(PlaylistFactory::fromGridJson(jsonVideo));
         } else {

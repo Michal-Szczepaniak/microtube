@@ -20,6 +20,7 @@ JSProcessManager::JSProcessManager() :
     _searchProcess(nullptr),
     _trendingProcess(nullptr),
     _getUrlProcess(nullptr),
+    _getFormatsProcess(nullptr),
     _getChannelInfoProcess(nullptr),
     _getChannelVideosProcess(nullptr),
     _getCommentsProcess(nullptr),
@@ -50,31 +51,25 @@ void JSProcessManager::asyncContinueSearch(Search* query)
 
 bool JSProcessManager::asyncGetVideoInfo(Search query)
 {
+    asyncGetVideoFormats(query.query);
+
     if (_getUrlProcess != nullptr) return false;
 
     QSettings settings;
-
-    if (!settings.contains("poToken") || getPOToken().empty() || settings.value("poTokenTimer", QDateTime::currentDateTime()).toDateTime().msecsTo(QDateTime::currentDateTime()) > 3600000) {
-        if (_tokenProcess != nullptr) return false;
-
-        _tokenProcess = execute("fetchPOToken", {});
-        connect(_tokenProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessManager::gotTokenJson);
-        connect(_tokenProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, [=](int exitStatus){
-            QJsonObject obj = prepareSearchOptions(&query, nullptr);
-            obj["poToken"] = getPOToken();
-            QJsonDocument optionsDoc(obj);
-            _getUrlProcess = execute("videoInfo", {query.query, optionsDoc.toJson(QJsonDocument::Compact)});
-            connect(_getUrlProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessManager::gotVideoInfoJson);
-        });
-
-        return true;
-    }
-
     QJsonObject obj = prepareSearchOptions(&query, nullptr);
-    obj["poToken"] = getPOToken();
     QJsonDocument optionsDoc(obj);
     _getUrlProcess = execute("videoInfo", {query.query, optionsDoc.toJson(QJsonDocument::Compact)});
     connect(_getUrlProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessManager::gotVideoInfoJson);
+    return true;
+}
+
+bool JSProcessManager::asyncGetVideoFormats(QString id)
+{
+    if (_getFormatsProcess != nullptr) return false;
+
+    _getFormatsProcess = new QProcess();
+    _getFormatsProcess->start("yt-dlp", {id, "-Jq", "--write-subs", "--write-info-json", "--write-description", "--write-playlist-metafiles"}, QIODevice::OpenModeFlag::ReadWrite);
+    connect(_getFormatsProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &JSProcessManager::gotVideoFormatsJson);
     return true;
 }
 
@@ -276,6 +271,9 @@ Author JSProcessManager::fetchChannelInfo(Search *query)
         qDebug() << "Response is empty!";
     }
 
+    qDebug() << response;
+    fflush(stdout);
+    fflush(stderr);
     return AuthorFactory::fromChannelInfoJson(response.object());
 }
 
@@ -421,23 +419,30 @@ void JSProcessManager::searchDone(int exitStatus)
 void JSProcessManager::gotVideoInfoJson(int exitStatus)
 {
     QJsonDocument response = QJsonDocument::fromJson(_getUrlProcess->readAll());
-    QHash<int, QString> formats;
-    for (const QJsonValue &jsonFormat : response.object()["formats"].toArray()) {
-        const QJsonObject format = jsonFormat.toObject();
-        if (!format.contains("audioTrack") || format["audioTrack"].toObject()["audioIsDefault"].toBool()) {
-            formats[format["itag"].toInt()] = format["url"].toString();
-        }
-    }
 
-    auto obj = response.object();
-    _videoInfo = VideoFactory::fromVideoInfoJson(response.object());
-    emit gotVideoInfo(formats);
-
-    _recommendedVideos = VideosParser::parseRecommended(response.object()["info"].toObject()["watch_next_feed"].toArray());
+    _recommendedVideos = VideosParser::parseRecommended(response.object()["watch_next_feed"].toArray());
     emit gotRecommendedVideos();
 
     QProcess* process = _getUrlProcess;
     _getUrlProcess = nullptr;
+    process->deleteLater();
+}
+
+void JSProcessManager::gotVideoFormatsJson(int exitStatus)
+{
+    QJsonDocument response = QJsonDocument::fromJson(_getFormatsProcess->readAll());
+    QHash<int, QString> formats;
+    for (const QJsonValue &jsonFormat : response.object()["formats"].toArray()) {
+        const QJsonObject format = jsonFormat.toObject();
+        formats[format["format_id"].toString().toInt()] = format["url"].toString();
+    }
+
+    _videoInfo = VideoFactory::fromYtdlpJson(response.object());
+
+    emit gotVideoInfo(formats);
+
+    QProcess* process = _getFormatsProcess;
+    _getFormatsProcess = nullptr;
     process->deleteLater();
 }
 
@@ -553,22 +558,4 @@ void JSProcessManager::gotPlaylistJson(int exitStatus)
     QProcess* process = _playlistProcess;
     _playlistProcess = nullptr;
     process->deleteLater();
-}
-
-void JSProcessManager::gotTokenJson(int exitStatus)
-{
-    QJsonDocument response = QJsonDocument::fromJson(_tokenProcess->readAll());
-
-    QSettings settings;
-    settings.setValue("poToken", response.toJson(QJsonDocument::Compact));
-    settings.setValue("poTokenTimer", QDateTime::currentDateTime());
-
-    QProcess* process = _tokenProcess;
-    _tokenProcess = nullptr;
-    process->deleteLater();
-}
-
-QJsonObject JSProcessManager::getPOToken()
-{
-    return QJsonDocument::fromJson(QSettings().value("poToken", "{}").toString().toUtf8()).object();
 }

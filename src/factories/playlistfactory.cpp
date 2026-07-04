@@ -4,6 +4,7 @@
 #include <QJsonArray>
 #include <QRegularExpression>
 #include <helpers/jsonhelper.h>
+#include <QDebug>
 
 Playlist PlaylistFactory::fromJson(QJsonObject json)
 {

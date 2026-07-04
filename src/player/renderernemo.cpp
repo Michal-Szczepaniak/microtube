@@ -577,8 +577,8 @@ void RendererNemo::paintFrame(const QMatrix4x4& matrix) {
         if (EGLImageKHR img = nemo_gst_egl_image_memory_create_image(memory, _dpy, nullptr)) {
             glGenTextures(1, &texture);
             glBindTexture(GL_TEXTURE_EXTERNAL_OES, texture);
-            glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-            glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+            glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+            glTexParameteri(GL_TEXTURE_EXTERNAL_OES, GL_TEXTURE_MAG_FILTER, GL_NEAREST_MIPMAP_LINEAR);
             glActiveTexture(GL_TEXTURE0);
 
             _img->glEGLImageTargetTexture2DOES (GL_TEXTURE_EXTERNAL_OES, (GLeglImageOES)img);

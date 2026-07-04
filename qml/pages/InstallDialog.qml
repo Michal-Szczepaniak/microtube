@@ -74,25 +74,25 @@ Page {
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Improved subscriptions sync performance")
+                    text: "• " + qsTr("Switched to yt-dlp for video stream urls")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Updated js libs")
+                    text: "• " + qsTr("Improved subtitles")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("1080p videos on avc1")
+                    text: "• " + qsTr("You need to install and keep yt-dlp up-to-date on your own")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
                 Label {
                     width: parent.width
-                    text: "• " + qsTr("Improved streams")
+                    text: "• " + qsTr("For seeking with avc1 you also need deno")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }

@@ -15,7 +15,7 @@ void JsDiagnosticsWorker::run()
     QString appPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + "/js/";
     QFileInfo appDir(appPath);
 
-    emit statusChanged(1);
+    emit statusChanged(2);
     if (!appDir.exists()) {
         emit statusChanged(-1);
         return;
@@ -50,12 +50,24 @@ void JsDiagnosticsWorker::run()
     checkNodeProcess.start("node18", QStringList() << "-v", QIODevice::OpenModeFlag::ReadWrite);
     checkNodeProcess.waitForFinished();
     QString output = QString::fromLatin1(checkNodeProcess.readAllStandardOutput());
-    if (output != "v18.2.0\n") {
+    qDebug() << output;
+    if (output != "v18.20.8\n") {
         qDebug() << output;
         emit statusChanged(-1);
         return;
     }
 
     emit step(7);
+
+    QProcess checkYtdlpProcess;
+    checkYtdlpProcess.start("yt-dlp", QStringList() << "-v", QIODevice::OpenModeFlag::ReadWrite);
+    checkYtdlpProcess.waitForFinished();
+    output = QString::fromLatin1(checkYtdlpProcess.readAllStandardError());
+    if (output.isEmpty()) {
+        emit statusChanged(-1);
+        return;
+    }
+
+    emit step(8);
     emit statusChanged(1);
 }

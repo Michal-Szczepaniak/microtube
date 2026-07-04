@@ -8,14 +8,14 @@ struct Caption {
     Q_PROPERTY(QString label MEMBER label)
     Q_PROPERTY(QString code MEMBER code)
     Q_PROPERTY(QString id MEMBER id)
-    Q_PROPERTY(bool translatable MEMBER translatable)
+    Q_PROPERTY(bool translated MEMBER translated)
     Q_PROPERTY(QString baseUrl MEMBER baseUrl)
 
 public:
     QString label;
     QString code;
     QString id;
-    bool translatable;
+    bool translated;
     QString baseUrl;
 };
 
